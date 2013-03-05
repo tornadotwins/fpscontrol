@@ -1,0 +1,17 @@
+UNITY	:= /Applications/Unity/Unity.app/Contents/Frameworks/Managed/
+
+SRCS	:= FPSControlEditorLib/Footstep\ Control/FootstepControlEditor.cs \
+         FPSControlEditorLib/Footstep\ Control/FootstepControlNameDialog.cs \
+         FPSControlEditorLib/Music\ Control/MusicControlEditor.cs \
+         FSPControlEditorLib/Music\ Control/MusicControlInspector.cs
+LIBS	:= $(UNITY)UnityEngine.dll,$(UNITY)UnityEditor.dll
+OUT 	:= FPSControlEditorLib.dll
+
+
+FPSControlEditorLib: 
+	gmcs -debug- -warn:2 -r:$(LIBS) -target:library -out:$(OUT) $(SRCS)
+	ls -l $(OUT)
+
+
+all: FPSControlEditorLib
+

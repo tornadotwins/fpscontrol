@@ -1,0 +1,5 @@
+UNITYEDITOR_DLL_SOURCE=/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.dll
+UNITYENGINE_DLL_SOURCE=/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEngine.dll
+
+mdoc update -r=$UNITYENGINE_DLL_SOURCE -o en bin/Release/FPSControlEditorLib.dll 
+

@@ -1,0 +1,41 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="FPSControlLib\Crosshair\IntelliCrosshair.cs">
+    <Files>
+      <File FileName="FPSControlEditorLib\Main Editor\FPSControlMainEditor.cs" Line="123" Column="31" />
+      <File FileName="FPSControlEditorLib\Mission Control\MissionControlModule.cs" Line="17" Column="22" />
+      <File FileName="FPSControlLib\Door.cs" Line="1" Column="1" />
+      <File FileName="FPSControlEditorLib\Core\FPSControlEditorModule.cs" Line="43" Column="10" />
+      <File FileName="FPSControlEditorLib\Core\UnavailableModule.cs" Line="1" Column="1" />
+      <File FileName="FPSControlEditorLib\AssemblyInfo.cs" Line="1" Column="1" />
+      <File FileName="FPSControlEditorLib\Teamwork\TeamworkModule.cs" Line="23" Column="17" />
+      <File FileName="FPSControlEditorLib\Login\LoginModule.cs" Line="30" Column="12" />
+      <File FileName="FPSControlEditorLib\Footstep Control\FootstepControlModule.cs" Line="312" Column="17" />
+      <File FileName="FPSControlEditorLib\Footstep Control\FootstepControlNameDialogue.cs" Line="5" Column="7" />
+      <File FileName="FPSControlEditorLib\Music Control\MusicControlModule.cs" Line="74" Column="16" />
+      <File FileName="FPSControlEditorLib\Music Control\MusicControlNode.cs" Line="1" Column="1" />
+      <File FileName="FPSControlEditorLib\Game Settings\GameSettingsModule.cs" Line="277" Column="83" />
+      <File FileName="FPSControlLib\GunLogic.cs" Line="114" Column="23" />
+      <File FileName="FPSControlLib\RBFPSControllerLogic.cs" Line="154" Column="42" />
+      <File FileName="FPSControlLib\AIGunLogic.cs" Line="276" Column="49" />
+      <File FileName="FPSControlLib\PickUpLogic.cs" Line="1" Column="1" />
+      <File FileName="FPSControlLib\Crosshair\IntelliCrosshair.cs" Line="5" Column="7" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="FPSControlEditorLib" expanded="True">
+            <Node name="References" expanded="True" />
+          </Node>
+          <Node name="FPSControlLib" expanded="True">
+            <Node name="References" expanded="True" selected="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

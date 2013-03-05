@@ -1,0 +1,5 @@
+C:\Users\Prime\Desktop\FPSControlLibSource\FPSControlLib\bin\Debug\FPSControlLib.dll
+C:\Users\Prime\Desktop\FPSControlLibSource\FPSControlLib\bin\Debug\FPSControlLib.pdb
+C:\Users\Prime\Desktop\FPSControlLibSource\FPSControlLib\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Prime\Desktop\FPSControlLibSource\FPSControlLib\obj\Debug\FPSControlLib.dll
+C:\Users\Prime\Desktop\FPSControlLibSource\FPSControlLib\obj\Debug\FPSControlLib.pdb

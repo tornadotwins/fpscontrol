@@ -1,0 +1,6 @@
+C:\Users\Prime\Desktop\FPSControlLibSource\FPSControlEditorLib\bin\Debug\FPSControlEditorLib.dll
+C:\Users\Prime\Desktop\FPSControlLibSource\FPSControlEditorLib\bin\Debug\FPSControlEditorLib.pdb
+C:\Users\Prime\Desktop\FPSControlLibSource\FPSControlEditorLib\bin\Debug\nunit.framework.dll
+C:\Users\Prime\Desktop\FPSControlLibSource\FPSControlEditorLib\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Prime\Desktop\FPSControlLibSource\FPSControlEditorLib\obj\Debug\FPSControlEditorLib.dll
+C:\Users\Prime\Desktop\FPSControlLibSource\FPSControlEditorLib\obj\Debug\FPSControlEditorLib.pdb

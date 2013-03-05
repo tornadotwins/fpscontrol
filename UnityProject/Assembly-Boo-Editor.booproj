@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+	<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+	<ProductVersion>10.0.20506</ProductVersion>
+	<SchemaVersion>2.0</SchemaVersion>
+	<ProjectGuid>{8DA5CFF9-C967-7E50-7044-8A1252DE3DDA}</ProjectGuid>
+	<OutputType>Library</OutputType>
+	<AppDesignerFolder>Properties</AppDesignerFolder>
+	<RootNamespace></RootNamespace>
+	<AssemblyName>Assembly-Boo-Editor</AssemblyName>
+	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+	<FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+	<DebugSymbols>true</DebugSymbols>
+	<DebugType>full</DebugType>
+	<Optimize>false</Optimize>
+	<OutputPath>Temp\bin\Debug\</OutputPath>
+	<DefineConstants>DEBUG;TRACE;UNITY_STANDALONE;ENABLE_MICROPHONE;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;ENABLE_AUDIO_FMOD;ENABLE_NETWORK;ENABLE_MONO;ENABLE_PHYSICS;ENABLE_TERRAIN;ENABLE_CACHING;ENABLE_SUBSTANCE;ENABLE_GENERICS;ENABLE_CLOTH;ENABLE_MOVIES;ENABLE_AUDIO;ENABLE_WWW;ENABLE_SHADOWS;ENABLE_DUCK_TYPING;UNITY_4_0_1;UNITY_4_0;UNITY_STANDALONE_WIN;ENABLE_PROFILER;UNITY_EDITOR;UNITY_TEAM_LICENSE</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
+	<NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+	<DebugType>pdbonly</DebugType>
+	<Optimize>true</Optimize>
+	<OutputPath>Temp\bin\Release\</OutputPath>
+	<DefineConstants>TRACE</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
+	<NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+	<Reference Include="System" />
+    <Reference Include="System.XML" />
+	<Reference Include="System.Core" />
+	<Reference Include="UnityEngine">
+	  <HintPath>C:/Program Files (x86)/Unity4/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	</Reference>
+	<Reference Include="UnityEditor">
+	  <HintPath>C:/Program Files (x86)/Unity4/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	</Reference>
+  </ItemGroup>
+  <ItemGroup>
+     <Compile Include="Assets\FPSControl\RAIN\Editor\ScriptTemplates\ActionTemplate_BOO.boo" />
+     <None Include="Assets\FPSControl\RAIN\Editor\ScriptTemplates\BehaviorTreeTemplate.xml" />
+     <None Include="Assets\FPSControl\Art Assets\Shaders\OutlinedDeffuse.shader" />
+     <None Include="Assets\FPSControl\Art Assets\Art-Packs\Shaders\BlendedDecal.shader" />
+     <None Include="Assets\6by7\_README.txt" />
+     <None Include="Assets\FPSControl\Art Assets\Art-Packs\ShellShock-Guns\FPS_m16_anim_list.txt" />
+     <None Include="Assets\FPSControl\Art Assets\Art-Packs\ShellShock-Guns\FPS_hands&amp;beretta_anim_list.txt" />
+     <None Include="Assets\Editor\FPSControl\Editor Assets\Text Assets\GameSettings_Template.txt" />
+     <None Include="Assets\FPSControl\Art Assets\Shaders\Toon.shader" />
+     <None Include="Assets\FPSControl\Art Assets\Art-Packs\ShellShock-SetPieces\readme.txt" />
+     <None Include="Assets\6by7\_README-ProGrids-Free.txt" />
+     <None Include="Assets\FPSControl\Art Assets\Shaders\Bleep.shader" />
+     <None Include="Assets\FPSControl\AI\Resources\BehaviorTrees\Rat.xml" />
+     <None Include="Assets\FPSControl\Art Assets\Art-Packs\Shaders\Glass Shader.shader" />
+     <None Include="Assets\FPSControl\Art Assets\Art-Packs\ShellShock-Guns\FPS_m16_notes.txt" />
+     <None Include="Assets\FPSControl\AI\Resources\BehaviorTrees\ShockTrooper2.xml" />
+     <None Include="Assets\FPSControl\Art Assets\Shaders\ToonOutlined.shader" />
+     <None Include="Assets\FPSControl\AI\Resources\BehaviorTrees\ShockTrooper1.xml" />
+ <Reference Include="ProBuilderCore">
+ <HintPath>Assets\6by7\ProBuilder\Classes\ProBuilderCore.dll</HintPath>
+ </Reference>
+ <Reference Include="ProBuilderEditor">
+ <HintPath>Assets\6by7\ProBuilder\Editor\ProBuilderEditor.dll</HintPath>
+ </Reference>
+ <Reference Include="FPSControlEditorLib">
+ <HintPath>Assets\Editor\FPSControl\FPSControlEditorLib.dll</HintPath>
+ </Reference>
+ <Reference Include="FPSControlLib">
+ <HintPath>Assets\FPSControl\Plugins\FPSControlLib.dll</HintPath>
+ </Reference>
+ <Reference Include="RAINOne">
+ <HintPath>Assets\FPSControl\RAIN\RAINOne.dll</HintPath>
+ </Reference>
+ <Reference Include="Recast">
+ <HintPath>Assets\FPSControl\RAIN\Recast.dll</HintPath>
+ </Reference>
+ <Reference Include="RAINEditor">
+ <HintPath>Assets\FPSControl\RAIN\Editor\RAINEditor.dll</HintPath>
+ </Reference>
+ <Reference Include="RecastEditor">
+ <HintPath>Assets\FPSControl\RAIN\Editor\RecastEditor.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Graphs">
+ <HintPath>C:\Program Files (x86)\Unity4\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
+ </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp.csproj">
+      <Project>{04F00EE5-4B36-591E-BB6E-9C1369B950C8}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
+    <ProjectReference Include="Assembly-UnityScript.unityproj">
+      <Project>{07A90664-C450-638F-5276-6129C25E74FE}</Project>      <Name>Assembly-UnityScript</Name>    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+	   Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  
+</Project>

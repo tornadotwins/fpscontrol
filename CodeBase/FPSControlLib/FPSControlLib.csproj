@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FB04E437-013A-4EFB-A617-455A800ED157}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>FPSControlLib</RootNamespace>
+    <AssemblyName>FPSControlLib</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\FPSControl4_1\Assets\FPSControl\Plugins\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Crosshair\IntelliCrosshair.cs" />
+    <Compile Include="DamageSource.cs" />
+    <Compile Include="Footstep Control\FootstepControl.cs" />
+    <Compile Include="Footstep Control\FootstepControlDefinition.cs" />
+    <Compile Include="Footstep Control\FootstepControlDefinitions.cs" />
+    <Compile Include="Player Control\FPSControlPlayer.cs" />
+    <Compile Include="Player Control\FPSControlPlayerCamera.cs" />
+    <Compile Include="Player Control\FPSControlPlayerComponent.cs" />
+    <Compile Include="Player Control\FPSControlPlayerInteractionManager.cs" />
+    <Compile Include="Player Control\FPSControlPlayerMovement.cs" />
+    <Compile Include="Player Control\FPSControlPlayerWeaponManager.cs" />
+    <Compile Include="Weapon Control\Data\DamageFalloff.cs" />
+    <Compile Include="Weapon Control\FPSControlMeleeWeapon.cs" />
+    <Compile Include="Weapon Control\FPSControlRangedWeapon.cs" />
+    <Compile Include="Weapon Control\FPSControlWeaponAnimation.cs" />
+    <Compile Include="Weapon Control\FPSControlWeaponComponent.cs" />
+    <Compile Include="Weapon Control\FPSControlWeaponParticles.cs" />
+    <Compile Include="Weapon Control\FPSControlWeaponPath.cs" />
+    <Compile Include="Weapon Control\FPSControlWeapon.cs" />
+    <Compile Include="FSM\State.cs" />
+    <Compile Include="FSM\StateMachine.cs" />
+    <Compile Include="Player Control\Player States\PlayerState.cs" />
+    <Compile Include="Managers\Game.cs" />
+    <Compile Include="Messenger Control\MessengerControl.cs" />
+    <Compile Include="Messenger Control\MessengerControlListener.cs" />
+    <Compile Include="Music Control\MusicControl.cs" />
+    <Compile Include="Music Control\MusicControlTrack.cs" />
+    <Compile Include="Ambience.cs" />
+    <Compile Include="CrosshairAnimator.cs" />
+    <Compile Include="Damageable.cs" />
+    <Compile Include="DataController.cs" />
+    <Compile Include="Door.cs" />
+    <Compile Include="FontColor.cs" />
+    <Compile Include="GunLogic.cs" />
+    <Compile Include="HurtIndicator.cs" />
+    <Compile Include="InteractLogic.cs" />
+    <Compile Include="OverrideAnimationSpeeds.cs" />
+    <Compile Include="PickUpLogic.cs" />
+    <Compile Include="ProgressBar.cs" />
+    <Compile Include="RBFPSControllerLogic.cs" />
+    <Compile Include="Sound Control\SoundControl.cs" />
+    <Compile Include="Sound Control\SoundControlAudio.cs" />
+    <Compile Include="BulletHoleLogic.cs" />
+    <Compile Include="AIGunLogic.cs" />
+    <Compile Include="Weapon Control\FPSControlWeaponSound.cs" />
+    <Compile Include="Weapon Control\Weapon States\WeaponState.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>
