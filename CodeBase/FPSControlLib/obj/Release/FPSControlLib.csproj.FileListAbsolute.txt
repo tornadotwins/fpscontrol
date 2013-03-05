@@ -29,3 +29,10 @@ E:\UnityProjects\Freelance\TornadoTwins\FPSControl4_1\Assets\FPSControl\Plugins\
 E:\UnityProjects\Freelance\TornadoTwins\FPSControl4_1\Assets\FPSControl\Plugins\FPSControlLib.pdb
 E:\UnityProjects\Freelance\TornadoTwins\CodeBase\4.1\FPSControlLib\obj\Release\FPSControlLib.dll
 E:\UnityProjects\Freelance\TornadoTwins\CodeBase\4.1\FPSControlLib\obj\Release\FPSControlLib.pdb
+C:\Users\Glitchy\Documents\GitHub\fpscontroler\CodeBase\UnityProject\Assets\FPSControl\Plugins\FPSControlLib.dll
+C:\Users\Glitchy\Documents\GitHub\fpscontroler\CodeBase\UnityProject\Assets\FPSControl\Plugins\FPSControlLib.pdb
+C:\Users\Glitchy\Documents\GitHub\fpscontroler\CodeBase\FPSControlLib\obj\Release\FPSControlLib.csprojResolveAssemblyReference.cache
+C:\Users\Glitchy\Documents\GitHub\fpscontroler\CodeBase\FPSControlLib\obj\Release\FPSControlLib.dll
+C:\Users\Glitchy\Documents\GitHub\fpscontroler\CodeBase\FPSControlLib\obj\Release\FPSControlLib.pdb
+C:\Users\Glitchy\Documents\GitHub\fpscontroler\UnityProject\Assets\FPSControl\Plugins\FPSControlLib.dll
+C:\Users\Glitchy\Documents\GitHub\fpscontroler\UnityProject\Assets\FPSControl\Plugins\FPSControlLib.pdb

@@ -17,3 +17,7 @@ E:\UnityProjects\Freelance\TornadoTwins\CodeBase\fpscontrol_editor\FPSControlEdi
 E:\UnityProjects\Freelance\TornadoTwins\FPSControl4_1\Assets\Editor\FPSControl\FPSControlEditorLib.dll
 E:\UnityProjects\Freelance\TornadoTwins\CodeBase\4.1\FPSControlEditorLib\obj\Release\FPSControlEditorLib.csprojResolveAssemblyReference.cache
 E:\UnityProjects\Freelance\TornadoTwins\CodeBase\4.1\FPSControlEditorLib\obj\Release\FPSControlEditorLib.dll
+C:\Users\Glitchy\Documents\GitHub\fpscontroler\CodeBase\UnityProject\Assets\Editor\FPSControl\FPSControlEditorLib.dll
+C:\Users\Glitchy\Documents\GitHub\fpscontroler\CodeBase\FPSControlEditorLib\obj\Release\FPSControlEditorLib.csprojResolveAssemblyReference.cache
+C:\Users\Glitchy\Documents\GitHub\fpscontroler\CodeBase\FPSControlEditorLib\obj\Release\FPSControlEditorLib.dll
+C:\Users\Glitchy\Documents\GitHub\fpscontroler\UnityProject\Assets\Editor\FPSControl\FPSControlEditorLib.dll
