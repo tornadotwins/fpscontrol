@@ -1,2 +1,2 @@
-fpscontroler
+fpscontrol
 ============
