@@ -338,7 +338,11 @@ namespace FPSControlEditor
         {
             GUI.BeginGroup(windowSpaces[windowIndex]);
             GUI.Box(new Rect(0, 0, gui_window_damage.width, gui_window_damage.height), gui_window_damage, GUIStyle.none);
-            //Stuff
+
+            Knobs.MinMax(new Vector2(21, 35), 50, 0, 100, 31);
+            Knobs.MinMax(new Vector2(93, 35), 50, 0, 100, 31);
+            Knobs.MinMax(new Vector2(163, 35), 50, 0, 100, 31);
+
             GUI.EndGroup();
         }       
         #endregion    
