@@ -24,3 +24,6 @@ C:\Users\Glitchy\Documents\GitHub\fpscontroler\UnityProject\Assets\Editor\FPSCon
 C:\Users\Joseph\Documents\GitHub\fpscontrol\UnityProject\Assets\Editor\FPSControl\FPSControlEditorLib.dll
 C:\Users\Joseph\Documents\GitHub\fpscontrol\CodeBase\FPSControlEditorLib\obj\Release\ResolveAssemblyReference.cache
 C:\Users\Joseph\Documents\GitHub\fpscontrol\CodeBase\FPSControlEditorLib\obj\Release\FPSControlEditorLib.dll
+C:\Users\Glitchy\Documents\GitHub\fpscontrol\UnityProject\Assets\Editor\FPSControl\FPSControlEditorLib.dll
+C:\Users\Glitchy\Documents\GitHub\fpscontrol\CodeBase\FPSControlEditorLib\obj\Release\FPSControlEditorLib.csprojResolveAssemblyReference.cache
+C:\Users\Glitchy\Documents\GitHub\fpscontrol\CodeBase\FPSControlEditorLib\obj\Release\FPSControlEditorLib.dll

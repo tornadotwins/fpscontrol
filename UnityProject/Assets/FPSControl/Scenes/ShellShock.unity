@@ -89272,11 +89272,11 @@ MonoBehaviour:
     name: 
   chargeState:
     name: 
-  rangedType: 0
+  rangedType: 1
   weaponPath: {fileID: 1569633978}
   rayOrigin: {fileID: 1864647160}
   disperseRadius: 0
-  raycasts: 1
+  raycasts: 0
   range: 10
   spread: 0
   reloadType: 1
