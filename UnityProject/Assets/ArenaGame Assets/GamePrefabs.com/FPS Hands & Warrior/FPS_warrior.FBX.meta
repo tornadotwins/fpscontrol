@@ -170,7 +170,7 @@ ModelImporter:
     4300000: arms
     4300002: warrior_shield
     4300004: warrior_sword
-    7400000: Take 001
+    7400000: Charge
     7400002: equip-in
     7400004: equip-out
     7400006: idle
@@ -413,6 +413,28 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      keepAdditionalBonesAnimation: 1
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      skeletonMaskElements: []
+    - name: Charge
+      takeName: Take 001
+      firstFrame: 100
+      lastFrame: 107
+      wrapMode: 8
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0

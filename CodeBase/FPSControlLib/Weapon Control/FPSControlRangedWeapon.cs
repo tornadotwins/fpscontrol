@@ -42,6 +42,7 @@ namespace FPSControl
         public float regenerationRate = .5F; //points per second - if constantRegeneration is TRUE
         public float fullRegenerationTime = 8F; //if constantRegeneration is FALSE
         float _currentEnergy = 100F;
+        
 
         public override bool hasAmmo
         {
@@ -261,7 +262,12 @@ namespace FPSControl
             gameObject.SetActive(false);
         }
         
-        public override void Charge(){}
+        public override void Charge(float accum)
+        {
+            Fire();
+            //_accumulatedCharge += accum;
+            //currentState = chargeState;
+        }
         public override void CancelCharge(){}
         public override void Defend(){}
         public override void ExitDefend(){}

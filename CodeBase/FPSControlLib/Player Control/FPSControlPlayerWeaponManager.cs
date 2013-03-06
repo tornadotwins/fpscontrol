@@ -38,6 +38,10 @@ namespace FPSControl
         bool _running = false;
         PlayerState _prevState;
 
+        bool _mouseDown = false;
+        bool _mouseWasDown = false;
+        float _mouseCounter = 0;
+
         public override void SetState(States.State state)
         {
             base.SetState(state);
@@ -203,7 +207,23 @@ namespace FPSControl
         {
             if (!_currentWeapon) return;
 
-            if (Input.GetMouseButton(0)) _currentWeapon.Fire();
+            _mouseDown = Input.GetMouseButton(0);
+
+            if(_mouseDown && _mouseWasDown && _mouseCounter < _currentWeapon.chargeTime)
+            {
+                _mouseCounter += Time.deltaTime;
+            }
+            else if (_mouseDown && _mouseWasDown && _mouseCounter >= _currentWeapon.chargeTime)
+            {
+                _mouseCounter += Time.deltaTime;
+                _currentWeapon.Charge(Time.deltaTime);
+            }
+            else if(!_mouseDown && _mouseWasDown)
+            {
+                _mouseCounter = 0;
+                _currentWeapon.Fire();
+            }
+
             if (Input.GetMouseButton(1)) _currentWeapon.Scope();
             if (Input.GetKeyDown(reloadKey)) _currentWeapon.Reload();
             if (Input.GetKey(defendKey)) _currentWeapon.Defend();
@@ -213,6 +233,8 @@ namespace FPSControl
             else if (Input.GetKeyDown(weaponKey2)) ActivateWeaponAt(1);
             else if (Input.GetKeyDown(weaponKey3)) ActivateWeaponAt(2);
             else if (Input.GetKeyDown(weaponKey4)) ActivateWeaponAt(3);
+
+            _mouseWasDown = _mouseDown;
         }
 
         public override void DoLateUpdate()

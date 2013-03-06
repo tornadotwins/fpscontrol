@@ -48,7 +48,9 @@ namespace FPSControl
 
         void FireCompleted()
         {
+            _accumulatedCharge = 0;
             currentState = idleState;
+            weaponAnimation.Idle();
         }
 
         public override void Activate(FPSControlPlayerWeaponManager parent)
@@ -84,7 +86,13 @@ namespace FPSControl
             gameObject.SetActive(false);
         }
 
-        public override void Charge(){}
+        public override void Charge(float accum)
+        {
+            _accumulatedCharge += accum;
+            if (!charging) weaponAnimation.Charge();
+            currentState = chargeState;
+        }
+
         public override void CancelCharge(){}
         public override void Defend(){}
         public override void ExitDefend(){}

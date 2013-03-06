@@ -44,6 +44,9 @@ namespace FPSControl
 
         //Timing
         public float chargeTime = .1F; //amount of time the mouse has to be held down to classify as a charge
+        
+        //Internal Stats
+        protected float _accumulatedCharge = 0F;
 
         //States
         public WeaponState idleState;
@@ -121,7 +124,7 @@ namespace FPSControl
         public abstract void Fire();
         public abstract void Activate(FPSControlPlayerWeaponManager parent);
         public abstract void Deactivate(System.Action cbFunc);
-        public abstract void Charge();
+        public abstract void Charge(float accumTime);
         public abstract void CancelCharge();
         public abstract void Defend();
         public abstract void ExitDefend();
