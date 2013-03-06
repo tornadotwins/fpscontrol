@@ -18,7 +18,11 @@ namespace FPSControl
                 base.currentState = value;
             }
         }
-        
+
+        //Ranged-Only
+        public FPSControlRangedWeaponType rangedType = FPSControlRangedWeaponType.Bullets;
+        public FPSControlWeaponPath weaponPath;
+
         //Raycasting
         public Transform rayOrigin;
         public float disperseRadius = 0;

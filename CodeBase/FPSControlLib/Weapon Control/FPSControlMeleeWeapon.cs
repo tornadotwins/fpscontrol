@@ -8,7 +8,7 @@ namespace FPSControl
     {
         //Damage
         public Collider damageTrigger;
-        public override bool hasAmmo { get { return true; } } // you don't have to reload a crowbar... OR do you???
+        public override bool hasAmmo { get { return true; } } // you don't have to reload a crowbar...
 
         //Callbacks
         System.Action _deactivateCallback;

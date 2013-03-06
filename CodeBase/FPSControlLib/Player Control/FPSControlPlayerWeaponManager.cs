@@ -55,6 +55,7 @@ namespace FPSControl
             {
                 FPSControlWeapon weapon = weaponActors[i];
                 weapon.transform.localPosition = weapon.pivot;
+                weapon.transform.localRotation = Quaternion.Euler(weapon.euler);
                 _weaponsCatalogue.Add(weapon.weaponName, weapon);
             }
         }

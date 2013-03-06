@@ -24,17 +24,18 @@ namespace FPSControl
         
         //Archetype Info
         public string weaponName = "Weapon";
-        public FPSControlRangedWeaponType rangedType = FPSControlRangedWeaponType.Bullets;
+        
 
         //Sub-Components
         public FPSControlWeaponAnimation weaponAnimation;
         public FPSControlWeaponParticles weaponParticles;
         public FPSControlWeaponSound weaponSound;
-        public FPSControlWeaponPath weaponPath;
 
         //Visual
         public Vector3 pivot;
+        public Vector3 euler;
         public Vector3 scopePivot;
+        public Vector3 scopeEuler;
         protected float _scopeFOV;
 
         //Damage
@@ -97,12 +98,13 @@ namespace FPSControl
             //throw new System.NotImplementedException();
         }
 
-        /*
+        
         void Update()
         {
-            //transform.localPosition = pivot; //this is actually more for debugging purposes, actually.
+            transform.localPosition = pivot; //this is actually more for debugging purposes, actually.
+            transform.localRotation = Quaternion.Euler(euler);
         }
-        */
+        
 
         void OnDrawGizmos()
         {
