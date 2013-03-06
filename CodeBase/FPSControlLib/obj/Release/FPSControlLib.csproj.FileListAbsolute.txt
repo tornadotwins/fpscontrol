@@ -28,3 +28,5 @@ C:\Users\Joseph\Documents\GitHub\Documents\Work\eqeq\Unity\FPSControl4_1\Assets\
 C:\Users\Joseph\Documents\GitHub\fpscontrol\CodeBase\FPSControlLib\obj\Release\ResolveAssemblyReference.cache
 C:\Users\Joseph\Documents\GitHub\fpscontrol\CodeBase\FPSControlLib\obj\Release\FPSControlLib.dll
 C:\Users\Joseph\Documents\GitHub\fpscontrol\CodeBase\FPSControlLib\obj\Release\FPSControlLib.pdb
+C:\Users\Joseph\Documents\GitHub\fpscontrol\UnityProject\Assets\FPSControl\Plugins\FPSControlLib.dll
+C:\Users\Joseph\Documents\GitHub\fpscontrol\UnityProject\Assets\FPSControl\Plugins\FPSControlLib.pdb
