@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 using System.Collections;
 using System.IO;
@@ -26,6 +26,7 @@ namespace FPSControlEditor
         private int currentTabIndex = 0;
         private Rect backgroundRect = new Rect(247, 50, 660, 580);
         private Rect noWeaponsBox = new Rect(258, 137, 660, 580);
+        private string[] testStrings = new string[] { "Test1", "Test2", "Test3", "Test4", "Test5" };
         #endregion 
 
 
@@ -229,7 +230,12 @@ namespace FPSControlEditor
         {
             GUI.BeginGroup(windowSpaces[windowIndex]);
             GUI.Box(new Rect(0, 0, gui_window_firing_pattern.width, gui_window_firing_pattern.height), gui_window_firing_pattern, GUIStyle.none);
-            //Things here
+
+            GUI.SelectionGrid(new Rect(15, 36, 15, 35), 0, new string[2] { "", "" }, 1, "toggle");
+            GUI.Toggle(new Rect(43, 70, 15, 15), true, "");
+            
+            //FalloffSlider.FiringPatternSlider(((FPSControlRangedWeapon)currentWeapon).
+
             GUI.EndGroup();
         }
 
@@ -237,7 +243,21 @@ namespace FPSControlEditor
         {
             GUI.BeginGroup(windowSpaces[windowIndex]);
             GUI.Box(new Rect(0, 0, gui_window_mesh_animation.width, gui_window_mesh_animation.height), gui_window_mesh_animation, GUIStyle.none);
-            //things
+
+            Drag.DragArea<Transform>(new Rect(166, 43, 144, 16), "Drag Here");
+            
+                       //testStrings
+            EditorGUI.Popup(new Rect(72, 65, 81, 14), 0, testStrings);
+            EditorGUI.Popup(new Rect(222, 65, 81, 14), 0, testStrings);
+            EditorGUI.Popup(new Rect(72, 87, 81, 14), 0, testStrings);
+            EditorGUI.Popup(new Rect(222, 87, 81, 14), 0, testStrings);
+            EditorGUI.Popup(new Rect(72, 109, 81, 14), 0, testStrings);
+            EditorGUI.Popup(new Rect(222, 109, 81, 14), 0, testStrings);
+            EditorGUI.Popup(new Rect(72, 131, 81, 14), 0, testStrings);
+            EditorGUI.Popup(new Rect(222, 131, 81, 14), 0, testStrings);
+            EditorGUI.Popup(new Rect(72, 152, 81, 14), 0, testStrings);
+            EditorGUI.Popup(new Rect(222, 152, 81, 14), 0, testStrings);
+
             GUI.EndGroup();
         }
 
@@ -334,14 +354,16 @@ namespace FPSControlEditor
             GUI.EndGroup();
         }
 
+        private float damageKnobHelper;
         private void GUIDamageWindow(int windowIndex)
         {
             GUI.BeginGroup(windowSpaces[windowIndex]);
             GUI.Box(new Rect(0, 0, gui_window_damage.width, gui_window_damage.height), gui_window_damage, GUIStyle.none);
 
-            Knobs.MinMax(new Vector2(21, 35), 50, 0, 100, 31);
-            Knobs.MinMax(new Vector2(93, 35), 50, 0, 100, 31);
-            Knobs.MinMax(new Vector2(163, 35), 50, 0, 100, 31);
+            ((FPSControlRangedWeapon)currentWeapon).maxDamagePerHit = Knobs.MinMax(new Vector2(21, 35), ((FPSControlRangedWeapon)currentWeapon).maxDamagePerHit, 0, 100, 31);
+            ((FPSControlRangedWeapon)currentWeapon).disperseRadius = Knobs.MinMax(new Vector2(90, 35), ((FPSControlRangedWeapon)currentWeapon).disperseRadius, 0, 360, 32);
+            ((FPSControlRangedWeapon)currentWeapon).raycasts = Knobs.Incremental(new Vector2(159, 35), ref damageKnobHelper, ((FPSControlRangedWeapon)currentWeapon).raycasts, Knobs.Increments.TWENTY, 41);
+            FalloffSlider.DamageSlider(currentWeapon.damageFalloff, new Vector2(13, 134), Repaint);
 
             GUI.EndGroup();
         }       
@@ -353,7 +375,12 @@ namespace FPSControlEditor
         {
             GUI.BeginGroup(windowSpaces[windowIndex]);
             GUI.Box(new Rect(0, 0, gui_window_ammo.width, gui_window_ammo.height), gui_window_ammo, GUIStyle.none);
-            //Stuff
+            Drag.DragArea<Transform>(new Rect(77, 41, 66, 18), "Drag");
+            Drag.DragArea<Transform>(new Rect(216, 41, 66, 18), "Drag");
+            Knobs.MinMax(new Vector2(39, 81), 50, 0, 100, 51);
+            Knobs.MinMax(new Vector2(114, 81), 50, 0, 100, 51);
+            Knobs.MinMax(new Vector2(180, 81), 50, 0, 100, 51);
+            Knobs.MinMax(new Vector2(248, 81), 50, 0, 100, 51);
             GUI.EndGroup();
         }
 
@@ -361,7 +388,11 @@ namespace FPSControlEditor
         {
             GUI.BeginGroup(windowSpaces[windowIndex]);
             GUI.Box(new Rect(0, 0, gui_window_prefire_path.width, gui_window_prefire_path.height), gui_window_prefire_path, GUIStyle.none);
-            //Things here
+            GUI.Toggle(new Rect(13, 36, 15, 15), true, "");
+            Drag.DragArea<Material>(new Rect(56, 58, 66, 18), "Drag");
+            Drag.DragArea<Transform>(new Rect(56, 79, 66, 18), "Drag");
+            Knobs.MinMax(new Vector2(182, 112), 50, 0, 100, 51);
+            Knobs.MinMax(new Vector2(253, 112), 50, 0, 100, 51);
             GUI.EndGroup();
         }
         #endregion
