@@ -19,6 +19,14 @@ namespace FPSControl
                 base.currentState = value;
             }
         }
+
+        public override bool canScope
+        {
+            get
+            {
+                return false;
+            }
+        }
         
         //Damage
         public Collider damageTrigger;

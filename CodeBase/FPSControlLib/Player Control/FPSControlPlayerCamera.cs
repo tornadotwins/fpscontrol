@@ -34,6 +34,7 @@ namespace FPSControl
         public float scopeSpeed = 3;
         //public float blendThreshold = 2;
 
+        
         public Vector3 bobOffset = new Vector3(0, .35F, 0);
         public Vector3 bobAmplitude = new Vector3(0, 1, 0);
         public bool noise = false;
@@ -61,7 +62,7 @@ namespace FPSControl
         Oscillator _oscillatorZ;
         bool _scope = false;
         float _scopeFOV = 0;
-        float _defaultFOV;
+        public float baseFOV { get; private set; }
 
         void Awake()
         {
@@ -71,7 +72,7 @@ namespace FPSControl
 
             _transform = transform;
             _camera = camera;
-            _defaultFOV = _camera.fieldOfView;
+            baseFOV = _camera.fieldOfView;
             
             _upperBody = _transform.parent;
             _upperBody.localPosition = new Vector3(0, height, 0);
@@ -126,6 +127,9 @@ namespace FPSControl
             //Debug.Log(_yaw + " : " + mouseX + ", " + _pitch + " : " + mouseY);
 
             //Handle Scoping
+            _camera.fieldOfView = Mathf.Lerp(_camera.fieldOfView, (_scope) ? _scopeFOV : baseFOV, Time.deltaTime * scopeSpeed);
+            
+            /*
             if (_scope)
             {
                 if (Mathf.Abs(_scopeFOV - _camera.fieldOfView) < .01F) _camera.fieldOfView = Mathf.Lerp(_camera.fieldOfView, _scopeFOV, Time.deltaTime * scopeSpeed);
@@ -133,9 +137,10 @@ namespace FPSControl
             }
             else
             {
-                if (Mathf.Abs(_defaultFOV - _camera.fieldOfView) < .01F) _camera.fieldOfView = Mathf.Lerp(_camera.fieldOfView,_defaultFOV,Time.deltaTime * scopeSpeed);
-                else _camera.fieldOfView = _defaultFOV;
+                if (Mathf.Abs(baseFOV - _camera.fieldOfView) < .01F) _camera.fieldOfView = Mathf.Lerp(_camera.fieldOfView,baseFOV,Time.deltaTime * scopeSpeed);
+                else _camera.fieldOfView = baseFOV;
             }
+            */
         }
 
         Vector3 BobCamera()
@@ -151,7 +156,7 @@ namespace FPSControl
         public void CancelScope()
         {
             _scope = false;
-            _camera.fieldOfView = _defaultFOV;
+            _camera.fieldOfView = baseFOV;
         }
 
         public void Scope(bool scope, float fov)

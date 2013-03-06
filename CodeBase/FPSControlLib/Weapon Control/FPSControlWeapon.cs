@@ -36,7 +36,8 @@ namespace FPSControl
         public Vector3 euler;
         public Vector3 scopePivot;
         public Vector3 scopeEuler;
-        protected float _scopeFOV;
+        public float scopeFOV;
+        
 
         //Damage
         public float maxDamagePerHit;
@@ -73,6 +74,7 @@ namespace FPSControl
         public bool canUse { get; protected set; }
         [HideInInspector] bool __hasAmmo = false;
         public virtual bool hasAmmo { get { return __hasAmmo; } }
+        public virtual bool canScope { get; protected set; }
 
         void Awake()
         {
@@ -103,14 +105,13 @@ namespace FPSControl
             //throw new System.NotImplementedException();
         }
 
-        
+        /*
         void Update()
         {
             transform.localPosition = pivot; //this is actually more for debugging purposes, actually.
             transform.localRotation = Quaternion.Euler(euler);
         }
-        
-
+        */
         void OnDrawGizmos()
         {
             Gizmos.color = Color.cyan;

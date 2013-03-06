@@ -5200,8 +5200,9 @@ MonoBehaviour:
   weaponSound: {fileID: 11400012}
   pivot: {x: -.0500000007, y: 0, z: -.0500000007}
   euler: {x: 0, y: 0, z: 0}
-  scopePivot: {x: 0, y: 0, z: 0}
-  scopeEuler: {x: 0, y: 0, z: 0}
+  scopePivot: {x: -.319999993, y: .00999999978, z: -.280000001}
+  scopeEuler: {x: 0, y: 11, z: 0}
+  scopeFOV: 12
   maxDamagePerHit: 10
   damageFalloff:
     distance: 10
@@ -5303,6 +5304,7 @@ MonoBehaviour:
   euler: {x: 0, y: 0, z: 0}
   scopePivot: {x: 0, y: 0, z: 0}
   scopeEuler: {x: 0, y: 0, z: 0}
+  scopeFOV: 0
   maxDamagePerHit: 0
   damageFalloff:
     distance: 0

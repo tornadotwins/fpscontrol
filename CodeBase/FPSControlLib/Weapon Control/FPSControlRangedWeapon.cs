@@ -19,6 +19,14 @@ namespace FPSControl
             }
         }
 
+        public override bool canScope
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         //Ranged-Only
         public FPSControlRangedWeaponType rangedType = FPSControlRangedWeaponType.Bullets;
         public FPSControlWeaponPath weaponPath;
@@ -148,6 +156,20 @@ namespace FPSControl
         public override void ExitScope()
         {
             scoped = false;
+        }
+
+        void Update()
+        {
+            if (scoped)
+            {
+                transform.localPosition = Vector3.Lerp(transform.localPosition, scopePivot, Time.deltaTime * 3F); //this is actually more for debugging purposes, actually.
+                transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(scopeEuler), Time.deltaTime * 3F);
+            }
+            else
+            {
+                transform.localPosition = Vector3.Lerp(transform.localPosition, pivot, Time.deltaTime * 3F); //this is actually more for debugging purposes, actually.
+                transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(euler), Time.deltaTime * 3F);
+            }
         }
 
         public override void Fire()
