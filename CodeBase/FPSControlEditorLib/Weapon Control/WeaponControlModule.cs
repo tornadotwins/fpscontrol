@@ -320,11 +320,17 @@ namespace FPSControlEditor
             GUI.EndGroup();
         }
 
+        
         private void GUIAmmoReloadingWindow(int windowIndex)
         {
             GUI.BeginGroup(windowSpaces[windowIndex]);
             GUI.Box(new Rect(0, 0, gui_window_ammo_reloading.width, gui_window_ammo_reloading.height), gui_window_ammo_reloading, GUIStyle.none);
-            //Things here
+            GUI.SelectionGrid(new Rect(35, 41, 276, 15), 0, new string[3] { "", "", "" }, 3, "toggle");
+            Knobs.MinMax(new Vector2(139, 92), 50, 0, 100, 21);
+            GUI.TextField(new Rect(221, 82, 83, 16), "100");
+            GUI.TextField(new Rect(236, 123, 68, 16), "0.5");
+            GUI.TextField(new Rect(236, 158, 68, 16), "8");
+            GUI.SelectionGrid(new Rect(220, 105, 20, 75), 0, new string[2] { "", "" }, 1, "toggle");
             GUI.EndGroup();
         }
 
