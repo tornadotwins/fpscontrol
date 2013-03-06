@@ -1,11 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using FPSControl.States.Weapon;
 
 namespace FPSControl
 {
     public class FPSControlMeleeWeapon : FPSControlWeapon
     {
+        new public WeaponState currentState
+        {
+            get
+            {
+                return (WeaponState)base.currentState;
+            }
+            protected set
+            {
+                Debug.Log("setting current state to " + value.name);
+                base.currentState = value;
+            }
+        }
+        
         //Damage
         public Collider damageTrigger;
         public override bool hasAmmo { get { return true; } } // you don't have to reload a crowbar...
@@ -39,6 +53,7 @@ namespace FPSControl
 
         public override void Activate(FPSControlPlayerWeaponManager parent)
         {
+            gameObject.SetActive(true);
             Parent = parent;
             weaponAnimation.animationCompleteCallback = WeaponBecameActive;
             weaponAnimation.Activate();
@@ -62,8 +77,11 @@ namespace FPSControl
         void WeaponBecameInactive()
         {
             canUse = false;
+            
             _deactivateCallback();
             _deactivateCallback = null;
+
+            gameObject.SetActive(false);
         }
 
         public override void Charge(){}

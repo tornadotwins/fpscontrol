@@ -73,6 +73,8 @@ namespace FPSControl
 
         void Awake()
         {
+            gameObject.SetActive(false);
+            
             idleState.name = "Idle";
             fireState.name = "Fire";
             reloadState.name = "Reload";

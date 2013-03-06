@@ -137,11 +137,14 @@ namespace FPSControl
 
         public void CycleToNextWeapon(int currentIndex)
         {
+            Debug.Log("cycling from : " + currentIndex);
             int _currIndex = currentIndex;
 
             if (_currentWeapon)
             {
-                _currIndex = (int)Mathf.Repeat(_currIndex + 1, _availableWeapons.Count-1);
+                _currIndex++;
+                if (_currIndex >= _availableWeapons.Count) _currIndex = 0; //wrap
+                //_currIndex = (int) Mathf.Repeat(_currIndex + 1, _availableWeapons.Count-1);
                 ActivateWeaponAt(_currIndex);
             }
             else
@@ -154,7 +157,11 @@ namespace FPSControl
         {
             if (index >= _availableWeapons.Count || index >= 4) return;
 
-            if (_currentWeapon)
+            if (_currentWeapon && _currentWeapon == _availableWeapons[index])
+            {
+                return; //already there
+            }
+            else if (_currentWeapon)
             {
                 _queuedWeapon = _availableWeapons[index];
                 _currentWeapon.Deactivate(_ActivateQueuedWeapon);

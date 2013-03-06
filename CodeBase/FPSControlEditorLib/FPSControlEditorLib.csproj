@@ -66,6 +66,7 @@
     <Compile Include="Core\FPSControlEditorModule.cs" />
     <Compile Include="Core\UnavailableModule.cs" />
     <Compile Include="Core\Utils\Drag.cs" />
+    <Compile Include="Core\Utils\FalloffSlider.cs" />
     <Compile Include="Core\Utils\Popup.cs" />
     <Compile Include="Core\Utils\Knobs.cs" />
     <Compile Include="Footstep Control\FootstepControlModule.cs" />

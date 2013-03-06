@@ -229,6 +229,7 @@ namespace FPSControl
 
         public override void Activate(FPSControlPlayerWeaponManager parent)
         {
+            gameObject.SetActive(true);
             Parent = parent;
             weaponAnimation.animationCompleteCallback = WeaponBecameActive;
             weaponAnimation.Activate();
@@ -253,8 +254,11 @@ namespace FPSControl
         void WeaponBecameInactive()
         {
             canUse = false;
+            
             _deactivateCallback();
             _deactivateCallback = null;
+
+            gameObject.SetActive(false);
         }
         
         public override void Charge(){}
