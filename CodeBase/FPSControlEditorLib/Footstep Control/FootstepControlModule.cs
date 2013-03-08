@@ -128,27 +128,27 @@ namespace FPSControlEditor
          }
 
 	
-		void OnPress(Vector2 mPos)
-		{
-		   drawPrecisionBox = true;
-		}
+        //void OnPress(Vector2 mPos)
+        //{
+        //   drawPrecisionBox = true;
+        //}
 		
-		void OnRelease(Vector2 mPos)
-		{
-		   drawPrecisionBox = false;
-		}
+        //void OnRelease(Vector2 mPos)
+        //{
+        //   drawPrecisionBox = false;
+        //}
 		
-		void OnDrag(Vector2 mPos)
-		{
-		   if (!drawPrecisionBox)
-		   {
-		       _editor.Repaint();
-		       return;
-		   }
+        //void OnDrag(Vector2 mPos)
+        //{
+        //   if (!drawPrecisionBox)
+        //   {
+        //       _editor.Repaint();
+        //       return;
+        //   }
 		
-		   precisionBox = new Rect(mPos.x - 18, mPos.y + 45, 80, 25);
-		   precisionValue = Knobs.interactValue;
-		}
+        //   precisionBox = new Rect(mPos.x - 18, mPos.y + 45, 80, 25);
+        //   precisionValue = Knobs.interactValue;
+        //}
 
 
         //void AudioDragArea(ref FootstepControlDefinition footDef, Rect r, bool drawDebug)
@@ -331,11 +331,11 @@ namespace FPSControlEditor
 
                 GUILayout.EndHorizontal();
 
-                GUI.depth--;
-                GUI.backgroundColor = (even) ? Color.white : Color.black;
-                GUI.Box(GUILayoutUtility.GetLastRect(), "");
-                GUI.depth++;
-                GUI.backgroundColor = c;
+                //GUI.depth--;
+                //GUI.backgroundColor = (even) ? Color.white : Color.black;
+                //GUI.Box(GUILayoutUtility.GetLastRect(), "");
+                //GUI.depth++;
+                //GUI.backgroundColor = c;
                          
                 if (i == footDef.sounds.Count - 1) GUILayout.Space(3);
                 even = !even;

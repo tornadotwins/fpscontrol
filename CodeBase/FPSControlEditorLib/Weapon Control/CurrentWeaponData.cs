@@ -14,7 +14,7 @@ namespace FPSControlEditor
         public Transform transform;
         public Transform modelOffset;
         public Transform modelControler;        
-        public bool isRanged;
+        public bool isRanged = false;
     }
 
 }

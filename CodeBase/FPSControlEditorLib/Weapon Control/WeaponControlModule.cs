@@ -37,9 +37,9 @@ namespace FPSControlEditor
         {
             GUIDrawBackground();
             GUIWeaponSelect();
-            GUIWeaponTypeSelect();
+            if (weaponsAvailable) GUIWeaponTypeSelect();
 
-            if (currentWeapon.isRanged)
+            if (weaponsAvailable && currentWeapon.isRanged)
             {
                 GUIRangeTypeSelect();
                 switch (((FPSControlRangedWeapon)currentWeapon.weapon).rangedType)
@@ -79,7 +79,7 @@ namespace FPSControlEditor
                         break;
                 }
             }
-            else //Melee Weapon
+            else if (weaponsAvailable) //Melee Weapon
             {
                 GUITab(ref meleeTabIndex, gui_button_weapon_melee_group1_n, gui_button_weapon_melee_group1_a, gui_button_weapon_melee_group2_n, gui_button_weapon_melee_group2_a);
                 if (meleeTabIndex == 0)
@@ -130,6 +130,7 @@ namespace FPSControlEditor
         {
             Rect radioRangeRect = new Rect(366, 149, 11, 11);
             Rect radioMeleeRect = new Rect(438, 149, 11, 11);
+            
             bool newRange = GUI.Toggle(radioRangeRect, currentWeapon.isRanged, "");
             bool newMelee = GUI.Toggle(radioMeleeRect, !currentWeapon.isRanged, "");
             if (currentWeapon.isRanged != newRange || newMelee == currentWeapon.isRanged) //
@@ -563,6 +564,10 @@ namespace FPSControlEditor
                     currentWeaponIndex = 0;
                 }
                 SetCurrentWeapon(weapons[currentWeaponIndex]);
+            }
+            else
+            {
+
             }
         }
 
