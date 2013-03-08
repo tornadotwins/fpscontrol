@@ -83,6 +83,7 @@
     <Compile Include="Teamwork\TeamworkModule.cs" />
     <Compile Include="Mission Control\MissionControlModule.cs" />
     <Compile Include="Optimize\MeshCombineUtility.cs" />
+    <Compile Include="Weapon Control\CurrentWeaponData.cs" />
     <Compile Include="Weapon Control\WeaponControlModule.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
