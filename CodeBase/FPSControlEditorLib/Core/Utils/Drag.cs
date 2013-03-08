@@ -19,16 +19,31 @@ namespace FPSControlEditor
         public Color backgroundColor;
         public Color textColor;
         public Texture bgTexture;
+        public int textLimit = 7;
         public DragStyle(Color backgroundColor, Color textColor) {
             this.backgroundColor = backgroundColor;
             this.textColor = textColor;
             this.bgTexture = null;
+        }
+        public DragStyle(Color backgroundColor, Color textColor, int textLimit)
+        {
+            this.backgroundColor = backgroundColor;
+            this.textColor = textColor;
+            this.bgTexture = null;
+            this.textLimit = textLimit;
         }
         public DragStyle(Texture bgTexture, Color textColor)
         {
             this.backgroundColor = Color.clear;
             this.textColor = textColor;
             this.bgTexture = bgTexture;
+        }
+        public DragStyle(Texture bgTexture, Color textColor, int textLimit)
+        {
+            this.backgroundColor = Color.clear;
+            this.textColor = textColor;
+            this.bgTexture = bgTexture;
+            this.textLimit = textLimit;
         }
     }
 
@@ -113,6 +128,8 @@ namespace FPSControlEditor
         {
             objArray = null;
 
+            if (text.Length > style.textLimit) text = text.Substring(0, style.textLimit) + "..."; //Limit text
+
             Event evt = Event.current;
 
             GUIStyle gs = new GUIStyle();
@@ -150,12 +167,12 @@ namespace FPSControlEditor
 
                         Object[] objects = DragAndDrop.objectReferences;
 
-                        foreach (Object obj  in objects)
+                        foreach (Object obj in objects)
                         {
-                            if (obj is T)
+                            if (obj.GetType() == typeof(T))
                             {
                                 returnList.Add((T)obj);
-                            }
+                            }                            
                         }
                     }
                 break;
