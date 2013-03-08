@@ -13,7 +13,8 @@ MonoBehaviour:
   footsteps:
   - name: 1
     tag: 
-    sounds: []
+    sounds:
+    - {fileID: 8300000, guid: 7d4741a9702f64d409f802711d055b17, type: 3}
     textures: []
     type: 0
     minValPitch: -1
