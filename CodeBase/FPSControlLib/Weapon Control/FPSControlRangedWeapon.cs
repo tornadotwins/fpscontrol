@@ -50,7 +50,9 @@ namespace FPSControl
         public float regenerationRate = .5F; //points per second - if constantRegeneration is TRUE
         public float fullRegenerationTime = 8F; //if constantRegeneration is FALSE
         float _currentEnergy = 100F;
-        
+        float _timeLastActive = -1F;
+		float _timeSinceActivation = 0F;
+		float _rechargeCycle = 0;
 
         public override bool hasAmmo
         {
@@ -62,7 +64,7 @@ namespace FPSControl
                 }
                 else if (reloadType == ReloadType.Recharge)
                 {
-                    return _currentEnergy > 0;
+                    return _currentEnergy >= burstAmount;
                 }
 
                 return true;
@@ -99,7 +101,7 @@ namespace FPSControl
 
         public void SetAmmo(float energy)
         {
-            _currentEnergy = Mathf.Min(energy, 100);
+            _currentEnergy = Mathf.Clamp(energy,0,100);
         }
 
         public override void StartRun()
@@ -160,7 +162,15 @@ namespace FPSControl
 
         void Update()
         {
-            if (scoped)
+            if(reloadType == ReloadType.Recharge)
+			{
+				float last = _timeSinceActivation;
+				_timeSinceActivation += Time.deltaTime;
+				//if we've moved from say 1.9999 to 2.00001 it we can increase a tick.
+				if(Mathf.Floor(_timeSinceActivation) > Mathf.Floor(last)) _currentEnergy = Mathf.Clamp(_currentEnergy+regenerationRate,0,100F);
+			}
+			
+			if (scoped)
             {
                 transform.localPosition = Vector3.Lerp(transform.localPosition, scopePivot, Time.deltaTime * 3F); //this is actually more for debugging purposes, actually.
                 transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(scopeEuler), Time.deltaTime * 3F);
@@ -182,9 +192,16 @@ namespace FPSControl
                 if (hasAmmo)
                 {
                     weaponAnimation.Fire(); //play our fire animation
-                    int expense = Mathf.Min(burstAmount, _currentClipContents); //we'll decrement our current clip contents by the burst amount, or whatever is left...
-                    _currentClipContents -= expense;
-
+                    
+					if(reloadType == ReloadType.Clips)
+					{
+						int expense = Mathf.Min(burstAmount, _currentClipContents); //we'll decrement our current clip contents by the burst amount, or whatever is left...
+                    	_currentClipContents -= expense;
+					}
+					else if(reloadType == ReloadType.Recharge)
+					{
+						_currentEnergy -= burstAmount;
+					}
                     //do the raycasting stuff here
                     
                     for (int i = 0; i < raycasts; i++)
@@ -264,6 +281,16 @@ namespace FPSControl
             canUse = true;
             weaponAnimation.Idle();
             currentState = idleState;
+			
+			_timeSinceActivation = 0;
+			float timeSinceLastActive = _timeLastActive >= 0 ? Time.time - _timeLastActive : 0;
+			
+			//we should make sure that we recharged while holstered
+			if(reloadType == ReloadType.Recharge)
+			{
+				float regen = Mathf.Floor(timeSinceLastActive) * regenerationRate;
+				_currentEnergy = Mathf.Min(_currentEnergy+regen,100F);
+			}
         }
         
         public override void Deactivate(System.Action cbFunc)
@@ -280,7 +307,7 @@ namespace FPSControl
             
             _deactivateCallback();
             _deactivateCallback = null;
-
+			_timeLastActive = Time.time;
             gameObject.SetActive(false);
         }
         
