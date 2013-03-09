@@ -145,7 +145,7 @@ namespace FPSControl
 
         public void Idle()
         {
-            _animation.CrossFade(IDLE);
+            _animation.CrossFade(IDLE);//,.05F);
         }
 
         public void Walk()
@@ -196,7 +196,8 @@ namespace FPSControl
 
         public void Attack()
         {
-            _animation.CrossFade(ATTACK);
+            _animation[ATTACK].time = 0;//.wrapMode = WrapMode.ClampForever;
+            _animation.CrossFade(ATTACK,.05F);
         }
 
         public void Charge()
