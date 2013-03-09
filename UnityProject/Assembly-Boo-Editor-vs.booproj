@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{8DA5CFF9-C967-7E50-7044-8A1252DE3DDA}</ProjectGuid>
+	<ProjectGuid>{EB27CFD2-D8EE-B636-2A9E-5A6CDEA5381C}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -37,10 +37,10 @@
     <Reference Include="System.XML" />
 	<Reference Include="System.Core" />
 	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files (x86)/Unity4/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files (x86)/Unity4/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
@@ -56,6 +56,7 @@
      <None Include="Assets\FPSControl\Art Assets\Art-Packs\ShellShock-SetPieces\readme.txt" />
      <None Include="Assets\6by7\_README-ProGrids-Free.txt" />
      <None Include="Assets\FPSControl\Art Assets\Shaders\Bleep.shader" />
+     <None Include="Assets\Editor\FPSControl\Editor Assets\Shader\editor2D.shader" />
      <None Include="Assets\FPSControl\AI\Resources\BehaviorTrees\Rat.xml" />
      <None Include="Assets\FPSControl\Art Assets\Art-Packs\Shaders\Glass Shader.shader" />
      <None Include="Assets\FPSControl\Art Assets\Art-Packs\ShellShock-Guns\FPS_m16_notes.txt" />
@@ -90,12 +91,12 @@
  <HintPath>Assets\FPSControl\RAIN\Editor\RecastEditor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.Graphs">
- <HintPath>C:\Program Files (x86)\Unity4\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
+ <HintPath>C:\Program Files (x86)\Unity\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-vs.csproj">
-      <Project>{04F00EE5-4B36-591E-BB6E-9C1369B950C8}</Project>      <Name>Assembly-CSharp-vs</Name>    </ProjectReference>
+      <Project>{5B580621-09B4-68CB-B5F4-5B9DD210A60F}</Project>      <Name>Assembly-CSharp-vs</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

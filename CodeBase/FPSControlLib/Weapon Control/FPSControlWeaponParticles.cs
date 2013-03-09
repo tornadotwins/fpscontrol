@@ -9,7 +9,8 @@ namespace FPSControl
     {
         public static bool enableWarnings = true;
         
-        [SerializeField] FPSControlWeaponParticleData[] particles;
+        [SerializeField] public FPSControlWeaponParticleData[] particles;
+        public bool lightIsEnabled;
         public Light lightBurst;
         public Transform lightPosition;
         public float lightDuration = 1F;
@@ -59,7 +60,7 @@ namespace FPSControl
 
         IEnumerator ShowLight()
         {
-            if (!lightBurst) yield break;
+            if (!lightIsEnabled && !lightBurst) yield break;
             lightBurst.enabled = true;
             yield return new WaitForSeconds(lightDuration);
             lightBurst.enabled = false;
@@ -69,6 +70,7 @@ namespace FPSControl
     [System.Serializable]
     public class FPSControlWeaponParticleData : object
     {
+        [SerializeField] 
         public GameObject particleSystem;
         public bool isLegacy{ get { return !_shuriken && (_legacyAnimator && _legacyEmitter && _legacyRenderer); } }
         
@@ -77,11 +79,20 @@ namespace FPSControl
         ParticleRenderer _legacyRenderer;
         ParticleAnimator _legacyAnimator;
 
+        [SerializeField] 
+        public bool isEnabled;
+        [SerializeField] 
         public Transform position;
+        [SerializeField] 
         public bool global;
+
+        private bool _enabled;
 
         public void Initialize()
         {
+            _enabled = (isEnabled && position != null && particleSystem != null);
+
+            if (!_enabled) return;
             particleSystem.transform.parent = position;
             particleSystem.transform.localPosition = Vector3.zero;
             particleSystem.transform.localRotation = Quaternion.identity;
@@ -102,6 +113,7 @@ namespace FPSControl
 
         public void Spawn()
         {
+            if (!_enabled) return;
             if (isLegacy)
             {
                 _legacyEmitter.Emit();
@@ -114,6 +126,7 @@ namespace FPSControl
 
         public void Kill(bool clear)
         {
+            if (!_enabled) return;
             if (isLegacy)
             {
                 _legacyEmitter.emit = false;

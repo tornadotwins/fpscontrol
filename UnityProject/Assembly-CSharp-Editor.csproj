@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{AAB26E9E-B18F-EDB5-69B1-95B0E30BD00C}</ProjectGuid>
+	<ProjectGuid>{3CC9D2C0-C461-07D9-EDF3-4FFB4DE5C299}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -37,14 +37,16 @@
     <Reference Include="System.XML" />
 	<Reference Include="System.Core" />
 	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files (x86)/Unity4/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files (x86)/Unity4/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\6by7\ProBuilder\Editor\ProBuilderMenuItems.cs" />
+     <Compile Include="Assets\Editor\Falloff Sliders\Scripts\Example\SliderEditorWindow.cs" />
+     <Compile Include="Assets\Editor\Falloff Sliders\Scripts\FalloffSlider.cs" />
      <Compile Include="Assets\FPSControl\RAIN\Editor\ScriptTemplates\ActionTemplate_CS.cs" />
      <Compile Include="Assets\Scripts\Experimental\Editor\ReflectionTesting.cs" />
      <None Include="Assets\FPSControl\RAIN\Editor\ScriptTemplates\BehaviorTreeTemplate.xml" />
@@ -58,6 +60,7 @@
      <None Include="Assets\FPSControl\Art Assets\Art-Packs\ShellShock-SetPieces\readme.txt" />
      <None Include="Assets\6by7\_README-ProGrids-Free.txt" />
      <None Include="Assets\FPSControl\Art Assets\Shaders\Bleep.shader" />
+     <None Include="Assets\Editor\FPSControl\Editor Assets\Shader\editor2D.shader" />
      <None Include="Assets\FPSControl\AI\Resources\BehaviorTrees\Rat.xml" />
      <None Include="Assets\FPSControl\Art Assets\Art-Packs\Shaders\Glass Shader.shader" />
      <None Include="Assets\FPSControl\Art Assets\Art-Packs\ShellShock-Guns\FPS_m16_notes.txt" />
@@ -89,14 +92,14 @@
  <HintPath>Assets\FPSControl\RAIN\Editor\RecastEditor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.Graphs">
- <HintPath>C:\Program Files (x86)\Unity4\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
+ <HintPath>C:\Program Files (x86)\Unity\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp.csproj">
-      <Project>{04F00EE5-4B36-591E-BB6E-9C1369B950C8}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
+      <Project>{5B580621-09B4-68CB-B5F4-5B9DD210A60F}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
     <ProjectReference Include="Assembly-UnityScript.unityproj">
-      <Project>{07A90664-C450-638F-5276-6129C25E74FE}</Project>      <Name>Assembly-UnityScript</Name>    </ProjectReference>
+      <Project>{137A7369-EC96-0CC2-09B9-FE1D6DE1A3E3}</Project>      <Name>Assembly-UnityScript</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

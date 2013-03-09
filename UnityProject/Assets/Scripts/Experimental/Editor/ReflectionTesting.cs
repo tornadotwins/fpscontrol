@@ -7,7 +7,7 @@ using System.Linq;
 
 public class ReflectionTesting : EditorWindow {
 
-	[MenuItem("FPS Control/Test")]
+	//[MenuItem("FPS Control/Test")]
 	
 	static void Init()
     {

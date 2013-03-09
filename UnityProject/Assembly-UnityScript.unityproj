@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{07A90664-C450-638F-5276-6129C25E74FE}</ProjectGuid>
+	<ProjectGuid>{137A7369-EC96-0CC2-09B9-FE1D6DE1A3E3}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -37,10 +37,10 @@
     <Reference Include="System.XML" />
 	<Reference Include="System.Core" />
 	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files (x86)/Unity4/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files (x86)/Unity4/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +76,7 @@
      <None Include="Assets\FPSControl\Art Assets\Art-Packs\ShellShock-SetPieces\readme.txt" />
      <None Include="Assets\6by7\_README-ProGrids-Free.txt" />
      <None Include="Assets\FPSControl\Art Assets\Shaders\Bleep.shader" />
+     <None Include="Assets\Editor\FPSControl\Editor Assets\Shader\editor2D.shader" />
      <None Include="Assets\FPSControl\AI\Resources\BehaviorTrees\Rat.xml" />
      <None Include="Assets\FPSControl\Art Assets\Art-Packs\Shaders\Glass Shader.shader" />
      <None Include="Assets\FPSControl\Art Assets\Art-Packs\ShellShock-Guns\FPS_m16_notes.txt" />

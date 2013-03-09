@@ -15,10 +15,8 @@ namespace FPSControl
         public float maxDistance;
         public float leavingForce;
 
-        public Vector3 origin;
+        public Transform origin;
         public Material material;
-
-        
 
     }
 }

@@ -228,15 +228,14 @@ namespace FPSControlEditor
 
             //if we are clicking on something, cache it's position to see what knob we're inteacting with
             CheckClick(rect, id);
-
+            
             //This gives us our true zero!
             Rect glRect = GetLocalSpaceOrigin(rect);
 
             //adjust our rect relative to the position of this component's inspector.
             rect = new Rect(glRect.x + rect.x, glRect.y + rect.y + glRect.height, WIDTH, HEIGHT);
 
-            //Get the degrees the control has rotated this frame.
-            float degrees = GetRotationDegrees(rect,id);
+            float degrees = GetRotationDegrees(rect, id);
 
             //we take the accumulated degrees this loop and divide that by our maximum (300). 
             //This will give us a float value between our provided min and max which we can add to our value from last frame.
@@ -270,6 +269,8 @@ namespace FPSControlEditor
         {
             if (!GUI.enabled) return;
 
+            //if (interactValue != id && interactValue != -1) return;
+
             Event evt = Event.current;
 
             //if we are clicking on something, cache it's position to see what knob we're inteacting with
@@ -281,32 +282,30 @@ namespace FPSControlEditor
                 {
                     interactID = (int)id;
                     evt.Use();
-                   // if (OnInteractionBegan != null) OnInteractionBegan(_lastMouseClickPosition);
                 }
             }
             if (evt.type == EventType.MouseUp)
             {
-                //print("release");
-                //if (OnInteractionEnd != null) OnInteractionEnd(evt.mousePosition);
                 interactID = -1;
+                _lastMouseClickPosition = Vector3.zero;
             }
         }
 
-        static float GetRotationDegrees(Rect rect,uint id)
+        static float GetRotationDegrees(Rect rect, uint id)
         {
             if (!GUI.enabled) return 0;
 
             Event evt = Event.current;
 
-            bool _dragging = (rect.Contains(_lastMouseClickPosition));
+            //bool _dragging = (rect.Contains(_lastMouseClickPosition));
+            bool _dragging = (interactID == id);            
             
-
             float _degrees = 0;
             if (evt.type == EventType.MouseDrag && _dragging)
             {
                 float _delta = -evt.delta.y;
                 _degrees = _delta * _sensitivity; //1px = 1 degree * sensitivity
-                interactID = (int)id;
+                //interactID = (int)id;
                 evt.Use();
             }
             else if (evt.type == EventType.ScrollWheel && rect.Contains(evt.mousePosition))
@@ -317,7 +316,7 @@ namespace FPSControlEditor
             }
 
            // if (_dragging && OnInteract != null) OnInteract(new Vector2(rect.x,rect.y));
-            if (_dragging) interactPos = new Vector2(rect.x, rect.y);
+            if (interactID == id) interactPos = new Vector2(rect.x, rect.y);
 
             return _degrees;
         }

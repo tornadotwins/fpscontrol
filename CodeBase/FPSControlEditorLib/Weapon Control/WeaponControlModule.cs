@@ -219,17 +219,13 @@ namespace FPSControlEditor
 
             Knobs.Theme(Knobs.Themes.WHITE, _editor);
 
-            Vector3 newPos = currentWeapon.modelOffset.localPosition;
-            newPos.x = Knobs.MinMax(new Vector2(117, 35), newPos.x, -2, 2, 1);
-            newPos.y = Knobs.MinMax(new Vector2(187, 35), newPos.y, -2, 2, 2);
-            newPos.z = Knobs.MinMax(new Vector2(256, 35), newPos.z, -2, 2, 3);
-            currentWeapon.modelOffset.localPosition = newPos;
+            currentWeapon.weapon.pivot.x = Knobs.MinMax(new Vector2(117, 35), currentWeapon.weapon.pivot.x, -2, 2, 1);
+            currentWeapon.weapon.pivot.y = Knobs.MinMax(new Vector2(187, 35), currentWeapon.weapon.pivot.y, -2, 2, 2);
+            currentWeapon.weapon.pivot.z = Knobs.MinMax(new Vector2(256, 35), currentWeapon.weapon.pivot.z, -2, 2, 3);
 
-            Vector3 newRot = currentWeapon.modelOffset.localEulerAngles;
-            newRot.x = Knobs.MinMax(new Vector2(117, 116), newRot.x, 0, 360, 4);
-            newRot.y = Knobs.MinMax(new Vector2(187, 116), newRot.y, 0, 360, 5);
-            newRot.z = Knobs.MinMax(new Vector2(256, 116), newRot.z, 0, 360, 6);
-            currentWeapon.modelOffset.localEulerAngles = newRot;            
+            currentWeapon.weapon.euler.x = Knobs.MinMax(new Vector2(117, 116), currentWeapon.weapon.euler.x, 0, 360, 4);
+            currentWeapon.weapon.euler.y = Knobs.MinMax(new Vector2(187, 116), currentWeapon.weapon.euler.y, 0, 360, 5);
+            currentWeapon.weapon.euler.z = Knobs.MinMax(new Vector2(256, 116), currentWeapon.weapon.euler.z, 0, 360, 6);      
 
             GUI.EndGroup();
         }
@@ -272,27 +268,31 @@ namespace FPSControlEditor
         {
             GUI.BeginGroup(windowSpaces[windowIndex]);
             GUI.Box(new Rect(0, 0, gui_window_particle.width, gui_window_particle.height), gui_window_particle, GUIStyle.none);
-
-            GUIParticalWindow_Sub(new Vector2(13, 61));
-            GUIParticalWindow_Sub(new Vector2(13, 87));
-            GUIParticalWindow_Sub(new Vector2(13, 113));
-
-            GUI.Toggle(new Rect(20, 152, 15, 15), true, "");
-
-            CheckDragAreaForComponent<Light>(new Rect(39, 152, 66, 18), ref currentWeapon.weapon.weaponParticles.lightBurst);
-            
+            if (currentWeapon.weapon.weaponParticles.particles.Length < 3) //Make sure we have the right amount of particals
+            {
+                List<FPSControlWeaponParticleData> newParticles = new List<FPSControlWeaponParticleData>(currentWeapon.weapon.weaponParticles.particles);
+                for (int i = currentWeapon.weapon.weaponParticles.particles.Length; i < 3; i++)
+                {
+                    newParticles.Add(new FPSControlWeaponParticleData());
+                }
+                currentWeapon.weapon.weaponParticles.particles = newParticles.ToArray();
+            }
+            GUIParticalWindow_Sub(new Vector2(13, 61), ref currentWeapon.weapon.weaponParticles.particles[0]);
+            GUIParticalWindow_Sub(new Vector2(13, 87), ref currentWeapon.weapon.weaponParticles.particles[1]);
+            GUIParticalWindow_Sub(new Vector2(13, 113), ref currentWeapon.weapon.weaponParticles.particles[2]);
+            currentWeapon.weapon.weaponParticles.lightIsEnabled = GUI.Toggle(new Rect(20, 152, 15, 15), currentWeapon.weapon.weaponParticles.lightIsEnabled, "");
+            CheckDragAreaForComponent<Light>(new Rect(39, 152, 66, 18), ref currentWeapon.weapon.weaponParticles.lightBurst);            
             CheckDragAreaForComponent<Transform>(new Rect(110, 152, 66, 18), ref currentWeapon.weapon.weaponParticles.lightPosition);
-
             GUI.EndGroup();
         }
 
-        private void GUIParticalWindow_Sub(Vector2 topLeftPos)
+        private void GUIParticalWindow_Sub(Vector2 topLeftPos, ref FPSControlWeaponParticleData partical)
         {
             GUI.BeginGroup(new Rect(topLeftPos.x, topLeftPos.y, 300, 22));
-            GUI.Toggle(new Rect(7, 2, 15, 15), true, "");
-            Drag.DragArea<Transform>(new Rect(26, 2, 66, 18), "Drag");
-            Drag.DragArea<Transform>(new Rect(97, 2, 66, 18), "Drag");
-            GUI.SelectionGrid(new Rect(181, 2, 31, 15), 0, new string[2] { "", "" }, 2, "toggle");
+            partical.isEnabled = GUI.Toggle(new Rect(7, 2, 15, 15), partical.isEnabled, "");
+            CheckDragAreaForObject<GameObject>(new Rect(26, 2, 66, 18), ref partical.particleSystem);
+            CheckDragAreaForComponent<Transform>(new Rect(97, 2, 66, 18), ref partical.position);
+            partical.global = (GUI.SelectionGrid(new Rect(181, 2, 31, 15), (partical.global ? 0 : 1), new string[2] { "", "" }, 2, "toggle") == 0 ? false : true);
             GUI.EndGroup();
         }
 
@@ -300,14 +300,12 @@ namespace FPSControlEditor
         {
             GUI.BeginGroup(windowSpaces[windowIndex]);
             GUI.Box(new Rect(0, 0, gui_window_sound.width, gui_window_sound.height), gui_window_sound, GUIStyle.none);
-
-            Drag.DragArea<AudioClip>(new Rect(72, 44, 79, 17), "Drag");
-            Drag.DragArea<AudioClip>(new Rect(223, 44, 79, 17), "Drag");
-            Drag.DragArea<AudioClip>(new Rect(72, 66, 79, 17), "Drag");
-            Drag.DragArea<AudioClip>(new Rect(223, 66, 79, 17), "Drag");
-            Drag.DragArea<AudioClip>(new Rect(72, 88, 79, 17), "Drag");
-            Drag.DragArea<AudioClip>(new Rect(223, 88, 79, 17), "Drag");
-
+            CheckDragAreaForObject<AudioClip>(new Rect(72, 44, 79, 17), ref currentWeapon.weapon.weaponSound.equipSFX);
+            CheckDragAreaForObject<AudioClip>(new Rect(223, 44, 79, 17), ref currentWeapon.weapon.weaponSound.fire1SFX);
+            CheckDragAreaForObject<AudioClip>(new Rect(72, 66, 79, 17), ref currentWeapon.weapon.weaponSound.fire2SFX);
+            CheckDragAreaForObject<AudioClip>(new Rect(223, 66, 79, 17), ref currentWeapon.weapon.weaponSound.fire3SFX);
+            CheckDragAreaForObject<AudioClip>(new Rect(72, 88, 79, 17), ref currentWeapon.weapon.weaponSound.reloadSFX);
+            CheckDragAreaForObject<AudioClip>(new Rect(223, 88, 79, 17), ref currentWeapon.weapon.weaponSound.emptySFX);
             GUI.EndGroup();
         }
 
@@ -331,6 +329,21 @@ namespace FPSControlEditor
                         return;
                     }
                 }
+            }
+        }
+
+        private void CheckDragAreaForObject<T>(Rect area, ref T checkInput) where T : UnityEngine.Object
+        {
+            string displayText = (checkInput == null ? "Drag" : checkInput.name);
+            T outValue;
+            DragResultState dragResult = Drag.DragArea<T>(area, out outValue, displayText);
+            if (checkInput != null && dragResult == DragResultState.Click)
+            {
+                if (ConfirmRemove()) checkInput = default(T);
+            }
+            else if (dragResult == DragResultState.Drag)
+            {
+                checkInput = outValue;
             }
         }
 
@@ -424,11 +437,12 @@ namespace FPSControlEditor
         {
             GUI.BeginGroup(windowSpaces[windowIndex]);
             GUI.Box(new Rect(0, 0, gui_window_prefire_path.width, gui_window_prefire_path.height), gui_window_prefire_path, GUIStyle.none);
-            GUI.Toggle(new Rect(13, 36, 15, 15), true, "");
-            Drag.DragArea<Material>(new Rect(56, 58, 66, 18), "Drag");
-            Drag.DragArea<Transform>(new Rect(56, 79, 66, 18), "Drag");
-            Knobs.MinMax(new Vector2(182, 112), 50, 0, 100, 51);
-            Knobs.MinMax(new Vector2(253, 112), 50, 0, 100, 51);
+            ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.isPreFire = true;
+            ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.render = GUI.Toggle(new Rect(13, 36, 15, 15), ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.render, "");
+            CheckDragAreaForObject<Material>(new Rect(56, 58, 66, 18), ref ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.material);
+            CheckDragAreaForComponent<Transform>(new Rect(56, 79, 66, 18), ref ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.origin);
+            ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.maxDistance = Knobs.MinMax(new Vector2(182, 112), ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.maxDistance, 0, 500, 51);
+            ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.leavingForce = Knobs.MinMax(new Vector2(253, 112), ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.leavingForce, 0, 100, 52);
             GUI.EndGroup();
         }
         #endregion
@@ -439,8 +453,8 @@ namespace FPSControlEditor
         {
             GUI.BeginGroup(windowSpaces[windowIndex]);
             GUI.Box(new Rect(0, 0, gui_window_melee_damage.width, gui_window_melee_damage.height), gui_window_melee_damage, GUIStyle.none);
-            Drag.DragArea<Transform>(new Rect(15, 50, 66, 18), "Drag");
-            Knobs.MinMax(new Vector2(110, 35), 50, 0, 100, 11);
+            CheckDragAreaForComponent<Collider>(new Rect(15, 50, 66, 18), ref ((FPSControlMeleeWeapon)currentWeapon.weapon).damageTrigger);
+            currentWeapon.weapon.maxDamagePerHit = Knobs.MinMax(new Vector2(110, 35), currentWeapon.weapon.maxDamagePerHit, 0, 100, 101);
             GUI.EndGroup();
         }
         #endregion
