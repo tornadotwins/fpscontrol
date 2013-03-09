@@ -36,7 +36,7 @@ namespace FPSControl
         Animation _animation;
 
         public FiringPatternType patternType = FiringPatternType.OncePerAnimation;
-        public bool blend = true; //only used when patternType is TimedPattern.
+        bool _patternComplete = false;
         public FalloffData firingPattern;
 
         public System.Action animationCompleteCallback;
@@ -161,10 +161,43 @@ namespace FPSControl
         public void Fire()
         {
             //Debug.Log("fire anim");
-            _animation[FIRE].time = 0;//.wrapMode = WrapMode.ClampForever;
-            _animation.CrossFade(FIRE,.05F);
+            if(patternType == FiringPatternType.OncePerAnimation)
+			{
+				_animation[FIRE].time = 0;//.wrapMode = WrapMode.ClampForever;
+            	_animation.CrossFade(FIRE,.05F);
+			}
+			else
+			{
+				StartCoroutine("DoFiringPattern");
+			}
             //Debug.Log("....");
         }
+		
+		IEnumerator DoFiringPattern()
+		{
+			_animation[FIRE].wrapMode = WrapMode.Once;
+			_patternComplete = false;
+			//yield return 0;
+			for(int i = 0; i < firingPattern.Length; i++)
+			{
+				_animation[FIRE].time = 0;//.wrapMode = WrapMode.ClampForever;
+            	_animation.CrossFade(FIRE,.05F);
+				
+				if(i < firingPattern.Length-1)
+				{
+					FalloffPoint currentKey = firingPattern[i];
+					FalloffPoint nextKey = firingPattern[i+1];
+					
+					//calculate the time between animations
+					float timeBetween = (nextKey.location * firingPattern.distance) - (currentKey.location * firingPattern.distance);
+					//wait for the time between
+					yield return new WaitForSeconds(timeBetween);
+				}
+			}
+			
+			_animation[FIRE].wrapMode = WrapMode.ClampForever;
+			_patternComplete = true;
+		}
 
         public void Reload()
         {
@@ -249,7 +282,13 @@ namespace FPSControl
         public void AnimationEvent_FireComplete()
         {
            // _animation[FIRE].wrapMode = WrapMode.Once;
-            DoCallBack();
+            if(patternType == FiringPatternType.TimedPattern)
+			{
+				if(!_patternComplete) return;
+			}
+			
+			DoCallBack();
+			
         }
 
         public void AnimationEvent_ReloadComplete()

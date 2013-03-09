@@ -41,7 +41,6 @@ namespace FPSControl
 
         //Damage
         public float maxDamagePerHit;
-        public FalloffData damageFalloff;
 
         //Timing
         public float chargeTime = .1F; //amount of time the mouse has to be held down to classify as a charge

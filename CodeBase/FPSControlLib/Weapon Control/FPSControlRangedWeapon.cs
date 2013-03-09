@@ -37,6 +37,9 @@ namespace FPSControl
         public int raycasts = 1;
         public float range = 10; //in meters
         public float spread = 1.5F;
+		
+		//damage
+		public FalloffData damageFalloff;
 
         //Capacity
         public ReloadType reloadType = ReloadType.Clips;
@@ -52,7 +55,6 @@ namespace FPSControl
         float _currentEnergy = 100F;
         float _timeLastActive = -1F;
 		float _timeSinceActivation = 0F;
-		float _rechargeCycle = 0;
 
         public override bool hasAmmo
         {
