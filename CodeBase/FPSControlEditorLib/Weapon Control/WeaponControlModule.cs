@@ -255,7 +255,7 @@ namespace FPSControlEditor
             GUI.Box(new Rect(0, 0, gui_window_mesh_animation.width, gui_window_mesh_animation.height), gui_window_mesh_animation, GUIStyle.none);
 
             GameObject meshPrefab;
-            bool hasAnimations = (currentWeapon.weapon.weaponAnimation.animation.GetClipCount() > 0);
+            bool hasAnimations = GUIMeshAnimationWindow_HasAnimations();
             string dragText = (!hasAnimations ? "Drag" : "Animation");
             DragResultState dragResult = Drag.DragArea<GameObject>(new Rect(166, 43, 144, 16), out meshPrefab, dragText);
             if (hasAnimations && dragResult == DragResultState.Click)
@@ -317,21 +317,29 @@ namespace FPSControlEditor
         {
             int currentIndex = possibleValues.IndexOf(currentValue);
             if (currentIndex == -1) currentIndex = 0;
-            currentValue = possibleValues[EditorGUI.Popup(rect, currentIndex, possibleValues.ToArray())];
+            currentIndex = EditorGUI.Popup(rect, currentIndex, possibleValues.ToArray());
+            if (currentIndex == 0)
+            {
+                currentValue = null;
+            } 
+            else 
+            {
+                currentValue = possibleValues[currentIndex];
+            }            
         }
 
         private void GUIMeshAnimationWindow_AddMeshAndAnimations(GameObject meshPrefab) //handels adding animation
         {
-            EditorUtility.CopySerialized(meshPrefab.animation, currentWeapon.modelControler.animation);
-            for (int i = 0; i < meshPrefab.transform.GetChildCount(); i++)
-            {
-                GameObject go = GameObject.Instantiate(meshPrefab.transform.GetChild(i).gameObject) as GameObject;
-                go.transform.parent = currentWeapon.modelControler;
-                go.transform.localEulerAngles = meshPrefab.transform.GetChild(i).localEulerAngles;
-                go.transform.localPosition = meshPrefab.transform.GetChild(i).localPosition;
-                go.transform.localScale = meshPrefab.transform.GetChild(i).localScale;
-                go.transform.name = meshPrefab.transform.GetChild(i).name;
-            }
+            GameObject go = GameObject.Instantiate(meshPrefab) as GameObject;
+            go.transform.parent = currentWeapon.transform;
+            go.transform.localEulerAngles = Vector3.zero;
+            go.transform.localPosition = Vector3.zero;
+            go.transform.localScale = Vector3.one;
+            go.transform.name = currentWeapon.weapon.name + " Model";
+            ComponetHelper.CopyComponets(currentWeapon.modelControler, go.transform.GetChild(0), CopyComponetStyle.exclusive, typeof(Animation));
+            ComponetHelper.CopyComponets(go.transform.GetChild(0), currentWeapon.modelControler, CopyComponetStyle.inclusive, false, typeof(Animation));
+            GameObject.DestroyImmediate(currentWeapon.modelOffset.gameObject);
+            CheckCurrentWeapon();
         }
 
         private void GUIMeshAnimationWindow_RemoveMeshAndAnimations() //handels removing all mesh and animation
@@ -344,6 +352,16 @@ namespace FPSControlEditor
             foreach (AnimationState animationState in currentWeapon.weapon.weaponAnimation.animation) animationClipNames.Add(animationState.name);
             animationClipNames.ForEach(child => { currentWeapon.weapon.weaponAnimation.animation.RemoveClip(child); });
         }
+
+        private bool GUIMeshAnimationWindow_HasAnimations() //handels removing all mesh and animation
+        {
+            if (currentWeapon.weapon.weaponAnimation.animation.GetClipCount() == 0) return false;
+            foreach (AnimationState animationState in currentWeapon.weapon.weaponAnimation.animation)
+            {
+                if (animationState.clip != null) return true;
+            }
+            return false;
+        }        
 
         private void GUIParticalWindow(int windowIndex)
         {
