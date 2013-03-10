@@ -2553,7 +2553,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100008}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.26209417, y: -1.14513016, z: -.289078295}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400010}
@@ -4446,8 +4446,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100324}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: .318148583, y: -.114178963, z: .940346956, w: .0386301242}
+  m_LocalPosition: {x: -.246154249, y: .399999857, z: -.223076314}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400322}
@@ -5137,7 +5137,7 @@ MonoBehaviour:
   isPreFire: 0
   maxDistance: 0
   leavingForce: 0
-  origin: {x: 0, y: 0, z: 0}
+  origin: {fileID: 0}
   material: {fileID: 0}
 --- !u!114 &11400012
 MonoBehaviour:
@@ -5165,7 +5165,20 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 392185083, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
-  particles: []
+  particles:
+  - particleSystem: {fileID: 0}
+    isEnabled: 0
+    position: {fileID: 0}
+    global: 0
+  - particleSystem: {fileID: 0}
+    isEnabled: 0
+    position: {fileID: 0}
+    global: 0
+  - particleSystem: {fileID: 0}
+    isEnabled: 0
+    position: {fileID: 0}
+    global: 0
+  lightIsEnabled: 0
   lightBurst: {fileID: 10800000}
   lightPosition: {fileID: 400150}
   lightDuration: .300000012
@@ -5179,8 +5192,23 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: -352054857, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
+  ACTIVATE: Activate
+  DEACTIVATE: Deactivate
+  RUN: Run
+  WALK: Walk
+  IDLE: Idle
+  SCOPE_IO: ' '
+  SCOPE_LOOP: ' '
+  FIRE: Fire
+  RELOAD: Reload
+  EMPTY: Empty
+  CHARGE: 
+  ATTACK: 
+  DEFEND_ENTER: 
+  DEFEND_LOOP: 
+  DEFEND_EXIT: 
   patternType: 0
-  blend: 1
+  blend: 0
   firingPattern:
     distance: 0
     _points: []
@@ -5198,19 +5226,12 @@ MonoBehaviour:
   weaponAnimation: {fileID: 11400016}
   weaponParticles: {fileID: 11400014}
   weaponSound: {fileID: 11400012}
-  pivot: {x: -.0500000007, y: 0, z: -.0500000007}
+  pivot: {x: -.230000004, y: -1.08000004, z: -.0500000007}
   euler: {x: 0, y: 0, z: 0}
-  scopePivot: {x: -.319999993, y: .00999999978, z: -.280000001}
+  scopePivot: {x: -.230000004, y: -1.08000004, z: -.0500000007}
   scopeEuler: {x: 0, y: 11, z: 0}
   scopeFOV: 12
   maxDamagePerHit: 10
-  damageFalloff:
-    distance: 10
-    _points:
-    - location: 0
-      value: 1
-    - location: .5
-      value: .5
   chargeTime: .100000001
   idleState:
     name: 
@@ -5226,15 +5247,23 @@ MonoBehaviour:
   weaponPath: {fileID: 11400010}
   rayOrigin: {fileID: 400150}
   disperseRadius: 0
-  raycasts: 1
+  raycasts: 0
   range: 10
   spread: 0
-  reloadType: 1
-  clipCapacity: 10
+  damageFalloff:
+    distance: 10
+    _points:
+    - location: 0
+      value: 1
+    - location: .5
+      value: .5
+  reloadType: 0
+  clipCapacity: 0
   maxClips: 5
   burstAmount: 1
   constantRegeneration: 1
-  regenerationRate: .5
+  maximumRounds: 100
+  regenerationRate: 5
   fullRegenerationTime: 8
 --- !u!114 &11400022
 MonoBehaviour:
@@ -5306,9 +5335,6 @@ MonoBehaviour:
   scopeEuler: {x: 0, y: 0, z: 0}
   scopeFOV: 0
   maxDamagePerHit: 0
-  damageFalloff:
-    distance: 0
-    _points: []
   chargeTime: .100000001
   idleState:
     name: Idle
@@ -5347,7 +5373,20 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 392185083, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
-  particles: []
+  particles:
+  - particleSystem: {fileID: 0}
+    isEnabled: 0
+    position: {fileID: 0}
+    global: 0
+  - particleSystem: {fileID: 0}
+    isEnabled: 0
+    position: {fileID: 0}
+    global: 0
+  - particleSystem: {fileID: 0}
+    isEnabled: 0
+    position: {fileID: 0}
+    global: 0
+  lightIsEnabled: 0
   lightBurst: {fileID: 0}
   lightPosition: {fileID: 0}
   lightDuration: 1
@@ -5361,8 +5400,23 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: -352054857, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
+  ACTIVATE: Activate
+  DEACTIVATE: Deactivate
+  RUN: Run
+  WALK: Charge
+  IDLE: Idle
+  SCOPE_IO: Charge
+  SCOPE_LOOP: Charge
+  FIRE: Attack
+  RELOAD: Charge
+  EMPTY: Charge
+  CHARGE: 
+  ATTACK: 
+  DEFEND_ENTER: 
+  DEFEND_LOOP: 
+  DEFEND_EXIT: 
   patternType: 0
-  blend: 1
+  blend: 0
   firingPattern:
     distance: 0
     _points: []

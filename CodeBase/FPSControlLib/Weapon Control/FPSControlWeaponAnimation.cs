@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using FPSControl.Data;
 using UnityEngine;
 
@@ -14,28 +14,44 @@ namespace FPSControl
     public class FPSControlWeaponAnimation : FPSControlWeaponComponent
     {
         //General/Shared Animation States
-        public const string ACTIVATE = "Activate";
-        public const string DEACTIVATE = "Deactivate";
-        public const string RUN = "Run";
-        public const string WALK = "Walk";
-        public const string IDLE = "Idle";
+        [HideInInspector]
+        public string ACTIVATE = "Activate";
+        [HideInInspector]
+        public string DEACTIVATE = "Deactivate";
+        [HideInInspector]
+        public string RUN = "Run";
+        [HideInInspector]
+        public string WALK = "Walk";
+        [HideInInspector]
+        public string IDLE = "Idle";
         //Ranged
-        public const string SCOPE_IO = "Scope IO";
-        public const string SCOPE_LOOP = "Scope Loop";
-        public const string FIRE = "Fire";
-        public const string RELOAD = "Reload";
-        public const string EMPTY = "Empty";
+        [HideInInspector]
+        public string SCOPE_IO = "Scope IO";
+        [HideInInspector]
+        public string SCOPE_LOOP = "Scope Loop";
+        //[HideInInspector]
+        public string FIRE = "Fire";
+        [HideInInspector]
+        public string RELOAD = "Reload";
+        [HideInInspector]
+        public string EMPTY = "Empty";
         //Melee
-        public const string CHARGE = "Charge";
-        public const string ATTACK = "Attack";
-        public const string DEFEND_ENTER = "Defend Enter";
-        public const string DEFEND_LOOP = "Defend Loop";
-        public const string DEFEND_EXIT = "Defend Exit";
+        [HideInInspector]
+        public string CHARGE = "Charge";
+        [HideInInspector]
+        public string ATTACK = "Attack";
+        [HideInInspector]
+        public string DEFEND_ENTER = "Defend Enter";
+        [HideInInspector]
+        public string DEFEND_LOOP = "Defend Loop";
+        [HideInInspector]
+        public string DEFEND_EXIT = "Defend Exit";
         
         
         Animation _animation;
 
         public FiringPatternType patternType = FiringPatternType.OncePerAnimation;
+        public bool blend;
         bool _patternComplete = false;
         public FalloffData firingPattern;
 
@@ -172,8 +188,8 @@ namespace FPSControl
 			}
             //Debug.Log("....");
         }
-		
-		IEnumerator DoFiringPattern()
+
+        IEnumerator DoFiringPattern()
 		{
 			_animation[FIRE].wrapMode = WrapMode.Once;
 			_patternComplete = false;

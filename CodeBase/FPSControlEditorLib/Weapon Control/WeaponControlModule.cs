@@ -3,6 +3,7 @@ using UnityEditor;
 using System.Collections;
 using System.IO;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using FPSControl;
 
 namespace FPSControlEditor
@@ -48,16 +49,16 @@ namespace FPSControlEditor
                         GUITab(ref rangeBulletTabIndex, gui_button_weapon_ranged_group1_n, gui_button_weapon_ranged_group1_a, gui_button_weapon_ranged_group2_n, gui_button_weapon_ranged_group2_a);
                         if (rangeBulletTabIndex == 0)
                         {
-                            GUIPositionWindow(0);
-                            GUIParticalWindow(1);
-                            GUIPathWindow(2);
-                            GUISoundWindow(3);
+                            GUIPositionWindow(0); //Implemented
+                            GUIParticalWindow(1); //Implemented
+                            GUIPathWindow(2); //Implemented
+                            GUISoundWindow(3); //Implemented
                         }
                         else
                         {
-                            GUIDamageWindow(0);
-                            GUIAmmoReloadingWindow(1);
-                            GUIFiringPatternWindow(2);
+                            GUIDamageWindow(0); //Implemented
+                            GUIAmmoReloadingWindow(1); //Implemented
+                            GUIFiringPatternWindow(2); //Implemented
                             GUIMeshAnimationWindow(3);
                         }
                         break;
@@ -65,16 +66,16 @@ namespace FPSControlEditor
                         GUITab(ref rangeProjectileTabIndex, gui_button_weapon_projectile_group1_n, gui_button_weapon_projectile_group1_a, gui_button_weapon_projectile_group2_n, gui_button_weapon_projectile_group2_a);
                         if (rangeProjectileTabIndex == 0)
                         {
-                            GUIPositionWindow(0);
+                            GUIPositionWindow(0); //Implemented
                             GUIAmmoWindow(1);
-                            GUIFiringPatternWindow(2);
+                            GUIFiringPatternWindow(2); //Implemented
                             GUIMeshAnimationWindow(3);
                         }
                         else
                         {
-                            GUIPreFirePathWindow(0);
-                            GUIParticalWindow(1);
-                            GUISoundWindow(2);
+                            GUIPreFirePathWindow(0); //Implemented
+                            GUIParticalWindow(1); //Implemented
+                            GUISoundWindow(2); //Implemented
                         }
                         break;
                 }
@@ -84,14 +85,14 @@ namespace FPSControlEditor
                 GUITab(ref meleeTabIndex, gui_button_weapon_melee_group1_n, gui_button_weapon_melee_group1_a, gui_button_weapon_melee_group2_n, gui_button_weapon_melee_group2_a);
                 if (meleeTabIndex == 0)
                 {
-                    GUIPositionWindow(0);
-                    GUIParticalWindow(1);
-                    GUIMeleeDamageWindow(2);
+                    GUIPositionWindow(0); //Implemented
+                    GUIParticalWindow(1); //Implemented
+                    GUIMeleeDamageWindow(2); //Implemented
                     GUIMeshAnimationWindow(3);
                 }
                 else
                 {
-                    GUISoundWindow(0);
+                    GUISoundWindow(0); //Implemented
                 }
             }
             
@@ -164,7 +165,6 @@ namespace FPSControlEditor
                 Debug.Log("Selecting Weapon");
                 currentWeaponIndex = newWeaponIndex;
                 SetCurrentWeapon(weapons[currentWeaponIndex]);
-                //Selection.activeTransform = currentWeapon.transform;
             }
             GUI.enabled = weaponsAvailable;
             if (GUI.Button(deleteRect, "-"))
@@ -216,17 +216,13 @@ namespace FPSControlEditor
         {
             GUI.BeginGroup(windowSpaces[windowIndex]);
             GUI.Box(new Rect(0, 0, gui_window_position.width, gui_window_position.height), gui_window_position, GUIStyle.none);
-
             Knobs.Theme(Knobs.Themes.WHITE, _editor);
-
             currentWeapon.weapon.pivot.x = Knobs.MinMax(new Vector2(117, 35), currentWeapon.weapon.pivot.x, -2, 2, 1);
             currentWeapon.weapon.pivot.y = Knobs.MinMax(new Vector2(187, 35), currentWeapon.weapon.pivot.y, -2, 2, 2);
             currentWeapon.weapon.pivot.z = Knobs.MinMax(new Vector2(256, 35), currentWeapon.weapon.pivot.z, -2, 2, 3);
-
             currentWeapon.weapon.euler.x = Knobs.MinMax(new Vector2(117, 116), currentWeapon.weapon.euler.x, 0, 360, 4);
             currentWeapon.weapon.euler.y = Knobs.MinMax(new Vector2(187, 116), currentWeapon.weapon.euler.y, 0, 360, 5);
-            currentWeapon.weapon.euler.z = Knobs.MinMax(new Vector2(256, 116), currentWeapon.weapon.euler.z, 0, 360, 6);      
-
+            currentWeapon.weapon.euler.z = Knobs.MinMax(new Vector2(256, 116), currentWeapon.weapon.euler.z, 0, 360, 6);   
             GUI.EndGroup();
         }
 
@@ -234,12 +230,22 @@ namespace FPSControlEditor
         {
             GUI.BeginGroup(windowSpaces[windowIndex]);
             GUI.Box(new Rect(0, 0, gui_window_firing_pattern.width, gui_window_firing_pattern.height), gui_window_firing_pattern, GUIStyle.none);
-
-            GUI.SelectionGrid(new Rect(15, 36, 15, 35), 0, new string[2] { "", "" }, 1, "toggle");
-            GUI.Toggle(new Rect(43, 70, 15, 15), true, "");
-            
-            //FalloffSlider.FiringPatternSlider(((FPSControlRangedWeapon)currentWeapon).
-
+            currentWeapon.weapon.weaponAnimation.patternType = (FiringPatternType)GUI.SelectionGrid(new Rect(15, 36, 15, 35), (int)currentWeapon.weapon.weaponAnimation.patternType, new string[2] { "", "" }, 1, "toggle");
+            currentWeapon.weapon.weaponAnimation.blend = GUI.Toggle(new Rect(43, 70, 15, 15), currentWeapon.weapon.weaponAnimation.blend, "");
+            string fireClipName = ((FPSControlRangedWeapon)currentWeapon.weapon).weaponAnimation.FIRE;
+            AnimationState fireAnimation = ((FPSControlRangedWeapon)currentWeapon.weapon).weaponAnimation.transform.animation[fireClipName];
+            if (fireAnimation == null)
+            {
+                Rect rect = new Rect(15, 134, 290, 19);
+                Color c = GUI.backgroundColor;
+                GUI.backgroundColor = Color.black;
+                GUI.Box(rect, "No fire animation set");
+                GUI.backgroundColor = c;
+            }
+            else
+            {
+                FalloffSlider.FiringPatternSlider(((FPSControlRangedWeapon)currentWeapon.weapon).weaponAnimation.firingPattern, fireAnimation.clip, new Vector2(15, 134), Repaint);
+            }
             GUI.EndGroup();
         }
 
@@ -248,30 +254,115 @@ namespace FPSControlEditor
             GUI.BeginGroup(windowSpaces[windowIndex]);
             GUI.Box(new Rect(0, 0, gui_window_mesh_animation.width, gui_window_mesh_animation.height), gui_window_mesh_animation, GUIStyle.none);
 
-            Drag.DragArea<Transform>(new Rect(166, 43, 144, 16), "Drag Here");
-
-            EditorGUI.Popup(new Rect(72, 65, 81, 14), 0, testStrings);
-            EditorGUI.Popup(new Rect(222, 65, 81, 14), 0, testStrings);
-            EditorGUI.Popup(new Rect(72, 87, 81, 14), 0, testStrings);
-            EditorGUI.Popup(new Rect(222, 87, 81, 14), 0, testStrings);
-            EditorGUI.Popup(new Rect(72, 109, 81, 14), 0, testStrings);
-            EditorGUI.Popup(new Rect(222, 109, 81, 14), 0, testStrings);
-            EditorGUI.Popup(new Rect(72, 131, 81, 14), 0, testStrings);
-            EditorGUI.Popup(new Rect(222, 131, 81, 14), 0, testStrings);
-            EditorGUI.Popup(new Rect(72, 152, 81, 14), 0, testStrings);
-            EditorGUI.Popup(new Rect(222, 152, 81, 14), 0, testStrings);
-
+            GameObject meshPrefab;
+            bool hasAnimations = (currentWeapon.weapon.weaponAnimation.animation.GetClipCount() > 0);
+            string dragText = (!hasAnimations ? "Drag" : "Animation");
+            DragResultState dragResult = Drag.DragArea<GameObject>(new Rect(166, 43, 144, 16), out meshPrefab, dragText);
+            if (hasAnimations && dragResult == DragResultState.Click)
+            {
+                if (EditorUtility.DisplayDialog("Caution!", "Are you sure you want to remove this?", "Discard", "Cancel"))
+                {
+                    GUIMeshAnimationWindow_RemoveMeshAndAnimations();
+                }
+            }
+            else if (dragResult == DragResultState.Drag)
+            {
+                bool addNewMeshAndAnimation = true;
+                if (hasAnimations)
+                {
+                    if (EditorUtility.DisplayDialog("Caution!", "Are you sure you want to overwrite your old mesh?", "Overwrite", "Cancel"))
+                    {
+                        GUIMeshAnimationWindow_RemoveMeshAndAnimations();
+                    }
+                    else
+                    {
+                        addNewMeshAndAnimation = false;
+                    }
+                }
+                if (addNewMeshAndAnimation)
+                {
+                    GUIMeshAnimationWindow_AddMeshAndAnimations(meshPrefab);                    
+                }
+            }
+            List<string> animationNames = new List<string>();
+            if (!hasAnimations)
+            {
+                GUI.enabled = false;
+                animationNames = new List<string>();
+                animationNames.Add("NONE");
+            } 
+            else 
+            {
+                animationNames.Add(" ");
+                foreach (AnimationState animationState in currentWeapon.weapon.weaponAnimation.animation)
+                {
+                    animationNames.Add(animationState.name);
+                }
+            }
+            GUIMeshAnimationWindow_SubA(new Rect(72, 65, 81, 14), ref currentWeapon.weapon.weaponAnimation.ACTIVATE, animationNames);
+            GUIMeshAnimationWindow_SubA(new Rect(222, 65, 81, 14), ref currentWeapon.weapon.weaponAnimation.DEACTIVATE, animationNames);
+            GUIMeshAnimationWindow_SubA(new Rect(72, 87, 81, 14), ref currentWeapon.weapon.weaponAnimation.FIRE, animationNames);
+            GUIMeshAnimationWindow_SubA(new Rect(222, 87, 81, 14), ref currentWeapon.weapon.weaponAnimation.EMPTY, animationNames);
+            GUIMeshAnimationWindow_SubA(new Rect(72, 109, 81, 14), ref currentWeapon.weapon.weaponAnimation.RELOAD, animationNames);
+            GUIMeshAnimationWindow_SubA(new Rect(222, 109, 81, 14), ref currentWeapon.weapon.weaponAnimation.WALK, animationNames);
+            GUIMeshAnimationWindow_SubA(new Rect(72, 131, 81, 14), ref currentWeapon.weapon.weaponAnimation.RUN, animationNames);
+            GUIMeshAnimationWindow_SubA(new Rect(222, 131, 81, 14), ref currentWeapon.weapon.weaponAnimation.IDLE, animationNames);
+            GUIMeshAnimationWindow_SubA(new Rect(72, 152, 81, 14), ref currentWeapon.weapon.weaponAnimation.SCOPE_IO, animationNames);
+            GUIMeshAnimationWindow_SubA(new Rect(222, 152, 81, 14), ref currentWeapon.weapon.weaponAnimation.SCOPE_LOOP, animationNames);
+            GUI.enabled = true;
             GUI.EndGroup();
+        }
+
+        private void GUIMeshAnimationWindow_SubA(Rect rect, ref string currentValue, List<string> possibleValues)
+        {
+            int currentIndex = possibleValues.IndexOf(currentValue);
+            if (currentIndex == -1) currentIndex = 0;
+            currentValue = possibleValues[EditorGUI.Popup(rect, currentIndex, possibleValues.ToArray())];
+        }
+
+        private void GUIMeshAnimationWindow_AddMeshAndAnimations(GameObject meshPrefab) //handels adding animation
+        {
+            EditorUtility.CopySerialized(meshPrefab.animation, currentWeapon.modelControler.animation);
+            for (int i = 0; i < meshPrefab.transform.GetChildCount(); i++)
+            {
+                GameObject go = GameObject.Instantiate(meshPrefab.transform.GetChild(i).gameObject) as GameObject;
+                go.transform.parent = currentWeapon.modelControler;
+                go.transform.localEulerAngles = meshPrefab.transform.GetChild(i).localEulerAngles;
+                go.transform.localPosition = meshPrefab.transform.GetChild(i).localPosition;
+                go.transform.localScale = meshPrefab.transform.GetChild(i).localScale;
+                go.transform.name = meshPrefab.transform.GetChild(i).name;
+            }
+        }
+
+        private void GUIMeshAnimationWindow_RemoveMeshAndAnimations() //handels removing all mesh and animation
+        {
+            List<GameObject> children = new List<GameObject>();
+            foreach (Transform child in currentWeapon.modelControler) children.Add(child.gameObject);
+            children.ForEach(child => GameObject.DestroyImmediate(child));
+
+            List<string> animationClipNames = new List<string>();
+            foreach (AnimationState animationState in currentWeapon.weapon.weaponAnimation.animation) animationClipNames.Add(animationState.name);
+            animationClipNames.ForEach(child => { currentWeapon.weapon.weaponAnimation.animation.RemoveClip(child); });
         }
 
         private void GUIParticalWindow(int windowIndex)
         {
             GUI.BeginGroup(windowSpaces[windowIndex]);
             GUI.Box(new Rect(0, 0, gui_window_particle.width, gui_window_particle.height), gui_window_particle, GUIStyle.none);
-            if (currentWeapon.weapon.weaponParticles.particles.Length < 3) //Make sure we have the right amount of particals
+            if (currentWeapon.weapon.weaponParticles.particles == null || currentWeapon.weapon.weaponParticles.particles.Length < 3) //Make sure we have the right amount of particals
             {
-                List<FPSControlWeaponParticleData> newParticles = new List<FPSControlWeaponParticleData>(currentWeapon.weapon.weaponParticles.particles);
-                for (int i = currentWeapon.weapon.weaponParticles.particles.Length; i < 3; i++)
+                List<FPSControlWeaponParticleData> newParticles;
+                int fromIndex = 0;
+                if (currentWeapon.weapon.weaponParticles.particles == null)
+                {
+                    newParticles = new List<FPSControlWeaponParticleData>();
+                }
+                else
+                {
+                    newParticles = new List<FPSControlWeaponParticleData>(currentWeapon.weapon.weaponParticles.particles);
+                    fromIndex = currentWeapon.weapon.weaponParticles.particles.Length;
+                }
+                for (int i = fromIndex; i < 3; i++)
                 {
                     newParticles.Add(new FPSControlWeaponParticleData());
                 }
@@ -347,6 +438,26 @@ namespace FPSControlEditor
             }
         }
 
+        private int NumericTextfield(Rect rect, int currentValue)
+        {
+            return (int)NumericTextfield(rect, (float)currentValue);
+        }
+
+        private float NumericTextfield(Rect rect, float currentValue)
+        {
+            string inputString = GUI.TextField(rect, currentValue.ToString());
+            if (inputString.Length > 0)
+            {
+                inputString = Regex.Replace(inputString, @"[^0-9]", "");
+            }
+            else
+            {
+                inputString = "0";
+            }
+            
+            return float.Parse(inputString);
+        }
+
         private bool ConfirmRemove()
         {
             return EditorUtility.DisplayDialog("Caution!", "Are you sure you want to remove this?", "Discard", "Cancel");
@@ -359,48 +470,29 @@ namespace FPSControlEditor
         {
             GUI.BeginGroup(windowSpaces[windowIndex]);
             GUI.Box(new Rect(0, 0, gui_window_path.width, gui_window_path.height), gui_window_path, GUIStyle.none);
-
-            GUI.Toggle(new Rect(15, 36, 15, 15), true, "");
-
-            DragResultState dragResult;
-            Material mat;
-            dragResult = Drag.DragArea<Material>(new Rect(76, 58, 200, 18), out mat, "Drag Here");
-            if (dragResult == DragResultState.Drag)
-            {
-                
-            }
-            else if (dragResult == DragResultState.Click)
-            {
-
-            }
-
-            Transform t;
-            dragResult = Drag.DragArea<Transform>(new Rect(76, 79, 200, 18), out t, "Drag Here");
-            if (dragResult == DragResultState.Drag)
-            {
-                
-            }
-            else if (dragResult == DragResultState.Click)
-            {
-
-            }
-
-            GUI.Toggle(new Rect(15, 100, 15, 15), true, "");
-
+            ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.isPreFire = false;
+            ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.render = GUI.Toggle(new Rect(13, 36, 15, 15), ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.render, "");
+            CheckDragAreaForObject<Material>(new Rect(76, 58, 200, 18), ref ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.material);
+            CheckDragAreaForComponent<Transform>(new Rect(76, 79, 200, 18), ref ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.origin);
+            ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.consistentRender = GUI.Toggle(new Rect(15, 100, 15, 15), ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.consistentRender, "");
             GUI.EndGroup();
         }
 
-        
+
+        private float ammoKnobHelper;
         private void GUIAmmoReloadingWindow(int windowIndex)
         {
             GUI.BeginGroup(windowSpaces[windowIndex]);
             GUI.Box(new Rect(0, 0, gui_window_ammo_reloading.width, gui_window_ammo_reloading.height), gui_window_ammo_reloading, GUIStyle.none);
-            GUI.SelectionGrid(new Rect(35, 41, 276, 15), 0, new string[3] { "", "", "" }, 3, "toggle");
-            Knobs.MinMax(new Vector2(139, 92), 50, 0, 100, 21);
-            GUI.TextField(new Rect(221, 82, 83, 16), "100");
-            GUI.TextField(new Rect(236, 123, 68, 16), "0.5");
-            GUI.TextField(new Rect(236, 158, 68, 16), "8");
-            GUI.SelectionGrid(new Rect(220, 105, 20, 75), 0, new string[2] { "", "" }, 1, "toggle");
+            ((FPSControlRangedWeapon)currentWeapon.weapon).reloadType = (ReloadType)GUI.SelectionGrid(new Rect(35, 41, 276, 15), (int)((FPSControlRangedWeapon)currentWeapon.weapon).reloadType, new string[3] { "", "", "" }, 3, "toggle");
+            GUI.enabled = (((FPSControlRangedWeapon)currentWeapon.weapon).reloadType == ReloadType.Clips);
+            ((FPSControlRangedWeapon)currentWeapon.weapon).clipCapacity = Knobs.Incremental(new Vector2(139, 92), ref ammoKnobHelper, ((FPSControlRangedWeapon)currentWeapon.weapon).clipCapacity, Knobs.Increments.FIFTY, 21);
+            GUI.enabled = (((FPSControlRangedWeapon)currentWeapon.weapon).reloadType == ReloadType.Recharge);
+            ((FPSControlRangedWeapon)currentWeapon.weapon).maximumRounds = NumericTextfield(new Rect(221, 82, 83, 16), ((FPSControlRangedWeapon)currentWeapon.weapon).maximumRounds);
+            ((FPSControlRangedWeapon)currentWeapon.weapon).regenerationRate = NumericTextfield(new Rect(236, 123, 68, 16), ((FPSControlRangedWeapon)currentWeapon.weapon).regenerationRate);
+            ((FPSControlRangedWeapon)currentWeapon.weapon).fullRegenerationTime = NumericTextfield(new Rect(236, 158, 68, 16), ((FPSControlRangedWeapon)currentWeapon.weapon).fullRegenerationTime);
+            ((FPSControlRangedWeapon)currentWeapon.weapon).constantRegeneration = (GUI.SelectionGrid(new Rect(220, 105, 20, 75), (((FPSControlRangedWeapon)currentWeapon.weapon).constantRegeneration == true ? 0 : 1), new string[2] { "", "" }, 1, "toggle") == 0 ? true : false);
+            GUI.enabled = true;
             GUI.EndGroup();
         }
 
@@ -412,8 +504,8 @@ namespace FPSControlEditor
             ((FPSControlRangedWeapon)currentWeapon.weapon).maxDamagePerHit = Knobs.MinMax(new Vector2(21, 35), ((FPSControlRangedWeapon)currentWeapon.weapon).maxDamagePerHit, 0, 100, 31);
             ((FPSControlRangedWeapon)currentWeapon.weapon).disperseRadius = Knobs.MinMax(new Vector2(90, 35), ((FPSControlRangedWeapon)currentWeapon.weapon).disperseRadius, 0, 360, 32);
             ((FPSControlRangedWeapon)currentWeapon.weapon).raycasts = Knobs.Incremental(new Vector2(159, 35), ref damageKnobHelper, ((FPSControlRangedWeapon)currentWeapon.weapon).raycasts, Knobs.Increments.TWENTY, 41);
-            FalloffSlider.DamageSlider(currentWeapon.weapon.damageFalloff, new Vector2(13, 134), Repaint);
-
+            if (((FPSControlRangedWeapon)currentWeapon.weapon).damageFalloff == null) ((FPSControlRangedWeapon)currentWeapon.weapon).damageFalloff = new FPSControl.Data.FalloffData();
+            FalloffSlider.DamageSlider(((FPSControlRangedWeapon)currentWeapon.weapon).damageFalloff, new Vector2(13, 134), Repaint);
             GUI.EndGroup();
         }       
         #endregion    
@@ -426,10 +518,10 @@ namespace FPSControlEditor
             GUI.Box(new Rect(0, 0, gui_window_ammo.width, gui_window_ammo.height), gui_window_ammo, GUIStyle.none);
             Drag.DragArea<Transform>(new Rect(77, 41, 66, 18), "Drag");
             Drag.DragArea<Transform>(new Rect(216, 41, 66, 18), "Drag");
-            Knobs.MinMax(new Vector2(39, 81), 50, 0, 100, 51);
-            Knobs.MinMax(new Vector2(114, 81), 50, 0, 100, 51);
-            Knobs.MinMax(new Vector2(180, 81), 50, 0, 100, 51);
-            Knobs.MinMax(new Vector2(248, 81), 50, 0, 100, 51);
+            Knobs.MinMax(new Vector2(39, 81), 50, 0, 100, 111);
+            Knobs.MinMax(new Vector2(114, 81), 50, 0, 100, 112);
+            Knobs.MinMax(new Vector2(180, 81), 50, 0, 100, 123);
+            Knobs.MinMax(new Vector2(248, 81), 50, 0, 100, 114);
             GUI.EndGroup();
         }
 
@@ -464,10 +556,8 @@ namespace FPSControlEditor
 
         #region logic
         private FPSControlWeapon[] weapons;
-
         private CurrentWeaponData currentWeapon;
         private bool weaponsAvailable;
-        //private bool currentWeaponIsRanged;
 
         internal int currentWeaponIndex
         {

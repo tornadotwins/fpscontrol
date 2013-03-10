@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using FPSControl.States.Weapon;
+using FPSControl.Data;
+
 namespace FPSControl
 {
     public class FPSControlRangedWeapon : FPSControlWeapon
@@ -50,6 +52,7 @@ namespace FPSControl
         int _currentClips = 0;
         int _currentAmmo = 0;
         public bool constantRegeneration = true;
+        public float maximumRounds = 100f;
         public float regenerationRate = .5F; //points per second - if constantRegeneration is TRUE
         public float fullRegenerationTime = 8F; //if constantRegeneration is FALSE
         float _currentEnergy = 100F;
@@ -68,7 +71,6 @@ namespace FPSControl
                 {
                     return _currentEnergy >= burstAmount;
                 }
-
                 return true;
             }
         }

@@ -13,7 +13,7 @@ namespace FPSControlEditor
         #region Enums
 
         public enum Themes { WHITE, BLACK }
-        public enum Increments { FIVE = 5, TEN = 10, TWENTY = 20 }
+        public enum Increments { FIVE = 5, TEN = 10, TWENTY = 20, FIFTY = 50 }
 
         #endregion // Enums
 
