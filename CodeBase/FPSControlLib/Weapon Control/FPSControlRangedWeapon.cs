@@ -188,6 +188,7 @@ namespace FPSControl
 
         public override void Fire()
         {
+            //Debug.Log(canUse + ":" + firing + ":" + defending + ":" + reloading);
             if (canFire) //this is more like, can we actually pull the trigger?
             {
                 //Debug.Log("pew pew");

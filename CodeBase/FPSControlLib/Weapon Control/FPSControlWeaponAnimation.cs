@@ -14,7 +14,7 @@ namespace FPSControl
     public class FPSControlWeaponAnimation : FPSControlWeaponComponent
     {
         //General/Shared Animation States
-        //[HideInInspector]
+        [HideInInspector]
         public string ACTIVATE = "Activate";
         [HideInInspector]
         public string DEACTIVATE = "Deactivate";

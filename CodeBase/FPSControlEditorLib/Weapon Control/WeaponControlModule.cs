@@ -59,7 +59,7 @@ namespace FPSControlEditor
                             GUIDamageWindow(0); //Implemented
                             GUIAmmoReloadingWindow(1); //Implemented
                             GUIFiringPatternWindow(2); //Implemented
-                            GUIMeshAnimationWindow(3);
+                            GUIMeshAnimationWindow(3); //Implemented
                         }
                         break;
                     case FPSControlRangedWeaponType.Projectile:
@@ -69,7 +69,7 @@ namespace FPSControlEditor
                             GUIPositionWindow(0); //Implemented
                             GUIAmmoWindow(1);
                             GUIFiringPatternWindow(2); //Implemented
-                            GUIMeshAnimationWindow(3);
+                            GUIMeshAnimationWindow(3); //Implemented
                         }
                         else
                         {
@@ -88,7 +88,7 @@ namespace FPSControlEditor
                     GUIPositionWindow(0); //Implemented
                     GUIParticalWindow(1); //Implemented
                     GUIMeleeDamageWindow(2); //Implemented
-                    GUIMeshAnimationWindow(3);
+                    GUIMeshAnimationWindow(3); //Implemented
                 }
                 else
                 {
@@ -171,14 +171,15 @@ namespace FPSControlEditor
             {
                 if (EditorUtility.DisplayDialog("Are you sure?", "Are you sure you want to delete this?", "Delete", "Cancel"))
                 {
-                    if (currentWeapon.weapon.transform.childCount == 0 && currentWeapon.weapon.GetComponents<Component>().Length == 2) //No children and the weapon script is the only compon so we will destry the entire object
+                    FPSControlPlayerWeaponManager[] managers = (FPSControlPlayerWeaponManager[])GameObject.FindSceneObjectsOfType(typeof(FPSControlPlayerWeaponManager));
+                    foreach (FPSControlPlayerWeaponManager manager in managers) //Go through all the managers and make sure we rerefrence the new one
                     {
-                        GameObject.DestroyImmediate(currentWeapon.weapon.gameObject);
+                        List<FPSControlWeapon> actors = new List<FPSControlWeapon>(manager.weaponActors);
+                        int index = actors.IndexOf(currentWeapon.weapon);
+                        if (index != -1) actors.RemoveAt(index);
+                        manager.weaponActors = actors.ToArray();
                     }
-                    else
-                    {
-                        GameObject.DestroyImmediate(currentWeapon.weapon);
-                    }
+                    GameObject.DestroyImmediate(currentWeapon.weapon.transform.gameObject);
                     Init();
                     return;
                 }
@@ -628,6 +629,22 @@ namespace FPSControlEditor
         public override void OnPromptInput(string userInput)
         {
             CreateNewWeapon(userInput, true, true);
+            AttackWeaponToManager();
+        }
+
+        private void AttackWeaponToManager()
+        {
+            FPSControlPlayerWeaponManager[] managers = (FPSControlPlayerWeaponManager[])GameObject.FindSceneObjectsOfType(typeof(FPSControlPlayerWeaponManager));
+            if (managers.Length > 0)
+            {
+                List<FPSControlWeapon> actors = new List<FPSControlWeapon>(managers[0].weaponActors);
+                actors.Add(currentWeapon.weapon);
+                managers[0].weaponActors = actors.ToArray();
+                currentWeapon.weapon.transform.parent = managers[0].transform;
+                currentWeapon.weapon.transform.localPosition = Vector3.zero;
+                currentWeapon.weapon.transform.localEulerAngles = Vector3.zero;
+                currentWeapon.weapon.transform.localScale = Vector3.one;
+            }
         }
 
         private void CreateNewWeapon(string name, bool ranged, bool newObject)
