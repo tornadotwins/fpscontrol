@@ -10,10 +10,16 @@ namespace FPSControl
         public static bool enableWarnings = true;
         
         [SerializeField] public FPSControlWeaponParticleData[] particles;
+
+        [SerializeField]
         public bool lightIsEnabled;
+        [SerializeField]
         public Light lightBurst;
+        [SerializeField]
         public Transform lightPosition;
+        [SerializeField]
         public float lightDuration = 1F;
+        [SerializeField]
         float _startingIntensity;
 
         void Awake()

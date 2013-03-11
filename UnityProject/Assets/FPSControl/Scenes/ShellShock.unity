@@ -63954,6 +63954,7 @@ MonoBehaviour:
   lightBurst: {fileID: 0}
   lightPosition: {fileID: 0}
   lightDuration: 1
+  _startingIntensity: 0
 --- !u!114 &1363399481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64579,6 +64580,18 @@ Prefab:
       propertyPath: weaponActors.Array.data[2]
       value: 
       objectReference: {fileID: 872037901}
+    - target: {fileID: 11400030, guid: 4cba117805e239946b3270c1ca77f3a0, type: 2}
+      propertyPath: particles.Array.data[0].global
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400030, guid: 4cba117805e239946b3270c1ca77f3a0, type: 2}
+      propertyPath: particles.Array.data[1].global
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400030, guid: 4cba117805e239946b3270c1ca77f3a0, type: 2}
+      propertyPath: particles.Array.data[2].global
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4cba117805e239946b3270c1ca77f3a0, type: 2}
   m_RootGameObject: {fileID: 1759911515}
@@ -66396,19 +66409,20 @@ MonoBehaviour:
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 1
+    global: 0
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 1
+    global: 0
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 1
+    global: 0
   lightIsEnabled: 0
   lightBurst: {fileID: 0}
   lightPosition: {fileID: 0}
   lightDuration: 1
+  _startingIntensity: 0
 --- !u!114 &1410288029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72542,6 +72556,7 @@ MonoBehaviour:
   lightBurst: {fileID: 872117736}
   lightPosition: {fileID: 1864647160}
   lightDuration: .300000012
+  _startingIntensity: 0
 --- !u!82 &1569633977
 AudioSource:
   m_ObjectHideFlags: 0

@@ -65,7 +65,6 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Core\FPSControlEditorModule.cs" />
     <Compile Include="Core\UnavailableModule.cs" />
-    <Compile Include="Core\Utils\CopyObject.cs" />
     <Compile Include="Core\Utils\ComponetHelper.cs" />
     <Compile Include="Core\Utils\Drag.cs" />
     <Compile Include="Core\Utils\FalloffSlider.cs" />

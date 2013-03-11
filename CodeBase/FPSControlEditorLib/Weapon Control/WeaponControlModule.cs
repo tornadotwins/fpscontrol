@@ -598,21 +598,33 @@ namespace FPSControlEditor
 
         private void SetCurrentSave()
         {
-            Undo.SetSnapshotTarget(currentWeapon.weapon, "workingCopy");
+            Undo.SetSnapshotTarget(currentWeapon.weapon, "weapon");
             Undo.CreateSnapshot();
             Undo.ClearSnapshotTarget();
+
+            //Undo.SetSnapshotTarget(currentWeapon.weaponParticles, "weaponParticles");
+            //Undo.CreateSnapshot();
+            //Undo.ClearSnapshotTarget();
         }
         
         private void SaveWeaponCopy()
         {
-            Undo.SetSnapshotTarget(currentWeapon.weapon, "workingCopy");
+            Undo.SetSnapshotTarget(currentWeapon.weapon, "weapon");
             Undo.CreateSnapshot();
             Undo.ClearSnapshotTarget();
+
+            //Undo.SetSnapshotTarget(currentWeapon.weaponParticles, "weaponParticles");
+            //Undo.CreateSnapshot();
+            //Undo.ClearSnapshotTarget();
         }
 
         private void RevertToSaved()
         {
+            Undo.SetSnapshotTarget(currentWeapon.weapon, "weapon");
             Undo.RestoreSnapshot();
+
+            //Undo.SetSnapshotTarget(currentWeapon.weaponParticles, "weaponParticles");
+            //Undo.RestoreSnapshot();
         }
 
         private void ReloadWorkingCopy()
