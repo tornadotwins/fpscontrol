@@ -40,6 +40,7 @@ namespace FPSControl
         
 
         //Damage
+        [SerializeField]
         public float maxDamagePerHit;
 
         //Timing

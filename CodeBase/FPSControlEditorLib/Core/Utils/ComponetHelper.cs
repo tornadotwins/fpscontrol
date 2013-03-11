@@ -30,7 +30,7 @@ namespace FPSControlEditor
 
         public static void CopyComponets(Transform fromObject, Transform toObject, CopyComponetStyle copyStyle, bool removeOld, params System.Type[] types)
         {
-            //Remove all the componets on the target            
+            //Remove all the componets on the target
             if (removeOld) {
                 Component[] toComponets = toObject.GetComponents<Component>();
                 foreach (Component c in toComponets)
@@ -38,7 +38,7 @@ namespace FPSControlEditor
                     bool destory = false;
                     if (copyStyle == CopyComponetStyle.exclusive && c.GetType() != typeof(Transform) && !IsOfType(c, types)) destory = true;
                     if (copyStyle == CopyComponetStyle.inclusive && c.GetType() != typeof(Transform) && IsOfType(c, types)) destory = true;
-                    if (destory)  GameObject.DestroyImmediate(c);;
+                    if (destory) GameObject.DestroyImmediate(c);
                 }
             }
 
