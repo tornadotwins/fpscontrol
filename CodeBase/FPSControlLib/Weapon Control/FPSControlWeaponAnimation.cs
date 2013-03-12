@@ -144,6 +144,7 @@ namespace FPSControl
 
         void Play(string stateName)
         {
+            if (_animation[stateName] == null) return; 
             _animation.Play(stateName);
         }
 
@@ -151,121 +152,175 @@ namespace FPSControl
 
         public void Activate()
         {
-            _animation.CrossFade(ACTIVATE);
+            Debug.Log(_animation);
+            if (_animation[ACTIVATE] == null)
+            {
+                AnimationEvent_ActivateComplete();
+            }
+            else
+            {
+                _animation.CrossFade(ACTIVATE);
+            }
         }
 
         public void Deactivate()
         {
-            _animation.CrossFade(DEACTIVATE);
+            if (_animation[DEACTIVATE] == null)
+            {
+                AnimationEvent_DeactivateComplete();
+            }
+            else
+            {
+                _animation.CrossFade(DEACTIVATE);
+            }
         }
 
         public void Idle()
         {
-            _animation.CrossFade(IDLE);//,.05F);
+            if (_animation[IDLE] == null) return;
+            _animation.CrossFade(IDLE);
         }
 
         public void Walk()
         {
+            if (_animation[WALK] == null) return; 
             _animation.CrossFade(WALK);
         }
 
         public void Run()
         {
+            if (_animation[RUN] == null) return; 
             _animation.CrossFade(RUN);
         }
 
         public void Fire()
         {
-            //Debug.Log("fire anim");
-            if(patternType == FiringPatternType.OncePerAnimation)
-			{
-				_animation[FIRE].time = 0;//.wrapMode = WrapMode.ClampForever;
-            	_animation.CrossFade(FIRE,.05F);
-			}
-			else
-			{
-				StartCoroutine("DoFiringPattern");
-			}
-            //Debug.Log("....");
+            if (_animation[FIRE] == null)
+            {
+                AnimationEvent_FireComplete();
+            }
+            else
+            {
+                if (patternType == FiringPatternType.OncePerAnimation)
+                {
+                    _animation[FIRE].time = 0;//.wrapMode = WrapMode.ClampForever;
+                    _animation.CrossFade(FIRE, .05F);
+                }
+                else
+                {
+                    StartCoroutine("DoFiringPattern");
+                }
+            }
         }
 
         IEnumerator DoFiringPattern()
 		{
-			_animation[FIRE].wrapMode = WrapMode.Once;
-			_patternComplete = false;
-			//yield return 0;
-			for(int i = 0; i < firingPattern.Length; i++)
-			{
-				_animation[FIRE].time = 0;//.wrapMode = WrapMode.ClampForever;
-            	_animation.CrossFade(FIRE,.05F);
-				
-				if(i < firingPattern.Length-1)
-				{
-					FalloffPoint currentKey = firingPattern[i];
-					FalloffPoint nextKey = firingPattern[i+1];
-					
-					//calculate the time between animations
-					float timeBetween = (nextKey.location * firingPattern.distance) - (currentKey.location * firingPattern.distance);
-					//wait for the time between
-					yield return new WaitForSeconds(timeBetween);
-				}
-			}
-			
-			_animation[FIRE].wrapMode = WrapMode.ClampForever;
-			_patternComplete = true;
+            if (_animation[FIRE] != null)
+            {
+                _animation[FIRE].wrapMode = WrapMode.Once;
+                _patternComplete = false;
+                //yield return 0;
+                for (int i = 0; i < firingPattern.Length; i++)
+                {
+                    _animation[FIRE].time = 0;//.wrapMode = WrapMode.ClampForever;
+                    _animation.CrossFade(FIRE, .05F);
+
+                    if (i < firingPattern.Length - 1)
+                    {
+                        FalloffPoint currentKey = firingPattern[i];
+                        FalloffPoint nextKey = firingPattern[i + 1];
+
+                        //calculate the time between animations
+                        float timeBetween = (nextKey.location * firingPattern.distance) - (currentKey.location * firingPattern.distance);
+                        //wait for the time between
+                        yield return new WaitForSeconds(timeBetween);
+                    }
+                }
+
+                _animation[FIRE].wrapMode = WrapMode.ClampForever;
+                _patternComplete = true;
+            }
 		}
 
         public void Reload()
         {
-            _animation.CrossFade(RELOAD);
+            if (_animation[RELOAD] == null)
+            {
+                AnimationEvent_ReloadComplete();
+            }
+            else
+            {
+                _animation.CrossFade(RELOAD);
+            }
         }
 
         public void Empty()
         {
-            _animation[EMPTY].time = 0;
-            _animation.CrossFade(EMPTY);
+            if (_animation[EMPTY] == null)
+            {
+                AnimationEvent_EmptyComplete();
+            }
+            else
+            {
+                _animation[EMPTY].time = 0;
+                _animation.CrossFade(EMPTY);
+            }
         }
 
         public void ScopeIn()
         {
+            if (_animation[SCOPE_IO] == null) return;
             _animation[SCOPE_IO].time = 1F;
             _animation.CrossFade(SCOPE_IO);
         }
 
         public void ScopeOut()
         {
+            if (_animation[SCOPE_IO] == null) return;
             _animation[SCOPE_IO].time = -1F;
             _animation.CrossFade(SCOPE_IO);
         }
 
         void ScopeIdle()
         {
+            if (_animation[SCOPE_LOOP] == null) return;
             _animation.Play(SCOPE_LOOP);
         }
 
         public void Attack()
         {
-            _animation[ATTACK].time = 0;//.wrapMode = WrapMode.ClampForever;
+            if (_animation[ATTACK] == null) return;
+            _animation[ATTACK].time = 0;
             _animation.CrossFade(ATTACK,.05F);
         }
 
         public void Charge()
         {
+            if (_animation[CHARGE] == null) return;
             _animation.CrossFade(CHARGE);
         }
 
         public void DefendIn()
         {
-            _animation.CrossFade(DEFEND_ENTER);
+            if (_animation[DEFEND_ENTER] == null)
+            {
+                AnimationEvent_DefendInComplete();
+            }
+            else
+            {
+                _animation.CrossFade(DEFEND_ENTER);
+            }            
         }
 
         public void DefendOut()
         {
+            if (_animation[DEFEND_EXIT] == null) return;
             _animation.CrossFade(DEFEND_EXIT);
         }
 
         void DefendLoop()
         {
+            if (_animation[DEFEND_LOOP] == null) return;
             _animation.Play(DEFEND_LOOP);
         }
 
@@ -275,8 +330,6 @@ namespace FPSControl
 
         public void AnimationEvent_ActivateComplete()
         {
-            //_animation[ACTIVATE].wrapMode = WrapMode.Once;
-            //Debug.Log("Received animation event!");
             DoCallBack();
         }
 
@@ -297,14 +350,11 @@ namespace FPSControl
 
         public void AnimationEvent_FireComplete()
         {
-           // _animation[FIRE].wrapMode = WrapMode.Once;
             if(patternType == FiringPatternType.TimedPattern)
 			{
 				if(!_patternComplete) return;
-			}
-			
-			DoCallBack();
-			
+			}			
+			DoCallBack();			
         }
 
         public void AnimationEvent_ReloadComplete()
@@ -318,11 +368,10 @@ namespace FPSControl
             DoCallBack();
         }
 
-        #endregion // Animation Events
+        #endregion 
 
         void DoCallBack()
         {
-            //Debug.Log("animation callback");
             if (animationCompleteCallback != null) animationCompleteCallback();
             else Debug.LogWarning("No callback provided!");
             animationCompleteCallback = null;

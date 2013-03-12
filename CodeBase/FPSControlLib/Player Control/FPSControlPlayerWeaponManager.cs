@@ -18,6 +18,7 @@ namespace FPSControl
         public KeyCode weaponToggle = KeyCode.Q;
         public KeyCode reloadKey = KeyCode.R;
         public KeyCode defendKey = KeyCode.X;
+        public bool addWeaponsToInventory = true;
 
         public FPSControlWeapon[] weaponActors; //all possible weapons should be setup here
         Dictionary<string, FPSControlWeapon> _weaponsCatalogue = new  Dictionary<string, FPSControlWeapon>(); //the catalogue of weapons, built dynamically from weaponActors array
@@ -52,7 +53,7 @@ namespace FPSControl
             _prevState = this.state;
         }
 
-        void Awake()
+        void Start()
         {
             _transform = transform;
             _parent = _transform.parent;
@@ -63,6 +64,10 @@ namespace FPSControl
                 weapon.transform.localPosition = weapon.pivot;
                 weapon.transform.localRotation = Quaternion.Euler(weapon.euler);
                 _weaponsCatalogue.Add(weapon.weaponName, weapon);
+                if (addWeaponsToInventory)
+                {
+                    if (i < 4) Add(weapon.weaponName, (i == 0));
+                }
             }
         }
 
@@ -74,6 +79,7 @@ namespace FPSControl
         //Add a weapon to the list of available weapons
         public void Add(string weaponName, bool makeCurrent)
         {
+            Debug.Log(weaponName);
             if(_availableWeapons.Count == 4) return; //max capacity
             
             FPSControlWeapon weapon = _weaponsCatalogue[weaponName];
@@ -161,10 +167,12 @@ namespace FPSControl
 
         public void ActivateWeaponAt(int index)
         {
+            Debug.Log(index + ":" + _availableWeapons.Count);
             if (index >= _availableWeapons.Count || index >= 4) return;
 
             if (_currentWeapon && _currentWeapon == _availableWeapons[index])
             {
+                //Debug.Log("Already there");
                 return; //already there
             }
             else if (_currentWeapon)

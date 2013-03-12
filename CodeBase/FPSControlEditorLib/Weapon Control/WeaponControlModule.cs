@@ -47,7 +47,7 @@ namespace FPSControlEditor
                 switch (((FPSControlRangedWeapon)currentWeapon.weapon).rangedType)
                 {
                     case FPSControlRangedWeaponType.Bullets:
-                        GUITab(ref rangeBulletTabIndex, gui_button_weapon_ranged_group1_n, gui_button_weapon_ranged_group1_a, gui_button_weapon_ranged_group2_n, gui_button_weapon_ranged_group2_a);
+                        GUITab(ref rangeBulletTabIndex, gui_button_weapon_ranged_group2_n, gui_button_weapon_ranged_group2_a, gui_button_weapon_ranged_group1_n, gui_button_weapon_ranged_group1_a);
                         if (rangeBulletTabIndex == 0)
                         {
                             GUIPositionWindow(0); //Implemented
@@ -591,7 +591,6 @@ namespace FPSControlEditor
 
         #region logic
         private static string TEMP_PREFAB { get { return FPSControlMainEditor.ASSET_PATH + FPSControlMainEditor.TEMP + "_TEMPWEAPON.prefab"; } }
-        private static GameObject savedObjectPrefab;
         private FPSControlWeapon[] weapons;
         private WeaponData currentWeapon;
         private bool weaponsAvailable;        
@@ -747,7 +746,7 @@ namespace FPSControlEditor
 
         private void LocateWeapons()
         {
-            weapons = (FPSControlWeapon[])GameObject.FindSceneObjectsOfType(typeof(FPSControlWeapon));
+            weapons = (FPSControlWeapon[])Resources.FindObjectsOfTypeAll(typeof(FPSControlWeapon));
             weaponsAvailable = (weapons.Length > 0);
             if (weaponsAvailable)
             {
@@ -756,10 +755,6 @@ namespace FPSControlEditor
                     currentWeaponIndex = 0;
                 }
                 SetCurrentWeapon(weapons[currentWeaponIndex]);
-            }
-            else
-            {
-
             }
         }
 
