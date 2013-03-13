@@ -71,6 +71,12 @@
     <Compile Include="Player Control\FPSControlPlayerMovement.cs" />
     <Compile Include="Player Control\FPSControlPlayerWeaponManager.cs" />
     <Compile Include="Weapon Control\Data\DamageFalloff.cs" />
+    <Compile Include="Weapon Control\Definitions\FPSControlRangeWeaponDefinition.cs" />
+    <Compile Include="Weapon Control\Definitions\FPSControlWeaponAnimationDefinition.cs" />
+    <Compile Include="Weapon Control\Definitions\FPSControlWeaponDefinition.cs" />
+    <Compile Include="Weapon Control\Definitions\FPSControlWeaponParticlesDefinition.cs" />
+    <Compile Include="Weapon Control\Definitions\FPSControlWeaponPathDefinition.cs" />
+    <Compile Include="Weapon Control\Definitions\FPSControlWeaponSoundDefinition.cs" />
     <Compile Include="Weapon Control\FPSControlMeleeWeapon.cs" />
     <Compile Include="Weapon Control\FPSControlRangedWeapon.cs" />
     <Compile Include="Weapon Control\FPSControlWeaponAnimation.cs" />
@@ -123,6 +129,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

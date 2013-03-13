@@ -11686,7 +11686,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 210676821}
   - 114: {fileID: 210676823}
-  - 114: {fileID: 210676822}
   m_Layer: 8
   m_Name: Weapons
   m_TagString: Untagged
@@ -11708,17 +11707,6 @@ Transform:
   - {fileID: 423306210}
   - {fileID: 1175543992}
   m_Father: {fileID: 1222168647}
---- !u!114 &210676822
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400022, guid: 4cba117805e239946b3270c1ca77f3a0,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 210676820}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16c9e265c462303469a0b881203422fa, type: 3}
-  m_Name: 
 --- !u!114 &210676823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11737,6 +11725,7 @@ MonoBehaviour:
   weaponToggle: 113
   reloadKey: 114
   defendKey: 120
+  addWeaponsToInventory: 1
   weaponActors:
   - {fileID: 1834790501}
   - {fileID: 423306211}
@@ -15354,6 +15343,7 @@ MonoBehaviour:
   lightBurst: {fileID: 0}
   lightPosition: {fileID: 0}
   lightDuration: 1
+  _startingIntensity: 0
 --- !u!114 &298988351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15804,19 +15794,20 @@ MonoBehaviour:
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 1
+    global: 0
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 1
+    global: 0
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 1
+    global: 0
   lightIsEnabled: 0
   lightBurst: {fileID: 0}
   lightPosition: {fileID: 0}
   lightDuration: 1
+  _startingIntensity: 0
 --- !u!114 &304590487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21660,27 +21651,28 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: -1828090268, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
-  weaponName: Melee
-  weaponAnimation: {fileID: 298988351}
-  weaponParticles: {fileID: 298988350}
-  weaponSound: {fileID: 298988348}
-  pivot: {x: 0, y: 0, z: 0}
-  euler: {x: 0, y: 0, z: 0}
-  scopePivot: {x: 0, y: 0, z: 0}
-  scopeEuler: {x: 0, y: 0, z: 0}
-  scopeFOV: 0
-  maxDamagePerHit: 0
-  chargeTime: .100000001
-  idleState:
-    name: Idle
-  fireState:
-    name: Fire
-  reloadState:
-    name: Reload
-  defendState:
-    name: Defend
-  chargeState:
-    name: Charge
+  definition:
+    weaponName: Melee
+    weaponAnimation: {fileID: 298988351}
+    weaponParticles: {fileID: 298988350}
+    weaponSound: {fileID: 298988348}
+    pivot: {x: 0, y: 0, z: 0}
+    euler: {x: 0, y: 0, z: 0}
+    scopePivot: {x: 0, y: 0, z: 0}
+    scopeEuler: {x: 0, y: 0, z: 0}
+    scopeFOV: 0
+    maxDamagePerHit: 0
+    chargeTime: .100000001
+    idleState:
+      name: 
+    fireState:
+      name: 
+    reloadState:
+      name: 
+    defendState:
+      name: 
+    chargeState:
+      name: 
   damageTrigger: {fileID: 2110866797}
 --- !u!1 &427322857
 GameObject:
@@ -50521,45 +50513,47 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 1121929730, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
-  weaponName: Test
-  weaponAnimation: {fileID: 304590487}
-  weaponParticles: {fileID: 304590486}
-  weaponSound: {fileID: 304590485}
-  pivot: {x: 0, y: 0, z: 0}
-  euler: {x: 0, y: 0, z: 0}
-  scopePivot: {x: 0, y: 0, z: 0}
-  scopeEuler: {x: 0, y: 0, z: 0}
-  scopeFOV: 0
-  maxDamagePerHit: 0
-  chargeTime: .100000001
-  idleState:
-    name: 
-  fireState:
-    name: 
-  reloadState:
-    name: 
-  defendState:
-    name: 
-  chargeState:
-    name: 
-  rangedType: 0
-  weaponPath: {fileID: 304590484}
-  rayOrigin: {fileID: 0}
-  disperseRadius: 0
-  raycasts: 0
-  range: 10
-  spread: 1.5
-  damageFalloff:
-    distance: 0
-    _points: []
-  reloadType: 1
-  clipCapacity: 28
-  maxClips: 3
-  burstAmount: 1
-  constantRegeneration: 1
-  maximumRounds: 100
-  regenerationRate: 5
-  fullRegenerationTime: 8
+  definition:
+    weaponName: Test
+    weaponAnimation: {fileID: 304590487}
+    weaponParticles: {fileID: 304590486}
+    weaponSound: {fileID: 304590485}
+    pivot: {x: 0, y: 0, z: 0}
+    euler: {x: 0, y: 0, z: 0}
+    scopePivot: {x: 0, y: 0, z: 0}
+    scopeEuler: {x: 0, y: 0, z: 0}
+    scopeFOV: 0
+    maxDamagePerHit: 0
+    chargeTime: .100000001
+    idleState:
+      name: 
+    fireState:
+      name: 
+    reloadState:
+      name: 
+    defendState:
+      name: 
+    chargeState:
+      name: 
+  rangeDefinition:
+    rangedType: 0
+    weaponPath: {fileID: 304590484}
+    rayOrigin: {fileID: 0}
+    disperseRadius: 0
+    raycasts: 1
+    range: 10
+    spread: 1.5
+    damageFalloff:
+      distance: 0
+      _points: []
+    reloadType: 1
+    clipCapacity: 10
+    maxClips: 3
+    burstAmount: 1
+    constantRegeneration: 1
+    maximumRounds: 100
+    regenerationRate: .5
+    fullRegenerationTime: 8
 --- !u!1 &1176909872
 GameObject:
   m_ObjectHideFlags: 0
@@ -67020,7 +67014,7 @@ MonoBehaviour:
   m_Name: 
   render: 1
   consistentRender: 0
-  isPreFire: 1
+  isPreFire: 0
   maxDistance: 0
   leavingForce: 0
   origin: {fileID: 0}
@@ -67068,6 +67062,7 @@ MonoBehaviour:
   lightBurst: {fileID: 0}
   lightPosition: {fileID: 0}
   lightDuration: 1
+  _startingIntensity: 0
 --- !u!114 &1592933011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78671,49 +78666,47 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 1121929730, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
-  weaponName: Beretta
-  weaponAnimation: {fileID: 1592933011}
-  weaponParticles: {fileID: 1592933010}
-  weaponSound: {fileID: 1592933009}
-  pivot: {x: -.230000004, y: -1.08000004, z: -.0500000007}
-  euler: {x: 0, y: 0, z: 0}
-  scopePivot: {x: -.230000004, y: -1.08000004, z: -.0500000007}
-  scopeEuler: {x: 0, y: 11, z: 0}
-  scopeFOV: 12
-  maxDamagePerHit: 91.9230728
-  chargeTime: .100000001
-  idleState:
-    name: 
-  fireState:
-    name: 
-  reloadState:
-    name: 
-  defendState:
-    name: 
-  chargeState:
-    name: 
-  rangedType: 1
-  weaponPath: {fileID: 1592933008}
-  rayOrigin: {fileID: 0}
-  disperseRadius: 0
-  raycasts: 0
-  range: 10
-  spread: 0
-  damageFalloff:
-    distance: 10
-    _points:
-    - location: 0
-      value: 1
-    - location: .5
-      value: .5
-  reloadType: 0
-  clipCapacity: 0
-  maxClips: 5
-  burstAmount: 1
-  constantRegeneration: 1
-  maximumRounds: 100
-  regenerationRate: 5
-  fullRegenerationTime: 8
+  definition:
+    weaponName: Beretta
+    weaponAnimation: {fileID: 1592933011}
+    weaponParticles: {fileID: 1592933010}
+    weaponSound: {fileID: 1592933009}
+    pivot: {x: 0, y: 0, z: 0}
+    euler: {x: 0, y: 0, z: 0}
+    scopePivot: {x: 0, y: 0, z: 0}
+    scopeEuler: {x: 0, y: 0, z: 0}
+    scopeFOV: 0
+    maxDamagePerHit: 0
+    chargeTime: .100000001
+    idleState:
+      name: 
+    fireState:
+      name: 
+    reloadState:
+      name: 
+    defendState:
+      name: 
+    chargeState:
+      name: 
+  rangeDefinition:
+    rangedType: 0
+    weaponPath: {fileID: 1592933008}
+    rayOrigin: {fileID: 0}
+    disperseRadius: 0
+    raycasts: 1
+    range: 10
+    spread: 1.5
+    damageFalloff:
+      distance: 0
+      _points: []
+    reloadType: 1
+    clipCapacity: 10
+    maxClips: 3
+    burstAmount: 1
+    constantRegeneration: 1
+    maximumRounds: 100
+    regenerationRate: .5
+    fullRegenerationTime: 8
 --- !u!1001 &1835879390
 Prefab:
   m_ObjectHideFlags: 0

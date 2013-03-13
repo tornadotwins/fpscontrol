@@ -48,40 +48,40 @@ namespace FPSControl
         {
             if (canFire) //this is more like, can we actually pull the trigger?
             {
-                currentState = fireState;
-                weaponAnimation.animationCompleteCallback = FireCompleted;
-                weaponAnimation.Attack();
+                currentState = definition.fireState;
+                definition.weaponAnimation.animationCompleteCallback = FireCompleted;
+                definition.weaponAnimation.Attack();
             }
         }
 
         void FireCompleted()
         {
             _accumulatedCharge = 0;
-            currentState = idleState;
-            weaponAnimation.Idle();
+            currentState = definition.idleState;
+            definition.weaponAnimation.Idle();
         }
 
         public override void Activate(FPSControlPlayerWeaponManager parent)
         {
             gameObject.SetActive(true);
             Parent = parent;
-            weaponAnimation.animationCompleteCallback = WeaponBecameActive;
-            weaponAnimation.Activate();
+            definition.weaponAnimation.animationCompleteCallback = WeaponBecameActive;
+            definition.weaponAnimation.Activate();
         }
 
         void WeaponBecameActive()
         {
             canUse = true;
-            weaponAnimation.Idle();
-            currentState = idleState;
+            definition.weaponAnimation.Idle();
+            currentState = definition.idleState;
         }
 
         public override void Deactivate(System.Action cbFunc)
         {
             _deactivateCallback = cbFunc;
-            weaponAnimation.animationCompleteCallback = WeaponBecameInactive;
+            definition.weaponAnimation.animationCompleteCallback = WeaponBecameInactive;
             //play deactivate animation
-            weaponAnimation.Deactivate();
+            definition.weaponAnimation.Deactivate();
         }
 
         void WeaponBecameInactive()
@@ -97,8 +97,8 @@ namespace FPSControl
         public override void Charge(float accum)
         {
             _accumulatedCharge += accum;
-            if (!charging) weaponAnimation.Charge();
-            currentState = chargeState;
+            if (!charging) definition.weaponAnimation.Charge();
+            currentState = definition.chargeState;
         }
 
         public override void CancelCharge(){}

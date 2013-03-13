@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using FPSControl.States.Weapon;
 using FPSControl.Data;
+using FPSControl.Definitions;
 
 namespace FPSControl
 {
+
     public class FPSControlRangedWeapon : FPSControlWeapon
     {
+
+        public FPSControlRangeWeaponDefinition rangeDefinition;
+
         new public WeaponState currentState
         {
             get
@@ -29,32 +34,10 @@ namespace FPSControl
             }
         }
 
-        //Ranged-Only
-        public FPSControlRangedWeaponType rangedType = FPSControlRangedWeaponType.Bullets;
-        public FPSControlWeaponPath weaponPath;
-
-        //Raycasting
-        public Transform rayOrigin;
-        public float disperseRadius = 0;
-        public int raycasts = 1;
-        public float range = 10; //in meters
-        public float spread = 1.5F;
-		
-		//damage
-		public FalloffData damageFalloff;
-
-        //Capacity
-        public ReloadType reloadType = ReloadType.Clips;
-        public int clipCapacity = 10;
-        public int maxClips = 3;
-        public int burstAmount = 1;
         int _currentClipContents = 0;
         int _currentClips = 0;
         int _currentAmmo = 0;
-        public bool constantRegeneration = true;
-        public float maximumRounds = 100f;
-        public float regenerationRate = .5F; //points per second - if constantRegeneration is TRUE
-        public float fullRegenerationTime = 8F; //if constantRegeneration is FALSE
+
         float _currentEnergy = 100F;
         float _timeLastActive = -1F;
 		float _timeSinceActivation = 0F;
@@ -63,13 +46,13 @@ namespace FPSControl
         {
             get
             {
-                if (reloadType == ReloadType.Clips)
+                if (rangeDefinition.reloadType == ReloadType.Clips)
                 {
                     return _currentClipContents > 0;
                 }
-                else if (reloadType == ReloadType.Recharge)
+                else if (rangeDefinition.reloadType == ReloadType.Recharge)
                 {
-                    return _currentEnergy >= burstAmount;
+                    return _currentEnergy >= rangeDefinition.burstAmount;
                 }
                 return true;
             }
@@ -77,8 +60,6 @@ namespace FPSControl
 
         //Callbacks
         System.Action _deactivateCallback;
-
-
 
         protected override void OnInitialize()
         {
@@ -88,19 +69,19 @@ namespace FPSControl
         //adds ammo, returns the amount of bullets left over
         public int AddAmmo(int clips)
         {
-            int maxAmmo = clipCapacity * maxClips;
-            int remainder = maxAmmo - ((clips * clipCapacity) + _currentAmmo);
-            _currentClips = Mathf.Min(clips, maxClips);
-            _currentAmmo = Mathf.Min((clips * clipCapacity) + _currentAmmo, maxAmmo);
+            int maxAmmo = rangeDefinition.clipCapacity * rangeDefinition.maxClips;
+            int remainder = maxAmmo - ((clips * rangeDefinition.clipCapacity) + _currentAmmo);
+            _currentClips = Mathf.Min(clips, rangeDefinition.maxClips);
+            _currentAmmo = Mathf.Min((clips * rangeDefinition.clipCapacity) + _currentAmmo, maxAmmo);
             //return the remainder
             return remainder;
         }
 
         public void SetAmmo(int ammo, int clips)
         {
-            _currentClipContents = Mathf.Min(ammo, clipCapacity);
-            _currentClips = Mathf.Min(clips, maxClips);
-            _currentAmmo = clipCapacity * _currentClips;
+            _currentClipContents = Mathf.Min(ammo, rangeDefinition.clipCapacity);
+            _currentClips = Mathf.Min(clips, rangeDefinition.maxClips);
+            _currentAmmo = rangeDefinition.clipCapacity * _currentClips;
         }
 
         public void SetAmmo(float energy)
@@ -111,41 +92,41 @@ namespace FPSControl
         public override void StartRun()
         {
             canUse = false;
-            currentState = idleState;
-            weaponAnimation.Run();
+            currentState = definition.idleState;
+            definition.weaponAnimation.Run();
         }
 
         public override void EndRun()
         {
             canUse = true;
-            currentState = idleState;
-            weaponAnimation.Idle();
+            currentState = definition.idleState;
+            definition.weaponAnimation.Idle();
         }
 
         public override bool Reload()
         {
-            if (!canUse || reloadType == ReloadType.UnlimitedAmmo || reloadType == ReloadType.Recharge || (reloadType == ReloadType.Clips && _currentClipContents >= clipCapacity)) return false;
+            if (!canUse || rangeDefinition.reloadType == ReloadType.UnlimitedAmmo || rangeDefinition.reloadType == ReloadType.Recharge || (rangeDefinition.reloadType == ReloadType.Clips && _currentClipContents >= rangeDefinition.clipCapacity)) return false;
 
-            if (_currentAmmo <= 0) return false; 
+            if (_currentAmmo <= 0) return false;
 
-            currentState = reloadState;
+            currentState = definition.reloadState;
 
-            weaponAnimation.animationCompleteCallback = ReloadCompleted;
-            weaponAnimation.Reload();
+            definition.weaponAnimation.animationCompleteCallback = ReloadCompleted;
+            definition.weaponAnimation.Reload();
             
             return true;
         }
 
         void ReloadCompleted()
         {
-            int space = clipCapacity - _currentClipContents;
+            int space = rangeDefinition.clipCapacity - _currentClipContents;
             int lessAmmo = Mathf.Min(space, _currentAmmo);
             _currentAmmo -= lessAmmo;
 
-            _currentClips = (int)_currentAmmo / clipCapacity;
+            _currentClips = (int)_currentAmmo / rangeDefinition.clipCapacity;
             _currentClipContents += lessAmmo;
-            currentState = idleState;
-            weaponAnimation.Idle();
+            currentState = definition.idleState;
+            definition.weaponAnimation.Idle();
         }
         
         public override void CancelReload()
@@ -166,23 +147,23 @@ namespace FPSControl
 
         void Update()
         {
-            if(reloadType == ReloadType.Recharge)
+            if (rangeDefinition.reloadType == ReloadType.Recharge)
 			{
 				float last = _timeSinceActivation;
 				_timeSinceActivation += Time.deltaTime;
 				//if we've moved from say 1.9999 to 2.00001 it we can increase a tick.
-				if(Mathf.Floor(_timeSinceActivation) > Mathf.Floor(last)) _currentEnergy = Mathf.Clamp(_currentEnergy+regenerationRate,0,100F);
+                if (Mathf.Floor(_timeSinceActivation) > Mathf.Floor(last)) _currentEnergy = Mathf.Clamp(_currentEnergy + rangeDefinition.regenerationRate, 0, 100F);
 			}
 			
 			if (scoped)
             {
-                transform.localPosition = Vector3.Lerp(transform.localPosition, scopePivot, Time.deltaTime * 3F); //this is actually more for debugging purposes, actually.
-                transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(scopeEuler), Time.deltaTime * 3F);
+                transform.localPosition = Vector3.Lerp(transform.localPosition, definition.scopePivot, Time.deltaTime * 3F); //this is actually more for debugging purposes, actually.
+                transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(definition.scopeEuler), Time.deltaTime * 3F);
             }
             else
             {
-                transform.localPosition = Vector3.Lerp(transform.localPosition, pivot, Time.deltaTime * 3F); //this is actually more for debugging purposes, actually.
-                transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(euler), Time.deltaTime * 3F);
+                transform.localPosition = Vector3.Lerp(transform.localPosition, definition.pivot, Time.deltaTime * 3F); //this is actually more for debugging purposes, actually.
+                transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(definition.euler), Time.deltaTime * 3F);
             }
         }
 
@@ -192,46 +173,46 @@ namespace FPSControl
             if (canFire) //this is more like, can we actually pull the trigger?
             {
                 //Debug.Log("pew pew");
-                currentState = fireState;
-                weaponAnimation.animationCompleteCallback = FireCompleted;
+                currentState = definition.fireState;
+                definition.weaponAnimation.animationCompleteCallback = FireCompleted;
                 if (hasAmmo)
                 {
-                    weaponAnimation.Fire(); //play our fire animation
-                    
-					if(reloadType == ReloadType.Clips)
+                    definition.weaponAnimation.Fire(); //play our fire animation
+
+                    if (rangeDefinition.reloadType == ReloadType.Clips)
 					{
-						int expense = Mathf.Min(burstAmount, _currentClipContents); //we'll decrement our current clip contents by the burst amount, or whatever is left...
+                        int expense = Mathf.Min(rangeDefinition.burstAmount, _currentClipContents); //we'll decrement our current clip contents by the burst amount, or whatever is left...
                     	_currentClipContents -= expense;
 					}
-					else if(reloadType == ReloadType.Recharge)
+                    else if (rangeDefinition.reloadType == ReloadType.Recharge)
 					{
-						_currentEnergy -= burstAmount;
+                        _currentEnergy -= rangeDefinition.burstAmount;
 					}
                     //do the raycasting stuff here
-                    
-                    for (int i = 0; i < raycasts; i++)
+
+                    for (int i = 0; i < rangeDefinition.raycasts; i++)
                     {
                         
                         
                         float randX = 0;
                         float randY = 0;
 
-                        if (disperseRadius > 0) //if we have a disperse radius
+                        if (rangeDefinition.disperseRadius > 0) //if we have a disperse radius
                         {
-                            randX = (UnityEngine.Random.value * (disperseRadius * 2)) - disperseRadius; //randomly get a position within the radius
-                            randY = (UnityEngine.Random.value * (disperseRadius * 2)) - disperseRadius;
+                            randX = (UnityEngine.Random.value * (rangeDefinition.disperseRadius * 2)) - rangeDefinition.disperseRadius; //randomly get a position within the radius
+                            randY = (UnityEngine.Random.value * (rangeDefinition.disperseRadius * 2)) - rangeDefinition.disperseRadius;
                         }
 
-                        Vector3 perspectiveDistortion = new Vector3( spread*randX, spread *randY, 0);
+                        Vector3 perspectiveDistortion = new Vector3(rangeDefinition.spread * randX, rangeDefinition.spread * randY, 0);
 
-                        Vector3 origin = rayOrigin.position + new Vector3(randX, randY, 0); //apply offset to origin
+                        Vector3 origin = rangeDefinition.rayOrigin.position + new Vector3(randX, randY, 0); //apply offset to origin
 
-                        Ray ray = new Ray(origin, rayOrigin.forward);// + (Vector3.Scale(rayOrigin.forward,perspectiveDistortion)));
+                        Ray ray = new Ray(origin, rangeDefinition.rayOrigin.forward);// + (Vector3.Scale(rayOrigin.forward,perspectiveDistortion)));
 
-                        Debug.DrawRay(ray.origin, ray.direction * range, Color.red, .5F);
+                        Debug.DrawRay(ray.origin, ray.direction * rangeDefinition.range, Color.red, .5F);
 
                         RaycastHit hit;
-                        if (Physics.Raycast(ray, out hit, range))//did we actually hit anything?
+                        if (Physics.Raycast(ray, out hit, rangeDefinition.range))//did we actually hit anything?
                         {
                            
                             //a bit of psuedo code here:
@@ -255,7 +236,7 @@ namespace FPSControl
                 else //we are empty, play the empty animation
                 {
                     Debug.Log("empty!");
-                    weaponAnimation.Empty();
+                    definition.weaponAnimation.Empty();
                 }
             }
             else
@@ -267,33 +248,33 @@ namespace FPSControl
         void FireCompleted()
         {
             //Debug.Log("fire completed.");
-            currentState = idleState;
+            currentState = definition.idleState;
             //Debug.Log("current state: " + currentState.name);
-            weaponAnimation.Idle();
+            definition.weaponAnimation.Idle();
         }
 
         public override void Activate(FPSControlPlayerWeaponManager parent)
         {
             gameObject.SetActive(true);
             Parent = parent;
-            weaponAnimation.animationCompleteCallback = WeaponBecameActive;
-            weaponAnimation.Activate();
+            definition.weaponAnimation.animationCompleteCallback = WeaponBecameActive;
+            definition.weaponAnimation.Activate();
         }
 
         void WeaponBecameActive()
         {
             //Debug.Log("weapon: " + weaponName + " became active");
             canUse = true;
-            weaponAnimation.Idle();
-            currentState = idleState;
+            definition.weaponAnimation.Idle();
+            currentState = definition.idleState;
 			
 			_timeSinceActivation = 0;
 			float timeSinceLastActive = _timeLastActive >= 0 ? Time.time - _timeLastActive : 0;
 			
 			//we should make sure that we recharged while holstered
-			if(reloadType == ReloadType.Recharge)
+            if (rangeDefinition.reloadType == ReloadType.Recharge)
 			{
-				float regen = Mathf.Floor(timeSinceLastActive) * regenerationRate;
+                float regen = Mathf.Floor(timeSinceLastActive) * rangeDefinition.regenerationRate;
 				_currentEnergy = Mathf.Min(_currentEnergy+regen,100F);
 			}
         }
@@ -301,9 +282,9 @@ namespace FPSControl
         public override void Deactivate(System.Action cbFunc)
         {
             _deactivateCallback = cbFunc;
-            weaponAnimation.animationCompleteCallback = WeaponBecameInactive;
+            definition.weaponAnimation.animationCompleteCallback = WeaponBecameInactive;
             //play deactivate animation
-            weaponAnimation.Deactivate();
+            definition.weaponAnimation.Deactivate();
         }
 
         void WeaponBecameInactive()
@@ -328,9 +309,9 @@ namespace FPSControl
 
         void OnDrawGizmos()
         {
-            if (!rayOrigin) return;
+            if (!rangeDefinition.rayOrigin) return;
             Gizmos.color = Color.magenta;
-            Gizmos.DrawWireSphere(rayOrigin.position, disperseRadius);
+            Gizmos.DrawWireSphere(rangeDefinition.rayOrigin.position, rangeDefinition.disperseRadius);
         }
     }
 }

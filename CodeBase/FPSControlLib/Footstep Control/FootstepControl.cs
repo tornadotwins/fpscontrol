@@ -26,11 +26,11 @@ namespace FPSControl
 		private FootstepControlDefinitions		def;
 		private List<System.Object>				soundLib;
 		private FootstepControlDefinition		currentClip			= null;
-		private float									currentTime			= 0f;
-		private PlayerState								currentState		= null;
-		private bool									isStandingStill	= true;
-		private float									clipLength			= 1F;
-		private AudioSource							_audio;
+		private float							currentTime			= 0f;
+		private PlayerState						currentState		= null;
+		private bool							isStandingStill	= true;
+		private float							clipLength			= 1F;
+		private AudioSource						_audio;
 		
 		//---
 		//
@@ -40,9 +40,9 @@ namespace FPSControl
 			soundLib = new List<System.Object>();
 			//Get Footstep Definitions
 			def = (FootstepControlDefinitions)Resources.Load("FootstepControlDefinitions");
-			foreach( FootstepControlDefinition obj in def.footsteps )
+			foreach( FootstepControlDefinition obj in def.footsteps)
 			{
-	    		if( obj.type.ToString().Equals(gameObject.tag.ToString()) )
+	    		if( obj.type.ToString().Equals(gameObject.tag.ToString()))
 				{
 	    			soundLib.Add( obj );
 				}

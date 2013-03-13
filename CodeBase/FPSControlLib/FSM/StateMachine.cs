@@ -10,6 +10,7 @@ namespace FPSControl.States
         List<State> _states;
         public State defaultState { get; private set; }
         public virtual State currentState { get; protected set; }
+        [HideInInspector]
         bool _initialized = false;
 
         protected void Initialize(State defaultState)

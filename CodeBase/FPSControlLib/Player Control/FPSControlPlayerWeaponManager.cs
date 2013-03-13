@@ -61,12 +61,12 @@ namespace FPSControl
             for (int i = 0; i < weaponActors.Length; i++)
             {
                 FPSControlWeapon weapon = weaponActors[i];
-                weapon.transform.localPosition = weapon.pivot;
-                weapon.transform.localRotation = Quaternion.Euler(weapon.euler);
-                _weaponsCatalogue.Add(weapon.weaponName, weapon);
+                weapon.transform.localPosition = weapon.definition.pivot;
+                weapon.transform.localRotation = Quaternion.Euler(weapon.definition.euler);
+                _weaponsCatalogue.Add(weapon.definition.weaponName, weapon);
                 if (addWeaponsToInventory)
                 {
-                    if (i < 4) Add(weapon.weaponName, (i == 0));
+                    if (i < 4) Add(weapon.definition.weaponName, (i == 0));
                 }
             }
         }
@@ -80,14 +80,13 @@ namespace FPSControl
         public void Add(string weaponName, bool makeCurrent)
         {
             Debug.Log(weaponName);
-            if(_availableWeapons.Count == 4) return; //max capacity
-            
-            FPSControlWeapon weapon = _weaponsCatalogue[weaponName];
+            if(_availableWeapons.Count == 4) return; //max capacity            
+            FPSControlWeapon weapon = _weaponsCatalogue[weaponName];            
             _availableWeapons.Add(weapon);
             if (makeCurrent)
             {
                 ActivateWeaponAt(_availableWeapons.IndexOf(weapon));
-            }
+            }            
         }
 
         //remove from the list of available weapons
@@ -220,11 +219,11 @@ namespace FPSControl
             _mouseDownL = Input.GetMouseButton(0);
             _mouseDownR = Input.GetMouseButton(1);
 
-            if(_mouseDownL && _mouseWasDownL && _mouseCounter < _currentWeapon.chargeTime)
+            if(_mouseDownL && _mouseWasDownL && _mouseCounter < _currentWeapon.definition.chargeTime)
             {
                 _mouseCounter += Time.deltaTime;
             }
-            else if (_mouseDownL && _mouseWasDownL && _mouseCounter >= _currentWeapon.chargeTime)
+            else if (_mouseDownL && _mouseWasDownL && _mouseCounter >= _currentWeapon.definition.chargeTime)
             {
                 _mouseCounter += Time.deltaTime;
                 _currentWeapon.Charge(Time.deltaTime);
@@ -240,7 +239,7 @@ namespace FPSControl
                 if (_mouseDownR && !_mouseWasDownR)
                 {
                     _currentWeapon.Scope();
-                    Player.playerCamera.Scope(true, _currentWeapon.scopeFOV);
+                    Player.playerCamera.Scope(true, _currentWeapon.definition.scopeFOV);
                 }
                 else if (!_mouseDownR && _mouseWasDownR)
                 {
