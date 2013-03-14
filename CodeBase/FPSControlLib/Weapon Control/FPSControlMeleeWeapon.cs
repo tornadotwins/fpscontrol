@@ -116,6 +116,7 @@ namespace FPSControl
 		void DefendExited()
 		{
 			currentState = definition.idleState;
+			definition.weaponAnimation.Idle();
 		}
 
         public override void StartRun()
