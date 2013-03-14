@@ -24,10 +24,12 @@ namespace FPSControl.Definitions
             if (inputWeapon.GetType() == typeof(FPSControlRangedWeapon))
             {
                 rangeDefinition = ((FPSControlRangedWeapon)inputWeapon).rangeDefinition;
-                //pathDefinition = ((FPSControlRangedWeapon)inputWeapon).rangeDefinition.weaponPath.definition;
+                pathDefinition = ((FPSControlRangedWeapon)inputWeapon).weaponPath.definition;
             }
             weaponDefinition = inputWeapon.definition;
             animationDefinition = inputWeapon.weaponAnimation.definition;
+            particlesDefinition = inputWeapon.weaponParticles.definition;
+            soundDefinition = inputWeapon.weaponSound.definition;
         }
 
         public static void LoadDefintionsIntoWeapon(FPSControlWeaponDefinitions defintions, ref FPSControlWeapon inputWeapon)
@@ -35,9 +37,12 @@ namespace FPSControl.Definitions
             if (inputWeapon.GetType() == typeof(FPSControlRangedWeapon))
             {
                 ((FPSControlRangedWeapon)inputWeapon).rangeDefinition = defintions.rangeDefinition;
+                ((FPSControlRangedWeapon)inputWeapon).weaponPath.definition = defintions.pathDefinition;
             }
             inputWeapon.definition = defintions.weaponDefinition;
             inputWeapon.weaponAnimation.definition = defintions.animationDefinition;
+            inputWeapon.weaponParticles.definition = defintions.particlesDefinition;
+            inputWeapon.weaponSound.definition = defintions.soundDefinition;
         }
 
         public FPSControlWeaponDefinitions() { }

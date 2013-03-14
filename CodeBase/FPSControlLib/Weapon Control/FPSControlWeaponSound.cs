@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using FPSControl.Definitions;
 
 namespace FPSControl
 {
     [RequireComponent(typeof(AudioSource))]
     public class FPSControlWeaponSound : FPSControlWeaponComponent
     {
+
+        public FPSControlWeaponSoundDefinition definition = new FPSControlWeaponSoundDefinition();
+
         public AudioClip equipSFX;
         public AudioClip fire1SFX;
         public AudioClip fire2SFX;

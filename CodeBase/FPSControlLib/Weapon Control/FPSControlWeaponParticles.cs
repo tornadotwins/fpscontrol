@@ -1,6 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System;
+using System.Collections;
+using FPSControl.Data;
 using UnityEngine;
+using FPSControl.Definitions;
 
 namespace FPSControl
 {
@@ -8,6 +11,8 @@ namespace FPSControl
     public class FPSControlWeaponParticles : FPSControlWeaponComponent
     {
         public static bool enableWarnings = true;
+
+        public FPSControlWeaponParticlesDefinition definition = new FPSControlWeaponParticlesDefinition();
         
         [SerializeField] public FPSControlWeaponParticleData[] particles;
 

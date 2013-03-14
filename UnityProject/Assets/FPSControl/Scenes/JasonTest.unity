@@ -15231,9 +15231,9 @@ Transform:
   m_PrefabParentObject: {fileID: 400322, guid: 4cba117805e239946b3270c1ca77f3a0, type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 298988346}
-  m_LocalRotation: {x: 3.61137498e-09, y: -.21120733, z: -2.93259212e-08, w: .977441311}
-  m_LocalPosition: {x: -.206947505, y: -1.48768592, z: -.403445184}
-  m_LocalScale: {x: .20635961, y: .20635961, z: .20635961}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: .150000006, y: .150000006, z: .150000006}
   m_Children:
   - {fileID: 958532888}
   - {fileID: 99230049}
@@ -15330,15 +15330,15 @@ MonoBehaviour:
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 1
+    global: 0
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 1
+    global: 0
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 1
+    global: 0
   lightIsEnabled: 0
   lightBurst: {fileID: 0}
   lightPosition: {fileID: 0}
@@ -15740,11 +15740,6 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 603243038, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
-  render: 1
-  consistentRender: 0
-  isPreFire: 0
-  maxDistance: 0
-  leavingForce: 0
   origin: {fileID: 0}
   material: {fileID: 0}
 --- !u!114 &304590485
@@ -15777,15 +15772,15 @@ MonoBehaviour:
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 0
+    global: 1
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 0
+    global: 1
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 0
+    global: 1
   lightIsEnabled: 0
   lightBurst: {fileID: 0}
   lightPosition: {fileID: 0}
@@ -21619,12 +21614,12 @@ MonoBehaviour:
   m_Name: 
   definition:
     weaponName: Melee
-    pivot: {x: 0, y: 0, z: 0}
+    pivot: {x: -.330769211, y: -.853846192, z: -.0615384653}
     euler: {x: 0, y: 0, z: 0}
     scopePivot: {x: 0, y: 0, z: 0}
     scopeEuler: {x: 0, y: 0, z: 0}
     scopeFOV: 0
-    maxDamagePerHit: 0
+    maxDamagePerHit: 19.2307606
     chargeTime: .100000001
   weaponAnimation: {fileID: 298988351}
   weaponParticles: {fileID: 298988350}
@@ -66978,11 +66973,6 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 603243038, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
-  render: 1
-  consistentRender: 0
-  isPreFire: 0
-  maxDistance: 0
-  leavingForce: 0
   origin: {fileID: 0}
   material: {fileID: 0}
 --- !u!114 &1592933009
@@ -67015,15 +67005,15 @@ MonoBehaviour:
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 0
+    global: 1
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 0
+    global: 1
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 0
+    global: 1
   lightIsEnabled: 0
   lightBurst: {fileID: 0}
   lightPosition: {fileID: 0}
@@ -67040,8 +67030,18 @@ MonoBehaviour:
   m_Script: {fileID: -352054857, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
   firingPattern:
-    distance: 0
-    _points: []
+    distance: 2
+    _points:
+    - location: .162698418
+      value: 1
+    - location: .329365075
+      value: 1
+    - location: .5
+      value: 1
+    - location: .674603164
+      value: 1
+    - location: .853174627
+      value: 1
 --- !u!82 &1592933012
 AudioSource:
   m_ObjectHideFlags: 0
@@ -78617,12 +78617,12 @@ MonoBehaviour:
   m_Name: 
   definition:
     weaponName: Beretta
-    pivot: {x: -.192307681, y: -1.15384781, z: 0}
+    pivot: {x: -.30000025, y: -1.13077128, z: 0}
     euler: {x: 0, y: 0, z: 0}
     scopePivot: {x: 0, y: 0, z: 0}
     scopeEuler: {x: 0, y: 0, z: 0}
     scopeFOV: 0
-    maxDamagePerHit: 0
+    maxDamagePerHit: 23.8461494
     chargeTime: .100000001
   weaponAnimation: {fileID: 1592933011}
   weaponParticles: {fileID: 1592933010}
@@ -78639,23 +78639,27 @@ MonoBehaviour:
     name: 
   rangeDefinition:
     rangedType: 0
-    disperseRadius: 0
-    raycasts: 1
+    disperseRadius: 47.0769348
+    raycasts: 0
     range: 10
     spread: 1.5
-    reloadType: 1
-    clipCapacity: 10
+    reloadType: 0
+    clipCapacity: 0
     maxClips: 3
     burstAmount: 1
     constantRegeneration: 1
     maximumRounds: 100
-    regenerationRate: .5
+    regenerationRate: 5
     fullRegenerationTime: 8
   weaponPath: {fileID: 1592933008}
   rayOrigin: {fileID: 0}
   damageFalloff:
-    distance: 0
-    _points: []
+    distance: 5
+    _points:
+    - location: .269841284
+      value: .5
+    - location: .674603164
+      value: 1
 --- !u!1001 &1835879390
 Prefab:
   m_ObjectHideFlags: 0
@@ -89310,8 +89314,8 @@ Transform:
   m_PrefabParentObject: {fileID: 400324, guid: 4cba117805e239946b3270c1ca77f3a0, type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2092604181}
-  m_LocalRotation: {x: .318148583, y: -.114178963, z: .940346956, w: .0386301242}
-  m_LocalPosition: {x: -.246154249, y: .399999857, z: -.223076314}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 298988347}

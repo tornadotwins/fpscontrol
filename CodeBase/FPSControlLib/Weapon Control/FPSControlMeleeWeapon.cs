@@ -27,6 +27,12 @@ namespace FPSControl
                 return false;
             }
         }
+
+        void Update()
+        {            
+            transform.localPosition = Vector3.Lerp(transform.localPosition, definition.pivot, Time.deltaTime * 3F);
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(definition.euler), Time.deltaTime * 3F);
+        }
         
         //Damage
         public Collider damageTrigger;

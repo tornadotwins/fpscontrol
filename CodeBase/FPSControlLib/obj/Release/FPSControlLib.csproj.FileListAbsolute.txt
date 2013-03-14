@@ -34,4 +34,3 @@ C:\Users\Glitchy\Documents\GitHub\fpscontrol\UnityProject\Assets\FPSControl\Plug
 C:\Users\Glitchy\Documents\GitHub\fpscontrol\UnityProject\Assets\FPSControl\Plugins\FPSControlLib.pdb
 C:\Users\Glitchy\Documents\GitHub\fpscontrol\CodeBase\FPSControlLib\obj\Release\FPSControlLib.dll
 C:\Users\Glitchy\Documents\GitHub\fpscontrol\CodeBase\FPSControlLib\obj\Release\FPSControlLib.pdb
-C:\Users\Glitchy\Documents\GitHub\fpscontrol\CodeBase\FPSControlLib\obj\Release\FPSControlLib.csprojResolveAssemblyReference.cache
