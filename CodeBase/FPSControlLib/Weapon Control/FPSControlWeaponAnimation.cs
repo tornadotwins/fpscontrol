@@ -135,11 +135,31 @@ namespace FPSControl
                 _animation[EMPTY].wrapMode = WrapMode.ClampForever;
             }
             
-            if (_animation[CHARGE] != null) _animation[CHARGE].layer = 0;
-            if (_animation[ATTACK] != null) _animation[ATTACK].layer = 0;
-            if (_animation[DEFEND_ENTER] != null) _animation[DEFEND_ENTER].layer = 0;
-            if (_animation[DEFEND_LOOP] != null) _animation[DEFEND_LOOP].layer = 0;
-            if (_animation[DEFEND_EXIT] != null) _animation[DEFEND_EXIT].layer = 0;
+            if (_animation[CHARGE] != null) 
+			{
+				_animation[CHARGE].layer = 0;
+				_animation[CHARGE].wrapMode = WrapMode.ClampForever;
+			}
+            if (_animation[ATTACK] != null)
+			{
+				_animation[ATTACK].layer = 0;
+				_animation[ATTACK].wrapMode = WrapMode.ClampForever;
+			}
+            if (_animation[DEFEND_ENTER] != null)
+			{
+				_animation[DEFEND_ENTER].layer = 0;
+				_animation[DEFEND_ENTER].wrapMode = WrapMode.ClampForever;
+			}
+            if (_animation[DEFEND_LOOP] != null)
+			{
+				_animation[DEFEND_LOOP].layer = 0;
+				_animation[DEFEND_ENTER].wrapMode = WrapMode.Loop;
+			}
+            if (_animation[DEFEND_EXIT] != null) 
+			{
+				_animation[DEFEND_EXIT].layer = 0;
+				_animation[DEFEND_EXIT].wrapMode = WrapMode.ClampForever;
+			}
         }
 
         void Play(string stateName)
@@ -305,6 +325,7 @@ namespace FPSControl
             if (_animation[DEFEND_ENTER] == null)
             {
                 AnimationEvent_DefendInComplete();
+				Debug.LogWarning("Animation \""+ DEFEND_ENTER +"\" is missing!");
             }
             else
             {
@@ -347,6 +368,11 @@ namespace FPSControl
         {
             DefendLoop();
         }
+		
+		public void AnimationEvent_DefendOutComplete()
+        {
+			DoCallBack();
+		}
 
         public void AnimationEvent_FireComplete()
         {

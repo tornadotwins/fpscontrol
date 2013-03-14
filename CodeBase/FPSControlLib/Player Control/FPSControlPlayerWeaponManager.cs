@@ -44,6 +44,9 @@ namespace FPSControl
         bool _mouseDownR = false;
         bool _mouseWasDownR = false;
         float _mouseCounter = 0;
+		
+		bool _defendDown = false;
+		bool _defendWasDown = false;
 
         public override void SetState(States.State state)
         {
@@ -249,7 +252,23 @@ namespace FPSControl
             }
 
             if (Input.GetKeyDown(reloadKey)) _currentWeapon.Reload();
-            if (Input.GetKey(defendKey)) _currentWeapon.Defend();
+            
+			_defendDown = Input.GetKey(defendKey);
+			
+			if(_defendDown && !_defendWasDown)
+			{
+				_currentWeapon.Defend();
+			}
+			/*else if(_defendDown && _defendWasDown)
+			{
+				//persist defend
+			}*/
+			else if(!_defendDown && _defendWasDown)
+			{
+				_currentWeapon.ExitDefend();
+			}
+			
+			//if (Input.GetKey(defendKey)) _currentWeapon.Defend();
 
             if (Input.GetKeyDown(weaponToggle)) CycleToNextWeapon(_availableWeapons.IndexOf(_currentWeapon));
             else if (Input.GetKeyDown(weaponKey1)) ActivateWeaponAt(0);
@@ -259,6 +278,7 @@ namespace FPSControl
 
             _mouseWasDownL = _mouseDownL;
             _mouseWasDownR = _mouseDownR;
+			_defendWasDown = _defendDown;
         }
 
         public override void DoLateUpdate()

@@ -102,8 +102,21 @@ namespace FPSControl
         }
 
         public override void CancelCharge(){}
-        public override void Defend(){}
-        public override void ExitDefend(){}
+        
+		public override void Defend()
+		{
+			definition.weaponAnimation.DefendIn();
+		}
+        public override void ExitDefend()
+		{
+			definition.weaponAnimation.animationCompleteCallback = DefendExited;
+			definition.weaponAnimation.DefendOut();
+		}
+		
+		void DefendExited()
+		{
+			currentState = definition.idleState;
+		}
 
         public override void StartRun()
         {
