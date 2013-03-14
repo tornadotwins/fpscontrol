@@ -24,7 +24,19 @@ namespace FPSControl
         [HideInInspector]
         public FPSControlPlayerWeaponManager Parent { get; protected set; }
         
-        public FPSControlWeaponDefinition definition;
+        public FPSControlWeaponDefinition definition = new FPSControlWeaponDefinition();
+
+        //Sub-Components
+        public FPSControlWeaponAnimation weaponAnimation;
+        public FPSControlWeaponParticles weaponParticles;
+        public FPSControlWeaponSound weaponSound;
+
+        //States
+        public WeaponState idleState;
+        public WeaponState fireState;
+        public WeaponState reloadState;
+        public WeaponState defendState;
+        public WeaponState chargeState;
 
         //Internal Stats
         [HideInInspector]
@@ -40,10 +52,10 @@ namespace FPSControl
             } 
         }
         public bool scoped { get; protected set; }
-        public bool reloading { get { return currentState == definition.reloadState; } }
-        public bool firing { get { return currentState == definition.fireState; } }
-        public bool defending { get { return currentState == definition.defendState; } }
-        public bool charging { get { return currentState == definition.chargeState; } }
+        public bool reloading { get { return currentState == reloadState; } }
+        public bool firing { get { return currentState == fireState; } }
+        public bool defending { get { return currentState == defendState; } }
+        public bool charging { get { return currentState == chargeState; } }
         public bool canFire { get { return canUse && !firing && !defending && !reloading; } }
         public bool canUse { get; protected set; }
         [HideInInspector] bool __hasAmmo = false;
@@ -55,19 +67,19 @@ namespace FPSControl
 
             gameObject.SetActive(false);
             
-            definition.idleState.name = "Idle";
-            definition.fireState.name = "Fire";
-            definition.reloadState.name = "Reload";
-            definition.defendState.name = "Defend";
-            definition.chargeState.name = "Charge";
+            idleState.name = "Idle";
+            fireState.name = "Fire";
+            reloadState.name = "Reload";
+            defendState.name = "Defend";
+            chargeState.name = "Charge";
 
-            Add(definition.idleState);
-            Add(definition.fireState);
-            Add(definition.reloadState);
-            Add(definition.defendState);
-            Add(definition.chargeState);
+            Add(idleState);
+            Add(fireState);
+            Add(reloadState);
+            Add(defendState);
+            Add(chargeState);
             
-            Initialize(definition.idleState);
+            Initialize(idleState);
         }
 
         protected override void OnInitialize()

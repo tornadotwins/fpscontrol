@@ -11,7 +11,12 @@ namespace FPSControl
     public class FPSControlRangedWeapon : FPSControlWeapon
     {
 
-        public FPSControlRangeWeaponDefinition rangeDefinition;
+        public FPSControlRangeWeaponDefinition rangeDefinition = new FPSControlRangeWeaponDefinition();
+        public FPSControlWeaponPath weaponPath;
+        public Transform rayOrigin;
+
+        //damage
+        public FalloffData damageFalloff;
 
         new public WeaponState currentState
         {
@@ -92,15 +97,15 @@ namespace FPSControl
         public override void StartRun()
         {
             canUse = false;
-            currentState = definition.idleState;
-            definition.weaponAnimation.Run();
+            currentState = idleState;
+            weaponAnimation.Run();
         }
 
         public override void EndRun()
         {
             canUse = true;
-            currentState = definition.idleState;
-            definition.weaponAnimation.Idle();
+            currentState = idleState;
+            weaponAnimation.Idle();
         }
 
         public override bool Reload()
@@ -109,10 +114,10 @@ namespace FPSControl
 
             if (_currentAmmo <= 0) return false;
 
-            currentState = definition.reloadState;
+            currentState = reloadState;
 
-            definition.weaponAnimation.animationCompleteCallback = ReloadCompleted;
-            definition.weaponAnimation.Reload();
+            weaponAnimation.animationCompleteCallback = ReloadCompleted;
+            weaponAnimation.Reload();
             
             return true;
         }
@@ -125,8 +130,8 @@ namespace FPSControl
 
             _currentClips = (int)_currentAmmo / rangeDefinition.clipCapacity;
             _currentClipContents += lessAmmo;
-            currentState = definition.idleState;
-            definition.weaponAnimation.Idle();
+            currentState = idleState;
+            weaponAnimation.Idle();
         }
         
         public override void CancelReload()
@@ -173,11 +178,11 @@ namespace FPSControl
             if (canFire) //this is more like, can we actually pull the trigger?
             {
                 //Debug.Log("pew pew");
-                currentState = definition.fireState;
-                definition.weaponAnimation.animationCompleteCallback = FireCompleted;
+                currentState = fireState;
+                weaponAnimation.animationCompleteCallback = FireCompleted;
                 if (hasAmmo)
                 {
-                    definition.weaponAnimation.Fire(); //play our fire animation
+                    weaponAnimation.Fire(); //play our fire animation
 
                     if (rangeDefinition.reloadType == ReloadType.Clips)
 					{
@@ -205,9 +210,9 @@ namespace FPSControl
 
                         Vector3 perspectiveDistortion = new Vector3(rangeDefinition.spread * randX, rangeDefinition.spread * randY, 0);
 
-                        Vector3 origin = rangeDefinition.rayOrigin.position + new Vector3(randX, randY, 0); //apply offset to origin
+                        Vector3 origin = rayOrigin.position + new Vector3(randX, randY, 0); //apply offset to origin
 
-                        Ray ray = new Ray(origin, rangeDefinition.rayOrigin.forward);// + (Vector3.Scale(rayOrigin.forward,perspectiveDistortion)));
+                        Ray ray = new Ray(origin, rayOrigin.forward);// + (Vector3.Scale(rayOrigin.forward,perspectiveDistortion)));
 
                         Debug.DrawRay(ray.origin, ray.direction * rangeDefinition.range, Color.red, .5F);
 
@@ -236,7 +241,7 @@ namespace FPSControl
                 else //we are empty, play the empty animation
                 {
                     Debug.Log("empty!");
-                    definition.weaponAnimation.Empty();
+                    weaponAnimation.Empty();
                 }
             }
             else
@@ -248,25 +253,25 @@ namespace FPSControl
         void FireCompleted()
         {
             //Debug.Log("fire completed.");
-            currentState = definition.idleState;
+            currentState = idleState;
             //Debug.Log("current state: " + currentState.name);
-            definition.weaponAnimation.Idle();
+            weaponAnimation.Idle();
         }
 
         public override void Activate(FPSControlPlayerWeaponManager parent)
         {
             gameObject.SetActive(true);
             Parent = parent;
-            definition.weaponAnimation.animationCompleteCallback = WeaponBecameActive;
-            definition.weaponAnimation.Activate();
+            weaponAnimation.animationCompleteCallback = WeaponBecameActive;
+            weaponAnimation.Activate();
         }
 
         void WeaponBecameActive()
         {
             //Debug.Log("weapon: " + weaponName + " became active");
             canUse = true;
-            definition.weaponAnimation.Idle();
-            currentState = definition.idleState;
+            weaponAnimation.Idle();
+            currentState = idleState;
 			
 			_timeSinceActivation = 0;
 			float timeSinceLastActive = _timeLastActive >= 0 ? Time.time - _timeLastActive : 0;
@@ -282,9 +287,9 @@ namespace FPSControl
         public override void Deactivate(System.Action cbFunc)
         {
             _deactivateCallback = cbFunc;
-            definition.weaponAnimation.animationCompleteCallback = WeaponBecameInactive;
+            weaponAnimation.animationCompleteCallback = WeaponBecameInactive;
             //play deactivate animation
-            definition.weaponAnimation.Deactivate();
+            weaponAnimation.Deactivate();
         }
 
         void WeaponBecameInactive()
@@ -309,9 +314,9 @@ namespace FPSControl
 
         void OnDrawGizmos()
         {
-            if (!rangeDefinition.rayOrigin) return;
+            if (!rayOrigin) return;
             Gizmos.color = Color.magenta;
-            Gizmos.DrawWireSphere(rangeDefinition.rayOrigin.position, rangeDefinition.disperseRadius);
+            Gizmos.DrawWireSphere(rayOrigin.position, rangeDefinition.disperseRadius);
         }
     }
 }

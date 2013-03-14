@@ -12,14 +12,6 @@ namespace FPSControlEditor
     {
         [SerializeField]
         public FPSControlWeapon weapon;
-        //[SerializeField]
-        //public FPSControlWeaponAnimation weaponAnimation;
-        //[SerializeField]
-        //public FPSControlWeaponParticles weaponParticles;
-        //[SerializeField]
-        //public FPSControlWeaponPath weaponPath;
-        //[SerializeField]
-        //public FPSControlWeaponSound weaponSound;
         [SerializeField]
         public Transform modelOffset;
         [SerializeField]

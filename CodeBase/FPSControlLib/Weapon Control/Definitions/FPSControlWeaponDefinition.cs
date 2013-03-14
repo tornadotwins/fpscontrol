@@ -9,15 +9,10 @@ using FPSControl.Data;
 namespace FPSControl.Definitions
 {
     [System.Serializable]
-    public abstract class FPSControlWeaponDefinition
+    public class FPSControlWeaponDefinition
     {
         //Archetype Info
         public string weaponName = "Weapon";
-
-        //Sub-Components
-        public FPSControlWeaponAnimation weaponAnimation;
-        public FPSControlWeaponParticles weaponParticles;
-        public FPSControlWeaponSound weaponSound;
 
         //Visual
         public Vector3 pivot;
@@ -33,12 +28,8 @@ namespace FPSControl.Definitions
         //Timing
         public float chargeTime = .1F; //amount of time the mouse has to be held down to classify as a charge
 
-        //States
-        public WeaponState idleState;
-        public WeaponState fireState;
-        public WeaponState reloadState;
-        public WeaponState defendState;
-        public WeaponState chargeState;
+        public FPSControlWeaponDefinition() { }
+
     }
 
 }

@@ -8,8 +8,8 @@ using FPSControl.Data;
 
 namespace FPSControl.Definitions
 {
-    class FPSControlWeaponPathDefinition
+    public class FPSControlWeaponPathDefinition
     {
-
+        public FPSControlWeaponPathDefinition() { }
     }
 }

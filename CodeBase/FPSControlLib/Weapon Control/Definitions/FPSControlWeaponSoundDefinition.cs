@@ -8,8 +8,8 @@ using FPSControl.Data;
 
 namespace FPSControl.Definitions
 {
-    class FPSControlWeaponSoundDefinition
+    public class FPSControlWeaponSoundDefinition
     {
-
+        public FPSControlWeaponSoundDefinition() { }
     }
 }

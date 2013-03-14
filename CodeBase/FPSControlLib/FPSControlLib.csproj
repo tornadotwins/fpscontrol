@@ -71,6 +71,7 @@
     <Compile Include="Player Control\FPSControlPlayerMovement.cs" />
     <Compile Include="Player Control\FPSControlPlayerWeaponManager.cs" />
     <Compile Include="Weapon Control\Data\DamageFalloff.cs" />
+    <Compile Include="Weapon Control\Definitions\FPSControlWeaponDefinitions.cs" />
     <Compile Include="Weapon Control\Definitions\FPSControlRangeWeaponDefinition.cs" />
     <Compile Include="Weapon Control\Definitions\FPSControlWeaponAnimationDefinition.cs" />
     <Compile Include="Weapon Control\Definitions\FPSControlWeaponDefinition.cs" />
