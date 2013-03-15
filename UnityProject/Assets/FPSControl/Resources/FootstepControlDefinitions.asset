@@ -10,22 +10,4 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: -1626274649, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: FootstepControlDefinitions
-  footsteps:
-  - name: wood
-    tag: wood
-    sounds:
-    - {fileID: 8300000, guid: 2fc2061a0f51e4e57997bbd8407eaa79, type: 3}
-    textures:
-    - {fileID: 2800000, guid: c650367b4d9b24ab198876fe26ad7e8a, type: 3}
-    - {fileID: 2800000, guid: cec7cd8bffcc64b758cd555a6fe0186a, type: 3}
-    type: 0
-    minValPitch: .926315844
-    minLimitPitch: -3
-    maxValPitch: 1.28421044
-    maxLimitPitch: 3
-    minValVolume: .321052551
-    minLimitVolume: 0
-    maxValVolume: .468421042
-    maxLimitVolume: 1
-    audioScroll: {x: 0, y: 0}
-    textureScroll: {x: 0, y: 0}
+  footsteps: []

@@ -57,7 +57,7 @@ namespace FPSControlEditor
         const int INCREMENTAL_ROTATION_OFFSET = 210;
         const int ROTARY_ROTATION_ZONE = 360;
 
-        const string ASSET_PATH = "Assets/Editor/FPSControl/Editor Assets/Graphics/Knobs"; //Our Assets path
+        const string ASSET_PATH = "Assets/FPSControl/Editor/FPSControl/Editor Assets/Graphics/Knobs"; //Our Assets path
 
         private static Themes _theme = Themes.WHITE; //our loaded theme
         private static Vector2 _lastMouseClickPosition; //the last mouse position (EventType.Click)
