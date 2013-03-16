@@ -25,7 +25,8 @@ namespace FPSControlEditor
         Crosshairs = 7,
         Footsteps = 8,
         MusicControl = 9,
-		TeamWork = 10
+		TeamWork = 10,
+        BuildControl = 11
     }
 
     public class FPSControlMainEditor : EditorWindow
@@ -93,6 +94,9 @@ namespace FPSControlEditor
         Texture module_teamwork_n;
         Texture module_teamwork_a;
 
+        Texture module_buildcontrol_n;
+        Texture module_buildcontrol_a;
+
         #endregion // Assets
 
         #region GUI Properties
@@ -111,6 +115,7 @@ namespace FPSControlEditor
 
         public FPSControlEditorModule gameSettings;
         public FPSControlEditorModule footsteps;
+        public FPSControlEditorModule buildcontrol;
         public FPSControlEditorModule missionControl;
         public FPSControlEditorModule optimize;
         public FPSControlEditorModule musicControl;
@@ -234,10 +239,9 @@ namespace FPSControlEditor
                 LoadModule(FPSControlModuleType.GameSettings);
             }
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button(module_multiplayer_n, GUIStyle.none, new GUILayoutOption[2] { GUILayout.Width(97), GUILayout.Height(97) }))
+            if (GUILayout.Button((moduleType == FPSControlModuleType.BuildControl) ? module_buildcontrol_a : module_buildcontrol_n, GUIStyle.none, new GUILayoutOption[2] { GUILayout.Width(97), GUILayout.Height(97) }))
             {
-                LoadModule(FPSControlModuleType.UNAVAILABLE);
-                (loadedModule as UnavailableModule).SetBG(multiplayerBGPath);
+                LoadModule(FPSControlModuleType.BuildControl);
             }
             GUILayout.Space(17);
             GUILayout.EndHorizontal();
@@ -358,7 +362,12 @@ namespace FPSControlEditor
                 case FPSControlModuleType.Footsteps:
                     if (footsteps == null) footsteps = new FootstepControlModule(this);
                     loadedModule = footsteps;
-                    break;                
+                    break;
+
+                case FPSControlModuleType.BuildControl:
+                    if (buildcontrol == null) buildcontrol = new BuildControlModule(this);
+                    loadedModule = buildcontrol;
+                    break;
                    /*
                 case FPSControlModuleType.MissionControl:
                     if (missionControl == null) missionControl = new MissionControlModule(this);
@@ -513,6 +522,9 @@ namespace FPSControlEditor
 
             module_teamwork_n = Load<Texture>(ASSET_PATH + GRAPHICS + "Main Editor/btn_teamwork_n.png"); //normal
             module_teamwork_a = Load<Texture>(ASSET_PATH + GRAPHICS + "Main Editor/btn_teamwork_a.png"); //active
+
+            module_buildcontrol_n = Load<Texture>(ASSET_PATH + GRAPHICS + "Main Editor/btn_buildcontrol_n.png"); //normal
+            module_buildcontrol_a = Load<Texture>(ASSET_PATH + GRAPHICS + "Main Editor/btn_buildcontrol_a.png"); //active
         }
 
         T Load<T>(string assetPath) where T : UnityEngine.Object

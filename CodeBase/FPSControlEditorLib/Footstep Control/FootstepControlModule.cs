@@ -52,9 +52,9 @@ namespace FPSControlEditor
 
 		#endregion // GUI Properties
 		
-		bool drawPrecisionBox = false;
-		Rect precisionBox = new Rect();
-		float precisionValue = 0F;
+		//bool drawPrecisionBox = false;
+		//Rect precisionBox = new Rect();
+		//float precisionValue = 0F;
 		float[] allVals = new float[4];
 
         static List<FootstepControlDefinition> playerDefs = new List<FootstepControlDefinition>();
