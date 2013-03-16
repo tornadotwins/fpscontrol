@@ -65,8 +65,7 @@ namespace FPSControlEditor
 		
         static bool justGrabbed = false;
 
-        private static string assetEditPath = @"Assets/FPSControl/Resources/FootstepControlDefinitions.asset";
-		//private static string assetPlayPath = @"Assets/Resources/FootstepControlDefinitionsP.asset";
+        private static string assetEditPath = FPSControlMainEditor.RESOURCE_FOLDER + "FootstepControlDefinitions.asset";
 
         public FootstepControlModule(EditorWindow editorWindow) : base(editorWindow)
         {
@@ -574,9 +573,9 @@ namespace FPSControlEditor
             if (loadedDef == null)
 			{
 				//Check if directory exists
-                if (!Directory.Exists(Application.dataPath + "FPSControl/Resources"))
+                if (!Directory.Exists(FPSControlMainEditor.RESOURCE_FOLDER))
 				{
-                    Directory.CreateDirectory(Application.dataPath + "FPSControl/Resources");
+                    Directory.CreateDirectory(FPSControlMainEditor.RESOURCE_FOLDER);
 					EditorApplication.RepaintProjectWindow(); //This may actually not work as intended	
 				}
 
@@ -608,9 +607,9 @@ namespace FPSControlEditor
             string assetPath = "";
             assetPath = assetEditPath;// (EditorApplication.isPlaying) ? assetPlayPath : assetEditPath;
 
-            if (!Directory.Exists(Application.dataPath + "FPSControl/Resources"))
+            if (!Directory.Exists(FPSControlMainEditor.RESOURCE_FOLDER))
             {
-                Directory.CreateDirectory(Application.dataPath + "FPSControl/Resources");
+                Directory.CreateDirectory(FPSControlMainEditor.RESOURCE_FOLDER);
                 //EditorApplication.RepaintProjectWindow(); //This may actually not work as intended	
             }
 

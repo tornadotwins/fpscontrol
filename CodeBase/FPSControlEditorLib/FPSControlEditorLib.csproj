@@ -43,7 +43,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\UnityProject\Assets\FPSControl\Editor\FPSControl\</OutputPath>
+    <OutputPath>..\..\UnityProject\Assets\FPSControlCore\Editor\FPSControl\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="BuildControl\BuildControlModule.cs" />
     <Compile Include="Core\FPSControlEditorModule.cs" />
     <Compile Include="Core\UnavailableModule.cs" />
     <Compile Include="Core\Utils\ComponetHelper.cs" />
@@ -115,4 +116,5 @@
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
 </Project>

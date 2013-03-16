@@ -44,7 +44,9 @@ namespace FPSControlEditor
 
         #region Assets
 
-        public const string ASSET_PATH = "Assets/FPSControl/Editor/FPSControl/Editor Assets/";
+        public const string ROOT_FOLDER = "Assets/FPSControlCore/";
+        public const string ASSET_PATH = ROOT_FOLDER + "Editor/FPSControl/Editor Assets/";
+        public const string RESOURCE_FOLDER = ROOT_FOLDER + "Resources/";
         public const string GRAPHICS = "Graphics/";
         public const string TEMP = "_TMP/";
         public const string TEXT_ASEETS = "Text Assets/";
