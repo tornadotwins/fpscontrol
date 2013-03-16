@@ -217,7 +217,7 @@ namespace FPSControlEditor
             Much like incremental, but for floats. Has a min and max.
         */
 
-        public static float MinMax(Vector2 position, float value, float min, float max, uint id)
+        public static float MinMax(Vector2 position, float value, float min, float max, uint id, bool hideDecimal = false)
         {
             float i = value;
 
@@ -254,7 +254,7 @@ namespace FPSControlEditor
             rotation += MINMAX_ROTATION_OFFSET;
 
             //draw our knob.
-            DrawKnob(rect, rotation, _minMaxBG, id);
+            DrawKnob(rect, rotation, _minMaxBG, id, hideDecimal);
 
             if (id == interactID) interactValue = i;
 
@@ -325,7 +325,7 @@ namespace FPSControlEditor
 
         #region Draw
 
-        static void DrawKnob(Rect rect, float rotation, Texture tex, uint id)
+        static void DrawKnob(Rect rect, float rotation, Texture tex, uint id, bool hideDecimal = false)
         {
             if (GUI.enabled)
             {
@@ -341,7 +341,14 @@ namespace FPSControlEditor
                     gs.alignment = TextAnchor.MiddleCenter;
                     gs.normal.background = (Texture2D)_precisionBG;
                     Rect precisionBox = new Rect(interactPos.x - 18, interactPos.y + 45, 80, 25);
-                    GUI.Box(precisionBox, "" + interactValue, gs);
+                    if (hideDecimal)
+                    {
+                        GUI.Box(precisionBox, "" + Mathf.Floor(interactValue), gs);
+                    }
+                    else
+                    {
+                        GUI.Box(precisionBox, "" + interactValue, gs);
+                    }                    
                     parentWindow.Repaint();
                 }
             }

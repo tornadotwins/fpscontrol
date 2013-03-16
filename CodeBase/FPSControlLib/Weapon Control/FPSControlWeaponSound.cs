@@ -21,6 +21,7 @@ namespace FPSControl
 
         public void SFX_Equip()
         {
+            Debug.Log("HOW2");
             audio.clip = equipSFX;
             audio.Play();
         }

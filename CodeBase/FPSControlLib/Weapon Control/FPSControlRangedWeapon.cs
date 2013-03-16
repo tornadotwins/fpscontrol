@@ -13,7 +13,7 @@ namespace FPSControl
 
         public FPSControlRangeWeaponDefinition rangeDefinition = new FPSControlRangeWeaponDefinition();
         public FPSControlWeaponPath weaponPath;
-        public Transform rayOrigin;
+        //public Transform rayOrigin;
 
         //damage
         public FalloffData damageFalloff;
@@ -69,24 +69,25 @@ namespace FPSControl
         protected override void OnInitialize()
         {
             base.OnInitialize();
+            weaponPath.Initialize(this);
         }
 
         //adds ammo, returns the amount of bullets left over
         public int AddAmmo(int clips)
         {
-            int maxAmmo = rangeDefinition.clipCapacity * rangeDefinition.maxClips;
-            int remainder = maxAmmo - ((clips * rangeDefinition.clipCapacity) + _currentAmmo);
+            int maxAmmo = (int)rangeDefinition.clipCapacity * rangeDefinition.maxClips;
+            int remainder = maxAmmo - ((clips * (int)rangeDefinition.clipCapacity) + _currentAmmo);
             _currentClips = Mathf.Min(clips, rangeDefinition.maxClips);
-            _currentAmmo = Mathf.Min((clips * rangeDefinition.clipCapacity) + _currentAmmo, maxAmmo);
+            _currentAmmo = Mathf.Min((clips * (int)rangeDefinition.clipCapacity) + _currentAmmo, maxAmmo);
             //return the remainder
             return remainder;
         }
 
         public void SetAmmo(int ammo, int clips)
         {
-            _currentClipContents = Mathf.Min(ammo, rangeDefinition.clipCapacity);
+            _currentClipContents = Mathf.Min(ammo, (int)rangeDefinition.clipCapacity);
             _currentClips = Mathf.Min(clips, rangeDefinition.maxClips);
-            _currentAmmo = rangeDefinition.clipCapacity * _currentClips;
+            _currentAmmo = (int)rangeDefinition.clipCapacity * _currentClips;
         }
 
         public void SetAmmo(float energy)
@@ -124,11 +125,11 @@ namespace FPSControl
 
         void ReloadCompleted()
         {
-            int space = rangeDefinition.clipCapacity - _currentClipContents;
+            int space = (int)rangeDefinition.clipCapacity - _currentClipContents;
             int lessAmmo = Mathf.Min(space, _currentAmmo);
             _currentAmmo -= lessAmmo;
 
-            _currentClips = (int)_currentAmmo / rangeDefinition.clipCapacity;
+            _currentClips = (int)_currentAmmo / (int)rangeDefinition.clipCapacity;
             _currentClipContents += lessAmmo;
             currentState = idleState;
             weaponAnimation.Idle();
@@ -170,14 +171,15 @@ namespace FPSControl
                 transform.localPosition = Vector3.Lerp(transform.localPosition, definition.pivot, Time.deltaTime * 3F); //this is actually more for debugging purposes, actually.
                 transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(definition.euler), Time.deltaTime * 3F);
             }
+
         }
 
         public override void Fire()
         {
             //Debug.Log(canUse + ":" + firing + ":" + defending + ":" + reloading);
+            weaponPath.Fire();
             if (canFire) //this is more like, can we actually pull the trigger?
-            {
-                //Debug.Log("pew pew");
+            {                
                 currentState = fireState;
                 weaponAnimation.animationCompleteCallback = FireCompleted;
                 if (hasAmmo)
@@ -196,8 +198,7 @@ namespace FPSControl
                     //do the raycasting stuff here
 
                     for (int i = 0; i < rangeDefinition.raycasts; i++)
-                    {
-                        
+                    {                      
                         
                         float randX = 0;
                         float randY = 0;
@@ -210,10 +211,20 @@ namespace FPSControl
 
                         Vector3 perspectiveDistortion = new Vector3(rangeDefinition.spread * randX, rangeDefinition.spread * randY, 0);
 
-                        Vector3 origin = rayOrigin.position + new Vector3(randX, randY, 0); //apply offset to origin
+                        Vector3 origin;
+                        Ray ray;
+                        if (weaponPath.origin != null)
+                        {
+                            origin = weaponPath.origin.position + new Vector3(randX, randY, 0); //apply offset to origin
+                            ray = new Ray(origin, weaponPath.origin.forward);// + (Vector3.Scale(rayOrigin.forward,perspectiveDistortion)));
+                        }
+                        else
+                        {
+                            origin = transform.position;
+                            ray = new Ray(origin, transform.forward);                           
+                        }
 
-                        Ray ray = new Ray(origin, rayOrigin.forward);// + (Vector3.Scale(rayOrigin.forward,perspectiveDistortion)));
-
+                        
                         Debug.DrawRay(ray.origin, ray.direction * rangeDefinition.range, Color.red, .5F);
 
                         RaycastHit hit;
@@ -314,9 +325,9 @@ namespace FPSControl
 
         void OnDrawGizmos()
         {
-            if (!rayOrigin) return;
+            if (!weaponPath.origin) return;
             Gizmos.color = Color.magenta;
-            Gizmos.DrawWireSphere(rayOrigin.position, rangeDefinition.disperseRadius);
+            Gizmos.DrawWireSphere(weaponPath.origin.position, rangeDefinition.disperseRadius);
         }
     }
 }

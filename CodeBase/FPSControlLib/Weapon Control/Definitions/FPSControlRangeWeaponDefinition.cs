@@ -13,24 +13,37 @@ namespace FPSControl.Definitions
     public class FPSControlRangeWeaponDefinition
     {
         //Ranged-Only
+        [SerializeField]
         public FPSControlRangedWeaponType rangedType = FPSControlRangedWeaponType.Bullets;
 
-        //Raycasting        
+        //Raycasting    
+        [SerializeField]
         public float disperseRadius = 0;
-        public int raycasts = 1;
+        [SerializeField]
+        public float raycasts = 1;
+        [SerializeField]
         public float range = 10; //in meters
+        [SerializeField]
         public float spread = 1.5F;
 
         //Capacity
+        [SerializeField]
         public ReloadType reloadType = ReloadType.Clips;
-        public int clipCapacity = 10;
+        [SerializeField]
+        public float clipCapacity = 10;
+        [SerializeField]
         public int maxClips = 3;
+        [SerializeField]
         public int burstAmount = 1;
 
         //Regen weapons
+        [SerializeField]
         public bool constantRegeneration = true;
+        [SerializeField]
         public float maximumRounds = 100f;
+        [SerializeField]
         public float regenerationRate = .5F; //points per second - if constantRegeneration is TRUE
+        [SerializeField]
         public float fullRegenerationTime = 8F; //if constantRegeneration is FALSE
 
         public FPSControlRangeWeaponDefinition() { }

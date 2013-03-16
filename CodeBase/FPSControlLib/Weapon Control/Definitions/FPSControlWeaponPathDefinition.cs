@@ -15,8 +15,10 @@ namespace FPSControl.Definitions
         public bool consistentRender = false;
         public bool isPreFire = false;
 
-        public float maxDistance;
+        public float maxDistance = 1000;
         public float leavingForce;
+        public Color lineColor = Color.green;
+        public float fadeOutTime = 0.25f;
 
         public FPSControlWeaponPathDefinition() { }
     }

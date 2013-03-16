@@ -250,10 +250,20 @@ namespace FPSControlEditor
                 pivotSelectHelper = EditorGUI.Popup(new Rect(14, 50, 88, 15), pivotSelectHelper, new string[2] { "View Port", "Scope" });
                 if (pivotSelectHelper == 0)
                 {
+                    if (Application.isPlaying && currentWeapon.weapon.scoped)
+                    {
+                        currentWeapon.weapon.ExitScope();
+                        currentWeapon.weapon.Parent.Player.playerCamera.Scope(false, currentWeapon.weapon.Parent.Player.playerCamera.baseFOV);
+                    }
                     GUIPositionWindow_SubA(ref currentWeapon.weapon.definition.pivot, ref currentWeapon.weapon.definition.euler);
                 }
                 else
                 {
+                    if (Application.isPlaying && !currentWeapon.weapon.scoped)
+                    {
+                        currentWeapon.weapon.Scope();
+                        currentWeapon.weapon.Parent.Player.playerCamera.Scope(true, currentWeapon.weapon.definition.scopeFOV);
+                    }
                     GUIPositionWindow_SubA(ref currentWeapon.weapon.definition.scopePivot, ref currentWeapon.weapon.definition.scopeEuler);
                 }
             }
@@ -552,15 +562,13 @@ namespace FPSControlEditor
             GUI.EndGroup();
         }
 
-
-        private float ammoKnobHelper;
         private void GUIAmmoReloadingWindow(int windowIndex)
         {
             GUI.BeginGroup(windowSpaces[windowIndex]);
             GUI.Box(new Rect(0, 0, gui_window_ammo_reloading.width, gui_window_ammo_reloading.height), gui_window_ammo_reloading, GUIStyle.none);
             ((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.reloadType = (ReloadType)GUI.SelectionGrid(new Rect(35, 41, 276, 15), (int)((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.reloadType, new string[3] { "", "", "" }, 3, "toggle");
             GUI.enabled = (((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.reloadType == ReloadType.Clips);
-            ((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.clipCapacity = Knobs.Incremental(new Vector2(139, 92), ref ammoKnobHelper, ((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.clipCapacity, Knobs.Increments.FIFTY, 21);
+            ((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.clipCapacity = Knobs.MinMax(new Vector2(139, 92), ((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.clipCapacity, 0, 50, 21, true);
             GUI.enabled = (((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.reloadType == ReloadType.Recharge);
             ((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.maximumRounds = NumericTextfield(new Rect(221, 82, 83, 16), ((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.maximumRounds);
             ((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.regenerationRate = NumericTextfield(new Rect(236, 123, 68, 16), ((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.regenerationRate);
@@ -570,14 +578,13 @@ namespace FPSControlEditor
             GUI.EndGroup();
         }
 
-        private float damageKnobHelper;
         private void GUIDamageWindow(int windowIndex)
         {
             GUI.BeginGroup(windowSpaces[windowIndex]);
             GUI.Box(new Rect(0, 0, gui_window_damage.width, gui_window_damage.height), gui_window_damage, GUIStyle.none);
             ((FPSControlRangedWeapon)currentWeapon.weapon).definition.maxDamagePerHit = Knobs.MinMax(new Vector2(21, 35), ((FPSControlRangedWeapon)currentWeapon.weapon).definition.maxDamagePerHit, 0, 100, 31);
-            ((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.disperseRadius = Knobs.MinMax(new Vector2(90, 35), ((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.disperseRadius, 0, 360, 32);
-            ((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.raycasts = Knobs.Incremental(new Vector2(159, 35), ref damageKnobHelper, ((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.raycasts, Knobs.Increments.TWENTY, 41);
+            ((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.disperseRadius = Knobs.MinMax(new Vector2(90, 35), ((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.disperseRadius, 0, 1, 32);
+            ((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.raycasts = Knobs.MinMax(new Vector2(159, 35), ((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.raycasts, 1, 40, 598, true);
             if (((FPSControlRangedWeapon)currentWeapon.weapon).damageFalloff == null) ((FPSControlRangedWeapon)currentWeapon.weapon).damageFalloff = new FPSControl.Data.FalloffData();
             GUI.enabled = !Application.isPlaying;
             FalloffSlider.DamageSlider(((FPSControlRangedWeapon)currentWeapon.weapon).damageFalloff, new Vector2(13, 134), Repaint);

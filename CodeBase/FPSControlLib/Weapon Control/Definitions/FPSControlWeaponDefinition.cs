@@ -19,7 +19,7 @@ namespace FPSControl.Definitions
         public Vector3 euler;
         public Vector3 scopePivot;
         public Vector3 scopeEuler;
-        public float scopeFOV;
+        public float scopeFOV = 20;
 
         //Damage
         [SerializeField]

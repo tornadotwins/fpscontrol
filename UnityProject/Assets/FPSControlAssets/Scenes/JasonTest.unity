@@ -15330,15 +15330,15 @@ MonoBehaviour:
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 1
+    global: 0
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 1
+    global: 0
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 1
+    global: 0
   lightIsEnabled: 0
   lightBurst: {fileID: 0}
   lightPosition: {fileID: 0}
@@ -15361,13 +15361,13 @@ MonoBehaviour:
     ACTIVATE: Activate
     DEACTIVATE: Deactivate
     RUN: Run
-    WALK: Walk
+    WALK: 
     IDLE: Idle
-    SCOPE_IO: Scope IO
-    SCOPE_LOOP: Scope Loop
-    FIRE: Fire
-    RELOAD: Reload
-    EMPTY: Empty
+    SCOPE_IO: 
+    SCOPE_LOOP: 
+    FIRE: 
+    RELOAD: 
+    EMPTY: 
     CHARGE: Charge
     ATTACK: Attack
     DEFEND_ENTER: Defend Enter
@@ -15727,6 +15727,7 @@ GameObject:
   - 114: {fileID: 304590486}
   - 82: {fileID: 304590488}
   - 114: {fileID: 304590485}
+  - 120: {fileID: 304590490}
   - 114: {fileID: 304590484}
   m_Layer: 8
   m_Name: FPS_hands&beretta
@@ -15762,8 +15763,10 @@ MonoBehaviour:
     render: 1
     consistentRender: 0
     isPreFire: 0
-    maxDistance: 0
+    maxDistance: 1000
     leavingForce: 0
+    lineColor: {r: 0, g: 1, b: 0, a: 1}
+    fadeOutTime: .25
   origin: {fileID: 0}
   material: {fileID: 0}
 --- !u!114 &304590485
@@ -15828,8 +15831,8 @@ MonoBehaviour:
     RUN: Run
     WALK: Walk
     IDLE: Idle
-    SCOPE_IO: Scope IO
-    SCOPE_LOOP: Scope Loop
+    SCOPE_IO: 
+    SCOPE_LOOP: 
     FIRE: Fire
     RELOAD: Reload
     EMPTY: Empty
@@ -15922,6 +15925,37 @@ Animation:
   m_UserAABB:
     m_Center: {x: -.0720186532, y: 1.27935314, z: .304896832}
     m_Extent: {x: .434273154, y: .622641146, z: .752142668}
+--- !u!120 &304590490
+LineRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 304590482}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_Positions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  m_Parameters:
+    startWidth: 1
+    endWidth: 1
+    m_StartColor:
+      serializedVersion: 2
+      rgba: 4294967295
+    m_EndColor:
+      serializedVersion: 2
+      rgba: 4294967295
+  m_UseWorldSpace: 1
 --- !u!1 &305084790
 GameObject:
   m_ObjectHideFlags: 0
@@ -50541,11 +50575,11 @@ MonoBehaviour:
   rangeDefinition:
     rangedType: 0
     disperseRadius: 0
-    raycasts: 0
+    raycasts: 1
     range: 10
     spread: 1.5
     reloadType: 1
-    clipCapacity: 28
+    clipCapacity: 0
     maxClips: 3
     burstAmount: 1
     constantRegeneration: 1
@@ -50553,7 +50587,6 @@ MonoBehaviour:
     regenerationRate: 5
     fullRegenerationTime: 8
   weaponPath: {fileID: 304590484}
-  rayOrigin: {fileID: 0}
   damageFalloff:
     distance: 2
     _points:
@@ -53102,7 +53135,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1235870248}
   m_LocalRotation: {x: .485884011, y: -.568879664, z: -.508960426, w: .425737053}
-  m_LocalPosition: {x: -.376341999, y: .0747952014, z: .0828953385}
+  m_LocalPosition: {x: -.281474322, y: .058960259, z: .0759575218}
   m_LocalScale: {x: 1.24999964, y: 1.24999881, z: 1.24999964}
   m_Children:
   - {fileID: 1318703247}
@@ -66986,6 +67019,7 @@ GameObject:
   - 114: {fileID: 1592933010}
   - 82: {fileID: 1592933012}
   - 114: {fileID: 1592933009}
+  - 120: {fileID: 1592933014}
   - 114: {fileID: 1592933008}
   m_Layer: 8
   m_Name: FPS_hands&beretta
@@ -67021,10 +67055,12 @@ MonoBehaviour:
     render: 1
     consistentRender: 0
     isPreFire: 0
-    maxDistance: 0
+    maxDistance: 1000
     leavingForce: 0
-  origin: {fileID: 0}
-  material: {fileID: 0}
+    lineColor: {r: 0, g: 1, b: 0, a: 1}
+    fadeOutTime: .25
+  origin: {fileID: 1235870249}
+  material: {fileID: 2100000, guid: 231d9d8f354e8f047adb20759f669313, type: 2}
 --- !u!114 &1592933009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67055,15 +67091,15 @@ MonoBehaviour:
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 1
+    global: 0
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 1
+    global: 0
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 1
+    global: 0
   lightIsEnabled: 0
   lightBurst: {fileID: 0}
   lightPosition: {fileID: 0}
@@ -67080,7 +67116,7 @@ MonoBehaviour:
   m_Script: {fileID: -352054857, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
   definition:
-    patternType: 1
+    patternType: 0
     blend: 0
     ACTIVATE: Activate
     DEACTIVATE: Deactivate
@@ -67191,6 +67227,37 @@ Animation:
   m_UserAABB:
     m_Center: {x: -.0720186532, y: 1.27935314, z: .304896832}
     m_Extent: {x: .434273154, y: .622641146, z: .752142668}
+--- !u!120 &1592933014
+LineRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1592933006}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_Positions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  m_Parameters:
+    startWidth: .00999999978
+    endWidth: .00999999978
+    m_StartColor:
+      serializedVersion: 2
+      rgba: 4294967295
+    m_EndColor:
+      serializedVersion: 2
+      rgba: 4294967295
+  m_UseWorldSpace: 1
 --- !u!1001 &1593111320
 Prefab:
   m_ObjectHideFlags: 0
@@ -78687,10 +78754,10 @@ MonoBehaviour:
     weaponName: Beretta
     pivot: {x: -.30000025, y: -1.13077128, z: 0}
     euler: {x: 0, y: 0, z: 0}
-    scopePivot: {x: 0, y: 0, z: 0}
-    scopeEuler: {x: 0, y: 0, z: 0}
-    scopeFOV: 0
-    maxDamagePerHit: 23.8461494
+    scopePivot: {x: -.542307794, y: -1.15384531, z: -.565384686}
+    scopeEuler: {x: 0, y: 9.69230843, z: 2.76922894}
+    scopeFOV: 20
+    maxDamagePerHit: 57.3076935
     chargeTime: .100000001
   weaponAnimation: {fileID: 1592933011}
   weaponParticles: {fileID: 1592933010}
@@ -78707,12 +78774,12 @@ MonoBehaviour:
     name: 
   rangeDefinition:
     rangedType: 0
-    disperseRadius: 47.0769348
-    raycasts: 0
+    disperseRadius: .0192302018
+    raycasts: 15.3846169
     range: 10
     spread: 1.5
     reloadType: 0
-    clipCapacity: 0
+    clipCapacity: 26
     maxClips: 3
     burstAmount: 1
     constantRegeneration: 1
@@ -78720,7 +78787,6 @@ MonoBehaviour:
     regenerationRate: 5
     fullRegenerationTime: 8
   weaponPath: {fileID: 1592933008}
-  rayOrigin: {fileID: 0}
   damageFalloff:
     distance: 5
     _points:
