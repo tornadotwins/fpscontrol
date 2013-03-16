@@ -15330,15 +15330,15 @@ MonoBehaviour:
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 0
+    global: 1
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 0
+    global: 1
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 0
+    global: 1
   lightIsEnabled: 0
   lightBurst: {fileID: 0}
   lightPosition: {fileID: 0}
@@ -15355,6 +15355,24 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: -352054857, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
+  definition:
+    patternType: 0
+    blend: 0
+    ACTIVATE: Activate
+    DEACTIVATE: Deactivate
+    RUN: Run
+    WALK: Walk
+    IDLE: Idle
+    SCOPE_IO: Scope IO
+    SCOPE_LOOP: Scope Loop
+    FIRE: Fire
+    RELOAD: Reload
+    EMPTY: Empty
+    CHARGE: Charge
+    ATTACK: Attack
+    DEFEND_ENTER: Defend Enter
+    DEFEND_LOOP: Defend Loop
+    DEFEND_EXIT: Defend Exit
   firingPattern:
     distance: 0
     _points: []
@@ -15740,6 +15758,12 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 603243038, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
+  definition:
+    render: 1
+    consistentRender: 0
+    isPreFire: 0
+    maxDistance: 0
+    leavingForce: 0
   origin: {fileID: 0}
   material: {fileID: 0}
 --- !u!114 &304590485
@@ -15796,8 +15820,26 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: -352054857, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
+  definition:
+    patternType: 0
+    blend: 0
+    ACTIVATE: Activate
+    DEACTIVATE: Deactivate
+    RUN: Run
+    WALK: Walk
+    IDLE: Idle
+    SCOPE_IO: Scope IO
+    SCOPE_LOOP: Scope Loop
+    FIRE: Fire
+    RELOAD: Reload
+    EMPTY: Empty
+    CHARGE: Charge
+    ATTACK: Attack
+    DEFEND_ENTER: Defend Enter
+    DEFEND_LOOP: Defend Loop
+    DEFEND_EXIT: Defend Exit
   firingPattern:
-    distance: 0
+    distance: 1
     _points: []
 --- !u!82 &304590488
 AudioSource:
@@ -21619,7 +21661,7 @@ MonoBehaviour:
     scopePivot: {x: 0, y: 0, z: 0}
     scopeEuler: {x: 0, y: 0, z: 0}
     scopeFOV: 0
-    maxDamagePerHit: 19.2307606
+    maxDamagePerHit: 58.0769196
     chargeTime: .100000001
   weaponAnimation: {fileID: 298988351}
   weaponParticles: {fileID: 298988350}
@@ -50499,22 +50541,24 @@ MonoBehaviour:
   rangeDefinition:
     rangedType: 0
     disperseRadius: 0
-    raycasts: 1
+    raycasts: 0
     range: 10
     spread: 1.5
     reloadType: 1
-    clipCapacity: 10
+    clipCapacity: 28
     maxClips: 3
     burstAmount: 1
     constantRegeneration: 1
     maximumRounds: 100
-    regenerationRate: .5
+    regenerationRate: 5
     fullRegenerationTime: 8
   weaponPath: {fileID: 304590484}
   rayOrigin: {fileID: 0}
   damageFalloff:
-    distance: 0
-    _points: []
+    distance: 2
+    _points:
+    - location: .507936537
+      value: 1
 --- !u!1 &1176909872
 GameObject:
   m_ObjectHideFlags: 0
@@ -66973,6 +67017,12 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 603243038, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
+  definition:
+    render: 1
+    consistentRender: 0
+    isPreFire: 0
+    maxDistance: 0
+    leavingForce: 0
   origin: {fileID: 0}
   material: {fileID: 0}
 --- !u!114 &1592933009
@@ -67029,6 +67079,24 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: -352054857, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
+  definition:
+    patternType: 1
+    blend: 0
+    ACTIVATE: Activate
+    DEACTIVATE: Deactivate
+    RUN: Run
+    WALK: Walk
+    IDLE: Idle
+    SCOPE_IO: 
+    SCOPE_LOOP: 
+    FIRE: Fire
+    RELOAD: Reload
+    EMPTY: Empty
+    CHARGE: Charge
+    ATTACK: Attack
+    DEFEND_ENTER: Defend Enter
+    DEFEND_LOOP: Defend Loop
+    DEFEND_EXIT: Defend Exit
   firingPattern:
     distance: 2
     _points:

@@ -8,6 +8,7 @@ using FPSControl.Data;
 
 namespace FPSControl.Definitions
 {
+    [System.Serializable]
     public class FPSControlWeaponPathDefinition
     {
         public bool render = true;

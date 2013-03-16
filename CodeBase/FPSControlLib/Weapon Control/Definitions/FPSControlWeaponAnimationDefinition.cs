@@ -8,9 +8,10 @@ using FPSControl.Data;
 
 namespace FPSControl.Definitions
 {
+    [System.Serializable]
     public class FPSControlWeaponAnimationDefinition
     {
-        public FiringPatternType patternType = FiringPatternType.OncePerAnimation;
+        public FiringPatternType patternType;
         public bool blend;
 
         //General/Shared Animation States

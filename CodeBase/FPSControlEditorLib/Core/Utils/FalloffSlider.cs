@@ -10,7 +10,7 @@ namespace FPSControlEditor
     {
         #region CONSTS
 
-        const string ASSET_PATH = "Assets/FPSControl/Editor/FPSControl/Editor Assets/Graphics/Falloff Slider/";
+        const string ASSET_PATH = FPSControlMainEditor.ASSET_PATH + "Graphics/Falloff Slider/";
         const int WIDTH = 290;
         const int HEIGHT = 38;
 
