@@ -4996,6 +4996,7 @@ MonoBehaviour:
   weaponToggle: 113
   reloadKey: 114
   defendKey: 120
+  addWeaponsToInventory: 1
   weaponActors:
   - {fileID: 11400018}
   - {fileID: 11400026}
@@ -5132,11 +5133,15 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 603243038, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
-  render: 0
-  consistentRender: 0
-  isPreFire: 0
-  maxDistance: 0
-  leavingForce: 0
+  definition:
+    render: 1
+    consistentRender: 0
+    isPreFire: 0
+    maxDistance: 1000
+    maxTimeDistance: 3
+    leavingForce: 0
+    lineColor: {r: 0, g: 1, b: 0, a: 1}
+    fadeOutTime: .25
   origin: {fileID: 0}
   material: {fileID: 0}
 --- !u!114 &11400012
@@ -5182,6 +5187,7 @@ MonoBehaviour:
   lightBurst: {fileID: 10800000}
   lightPosition: {fileID: 400150}
   lightDuration: .300000012
+  _startingIntensity: 0
 --- !u!114 &11400016
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5192,23 +5198,24 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: -352054857, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
-  ACTIVATE: Activate
-  DEACTIVATE: Deactivate
-  RUN: Run
-  WALK: Walk
-  IDLE: Idle
-  SCOPE_IO: ' '
-  SCOPE_LOOP: ' '
-  FIRE: Fire
-  RELOAD: Reload
-  EMPTY: Empty
-  CHARGE: 
-  ATTACK: 
-  DEFEND_ENTER: 
-  DEFEND_LOOP: 
-  DEFEND_EXIT: 
-  patternType: 0
-  blend: 0
+  definition:
+    patternType: 0
+    blend: 0
+    ACTIVATE: Activate
+    DEACTIVATE: Deactivate
+    RUN: Run
+    WALK: Walk
+    IDLE: Idle
+    SCOPE_IO: Scope IO
+    SCOPE_LOOP: Scope Loop
+    FIRE: Fire
+    RELOAD: Reload
+    EMPTY: Empty
+    CHARGE: Charge
+    ATTACK: Attack
+    DEFEND_ENTER: Defend Enter
+    DEFEND_LOOP: Defend Loop
+    DEFEND_EXIT: Defend Exit
   firingPattern:
     distance: 0
     _points: []
@@ -5222,17 +5229,18 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 1121929730, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
-  weaponName: Beretta
+  definition:
+    weaponName: Weapon
+    pivot: {x: 0, y: 0, z: 0}
+    euler: {x: 0, y: 0, z: 0}
+    scopePivot: {x: 0, y: 0, z: 0}
+    scopeEuler: {x: 0, y: 0, z: 0}
+    scopeFOV: 20
+    maxDamagePerHit: 0
+    chargeTime: .100000001
   weaponAnimation: {fileID: 11400016}
   weaponParticles: {fileID: 11400014}
   weaponSound: {fileID: 11400012}
-  pivot: {x: -.230000004, y: -1.08000004, z: -.0500000007}
-  euler: {x: 0, y: 0, z: 0}
-  scopePivot: {x: -.230000004, y: -1.08000004, z: -.0500000007}
-  scopeEuler: {x: 0, y: 11, z: 0}
-  scopeFOV: 12
-  maxDamagePerHit: 10
-  chargeTime: .100000001
   idleState:
     name: 
   fireState:
@@ -5243,13 +5251,25 @@ MonoBehaviour:
     name: 
   chargeState:
     name: 
-  rangedType: 0
+  rangeDefinition:
+    rangedType: 0
+    disperseRadius: 0
+    raycasts: 1
+    range: 10
+    spread: 1.5
+    twirlingSpeed: 5
+    twirl: {x: 0, y: 0, z: 0}
+    reloadType: 1
+    clipCapacity: 10
+    maxClips: 3
+    burstAmount: 1
+    constantRegeneration: 1
+    maximumRounds: 100
+    regenerationRate: .5
+    fullRegenerationTime: 8
   weaponPath: {fileID: 11400010}
-  rayOrigin: {fileID: 400150}
-  disperseRadius: 0
-  raycasts: 0
-  range: 10
-  spread: 0
+  projectileA: {fileID: 0}
+  projectileB: {fileID: 0}
   damageFalloff:
     distance: 10
     _points:
@@ -5257,14 +5277,6 @@ MonoBehaviour:
       value: 1
     - location: .5
       value: .5
-  reloadType: 0
-  clipCapacity: 0
-  maxClips: 5
-  burstAmount: 1
-  constantRegeneration: 1
-  maximumRounds: 100
-  regenerationRate: 5
-  fullRegenerationTime: 8
 --- !u!114 &11400022
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5325,17 +5337,18 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: -1828090268, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
-  weaponName: Melee
+  definition:
+    weaponName: Weapon
+    pivot: {x: 0, y: 0, z: 0}
+    euler: {x: 0, y: 0, z: 0}
+    scopePivot: {x: 0, y: 0, z: 0}
+    scopeEuler: {x: 0, y: 0, z: 0}
+    scopeFOV: 20
+    maxDamagePerHit: 0
+    chargeTime: .100000001
   weaponAnimation: {fileID: 11400032}
   weaponParticles: {fileID: 11400030}
   weaponSound: {fileID: 11400028}
-  pivot: {x: 0, y: 0, z: 0}
-  euler: {x: 0, y: 0, z: 0}
-  scopePivot: {x: 0, y: 0, z: 0}
-  scopeEuler: {x: 0, y: 0, z: 0}
-  scopeFOV: 0
-  maxDamagePerHit: 0
-  chargeTime: .100000001
   idleState:
     name: Idle
   fireState:
@@ -5390,6 +5403,7 @@ MonoBehaviour:
   lightBurst: {fileID: 0}
   lightPosition: {fileID: 0}
   lightDuration: 1
+  _startingIntensity: 0
 --- !u!114 &11400032
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5400,23 +5414,24 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: -352054857, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
-  ACTIVATE: Activate
-  DEACTIVATE: Deactivate
-  RUN: Run
-  WALK: Charge
-  IDLE: Idle
-  SCOPE_IO: Charge
-  SCOPE_LOOP: Charge
-  FIRE: Attack
-  RELOAD: Charge
-  EMPTY: Charge
-  CHARGE: 
-  ATTACK: 
-  DEFEND_ENTER: 
-  DEFEND_LOOP: 
-  DEFEND_EXIT: 
-  patternType: 0
-  blend: 0
+  definition:
+    patternType: 0
+    blend: 0
+    ACTIVATE: Activate
+    DEACTIVATE: Deactivate
+    RUN: Run
+    WALK: Walk
+    IDLE: Idle
+    SCOPE_IO: Scope IO
+    SCOPE_LOOP: Scope Loop
+    FIRE: Fire
+    RELOAD: Reload
+    EMPTY: Empty
+    CHARGE: Charge
+    ATTACK: Attack
+    DEFEND_ENTER: Defend Enter
+    DEFEND_LOOP: Defend Loop
+    DEFEND_EXIT: Defend Exit
   firingPattern:
     distance: 0
     _points: []

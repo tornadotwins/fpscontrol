@@ -15762,13 +15762,14 @@ MonoBehaviour:
   definition:
     render: 1
     consistentRender: 0
-    isPreFire: 0
+    isPreFire: 1
     maxDistance: 1000
-    leavingForce: 0
+    maxTimeDistance: 3
+    leavingForce: 29.8076897
     lineColor: {r: 0, g: 1, b: 0, a: 1}
     fadeOutTime: .25
-  origin: {fileID: 0}
-  material: {fileID: 0}
+  origin: {fileID: 53175902}
+  material: {fileID: 2100000, guid: 231d9d8f354e8f047adb20759f669313, type: 2}
 --- !u!114 &304590485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15799,15 +15800,15 @@ MonoBehaviour:
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 1
+    global: 0
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 1
+    global: 0
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 1
+    global: 0
   lightIsEnabled: 0
   lightBurst: {fileID: 0}
   lightPosition: {fileID: 0}
@@ -15947,8 +15948,8 @@ LineRenderer:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
   m_Parameters:
-    startWidth: 1
-    endWidth: 1
+    startWidth: .0500000007
+    endWidth: .0500000007
     m_StartColor:
       serializedVersion: 2
       rgba: 4294967295
@@ -21694,7 +21695,7 @@ MonoBehaviour:
     euler: {x: 0, y: 0, z: 0}
     scopePivot: {x: 0, y: 0, z: 0}
     scopeEuler: {x: 0, y: 0, z: 0}
-    scopeFOV: 0
+    scopeFOV: 20
     maxDamagePerHit: 58.0769196
     chargeTime: .100000001
   weaponAnimation: {fileID: 298988351}
@@ -34960,6 +34961,7 @@ GameObject:
   - 23: {fileID: 772972976}
   - 111: {fileID: 772972979}
   - 65: {fileID: 772972978}
+  - 114: {fileID: 772972980}
   m_Layer: 0
   m_Name: cardboard_boxes_pile_02
   m_TagString: Untagged
@@ -35035,6 +35037,23 @@ Animation:
   m_UserAABB:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
+--- !u!114 &772972980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 772972974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1071069753, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
+  m_Name: 
+  _health: 5
+  _hideThisOnDeath: {fileID: 772972974}
+  _animator: {fileID: 0}
+  _deathAnimation: 
+  _audioSource: {fileID: 0}
+  _deathSound: {fileID: 0}
+  _deathAction: 
 --- !u!1001 &779947976
 Prefab:
   m_ObjectHideFlags: 0
@@ -50432,12 +50451,12 @@ MonoBehaviour:
   m_Script: {fileID: 1121929730, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
   definition:
-    weaponName: Test
-    pivot: {x: 0, y: 0, z: 0}
-    euler: {x: 0, y: 0, z: 0}
-    scopePivot: {x: 0, y: 0, z: 0}
-    scopeEuler: {x: 0, y: 0, z: 0}
-    scopeFOV: 0
+    weaponName: Projectile
+    pivot: {x: -.207692534, y: -1.21153927, z: -.0346153565}
+    euler: {x: 0, y: 8.30769157, z: 0}
+    scopePivot: {x: -.576923013, y: -1.13076854, z: -.450000077}
+    scopeEuler: {x: 0, y: 13.8461494, z: -9.53674316e-07}
+    scopeFOV: 20
     maxDamagePerHit: 0
     chargeTime: .100000001
   weaponAnimation: {fileID: 304590487}
@@ -50454,13 +50473,14 @@ MonoBehaviour:
   chargeState:
     name: 
   rangeDefinition:
-    rangedType: 0
+    rangedType: 1
     disperseRadius: 0
     raycasts: 1
-    range: 10
     spread: 1.5
+    twirlingSpeed: 5
+    twirl: {x: 0, y: 0, z: 0}
     reloadType: 1
-    clipCapacity: 0
+    clipCapacity: 20.5769138
     maxClips: 3
     burstAmount: 1
     constantRegeneration: 1
@@ -50468,6 +50488,8 @@ MonoBehaviour:
     regenerationRate: 5
     fullRegenerationTime: 8
   weaponPath: {fileID: 304590484}
+  projectileA: {fileID: 100000, guid: 28f29d215db776e4a8c3a8b6e1c1d9fb, type: 2}
+  projectileB: {fileID: 0}
   damageFalloff:
     distance: 2
     _points:
@@ -51073,7 +51095,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 22ed38a3661a6455c880058d82d5793a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: .625931203
+      value: .625931263
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 22ed38a3661a6455c880058d82d5793a, type: 3}
       propertyPath: m_LocalRotation.z
@@ -51081,7 +51103,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 22ed38a3661a6455c880058d82d5793a, type: 3}
       propertyPath: m_LocalRotation.w
-      value: .779878259
+      value: .779878318
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 22ed38a3661a6455c880058d82d5793a, type: 3}
       propertyPath: m_LocalScale.x
@@ -52277,6 +52299,7 @@ GameObject:
   - 114: {fileID: 1222168650}
   - 92: {fileID: 1222168649}
   - 114: {fileID: 1222168648}
+  - 114: {fileID: 1222168654}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -52425,10 +52448,22 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967039
+    m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_HDR: 0
+--- !u!114 &1222168654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1222168646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1348884034, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
+  m_Name: 
+  crosshair: {fileID: 1222168648}
+  playerMovement: {fileID: 0}
 --- !u!1001 &1224436763
 Prefab:
   m_ObjectHideFlags: 0
@@ -53016,7 +53051,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1235870248}
   m_LocalRotation: {x: .485884011, y: -.568879664, z: -.508960426, w: .425737053}
-  m_LocalPosition: {x: -.281474322, y: .058960259, z: .0759575218}
+  m_LocalPosition: {x: -.385057211, y: .0762386024, z: .0844828188}
   m_LocalScale: {x: 1.24999964, y: 1.24999881, z: 1.24999964}
   m_Children:
   - {fileID: 1318703247}
@@ -68045,7 +68080,8 @@ MonoBehaviour:
     consistentRender: 0
     isPreFire: 0
     maxDistance: 1000
-    leavingForce: 0
+    maxTimeDistance: 1.42307758
+    leavingForce: 18.938448
     lineColor: {r: 0, g: 1, b: 0, a: 1}
     fadeOutTime: .25
   origin: {fileID: 1235870249}
@@ -68238,15 +68274,15 @@ LineRenderer:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
   m_Parameters:
-    startWidth: .00999999978
-    endWidth: .00999999978
+    startWidth: .0500000007
+    endWidth: .0500000007
     m_StartColor:
       serializedVersion: 2
       rgba: 4294967295
     m_EndColor:
       serializedVersion: 2
       rgba: 4294967295
-  m_UseWorldSpace: 1
+  m_UseWorldSpace: 0
 --- !u!1001 &1593111320
 Prefab:
   m_ObjectHideFlags: 0
@@ -79742,11 +79778,11 @@ MonoBehaviour:
   definition:
     weaponName: Beretta
     pivot: {x: -.30000025, y: -1.13077128, z: 0}
-    euler: {x: 0, y: 0, z: 0}
+    euler: {x: 0, y: 0, z: -2.7692337}
     scopePivot: {x: -.542307794, y: -1.15384531, z: -.565384686}
     scopeEuler: {x: 0, y: 9.69230843, z: 2.76922894}
     scopeFOV: 20
-    maxDamagePerHit: 57.3076935
+    maxDamagePerHit: 44.2307625
     chargeTime: .100000001
   weaponAnimation: {fileID: 1592933011}
   weaponParticles: {fileID: 1592933010}
@@ -79763,10 +79799,11 @@ MonoBehaviour:
     name: 
   rangeDefinition:
     rangedType: 0
-    disperseRadius: .0192302018
+    disperseRadius: .246153846
     raycasts: 15.3846169
-    range: 10
     spread: 1.5
+    twirlingSpeed: 5
+    twirl: {x: 0, y: 0, z: 0}
     reloadType: 0
     clipCapacity: 26
     maxClips: 3
@@ -79776,8 +79813,10 @@ MonoBehaviour:
     regenerationRate: 5
     fullRegenerationTime: 8
   weaponPath: {fileID: 1592933008}
+  projectileA: {fileID: 100000, guid: 28f29d215db776e4a8c3a8b6e1c1d9fb, type: 2}
+  projectileB: {fileID: 0}
   damageFalloff:
-    distance: 5
+    distance: 200
     _points:
     - location: .269841284
       value: .5
@@ -82877,6 +82916,72 @@ Animation:
   m_UserAABB:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
+--- !u!1 &1912606783
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1912606787}
+  - 33: {fileID: 1912606786}
+  - 65: {fileID: 1912606785}
+  - 23: {fileID: 1912606784}
+  m_Layer: 0
+  m_Name: Cube
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!23 &1912606784
+Renderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1912606783}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 10302, guid: 0000000000000000e000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+--- !u!65 &1912606785
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1912606783}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &1912606786
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1912606783}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1912606787
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1912606783}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -20.1430779, y: -6.11696815, z: 41.1675606}
+  m_LocalScale: {x: 7.11046028, y: 7.11046028, z: 7.11046028}
+  m_Children: []
+  m_Father: {fileID: 0}
 --- !u!1 &1913215890
 GameObject:
   m_ObjectHideFlags: 0
@@ -88150,7 +88255,7 @@ Camera:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2028178616}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 3
   m_BackGroundColor: {r: .0550000072, g: .0550000072, b: .0550000072, a: 1}

@@ -60,7 +60,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Crosshair\IntelliCrosshair.cs" />
-    <Compile Include="DamageSource.cs" />
+    <Compile Include="Damage\DamageSource.cs" />
     <Compile Include="Footstep Control\FootstepControl.cs" />
     <Compile Include="Footstep Control\FootstepControlDefinition.cs" />
     <Compile Include="Footstep Control\FootstepControlDefinitions.cs" />
@@ -95,7 +95,7 @@
     <Compile Include="Music Control\MusicControlTrack.cs" />
     <Compile Include="Ambience.cs" />
     <Compile Include="CrosshairAnimator.cs" />
-    <Compile Include="Damageable.cs" />
+    <Compile Include="Damage\Damageable.cs" />
     <Compile Include="DataController.cs" />
     <Compile Include="Door.cs" />
     <Compile Include="FontColor.cs" />

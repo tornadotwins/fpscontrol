@@ -7,7 +7,6 @@ using FPSControl.Definitions;
 
 namespace FPSControl
 {
-
     [RequireComponent (typeof(LineRenderer))]
     public class FPSControlWeaponPath : FPSControlWeaponComponent
     {
@@ -16,30 +15,32 @@ namespace FPSControl
         public Transform origin;
         public Material material;
 
-        private LineRenderer lineRenderer;
-        
+        public Vector3 shootVelocity { get { return _startingVelocity; } }
 
+        private LineRenderer lineRenderer;
+        private Vector3 _startingVelocity;
+        private Transform interactionManager;
+ 
         public override void Initialize(FPSControlWeapon parent)
         {
-            base.Initialize(parent);
-            Debug.Log(parent);
+            base.Initialize(parent);            
             lineRenderer = transform.GetComponent<LineRenderer>();
             lineRenderer.material = material;
-            lineRenderer.SetColors(definition.lineColor, definition.lineColor);
-            if (definition.isPreFire) //We are going to do an arch
-            {
-                
-            }
-            else //We are doing a strait line
-            {
-                
-            }
+            lineRenderer.useWorldSpace = !definition.isPreFire;
+            StartCoroutine(FinishInitialize());
+        }
+
+        private System.Collections.IEnumerator FinishInitialize()
+        {
+            yield return 0; //Wait one frame because Player refrence doent happen till end of frame
+            interactionManager = Weapon.Parent.Player.interactionManager.transform;
         }
 
         private void Update()
         {
-            if (definition.render && definition.isPreFire && Weapon.canUse && currentState == Weapon.idleState)
+            if (definition.render && definition.isPreFire)
             {
+                _startingVelocity = (origin.forward * (definition.leavingForce));
                 RenderArch();
             }
             else if (definition.render && !definition.isPreFire && currentState == Weapon.idleState)
@@ -74,15 +75,16 @@ namespace FPSControl
             lineRenderer.SetVertexCount(2);
             lineRenderer.SetPosition(0, origin.position);
             RaycastHit hit;
-            if (Physics.Raycast(origin.position, origin.forward, out hit, definition.maxDistance))
+            Ray ray = new Ray(interactionManager.position, interactionManager.forward);
+            if (Physics.Raycast(ray, out hit, definition.maxDistance))
             {
                 lineRenderer.SetPosition(1, hit.point);
             }
             else
             {
-                Vector3 endPos = origin.position + (origin.forward * definition.maxDistance);
+                Vector3 endPos = interactionManager.position + (interactionManager.forward * definition.maxDistance);
                 lineRenderer.SetPosition(1, hit.point);
-            }            
+            }
         }
 
         private void RenderOnce()
@@ -125,7 +127,58 @@ namespace FPSControl
 
         private void RenderArch()
         {
+            lineRenderer.SetVertexCount((int)(definition.maxTimeDistance * 60));
+            Vector3 previousPosition = origin.position;
+            for (int i = 0; i < (int)(definition.maxTimeDistance * 60); i++)
+            {
+                Vector3 currentPosition = GetTrajectoryPoint(origin.position, _startingVelocity, i, 1, Physics.gravity);
+                Vector3 direction = currentPosition - previousPosition;
+                direction.Normalize();
 
+                float distance = Vector3.Distance(currentPosition, previousPosition);
+
+                RaycastHit hitInfo = new RaycastHit();
+                if (Physics.Raycast(previousPosition, direction, out hitInfo, distance))
+                {
+                    lineRenderer.SetPosition(i, hitInfo.point);
+                    lineRenderer.SetVertexCount(i);
+                    break;
+                }
+
+                previousPosition = currentPosition;
+                currentPosition = transform.InverseTransformPoint(currentPosition);
+                lineRenderer.SetPosition(i, currentPosition);
+            }
+        }
+
+        Vector3 GetTrajectoryPoint(Vector3 startingPosition, Vector3 initialVelocity, float timestep, float lob, Vector3 gravity)
+        {
+            float physicsTimestep = Time.fixedDeltaTime;
+            Vector3 stepVelocity = initialVelocity * physicsTimestep;
+
+            //Gravity is already in meters per second, so we need meters per second per second
+            Vector3 stepGravity = gravity * physicsTimestep * physicsTimestep;
+
+            return startingPosition + (timestep * stepVelocity) + (((timestep * timestep + timestep) * stepGravity) / 2.0f);
+        }
+
+        public static Vector3 GetTrajectoryVelocity(Vector3 startingPosition, Vector3 targetPosition, float lob, Vector3 gravity)
+        {
+            float physicsTimestep = Time.fixedDeltaTime;
+            float timestepsPerSecond = Mathf.Ceil(1f / physicsTimestep);
+
+            //By default we set n so our projectile will reach our target point in 1 second
+            float n = lob * timestepsPerSecond;
+
+            Vector3 a = physicsTimestep * physicsTimestep * gravity;
+            Vector3 p = targetPosition;
+            Vector3 s = startingPosition;
+
+            Vector3 velocity = (s + (((n * n + n) * a) / 2f) - p) * -1 / n;
+
+            //This will give us velocity per timestep. The physics engine expects velocity in terms of meters per second
+            velocity /= physicsTimestep;
+            return velocity;
         }
 
     }

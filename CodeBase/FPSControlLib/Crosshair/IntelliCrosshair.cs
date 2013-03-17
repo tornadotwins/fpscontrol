@@ -113,7 +113,8 @@ namespace FPSControl
 				_camera = transform; 
 			else if (_camera == null)  
 				_camera = Camera.main.transform;  
-		}        
+		}    
+    
 		void Start () 
 		{
 			lineStyle = new GUIStyle ();  
@@ -121,7 +122,8 @@ namespace FPSControl
 			lineStyleBG = new GUIStyle ();  
 			lineStyleBG.normal.background = borderTexture;  
 			FitToResolution (); 
-		}                 
+		}   
+              
 		void OnGUI () 
 		{  
 			Color thisColor = GUI.color; 
@@ -190,7 +192,8 @@ namespace FPSControl
 			{  
 				lineStyle.normal.background = defaultTexture; 
 			}       
-		}      
+		}   
+   
 		void Update () 
 		{  
 			FitToResolution ();  
@@ -200,7 +203,8 @@ namespace FPSControl
 				AnimateCrosshair ();    
 			if (syncSecondary && secondaryCrosshair != null) 
 				SyncSecondary (); 
-		}     
+		}   
+  
 		void AnimateCrosshair () 
 		{    
 			if (fade)
@@ -218,41 +222,48 @@ namespace FPSControl
 				ReleaseCrosshair (newSpreadSpeed);   
 			if (shoot && !spread && _offset >= newOffset) 
 				ShootCrosshair (newShootAmount, newShootSpeed);   
-		}   
+		} 
+  
 		void SyncSecondary () 
 		{ 
 			secondaryCrosshair.spread = spread;  
 			secondaryCrosshair.shoot = shoot;  
 			secondaryCrosshair.fade = fade;
 		}    
+
 		void SpreadCrosshair (float amount, float speed)
 		{  
 			if (anim < amount)  
 				anim += Time.deltaTime * speed; 
-		}        
+		}  
+      
 		void ReleaseCrosshair (float speed) 
 		{ 
 			if (anim > 0)  anim -= Time.deltaTime * speed;    
 			anim = Mathf.Max (anim, 0);  
 		}     
+
 		void FadeOutCrosshair (float speed) 
 		{
 			if (_offset > 0)  anim -= Time.deltaTime * (speed * newOffset / 10);     
 			if (_alpha > 0)  _alpha -= Time.deltaTime * (speed / 10);  _alpha = Mathf.Max (_alpha, 0);    
-		}    
+		}   
+ 
 		void FadeInCrosshair (float speed) 
 		{   
 			anim += Time.deltaTime * (speed * (newOffset / 10)); 
 			if (_alpha < 1)
 				_alpha += Time.deltaTime * speed / 10; 
 			_alpha = Mathf.Clamp (_alpha, 0, 1);     
-		}      
+		}    
+  
 		void ShootCrosshair (float amount, float speed) 
 		{   
 			if (anim < amount)
 				anim += Time.deltaTime * speed; 
 			anim = Mathf.Clamp (anim, 0, amount); 
-		}             
+		}  
+           
 		void FitToResolution ()
 		{    
 			float screenRatio = Screen.height / 100;  
@@ -262,7 +273,8 @@ namespace FPSControl
 			newShootAmount = shootAmount * screenRatio; 
 			newSpreadSpeed = spreadSpeed * screenRatio; 
 			newShootSpeed = shootSpeed * screenRatio;  
-		}      
+		}   
+   
 		void SetTextureColors (Texture2D myTexture, Color myColor) 
 		{  
 			for (int y = 0; y < myTexture.height; ++y) 
@@ -274,5 +286,6 @@ namespace FPSControl
 			}   
 			myTexture.Apply (); 
 		}
+
 	}
 }

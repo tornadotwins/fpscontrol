@@ -47,6 +47,7 @@
      <Compile Include="Assets\6by7\ProBuilder\Classes\pbVersionBridge.cs" />
      <Compile Include="Assets\FPSControlAssets\Art-Packs\Gem Shader\Example\GemSpawner.cs" />
      <Compile Include="Assets\FPSControlAssets\Scripts\FeatureTester.cs" />
+     <Compile Include="Assets\FPSControlAssets\Scripts\Projectile.cs" />
      <Compile Include="Assets\FPSControlAssets\Scripts\_New Character\EquipPistol.cs" />
      <Compile Include="Assets\FPSControlAssets\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" />
      <Compile Include="Assets\FPSControlCore\AI\Actions\GetFurthestRatWaypoint.cs" />

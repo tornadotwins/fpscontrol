@@ -66,7 +66,14 @@ namespace FPSControl
                 _weaponsCatalogue.Add(weapon.definition.weaponName, weapon);
                 if (addWeaponsToInventory)
                 {
-                    if (i < 4) Add(weapon.definition.weaponName, (i == 0));
+                    if (i < 4)
+                    {
+                        Add(weapon.definition.weaponName, (i == 0));
+                        if (weapon.GetType() == typeof(FPSControlRangedWeapon))
+                        {
+                            ((FPSControlRangedWeapon)weapon).SetAmmo((int)((FPSControlRangedWeapon)weapon).rangeDefinition.clipCapacity, 0);
+                        }
+                    }
                 }
             }
         }
@@ -197,8 +204,7 @@ namespace FPSControl
         {
             _playerMovement = playerMovement;
             _playerCamera = playerCamera;
-            _transform.localPosition = shouldersOffset; //position the shoulders below the head
-            
+            _transform.localPosition = shouldersOffset; //position the shoulders below the head            
             Initialize(player);
         }
 

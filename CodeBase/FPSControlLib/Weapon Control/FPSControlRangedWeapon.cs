@@ -7,16 +7,15 @@ using FPSControl.Definitions;
 
 namespace FPSControl
 {
-
     public class FPSControlRangedWeapon : FPSControlWeapon
     {
-
         public FPSControlRangeWeaponDefinition rangeDefinition = new FPSControlRangeWeaponDefinition();
         public FPSControlWeaponPath weaponPath;
-        //public Transform rayOrigin;
+        public GameObject projectileA;
+        public GameObject projectileB;
 
         //damage
-        public FalloffData damageFalloff;
+        public FalloffData damageFalloff = new FalloffData();
 
         new public WeaponState currentState
         {
@@ -26,8 +25,7 @@ namespace FPSControl
             }
             protected set
             {
-                Debug.Log("setting current state to " + value.name);
-                base.currentState = value;
+                base.currentState = value;                
             }
         }
 
@@ -69,7 +67,7 @@ namespace FPSControl
         protected override void OnInitialize()
         {
             base.OnInitialize();
-            weaponPath.Initialize(this);
+            if (damageFalloff.distance == 0) damageFalloff.distance = 20;
         }
 
         //adds ammo, returns the amount of bullets left over
@@ -152,7 +150,7 @@ namespace FPSControl
         }
 
         void Update()
-        {
+        {            
             if (rangeDefinition.reloadType == ReloadType.Recharge)
 			{
 				float last = _timeSinceActivation;
@@ -185,7 +183,7 @@ namespace FPSControl
                 if (hasAmmo)
                 {
                     weaponAnimation.Fire(); //play our fire animation
-
+                    
                     if (rangeDefinition.reloadType == ReloadType.Clips)
 					{
                         int expense = Mathf.Min(rangeDefinition.burstAmount, _currentClipContents); //we'll decrement our current clip contents by the burst amount, or whatever is left...
@@ -197,57 +195,70 @@ namespace FPSControl
 					}
                     //do the raycasting stuff here
 
-                    for (int i = 0; i < rangeDefinition.raycasts; i++)
-                    {                      
-                        
-                        float randX = 0;
-                        float randY = 0;
+                    if (rangeDefinition.rangedType == FPSControlRangedWeaponType.Bullets)
+                    {
+                        Vector3 shootFrom = Parent.Player.interactionManager.transform.position; //Grab the position of the interactionManager
+                        if (weaponPath.origin != null) shootFrom += Parent.Player.interactionManager.transform.forward * Vector3.Distance(shootFrom, weaponPath.origin.position); //if we have an origin to shot from we want to get the distance from the interation controler to it. This way we cant hit people from our face and only where the weapon is
 
-                        if (rangeDefinition.disperseRadius > 0) //if we have a disperse radius
+                        for (int i = 0; i < rangeDefinition.raycasts; i++)
                         {
-                            randX = (UnityEngine.Random.value * (rangeDefinition.disperseRadius * 2)) - rangeDefinition.disperseRadius; //randomly get a position within the radius
-                            randY = (UnityEngine.Random.value * (rangeDefinition.disperseRadius * 2)) - rangeDefinition.disperseRadius;
-                        }
 
-                        Vector3 perspectiveDistortion = new Vector3(rangeDefinition.spread * randX, rangeDefinition.spread * randY, 0);
+                            float randX = 0;
+                            float randY = 0;
 
-                        Vector3 origin;
-                        Ray ray;
-                        if (weaponPath.origin != null)
-                        {
-                            origin = weaponPath.origin.position + new Vector3(randX, randY, 0); //apply offset to origin
-                            ray = new Ray(origin, weaponPath.origin.forward);// + (Vector3.Scale(rayOrigin.forward,perspectiveDistortion)));
-                        }
-                        else
-                        {
-                            origin = transform.position;
-                            ray = new Ray(origin, transform.forward);                           
-                        }
+                            if (rangeDefinition.disperseRadius > 0) //if we have a disperse radius
+                            {
+                                randX = (UnityEngine.Random.value * (rangeDefinition.disperseRadius * 2)) - rangeDefinition.disperseRadius; //randomly get a position within the radius
+                                randY = (UnityEngine.Random.value * (rangeDefinition.disperseRadius * 2)) - rangeDefinition.disperseRadius;
+                            }
 
-                        
-                        Debug.DrawRay(ray.origin, ray.direction * rangeDefinition.range, Color.red, .5F);
+                            //Vector3 perspectiveDistortion = new Vector3(rangeDefinition.spread * randX, rangeDefinition.spread * randY, 0);
 
-                        RaycastHit hit;
-                        if (Physics.Raycast(ray, out hit, rangeDefinition.range))//did we actually hit anything?
-                        {
-                           
-                            //a bit of psuedo code here:
-                            /*
-                             * //grab a damage receiver (fake class name)
-                             * DamageReceiver dr = hit.collider.GetComponent<DamageReceiver>();
-                             * 
-                             * //how far out we we?
-                             * float distance = hit.distance;
-                             * float normalizedDistance = distance/range; //normalize distance, 9F/10F = .9F
-                             * float damageInflicted = (maxDamagePerHit * damageFalloff.Evaluate(normalizedDistance)) / (float) raycasts; //divy the damage inflicted by number of raycasts
-                             * 
-                             * dr.Inflict(damageInflicted);
-                             * 
-                             **/
+                            Vector3 origin = shootFrom + new Vector3(randX, randY, 0);
+                            Ray ray = new Ray(origin, Parent.Player.interactionManager.transform.forward);
+
+                            Debug.DrawRay(ray.origin, ray.direction * damageFalloff.distance, Color.red, .5F);
+
+                            RaycastHit hit;
+                            if (Physics.Raycast(ray, out hit, damageFalloff.distance))//did we actually hit anything?
+                            {
+                                Damageable damageable = hit.transform.GetComponent<Damageable>();
+                                if (damageable != null)
+                                {
+                                    DamageSource damageSource = new DamageSource();
+                                    float distance = hit.distance;
+                                    float normalizedDistance = distance / damageFalloff.distance; //normalize distance, 9F/10F = .9F
+                                    float damageInflicted = (definition.maxDamagePerHit * damageFalloff.Evaluate(normalizedDistance)) / (float)rangeDefinition.raycasts; //divy the damage inflicted by number of raycasts
+                                    damageSource.appliedToPosition = hit.point;
+                                    damageSource.damageAmount = damageInflicted;
+                                    damageSource.fromPosition = weaponPath.origin.position;
+                                    damageSource.hitCollider = hit.collider;
+                                    damageSource.sourceObjectType = DamageSource.DamageSourceObjectType.Player;
+                                    damageSource.sourceType = DamageSource.DamageSourceType.GunFire;
+                                    damageable.ApplyDamage(damageSource);
+                                }
+                            }
                         }
-                        
                     }
-                    
+                    else if (rangeDefinition.rangedType == FPSControlRangedWeaponType.Projectile)
+                    {
+                        if (projectileA != null)
+                        {
+                            GameObject obj = (GameObject)GameObject.Instantiate(projectileA) as GameObject;
+                            Rigidbody rb = obj.GetComponent<Rigidbody>();
+                            if (rb == null)
+                            {
+                                Debug.LogWarning("Projectile dosen't have a Rigidbody");
+                            }
+                            else
+                            {
+                                rb.transform.position = weaponPath.origin.position;
+                                rb.transform.rotation = weaponPath.origin.rotation;
+                                rb.AddForce(weaponPath.shootVelocity, ForceMode.Impulse);
+                            }                            
+                        }
+                        
+                    }                    
                 }
                 else //we are empty, play the empty animation
                 {
@@ -275,6 +286,7 @@ namespace FPSControl
             Parent = parent;
             weaponAnimation.animationCompleteCallback = WeaponBecameActive;
             weaponAnimation.Activate();
+            weaponPath.Initialize(this);
         }
 
         void WeaponBecameActive()
@@ -305,8 +317,7 @@ namespace FPSControl
 
         void WeaponBecameInactive()
         {
-            canUse = false;
-            
+            canUse = false;            
             _deactivateCallback();
             _deactivateCallback = null;
 			_timeLastActive = Time.time;

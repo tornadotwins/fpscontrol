@@ -42,16 +42,15 @@ namespace FPSControl
         The name of a custom action that should be sent to the parent of the containing gameObject (itself if has no parent) upon
         its health value droping to or below zero (0).
         */
-        public string            _deathAction;
- 
- 
+        public string  _deathAction;
+  
         /*!
         Applies the damage determined by the \link DamageSource#damageAmount damageAmount\endlink parameter of the passed in DamageSource object, substracting it from
         the current #_health value whenever it is above zero (0).
         
         Once #_health drops below this threshold, damage is no longer applyed and the OnDeath() method is invoked.
         */
-        void ApplyDamage (DamageSource damageSource)
+        public virtual void ApplyDamage (DamageSource damageSource)
         {
             if (_health > 0f) {
                 _health -= damageSource.damageAmount;
@@ -60,8 +59,6 @@ namespace FPSControl
                     OnDeath ();
             }
         }
- 
-     
 
         /*!
         Hides the containing gameObject and all of its children by deactivating them if the #_hideThisOnDeath parameter is true. Plays the
@@ -77,21 +74,21 @@ namespace FPSControl
                 _hideThisOnDeath.SetActiveRecursively (false);
             }
  
-            if ((_audioSource != null) && (_deathSound != null)) {
+            if (_audioSource != null && _deathSound != null) 
+            {
                 _audioSource.PlayOneShot (_deathSound);
             }
-         
-            if (_animator.animation [_deathAnimation] != null) {
+
+            if (_animator != null && _animator.animation[_deathAnimation] != null) 
+            {
                 _animator.animation.Play (_deathAnimation);
             }
-         
-            if (_deathAction != null) {
-                GameObject parent = gameObject;
-             
-                if (transform.parent != null)
-                    parent = transform.parent.gameObject;
-             
-                parent.SendMessage (_deathAction);
+
+            if (_deathAction != null)
+            {
+                GameObject parent = gameObject;             
+                if (transform.parent != null) parent = transform.parent.gameObject;             
+                parent.SendMessage(_deathAction, SendMessageOptions.DontRequireReceiver);
             }
         }
     }

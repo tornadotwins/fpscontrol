@@ -69,15 +69,16 @@ namespace FPSControlEditor
                         if (rangeProjectileTabIndex == 0)
                         {
                             GUIPositionWindow(0); //Implemented
-                            GUIAmmoWindow(1);
+                            GUIAmmoWindow(1); //Implemented
                             GUIFiringPatternWindow(2); //Implemented
-                            GUIMeshAnimationWindow(3); //Implemented
+                            GUIAmmoReloadingWindow(3);                            
                         }
                         else
                         {
                             GUIPreFirePathWindow(0); //Implemented
                             GUIParticalWindow(1); //Implemented
                             GUISoundWindow(2); //Implemented
+                            GUIMeshAnimationWindow(3); //Implemented
                         }
                         break;
                 }
@@ -599,12 +600,14 @@ namespace FPSControlEditor
         {
             GUI.BeginGroup(windowSpaces[windowIndex]);
             GUI.Box(new Rect(0, 0, gui_window_ammo.width, gui_window_ammo.height), gui_window_ammo, GUIStyle.none);
-            Drag.DragArea<Transform>(new Rect(77, 41, 66, 18), "Drag");
-            Drag.DragArea<Transform>(new Rect(216, 41, 66, 18), "Drag");
-            Knobs.MinMax(new Vector2(39, 81), 50, 0, 100, 111);
-            Knobs.MinMax(new Vector2(114, 81), 50, 0, 100, 112);
-            Knobs.MinMax(new Vector2(180, 81), 50, 0, 100, 123);
-            Knobs.MinMax(new Vector2(248, 81), 50, 0, 100, 114);
+            GUI.enabled = !Application.isPlaying;
+            CheckDragAreaForObject<GameObject>(new Rect(77, 41, 66, 18), ref ((FPSControlRangedWeapon)currentWeapon.weapon).projectileA);
+            CheckDragAreaForObject<GameObject>(new Rect(216, 41, 66, 18), ref ((FPSControlRangedWeapon)currentWeapon.weapon).projectileB);
+            GUI.enabled = true;
+            ((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.twirlingSpeed = Knobs.MinMax(new Vector2(39, 81), ((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.twirlingSpeed, 0, 360, 111);
+            ((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.twirl.x = Knobs.MinMax(new Vector2(114, 81), ((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.twirl.x, -360, 360, 112);
+            ((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.twirl.y = Knobs.MinMax(new Vector2(180, 81), ((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.twirl.y, -360, 360, 123);
+            ((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.twirl.z = Knobs.MinMax(new Vector2(248, 81), ((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.twirl.z, -360, 360, 114);
             GUI.EndGroup();
         }
 
@@ -618,8 +621,8 @@ namespace FPSControlEditor
             CheckDragAreaForObject<Material>(new Rect(56, 58, 66, 18), ref ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.material);
             CheckDragAreaForComponent<Transform>(new Rect(56, 79, 66, 18), ref ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.origin);
             GUI.enabled = true;
-            ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.definition.maxDistance = Knobs.MinMax(new Vector2(182, 112), ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.definition.maxDistance, 0, 500, 51);
-            ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.definition.leavingForce = Knobs.MinMax(new Vector2(253, 112), ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.definition.leavingForce, 0, 100, 52);
+            ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.definition.maxTimeDistance = Knobs.MinMax(new Vector2(182, 112), ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.definition.maxTimeDistance, 0f, 10, 51);
+            ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.definition.leavingForce = Knobs.MinMax(new Vector2(253, 112), ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.definition.leavingForce, 0, 250, 52);
             GUI.EndGroup();
         }
         #endregion

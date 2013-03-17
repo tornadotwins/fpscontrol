@@ -21,10 +21,14 @@ namespace FPSControl.Definitions
         public float disperseRadius = 0;
         [SerializeField]
         public float raycasts = 1;
-        [SerializeField]
-        public float range = 10; //in meters
+        //[SerializeField]
+        //public float range = 10; //in meters
         [SerializeField]
         public float spread = 1.5F;
+
+        //Projectiles
+        public float twirlingSpeed = 5;
+        public Vector3 twirl;
 
         //Capacity
         [SerializeField]
