@@ -46,6 +46,7 @@ namespace FPSControl
 
         public void SpawnFX()
         {
+            Debug.Log("SpawnFX");
             foreach (FPSControlWeaponParticleData data in particles)
             {
                 data.Spawn();
@@ -55,8 +56,19 @@ namespace FPSControl
             StartCoroutine("ShowLight");
         }
 
-        public void KillFX(bool clear)
+        public void KillFX_Clear()
         {
+            KillFX(true);
+        }
+
+        public void KillFX()
+        {
+            KillFX(false);
+        }
+
+        private void KillFX(bool clear)
+        {
+            Debug.Log("KILLING");
             foreach (FPSControlWeaponParticleData data in particles)
             {
                 data.Kill(clear);
@@ -68,6 +80,7 @@ namespace FPSControl
                 lightBurst.enabled = false;
             }
         }
+
 
         IEnumerator ShowLight()
         {
@@ -96,35 +109,49 @@ namespace FPSControl
         public Transform position;
         [SerializeField] 
         public bool global;
-
+        
         private bool _enabled;
+
+        private GameObject _particleSystem;
 
         public void Initialize()
         {
             _enabled = (isEnabled && position != null && particleSystem != null);
 
             if (!_enabled) return;
-            particleSystem.transform.parent = position;
-            particleSystem.transform.localPosition = Vector3.zero;
-            particleSystem.transform.localRotation = Quaternion.identity;
-            
-            _shuriken = particleSystem.GetComponent<ParticleSystem>();
+            Debug.Log("1");
+            _particleSystem = particleSystem;
+            Debug.Log("2");
+            //if (_particleSystem == null) _particleSystem = (GameObject)GameObject.Instantiate(particleSystem);
+            Debug.Log("3");
+            _particleSystem.transform.parent = position;
+            _particleSystem.transform.localPosition = Vector3.zero;
+            _particleSystem.transform.localRotation = Quaternion.identity;
+            Debug.Log("4");
+            _shuriken = _particleSystem.GetComponent<ParticleSystem>();
             if(_shuriken)
             {
+                Debug.Log("5");
                 if(FPSControlWeaponParticles.enableWarnings) Debug.LogWarning("Note: Shuriken particles must be set to use Local/Global Space in the asset.");
             }
             else
             {
-                _legacyEmitter = particleSystem.GetComponent<ParticleEmitter>();
-                _legacyRenderer = particleSystem.GetComponent<ParticleRenderer>();
-                _legacyAnimator = particleSystem.GetComponent<ParticleAnimator>();
+                Debug.Log("6");
+                _legacyEmitter = _particleSystem.GetComponent<ParticleEmitter>();
+                Debug.Log("7");
+                _legacyRenderer = _particleSystem.GetComponent<ParticleRenderer>();
+                Debug.Log("8");
+                _legacyAnimator = _particleSystem.GetComponent<ParticleAnimator>();
+                Debug.Log("9");
                 _legacyEmitter.useWorldSpace = global;
+                Debug.Log("10");
             }
         }
 
         public void Spawn()
         {
             if (!_enabled) return;
+            //Initialize();
             if (isLegacy)
             {
                 _legacyEmitter.Emit();
@@ -148,6 +175,7 @@ namespace FPSControl
                 _shuriken.Stop();
                 if (clear) _shuriken.Clear();
             }
+           // GameObject.Destroy(_particleSystem);
         }
     }
 }
