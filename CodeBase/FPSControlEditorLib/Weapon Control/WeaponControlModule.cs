@@ -38,8 +38,8 @@ namespace FPSControlEditor
         public override void OnGUI()
         {           
             GUIDrawBackground();
-            SaveMenu();
-            GUIWeaponSelect();
+            SaveMenu();            
+            GUIWeaponSelect();            
             if (weaponsAvailable) GUIWeaponTypeSelect();
 
             if (weaponsAvailable && currentWeapon.isRanged)
@@ -145,8 +145,10 @@ namespace FPSControlEditor
 
         private void GUIRangeTypeSelect()
         {
+            GUI.enabled = !Application.isPlaying;
             Rect rangeTypeRect = new Rect(669, 150, 139, 14);
             ((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.rangedType = (FPSControlRangedWeaponType)EditorGUI.EnumPopup(rangeTypeRect, ((FPSControlRangedWeapon)currentWeapon.weapon).rangeDefinition.rangedType);
+            GUI.enabled = true;
         }
 
         private void GUIWeaponTypeSelect()
@@ -193,7 +195,7 @@ namespace FPSControlEditor
                 RevertSavedCopy(currentWeapon.weapon);
                 SetCurrentWeapon(weapons[currentWeaponIndex]);                
             }
-            GUI.enabled = weaponsAvailable;
+            GUI.enabled = weaponsAvailable && !Application.isPlaying;
             if (GUI.Button(deleteRect, "-"))
             {
                 if (EditorUtility.DisplayDialog("Are you sure?", "Are you sure you want to delete this?", "Delete", "Cancel"))
@@ -211,11 +213,12 @@ namespace FPSControlEditor
                     return;
                 }
             }
-            GUI.enabled = true;
+            GUI.enabled = !Application.isPlaying;
             if (GUI.Button(newRect, "Add New"))
             {
                 Prompt("Weapon Name");
             }
+            GUI.enabled = true;
         }
 
         private void GUIDrawBackground()

@@ -36,17 +36,34 @@ namespace FPSControl
             interactionManager = Weapon.Parent.Player.interactionManager.transform;
         }
 
+        WeaponState lastState;
         private void Update()
         {
             if (definition.render && definition.isPreFire)
             {
-                _startingVelocity = (origin.forward * (definition.leavingForce));
-                RenderArch();
+                if (currentState == Weapon.idleState)
+                {
+                    if (lastState == Weapon.fireState)
+                    {
+                        //StartCoroutine(FadeLine(null, true));
+                    }
+                    _startingVelocity = (origin.forward * (definition.leavingForce));
+                    RenderArch();
+                }
+                else if (currentState == Weapon.fireState)
+                {
+                    if (lastState == Weapon.idleState)
+                    {
+                       //StartCoroutine(FadeLine(null, false));
+                        lineRenderer.SetVertexCount(0);
+                    }
+                }                
             }
             else if (definition.render && !definition.isPreFire && currentState == Weapon.idleState)
             {
                 lineRenderer.SetVertexCount(0);
             }
+            lastState = currentState;
         }
 
         public void Fire()
@@ -90,7 +107,7 @@ namespace FPSControl
         private void RenderOnce()
         {
             RenderLine();            
-            StartCoroutine(FadeOutLine(RenderDone));
+            StartCoroutine(FadeLine(RenderDone));
         }
 
         private void RenderDone()
@@ -99,13 +116,20 @@ namespace FPSControl
             SetAlpha(1);
         }
 
-        System.Collections.IEnumerator FadeOutLine(System.Action cbFunc)
+        System.Collections.IEnumerator FadeLine(System.Action cbFunc, bool fadeOut = true)
         {
             float startTime = Time.time;
             while (true)
             {
                 float n = Mathf.Clamp01(definition.fadeOutTime - (Time.time - startTime));
-                SetAlpha(n);
+                if (fadeOut)
+                {
+                    SetAlpha(n);
+                }
+                else
+                {
+                    SetAlpha(1 - n);
+                }                
                 if (n == 0)
                 {
                     if (cbFunc != null) cbFunc();
