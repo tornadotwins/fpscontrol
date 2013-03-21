@@ -15770,6 +15770,7 @@ MonoBehaviour:
     fadeOutTime: .25
   origin: {fileID: 53175902}
   material: {fileID: 2100000, guid: 231d9d8f354e8f047adb20759f669313, type: 2}
+  lineRendererScaleFactor: 1
 --- !u!114 &304590485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68086,6 +68087,7 @@ MonoBehaviour:
     fadeOutTime: .25
   origin: {fileID: 1235870249}
   material: {fileID: 2100000, guid: 231d9d8f354e8f047adb20759f669313, type: 2}
+  lineRendererScaleFactor: 1
 --- !u!114 &1592933009
 MonoBehaviour:
   m_ObjectHideFlags: 0

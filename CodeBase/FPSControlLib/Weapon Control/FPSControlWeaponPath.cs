@@ -14,6 +14,7 @@ namespace FPSControl
 
         public Transform origin;
         public Material material;
+        public float lineRendererScaleFactor = 1;
 
         public Vector3 shootVelocity { get { return _startingVelocity; } }
 
@@ -153,6 +154,7 @@ namespace FPSControl
         {
             lineRenderer.SetVertexCount((int)(definition.maxTimeDistance * 60));
             Vector3 previousPosition = origin.position;
+            float totalDistance = 0;
             for (int i = 0; i < (int)(definition.maxTimeDistance * 60); i++)
             {
                 Vector3 currentPosition = GetTrajectoryPoint(origin.position, _startingVelocity, i, 1, Physics.gravity);
@@ -160,6 +162,7 @@ namespace FPSControl
                 direction.Normalize();
 
                 float distance = Vector3.Distance(currentPosition, previousPosition);
+                totalDistance += distance;
 
                 RaycastHit hitInfo = new RaycastHit();
                 if (Physics.Raycast(previousPosition, direction, out hitInfo, distance))
@@ -173,6 +176,9 @@ namespace FPSControl
                 currentPosition = transform.InverseTransformPoint(currentPosition);
                 lineRenderer.SetPosition(i, currentPosition);
             }
+            Vector2 newScale = material.mainTextureScale;
+            newScale.x = totalDistance * lineRendererScaleFactor;
+            material.mainTextureScale = newScale;
         }
 
         Vector3 GetTrajectoryPoint(Vector3 startingPosition, Vector3 initialVelocity, float timestep, float lob, Vector3 gravity)
