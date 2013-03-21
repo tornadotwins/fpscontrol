@@ -7,19 +7,19 @@ var gridLineColor_XZ : Color;// = Color(.2,.65,.6,.125);
 var gridLineColor_YZ : Color;// = Color(.925,.22,.384,.125);
 //
 
+var showAngles : boolean = true;  
+
 var showGrid : boolean = true;
 var drawGrid_XZ : boolean = false;
 var drawGrid_XY : boolean = false;
 var drawGrid_YZ : boolean = false;
 var snapToGrid : boolean = false;
 
-var gridCenterPos : Vector3;
+//+var gridSnapSize_Base : float = .25;
+//+var gridUnitsIndex : int = 1;
+//+var gridSnapSize_Factored : float = .25;
 
-// --- Just for ProBuilder 2.0 integration
-var gridSnapSize_Base : float = .25;
-var gridUnitsIndex : int = 1;
-var gridSnapSize_Factored : float = .25;
-// ---
+var gridCenterPos : Vector3;
 
 private var halfSegs_H : int;
 private var halfSegs_V : int;
@@ -36,6 +36,7 @@ private var backRotation = Vector3(0,0,1);
 var camView : Vector3;
 var gridObjPos : Vector3;
 var nearestSnapPos : Vector3;
+var activePoint : Vector3;
 
 function FindGridCenter()
 {
@@ -134,6 +135,16 @@ function OnDrawGizmos()
 		var z : float;
 		if(drawGrid_XZ)
 		{
+			//draw 45 angle
+			Gizmos.color = Color(.5,.5,0,.5);
+			if(activePoint != null && showAngles)
+			{
+				Gizmos.DrawRay(Vector3(activePoint.x-100, activePoint.y, activePoint.z-100), (Vector3(1,0,1)*200));
+				Gizmos.DrawRay(Vector3(activePoint.x-100, activePoint.y, activePoint.z+100), (Vector3(1,0,-1)*200));
+				Gizmos.DrawRay(Vector3(activePoint.x, activePoint.y, activePoint.z+100), (Vector3(0,0,-1)*200));
+				Gizmos.DrawRay(Vector3(activePoint.x-100, activePoint.y, activePoint.z), (Vector3(1,0,0)*200));
+			}
+			
 			//Draw main grid
 			FindGridCenter();
 			CalcScreenSegs(0);
@@ -150,22 +161,58 @@ function OnDrawGizmos()
 		}
 		if(drawGrid_XY)
 		{
+			//draw 45 angle
+			Gizmos.color = Color(.5,.5,0,.5);
+			if(activePoint != null && showAngles)
+			{
+				Gizmos.DrawRay(Vector3(activePoint.x-100, activePoint.y-100, activePoint.z), (Vector3(1,1,0)*200));
+				Gizmos.DrawRay(Vector3(activePoint.x-100, activePoint.y+100, activePoint.z), (Vector3(1,-1,0)*200));
+				Gizmos.DrawRay(Vector3(activePoint.x, activePoint.y+100, activePoint.z), (Vector3(0,-1,0)*200));
+				Gizmos.DrawRay(Vector3(activePoint.x-100,  activePoint.y,activePoint.z), (Vector3(1,0,0)*200));
+			}
+			
 			FindGridCenter();
 			CalcScreenSegs(1);
 			Gizmos.color = gridLineColor_XY;
 			for(x=(halfSegs_H*-1);x<halfSegs_H+1;x++)
 			{
+				/*
+				//set the darker lines every major unit				
+				if((gridCenterPos.x+(x*.25)) % 10 == 0)
+					Gizmos.color.a = gridLineColor_XY.a * 1.75;
+				else
+					Gizmos.color.a = gridLineColor_XY.a;
+				*/
+				
 				//draw the horizontal lines
 				Gizmos.DrawRay(Vector3(gridCenterPos.x+(x*.25), gridCenterPos.y-(halfSegs_V*.25), gridCenterPos.z), Vector3.up*halfSegs_V*2*.25);
 			}
 			for(y=(halfSegs_V*-1);y<halfSegs_V+1;y++)
 			{
+				/*
+				//set the darker lines every major unit
+				if((gridCenterPos.y+(y*.25)) % 10 == 0)
+					Gizmos.color.a = gridLineColor_XY.a * 1.75;
+				else
+					Gizmos.color.a = gridLineColor_XY.a;
+				*/
+				
 				//draw the vertical lines
 				Gizmos.DrawRay(Vector3(gridCenterPos.x-(halfSegs_H*.25), gridCenterPos.y+(y*.25), gridCenterPos.z), Vector3.right*halfSegs_H*2*.25);
 			}
 		}
 		if(drawGrid_YZ)
-		{			
+		{
+			//draw 45 angle
+			Gizmos.color = Color(.5,.5,0,.5);
+			if(activePoint != null && showAngles)
+			{
+				Gizmos.DrawRay(Vector3(activePoint.x, activePoint.y-100, activePoint.z-100), (Vector3(0,1,1)*200));
+				Gizmos.DrawRay(Vector3(activePoint.x, activePoint.y+100, activePoint.z-100), (Vector3(0,-1,1)*200));
+				Gizmos.DrawRay(Vector3(activePoint.x, activePoint.y+100, activePoint.z), (Vector3(0,-1,0)*200));
+				Gizmos.DrawRay(Vector3(activePoint.x,  activePoint.y,activePoint.z-100), (Vector3(0,0,1)*200));
+			}
+			
 			FindGridCenter();
 			CalcScreenSegs(2);
 			Gizmos.color = gridLineColor_YZ;

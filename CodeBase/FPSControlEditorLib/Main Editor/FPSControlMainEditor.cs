@@ -180,6 +180,11 @@ namespace FPSControlEditor
             loadedModule.OnLostFocus(rebuild);
         }
 
+        void OnInspectorUpdate()
+        {
+            loadedModule.OnInspectorUpdate();
+        }
+
         void OnGUI()
         {
             if (loadedModule == null)

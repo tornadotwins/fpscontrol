@@ -21,7 +21,7 @@ public class pb_Preferences
 
 	static ProBuilder.Shortcut[] defaultShortcuts;
 
-	[PreferenceItem ("ProBuilder")]
+	[PreferenceItem ("BuildControl")]
 	public static void PreferencesGUI () {
 		// Load the preferences
 		if (!prefsLoaded) {
@@ -96,20 +96,22 @@ public class pb_Preferences
 	{
 		GUI.Box(selectBox, "");
 
-		for(int i = 0; i < defaultShortcuts.Length; i++)
+		// Start at 1, because Escape doesn't need to be changeable.
+		for(int n = 1; n < defaultShortcuts.Length; n++)
 		{
-			if(i == shortcutIndex) {
+			int i = n-1;
+			if(n == shortcutIndex) {
 				GUI.backgroundColor = new Color(0f, .86f, 1f, 1f);
 					GUI.Box(new Rect(boxRect.x, boxRect.y + (i*lineHeight), boxRect.width, boxRect.height), "");
 				GUI.backgroundColor = Color.white;
 
-				if(GUI.Button(new Rect(140, 210 + (i*lineHeight), 170, 15), defaultShortcuts[i].action, EditorStyles.whiteLabel))
-					shortcutIndex = i;
+				if(GUI.Button(new Rect(140, 210 + (i*lineHeight), 170, 15), defaultShortcuts[n].action, EditorStyles.whiteLabel))
+					shortcutIndex = n;
 			}
 			else
 			{
-				if(GUI.Button(new Rect(140, 210 + (i*lineHeight), 170, 15), defaultShortcuts[i].action, GUIStyle.none))
-					shortcutIndex = i;
+				if(GUI.Button(new Rect(140, 210 + (i*lineHeight), 170, 15), defaultShortcuts[n].action, GUIStyle.none))
+					shortcutIndex = n;
 			}
 		}
 		

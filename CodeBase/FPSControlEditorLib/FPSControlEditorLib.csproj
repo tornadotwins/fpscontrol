@@ -74,6 +74,7 @@
     <Compile Include="Core\Utils\Popup.cs" />
     <Compile Include="Core\Utils\Knobs.cs" />
     <Compile Include="Core\Utils\Serializer.cs" />
+    <Compile Include="Core\Utils\TypeHelper.cs" />
     <Compile Include="Footstep Control\FootstepControlModule.cs" />
     <Compile Include="Footstep Control\FootstepControlNameDialogue.cs" />
     <Compile Include="Game Settings\FPSControlGameSettingsTemp.cs" />

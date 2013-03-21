@@ -49,12 +49,46 @@ namespace FPSControlEditor
             {
                 case 0:
                     Debug.Log("Launching Build Control");
+                    System.Type editorWindow = TypeHelper.GetType("pb_Editor");
+                    if (editorWindow == null)
+                    {
+                        EditorUtility.DisplayDialog("", "You dont have Build Control Installed!", "OK");
+                    }
+                    else
+                    {
+                         if (EditorPrefs.HasKey("defaultOpenInDockableWindow") && !EditorPrefs.GetBool("defaultOpenInDockableWindow"))
+                        {
+                            EditorWindow.GetWindow(editorWindow, true, "ProBuilder", true); // open as floating window
+                        }
+                        else
+                        {
+                            EditorWindow.GetWindow(editorWindow, false, "ProBuilder", true); // open as dockable window
+                        }
+                    }                   
                     break;
                 case 1:
                     Debug.Log("Launching Grid Control");
+                    System.Type gridWindow = TypeHelper.GetType("ProGrids_GUI");
+                    if (gridWindow == null)
+                    {
+                        EditorUtility.DisplayDialog("", "You dont have Grid Control Installed!", "OK");
+                    }
+                    else
+                    {
+                        EditorWindow.GetWindow(gridWindow, false, "Grid"); // open as dockable window
+                    }
                     break;
                 case 2:
                     Debug.Log("Launching Decal Control");
+                    System.Type decalsWindow = TypeHelper.GetType("QuickDecals_GUI");
+                    if (decalsWindow == null)
+                    {
+                        EditorUtility.DisplayDialog("", "You dont have Decal Control Installed!", "OK");
+                    }
+                    else
+                    {
+                        EditorWindow.GetWindow(decalsWindow, false, "QuickDecals");// open as dockable window
+                    }
                     break;
             }
         }

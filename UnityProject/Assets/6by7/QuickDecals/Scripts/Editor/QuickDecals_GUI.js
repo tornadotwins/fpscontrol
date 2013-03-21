@@ -1,6 +1,6 @@
 class QuickDecals_GUI extends QuickDecals_Base 
 {
-	@MenuItem("Window/6by7/QuickDecals (v1.0)")
+	//@MenuItem("Window/6by7/QuickDecals (v1.0)")
     static function Init()
 	{
         window = GetWindow(QuickDecals_GUI, false, "QuickDecals");

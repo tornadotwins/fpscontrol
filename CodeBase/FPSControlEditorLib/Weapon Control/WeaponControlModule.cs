@@ -111,7 +111,7 @@ namespace FPSControlEditor
             {
                 if (GUI.changed)
                 {
-                    Debug.Log("Changed");
+                    //Debug.Log("Changed");
                 }
             }
         }
@@ -190,7 +190,7 @@ namespace FPSControlEditor
             int newWeaponIndex = EditorGUI.Popup(popupRect, currentWeaponIndex, weaponNames.ToArray());
             if (weaponsAvailable && newWeaponIndex != currentWeaponIndex)
             {
-                Debug.Log("Selecting Weapon");
+                //Debug.Log("Selecting Weapon");
                 currentWeaponIndex = newWeaponIndex;
                 RevertSavedCopy(currentWeapon.weapon);
                 SetCurrentWeapon(weapons[currentWeaponIndex]);                
@@ -654,9 +654,25 @@ namespace FPSControlEditor
 
         private const string PREF_SAVED_PREFIX = "FPSCONTROL_WEAPON_SAVED_";
 
+        public override void OnInspectorUpdate()
+        {
+            
+        }
+
         private void SaveWeaponCopy(FPSControlWeapon weapon)
         {
             Serializer.SaveData<FPSControlWeaponDefinitions>(PREF_SAVED_PREFIX + weapon.definition.weaponName, new FPSControlWeaponDefinitions(currentWeapon.weapon));
+            EditorPrefs.SetBool(PREF_SAVED_PREFIX + "NEEDS_SAVING", true);          
+        }
+
+        private void SaveIfPrefab(GameObject go)
+        {
+            var prefabType = PrefabUtility.GetPrefabType(go);
+            if (prefabType != PrefabType.DisconnectedPrefabInstance) { //Check if we are a prefab
+                GameObject scenePrefab = PrefabUtility.FindPrefabRoot(go); //Get the gameobject that is int he scene
+                var prefabObject = PrefabUtility.GetPrefabParent(go);
+                PrefabUtility.ReplacePrefab(scenePrefab, prefabObject, ReplacePrefabOptions.ConnectToPrefab);
+            }
         }
 
         private void RevertSavedCopy(FPSControlWeapon weapon)
@@ -665,20 +681,23 @@ namespace FPSControlEditor
             {
                 FPSControlWeaponDefinitions definitions = Serializer.LoadData<FPSControlWeaponDefinitions>(PREF_SAVED_PREFIX + weapon.definition.weaponName);
                 FPSControlWeaponDefinitions.LoadDefintionsIntoWeapon(definitions, ref weapon);
+                SaveIfPrefab(weapon.gameObject);
             }
         }
 
         private void RevertSavedCopys()
         {
-            Debug.Log("RevertSavedCopys");
-            foreach (FPSControlWeapon w in weapons)
+            if (EditorPrefs.GetBool(PREF_SAVED_PREFIX + "NEEDS_SAVING", false))
             {
-                if (EditorPrefs.HasKey(PREF_SAVED_PREFIX + w.definition.weaponName))
+                foreach (FPSControlWeapon w in weapons)
                 {
-                    Debug.Log("Reverting " + w.definition.weaponName);
-                    RevertSavedCopy(w);
-                    EditorPrefs.DeleteKey(PREF_SAVED_PREFIX + w.definition.weaponName);
+                    if (EditorPrefs.HasKey(PREF_SAVED_PREFIX + w.definition.weaponName))
+                    {
+                        RevertSavedCopy(w);
+                        EditorPrefs.DeleteKey(PREF_SAVED_PREFIX + w.definition.weaponName);
+                    }
                 }
+                EditorPrefs.SetBool(PREF_SAVED_PREFIX + "NEEDS_SAVING", false);
             }
         }
 
@@ -706,11 +725,13 @@ namespace FPSControlEditor
             LocateWeapons();
         }
 
+        private bool _rebuild = true;
         override public void OnFocus(bool rebuild)
         {
-            Debug.Log("Focused - Rebuilt: " + rebuild + " - Wasplaying: " + wasPlaying);            
+            _rebuild = rebuild;
+            //Debug.Log("Focused - Rebuilt: " + rebuild + " - Wasplaying: " + wasPlaying);            
             Init();
-            if (!Application.isPlaying && wasPlaying)
+            if (!Application.isPlaying && wasPlaying && !rebuild)
             {
                 RevertSavedCopys();
                 int i = 0;
@@ -718,7 +739,7 @@ namespace FPSControlEditor
                 {
                     if (w.definition.weaponName == lastWeaponName)
                     {
-                        Debug.Log("Focusing weapon: " + lastWeaponName);
+                        //Debug.Log("Focusing weapon: " + lastWeaponName);
                         currentWeaponIndex = i;
                         SetCurrentWeapon(w);
                         break;
@@ -731,7 +752,7 @@ namespace FPSControlEditor
 
         override public void OnLostFocus(bool rebuild)
         {
-            Debug.Log("Lost Focus - Rebuilt: " + rebuild + " - Wasplaying: " + wasPlaying);            
+            //Debug.Log("Lost Focus - Rebuilt: " + rebuild + " - Wasplaying: " + wasPlaying);            
             base.OnLostFocus(rebuild);
         }
 
@@ -828,7 +849,7 @@ namespace FPSControlEditor
 
         private void SetCurrentWeapon(FPSControlWeapon weapon)
         {
-            Debug.Log("Setting Weapon");
+            //Debug.Log("Setting Weapon");
             currentWeapon = new WeaponData();
             currentWeapon.weapon = weapon;
             currentWeapon.isRanged = (weapon.GetType() == typeof(FPSControlRangedWeapon));

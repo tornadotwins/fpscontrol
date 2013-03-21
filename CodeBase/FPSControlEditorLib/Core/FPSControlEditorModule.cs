@@ -57,6 +57,7 @@ namespace FPSControlEditor
             justReturnedFromPopup = false;
         }
 
+        public virtual void OnInspectorUpdate() { }
         public virtual void OnGUI() { }
         public virtual void Update() { }
         public virtual void OnFocus(bool rebuild) {

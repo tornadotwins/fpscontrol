@@ -2,7 +2,7 @@ import System.Reflection;
 
 class ProGrids_GUI extends ProGrids_Base 
 {
-    @MenuItem("Window/6by7/ProGrids (v1.3.4, Free)")
+    //@MenuItem("Window/6by7/ProGrids (v1.5, Free)")
     static function Initialize()
 	{
         var window = GetWindow(ProGrids_GUI, false, "Grid");
@@ -59,9 +59,8 @@ class ProGrids_GUI extends ProGrids_Base
 		//
 		
 		var window = this;
-		window.minSize = Vector2(46,230);
-		window.maxSize = Vector2(46,230);
-		//snapSizeGraphic = (Resources.LoadAssetAtPath("Assets/6by7/Shared/GUI/icon_GridSize.tga", typeof(Texture2D)));
+		window.minSize = Vector2(46,205);
+		window.maxSize = Vector2(46,205);
 		
 		if(!proGrids)
 		{
@@ -83,6 +82,8 @@ class ProGrids_GUI extends ProGrids_Base
 			if(GUILayout.Button(GUIContent(toggleSnapGraphic, "Toggle Snapping On/Off")))
 			{
 				proGrids.snapToGrid = !proGrids.snapToGrid;
+				lastActiveTransform = null;
+
 				if(proGrids.snapToGrid)
 					toggleSnapGraphic = snapOnGraphic;
 				else

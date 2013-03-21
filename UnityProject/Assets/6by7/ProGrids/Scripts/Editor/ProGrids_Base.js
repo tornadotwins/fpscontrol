@@ -2,7 +2,7 @@ class ProGrids_Base extends EditorWindow
 {
 	
 	//external variables
-	var snapSizeGraphic = (Resources.LoadAssetAtPath("Assets/6by7/Shared/GUI/icon_GridSize.tga", typeof(Object)));
+	var snapSizeGraphic = (Resources.LoadAssetAtPath("Assets/6by7/Shared/GUI/spcl_GridSize.tga", typeof(Object)));
 	var snapOnGraphic = (Resources.LoadAssetAtPath("Assets/6by7/Shared/GUI/ind_OnLight.tga", typeof(Object)));
 	var snapOffGraphic = (Resources.LoadAssetAtPath("Assets/6by7/Shared/GUI/ind_OffLight.tga", typeof(Object)));
 	var snapSelectedGraphic = (Resources.LoadAssetAtPath("Assets/6by7/Shared/GUI/btn_snapToGrid.tga", typeof(Object)));
@@ -15,6 +15,10 @@ class ProGrids_Base extends EditorWindow
 	
 	var proGrids : ProGrids;
 	
+	//var gridUnitsOptions : String[] = ["m", "cm", "ft", "in"];
+	//var gridUnitsFactors : float[] = [1.0,  0.01, 0.3048, 0.0254];
+	//var gridSnapSize_Local : float = .25;
+	
 	var toggleSnapGraphic : Texture2D;
 	var toggleVisGraphic : Texture2D;
 	var toggleAnglesGraphic : Texture2D;
@@ -24,13 +28,10 @@ class ProGrids_Base extends EditorWindow
 	var itemHeight : int = 18;
 	var toggleOffset2 : int = 18;
 	var showOptions : boolean = false;
-	
-	// --- Just for ProBuilder 2.0 integration
-	var gridSnapSize_Local : float = .25;
-	// ---
 
 	var nearestSnapPos : Vector3;
 	var activeTransform : Transform;
+	var lastActiveTransform : Transform;
 	var activeTransformPos : Vector3;
 	var storedLength : float;
 	var savedSelectionIDs = new Array();
@@ -51,34 +52,51 @@ class ProGrids_Base extends EditorWindow
 	function InitProGrids()
 	{		
 		var go : GameObject = GameObject.Find("_grid");
-		
+	
+		// if(go == null) {
+			// why cast this as a texture?
+		// 	go = Instantiate((Resources.LoadAssetAtPath("Assets/6by7/ProGrids/_grid.prefab", typeof(Texture2D))), Vector3(-1,0,0), Quaternion.identity);
+		// 	go.name = "_grid";
+		// }
+
+		// not sure why this would fail, but jic
 		if(go == null) {
-			go = Instantiate((Resources.LoadAssetAtPath("Assets/6by7/ProGrids/_grid.prefab", typeof(Texture2D))), Vector3(-1,0,0), Quaternion.identity);
+			go = new GameObject().AddComponent.<ProGrids>().gameObject;
 			go.name = "_grid";
 		}
-		
+
 		proGrids = go.GetComponent.<ProGrids>();
 	}
 
 	//100 times/second
 	function Update()
 	{
-		if(!proGrids.snapToGrid)
+		if(!proGrids)
+			return;
+
+		if(!proGrids.snapToGrid || Application.isPlaying)
 			return;			
 
-		if(proGrids) 
-		{	
-			if(Selection.transforms.Length > 0) //if grid is found
-			{
-				if(Selection.transforms[0].position != activeTransformPos)
-				{
-					DoSnap();
-				}
+		if(Selection.transforms.Length > 0) //if grid is found
+		{
+			if(lastActiveTransform != Selection.transforms[0]) {
+				lastActiveTransform = Selection.transforms[0];
+				activeTransformPos = Selection.transforms[0].position;
 			}
-		}		
+
+			if(Selection.transforms[0].position != activeTransformPos)
+			{
+				DoSnap();
+			}
+
+			proGrids.activePoint = activeTransformPos;
+		}
+		//else
+			//proGrids.activePoint = null;
 	}
 	
 	//snap object(s)
+	/*
 	function DoSnap()
 	{		
 		for(var i=0;i<Selection.transforms.Length;i++)
@@ -93,6 +111,38 @@ class ProGrids_Base extends EditorWindow
 			else
 			{
 				Selection.transforms[i].position = FindNearestSnapPos(Selection.transforms[i].position);
+			}
+		}
+
+		activeTransformPos = Selection.activeTransform.position; //position of the main transform center
+	}
+	*/
+	
+	function OnSelectionChange()
+	{
+		Debug.Log("OnSelectionChange");
+		if(Selection.transforms != null && Selection.transforms.Length > 0)
+			activeTransformPos = Selection.transforms[0].position;
+	}
+
+	//snap object(s)
+	function DoSnap()
+	{             
+		if(Selection.transforms.Length < 1)
+			return;
+
+		var old : Vector3 = Selection.transforms[0].position;
+		Selection.transforms[0].position = FindNearestSnapPos(old);
+		var offset : Vector3 = Selection.transforms[0].position - old;
+
+		for(var i=1;i<Selection.transforms.Length;i++)
+		{
+			if(Selection.gameObjects[i].GetComponent(MeshFilter))
+			{
+				if(Selection.gameObjects[i].GetComponent(MeshFilter).sharedMesh && Selection.gameObjects[i].GetComponent(MeshFilter).sharedMesh.name.Equals("DecalMeshObject"))
+					;
+				else
+					Selection.transforms[i].position = Selection.transforms[i].position + offset;
 			}
 		}
 
@@ -131,6 +181,24 @@ class ProGrids_Base extends EditorWindow
 			gridReferencePos = activeTransform.position; //position of the main transform center
 		// 	storedPos = gridReferencePos; //position of the main transform center
 		// 	FindNearestSnapPos(); //find the closest snap position
+		// 	BuildOffsetArray(); //create an array to hold all the object's offsets
+		// }
+	}
+	
+	function SnapSelectedObjects()
+	{
+		for(obj in Selection.transforms)
+			obj.position = FindNearestSnapPos(obj.position);
+		// if(Selection.activeTransform)
+		// {
+		// 	for(theObj in Selection.transforms)
+		// 	{
+		// 		var snapPos = theObj.position;
+		// 		snapPos.x = .25 * Mathf.Round(snapPos.x / .25); //find it's x position, rounded to the snap amount 
+		// 		snapPos.y = .25 * Mathf.Round(snapPos.y / .25); //find it's y position, rounded to the snap amount 
+		// 		snapPos.z = .25 * Mathf.Round(snapPos.z / .25); //find it's z position, rounded to the snap amount
+		// 		theObj.position = snapPos;
+		// 	}
 		// 	BuildOffsetArray(); //create an array to hold all the object's offsets
 		// }
 	}
@@ -198,22 +266,24 @@ class ProGrids_Base extends EditorWindow
 		return false;
 	}
 	
-		/**
+	/**
 	 *	PROBUILDER BRIDGE FUNCTIONS (it is not guaranteed that ProBuilder & ProGrids
 	 *	will always exist in parallel).
 	 */
 	function pb_ToggleSnapToGrid(snap : boolean)
 	{
+		if(!proGrids)
+			return;
+
 		for(var t : Transform in Selection.transforms)
 		{
 			if(t.GetComponent("pb_Object")) // Magic strings are sometimes okay!
 			{
 				var tp : System.Type = t.GetComponent("pb_Object").GetType();
 				var obj : System.Object = t.GetComponent("pb_Object");
-				// -- for whatever reason this doesn't work... [snap, proGrids.gridSnapSize_Factored];
 				var param : System.Object[] = new System.Object[2];
 				param[0] = snap;
-				param[1] = .25;
+				param[1] = proGrids.gridSnapSize_Factored;
 				var method : MethodInfo = tp.GetMethod("OnProGridsChange");
 				method.Invoke( obj, param );
 			}

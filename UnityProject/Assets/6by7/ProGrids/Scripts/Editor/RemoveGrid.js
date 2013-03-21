@@ -1,7 +1,7 @@
 #pragma strict
 class RemoveGrid extends EditorWindow 
 {
-	@MenuItem("Window/6by7/Utility/Remove Grid")
+	//@MenuItem("Window/6by7/Utility/Remove Grid")
     static function Initialize()
 	{
 		if(GameObject.Find("_grid"))
