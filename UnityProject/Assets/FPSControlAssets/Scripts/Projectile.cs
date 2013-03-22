@@ -5,9 +5,10 @@ using FPSControl;
 [RequireComponent(typeof(Rigidbody))]
 public class Projectile : MonoBehaviour {
 
-	public float damageAmount = 1;
+	public float damageAmount = 1;	
+	public Transform explotionPrefab;
 
-    private DamageSource damageSource;
+    private DamageSource damageSource;	
 
     void OnCollisionEnter(Collision collisionInfo)
     {
@@ -24,6 +25,7 @@ public class Projectile : MonoBehaviour {
             damageable.ApplyDamage(damageSource);
         }
 		Destroy(gameObject);
+		if (explotionPrefab != null) GameObject.Instantiate(explotionPrefab, transform.position, Quaternion.identity);
     }
 	
 }

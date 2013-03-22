@@ -16177,15 +16177,15 @@ MonoBehaviour:
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 0
+    global: 1
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 0
+    global: 1
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 0
+    global: 1
   lightIsEnabled: 0
   lightBurst: {fileID: 0}
   lightPosition: {fileID: 0}
@@ -16202,7 +16202,7 @@ MonoBehaviour:
   m_Script: {fileID: -352054857, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
   definition:
-    patternType: 0
+    patternType: 1
     blend: 0
     ACTIVATE: Activate
     DEACTIVATE: Deactivate
@@ -19111,7 +19111,7 @@ MonoBehaviour:
   m_Name: 
   definition:
     weaponName: 11111
-    pivot: {x: 0, y: 0, z: 0}
+    pivot: {x: .0346148089, y: 6.35161996e-07, z: 0}
     euler: {x: 0, y: 0, z: 0}
     scopePivot: {x: 0, y: 0, z: 0}
     scopeEuler: {x: 0, y: 0, z: 0}
@@ -19139,7 +19139,7 @@ MonoBehaviour:
     twirlingSpeed: 5
     twirl: {x: 0, y: 0, z: 0}
     reloadType: 1
-    clipCapacity: 10
+    clipCapacity: 50
     maxClips: 3
     burstAmount: 1
     constantRegeneration: 1
@@ -36168,7 +36168,7 @@ MonoBehaviour:
   crouchSpeedModifier: .649999976
   jumpForce: .25
   gravity: 4
-  liveEditing: 0
+  liveEditing: 1
 --- !u!114 &789629976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49112,15 +49112,15 @@ MonoBehaviour:
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 0
+    global: 1
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 0
+    global: 1
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 0
+    global: 1
   lightIsEnabled: 0
   lightBurst: {fileID: 0}
   lightPosition: {fileID: 0}
