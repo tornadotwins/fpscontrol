@@ -13,6 +13,7 @@ namespace FPSControl
         public FPSControlWeaponPath weaponPath;
         public GameObject projectileA;
         public GameObject projectileB;
+        public LayerMask gunDamageLayers;
 
         //damage
         public FalloffData damageFalloff = new FalloffData();
@@ -220,7 +221,7 @@ namespace FPSControl
                             Debug.DrawRay(ray.origin, ray.direction * damageFalloff.distance, Color.red, .5F);
 
                             RaycastHit hit;
-                            if (Physics.Raycast(ray, out hit, damageFalloff.distance))//did we actually hit anything?
+                            if (Physics.Raycast(ray, out hit, damageFalloff.distance, gunDamageLayers.value))//did we actually hit anything?
                             {
                                 Damageable damageable = hit.transform.GetComponent<Damageable>();
                                 if (damageable != null)

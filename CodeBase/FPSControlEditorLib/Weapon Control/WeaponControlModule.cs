@@ -318,7 +318,6 @@ namespace FPSControlEditor
             GUI.enabled = !Application.isPlaying;
             GUI.BeginGroup(windowSpaces[windowIndex]);
             GUI.Box(new Rect(0, 0, gui_window_mesh_animation.width, gui_window_mesh_animation.height), gui_window_mesh_animation, GUIStyle.none);
-
             GameObject meshPrefab;
             bool hasAnimations = GUIMeshAnimationWindow_HasAnimations();
             string dragText = (!hasAnimations ? "Drag" : "Animation");
@@ -401,8 +400,8 @@ namespace FPSControlEditor
             go.transform.localPosition = Vector3.zero;
             go.transform.localScale = Vector3.one;
             go.transform.name = currentWeapon.weapon.name + " Model";
-            ComponetHelper.CopyComponets(currentWeapon.modelControler, go.transform.GetChild(0), CopyComponetStyle.exclusive, typeof(Animation));
-            ComponetHelper.CopyComponets(go.transform.GetChild(0), currentWeapon.modelControler, CopyComponetStyle.inclusive, false, typeof(Animation));
+            ComponetHelper.CopyComponets(currentWeapon.modelControler, go.transform.GetChild(0), CopyComponetStyle.exclusive, typeof(Animation), typeof(LineRenderer));
+            ComponetHelper.CopyComponets(go.transform.GetChild(0), currentWeapon.modelControler, CopyComponetStyle.inclusive, false, typeof(Animation), typeof(LineRenderer));
             GameObject.DestroyImmediate(currentWeapon.modelOffset.gameObject);
             CheckCurrentWeapon();
         }

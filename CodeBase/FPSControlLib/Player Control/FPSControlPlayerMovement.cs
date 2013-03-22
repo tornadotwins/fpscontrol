@@ -39,6 +39,8 @@ namespace FPSControl
 
         public float gravity = 4F;
 
+        public bool liveEditing = false;
+
         Vector3 _movement = Vector3.zero;
         Vector3 _movementRate = Vector3.zero;
         Vector3 _movementDelta = Vector3.zero;
@@ -53,6 +55,19 @@ namespace FPSControl
         protected float _delta { get { return Time.deltaTime * 60F; } }
 
         void Awake()
+        {
+            UpdateVars();
+        }
+
+        void Update()
+        {
+            if (liveEditing)
+            {
+                UpdateVars();
+            }
+        }
+
+        void UpdateVars()
         {
             _transform = transform;
             _controller = GetComponent<CharacterController>();

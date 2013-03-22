@@ -94,7 +94,7 @@ namespace FPSControl
             lineRenderer.SetPosition(0, origin.position);
             RaycastHit hit;
             Ray ray = new Ray(interactionManager.position, interactionManager.forward);
-            if (Physics.Raycast(ray, out hit, definition.maxDistance))
+            if (Physics.Raycast(ray, out hit, definition.maxDistance, ((FPSControlRangedWeapon)Weapon).gunDamageLayers.value))
             {
                 lineRenderer.SetPosition(1, hit.point);
             }
@@ -145,6 +145,7 @@ namespace FPSControl
 
         private void SetAlpha(float alpha)
         {
+            if (!lineRenderer.material.HasProperty("_Color")) return;
             Color newColor = lineRenderer.material.color;
             newColor.a = alpha;
             lineRenderer.material.color = newColor;
@@ -165,7 +166,7 @@ namespace FPSControl
                 totalDistance += distance;
 
                 RaycastHit hitInfo = new RaycastHit();
-                if (Physics.Raycast(previousPosition, direction, out hitInfo, distance))
+                if (Physics.Raycast(previousPosition, direction, out hitInfo, distance, ((FPSControlRangedWeapon)Weapon).gunDamageLayers.value))
                 {
                     lineRenderer.SetPosition(i, hitInfo.point);
                     lineRenderer.SetVertexCount(i);

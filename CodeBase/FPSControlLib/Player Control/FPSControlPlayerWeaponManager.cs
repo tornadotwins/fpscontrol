@@ -57,21 +57,23 @@ namespace FPSControl
         {
             _transform = transform;
             _parent = _transform.parent;
-
+            int added = 0;
             for (int i = 0; i < weaponActors.Length; i++)
             {
                 FPSControlWeapon weapon = weaponActors[i];
+                if (weapon == null) continue;
                 weapon.transform.localPosition = weapon.definition.pivot;
                 weapon.transform.localRotation = Quaternion.Euler(weapon.definition.euler);
                 _weaponsCatalogue.Add(weapon.definition.weaponName, weapon);
                 if (addWeaponsToInventory)
                 {
-                    if (i < 4)
+                    added++;
+                    if (added < 4)
                     {
                         Add(weapon.definition.weaponName, (i == 0));
                         if (weapon.GetType() == typeof(FPSControlRangedWeapon))
                         {
-                            ((FPSControlRangedWeapon)weapon).SetAmmo((int)((FPSControlRangedWeapon)weapon).rangeDefinition.clipCapacity, 0);
+                           ((FPSControlRangedWeapon)weapon).SetAmmo((int)((FPSControlRangedWeapon)weapon).rangeDefinition.clipCapacity, 0);
                         }
                     }
                 }

@@ -15,10 +15,10 @@ namespace FPSControl.Definitions
         public string weaponName = "Weapon";
 
         //Visual
-        public Vector3 pivot;
-        public Vector3 euler;
-        public Vector3 scopePivot;
-        public Vector3 scopeEuler;
+        public Vector3 pivot = Vector3.zero;
+        public Vector3 euler = Vector3.zero;
+        public Vector3 scopePivot = Vector3.zero;
+        public Vector3 scopeEuler = Vector3.zero;
         public float scopeFOV = 20;
 
         //Damage

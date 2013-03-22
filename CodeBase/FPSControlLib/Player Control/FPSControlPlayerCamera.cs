@@ -64,7 +64,24 @@ namespace FPSControl
         float _scopeFOV = 0;
         public float baseFOV { get; private set; }
 
+        public bool applyChanges = false;
+
         void Awake()
+        {
+            applyChanges = false;
+            UpdateVars();       
+        }
+
+        void Update()
+        {
+            if (applyChanges)
+            {
+                applyChanges = false;
+                UpdateVars();
+            }
+        }
+
+        void UpdateVars()
         {
             _oscillatorX = new Oscillator(-bobOffset.x, bobOffset.x);
             _oscillatorY = new Oscillator(-bobOffset.y, bobOffset.y);
@@ -73,7 +90,7 @@ namespace FPSControl
             _transform = transform;
             _camera = camera;
             baseFOV = _camera.fieldOfView;
-            
+
             _upperBody = _transform.parent;
             _upperBody.localPosition = new Vector3(0, height, 0);
             _transform.localPosition = Vector3.zero;
