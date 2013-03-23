@@ -23,19 +23,28 @@ namespace FPSControl
     {
         [HideInInspector]
         public FPSControlPlayerWeaponManager Parent { get; protected set; }
-        
+
+        [HideInInspector]
         public FPSControlWeaponDefinition definition = new FPSControlWeaponDefinition();
 
         //Sub-Components
+        [HideInInspector]
         public FPSControlWeaponAnimation weaponAnimation;
+        [HideInInspector]
         public FPSControlWeaponParticles weaponParticles;
+        [HideInInspector]
         public FPSControlWeaponSound weaponSound;
 
         //States
+        [HideInInspector]
         public WeaponState idleState;
+        [HideInInspector]
         public WeaponState fireState;
+        [HideInInspector]
         public WeaponState reloadState;
+        [HideInInspector]
         public WeaponState defendState;
+        [HideInInspector]
         public WeaponState chargeState;
 
         //Internal Stats
@@ -57,9 +66,11 @@ namespace FPSControl
         public bool defending { get { return currentState == defendState; } }
         public bool charging { get { return currentState == chargeState; } }
         public bool canFire { get { return canUse && !firing && !defending && !reloading; } }
+        [HideInInspector]
         public bool canUse { get; protected set; }
         [HideInInspector] bool __hasAmmo = false;
         public virtual bool hasAmmo { get { return __hasAmmo; } }
+        [HideInInspector]
         public virtual bool canScope { get; protected set; }
 
         void Awake()

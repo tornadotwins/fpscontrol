@@ -12,7 +12,10 @@ namespace FPSControl.Data
         [SerializeField]
         List<FalloffPoint> _points = new List<FalloffPoint>();
 
-        public FalloffData() { }
+        public FalloffData() 
+        {
+            this._points.Add(new FalloffPoint(0, 0));
+        }
 
         public FalloffPoint[] ToArray()
         {

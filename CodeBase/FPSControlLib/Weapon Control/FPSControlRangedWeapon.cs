@@ -9,15 +9,20 @@ namespace FPSControl
 {
     public class FPSControlRangedWeapon : FPSControlWeapon
     {
+        [HideInInspector]
         public FPSControlRangeWeaponDefinition rangeDefinition = new FPSControlRangeWeaponDefinition();
+        [HideInInspector]
         public FPSControlWeaponPath weaponPath;
+        [HideInInspector]
         public GameObject projectileA;
+        [HideInInspector]
         public GameObject projectileB;
         public LayerMask gunDamageLayers;
 
-        //damage
+        [HideInInspector]
         public FalloffData damageFalloff = new FalloffData();
 
+        [HideInInspector]
         new public WeaponState currentState
         {
             get
@@ -30,6 +35,7 @@ namespace FPSControl
             }
         }
 
+        [HideInInspector]
         public override bool canScope
         {
             get
@@ -38,12 +44,18 @@ namespace FPSControl
             }
         }
 
+        [HideInInspector]
         int _currentClipContents = 0;
+        [HideInInspector]
         int _currentClips = 0;
+        [HideInInspector]
         int _currentAmmo = 0;
 
+        [HideInInspector]
         float _currentEnergy = 100F;
+        [HideInInspector]
         float _timeLastActive = -1F;
+        [HideInInspector]
 		float _timeSinceActivation = 0F;
 
         public override bool hasAmmo

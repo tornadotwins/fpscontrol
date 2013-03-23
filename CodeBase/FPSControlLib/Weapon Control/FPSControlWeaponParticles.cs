@@ -11,19 +11,23 @@ namespace FPSControl
     public class FPSControlWeaponParticles : FPSControlWeaponComponent
     {
         public static bool enableWarnings = true;
-
+        [HideInInspector]
         public FPSControlWeaponParticlesDefinition definition = new FPSControlWeaponParticlesDefinition();
-        
+        [HideInInspector]
         [SerializeField] public FPSControlWeaponParticleData[] particles;
-
+        [HideInInspector]
         [SerializeField]
         public bool lightIsEnabled;
+        [HideInInspector]
         [SerializeField]
         public Light lightBurst;
+        [HideInInspector]
         [SerializeField]
         public Transform lightPosition;
+        [HideInInspector]
         [SerializeField]
         public float lightDuration = 1F;
+        [HideInInspector]
         [SerializeField]
         float _startingIntensity;
 

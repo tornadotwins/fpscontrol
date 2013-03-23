@@ -14,17 +14,22 @@ namespace FPSControl
     [RequireComponent(typeof(Animation))]
     public class FPSControlWeaponAnimation : FPSControlWeaponComponent
     {
-
+        [HideInInspector]
         public FPSControlWeaponAnimationDefinition definition = new FPSControlWeaponAnimationDefinition();
-        public FalloffData firingPattern;
+        [HideInInspector]
+        public FalloffData firingPattern = new FalloffData();
+        [HideInInspector]
         private Animation _animation;
+        [HideInInspector]
         private bool _patternComplete = false;
 
+        [HideInInspector]
         public System.Action animationCompleteCallback;
 
         void Awake()
         {
             _animation = animation;
+            
             //LAYERING SETUP
             if (_animation[definition.ACTIVATE] != null)
             {

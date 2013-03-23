@@ -11,9 +11,11 @@ namespace FPSControl
     /// </summary>
     public abstract class FPSControlPlayerComponent : MonoBehaviour
     {
-
+        [HideInInspector]
         public FPSControlPlayer Player { get; private set; }
+        [HideInInspector]
         public bool Initialized { get; private set; }
+        [HideInInspector]
         protected PlayerState state;
 
         public virtual void Initialize(FPSControlPlayer player)

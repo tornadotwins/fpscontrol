@@ -1,13 +1,14 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\6by7\QuickDecals\Scripts\Editor\QuickDecals_GUI.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\FPSControlAssets\Scripts\Projectile.cs">
     <Files>
-      <File FileName="Assets\FPSControlAssets\Scripts\_New Character\EquipPistol.cs" Line="19" Column="30" />
-      <File FileName="Assets\6by7\ProBuilder\Editor\ProBuilderMenuItems.cs" Line="8" Column="2" />
-      <File FileName="Assets\6by7\ProBuilder\Editor\pb_Preferences.cs" Line="24" Column="32" />
-      <File FileName="Assets\6by7\ProGrids\Scripts\Editor\ProGrids_GUI.js" Line="12" Column="24" />
-      <File FileName="Assets\6by7\ProGrids\Scripts\Editor\RemoveGrid.js" Line="4" Column="4" />
+      <File FileName="Assets\FPSControlAssets\Scripts\_New Character\EquipPistol.cs" Line="1" Column="1" />
+      <File FileName="Assets\6by7\ProBuilder\Editor\ProBuilderMenuItems.cs" Line="1" Column="1" />
+      <File FileName="Assets\6by7\ProBuilder\Editor\pb_Preferences.cs" Line="1" Column="1" />
+      <File FileName="Assets\6by7\ProGrids\Scripts\Editor\ProGrids_GUI.js" Line="1" Column="1" />
+      <File FileName="Assets\6by7\ProGrids\Scripts\Editor\RemoveGrid.js" Line="1" Column="1" />
       <File FileName="Assets\6by7\QuickDecals\Scripts\Editor\QuickDecals_GUI.js" Line="13" Column="3" />
+      <File FileName="Assets\FPSControlAssets\Scripts\Projectile.cs" Line="10" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

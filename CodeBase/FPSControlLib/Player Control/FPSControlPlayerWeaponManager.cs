@@ -22,27 +22,37 @@ namespace FPSControl
 
         public FPSControlWeapon[] weaponActors; //all possible weapons should be setup here
         Dictionary<string, FPSControlWeapon> _weaponsCatalogue = new  Dictionary<string, FPSControlWeapon>(); //the catalogue of weapons, built dynamically from weaponActors array
+        [HideInInspector]
         List<FPSControlWeapon> _availableWeapons = new List<FPSControlWeapon>(); //the available weapons (max 
-
+        [HideInInspector]
         Transform _transform;
+        [HideInInspector]
         Transform _parent;
-
+        [HideInInspector]
         FPSControlPlayerMovement _playerMovement;
+        [HideInInspector]
         FPSControlPlayerCamera _playerCamera;
-
+        [HideInInspector]
         public Vector3 shouldersOffset;
-
+        [HideInInspector]
         FPSControlWeapon _currentWeapon = null;
+        [HideInInspector]
         public FPSControlWeapon currentWeapon{get{return _currentWeapon;}}
+        [HideInInspector]
         FPSControlWeapon _queuedWeapon = null;
-
+        [HideInInspector]
         bool _running = false;
+        [HideInInspector]
         PlayerState _prevState;
-
+        [HideInInspector]
         bool _mouseDownL = false;
+        [HideInInspector]
         bool _mouseWasDownL = false;
+        [HideInInspector]
         bool _mouseDownR = false;
+        [HideInInspector]
         bool _mouseWasDownR = false;
+        [HideInInspector]
         float _mouseCounter = 0;
 
         public override void SetState(States.State state)

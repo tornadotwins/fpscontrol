@@ -16099,12 +16099,12 @@ GameObject:
   m_Component:
   - 4: {fileID: 304590483}
   - 111: {fileID: 304590489}
-  - 114: {fileID: 304590487}
   - 114: {fileID: 304590486}
   - 82: {fileID: 304590488}
   - 114: {fileID: 304590485}
   - 120: {fileID: 304590490}
   - 114: {fileID: 304590484}
+  - 114: {fileID: 304590487}
   m_Layer: 8
   m_Name: FPS_hands&beretta
   m_TagString: Untagged
@@ -16209,8 +16209,8 @@ MonoBehaviour:
     RUN: Run
     WALK: Walk
     IDLE: Idle
-    SCOPE_IO: 
-    SCOPE_LOOP: 
+    SCOPE_IO: Scope IO
+    SCOPE_LOOP: Scope Loop
     FIRE: Fire
     RELOAD: Reload
     EMPTY: Empty
@@ -16221,7 +16221,9 @@ MonoBehaviour:
     DEFEND_EXIT: Defend Exit
   firingPattern:
     distance: 1
-    _points: []
+    _points:
+    - location: 0
+      value: 0
 --- !u!82 &304590488
 AudioSource:
   m_ObjectHideFlags: 0
@@ -52003,7 +52005,7 @@ MonoBehaviour:
     spread: 1.5
     twirlingSpeed: 5
     twirl: {x: 0, y: 0, z: 0}
-    reloadType: 1
+    reloadType: 0
     clipCapacity: 20.5769138
     maxClips: 3
     burstAmount: 1

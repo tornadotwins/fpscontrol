@@ -20,6 +20,7 @@ namespace FPSControl
         public Vector3 center { get { return new Vector3(0, height / 2F, 0); } }
         public float crouchHeight = 1.1F;
         public Vector3 crouchedCenter { get { return new Vector3(0, crouchHeight / 2F, 0); } }
+        [HideInInspector]
         bool _crouched = false;
         public bool isCrouching { get { return _crouched; } }
         public float crouchSpeedModifier = .5F;
@@ -29,27 +30,36 @@ namespace FPSControl
 
         public float jumpForce = .25F;
         //public float airResistance = .75F;
+        [HideInInspector]
         float _fallVelocity = 0F;
         //float _prevFallVelocity = 0F;
         //float _topFallVelocity = 0F;
+        [HideInInspector]
         bool _wasGrounded;
+        [HideInInspector]
         public bool isJumping { get { return _jumping; } }
+        [HideInInspector]
         bool _jumping = false;
         bool canJump { get { return Player.currentState.canJump && _controller.height == height; } }
 
         public float gravity = 4F;
 
         public bool liveEditing = false;
-
+        [HideInInspector]
         Vector3 _movement = Vector3.zero;
+        [HideInInspector]
         Vector3 _movementRate = Vector3.zero;
+        [HideInInspector]
         Vector3 _movementDelta = Vector3.zero;
-
+        [HideInInspector]
         bool _input = false; //was there any user input this frame?
-
+        [HideInInspector]
         FPSControlPlayerCamera _cam;
+        [HideInInspector]
         CharacterController _controller;
+        [HideInInspector]
         public CharacterController Controller{get{return _controller;}}
+        [HideInInspector]
         Transform _transform;
 
         protected float _delta { get { return Time.deltaTime * 60F; } }

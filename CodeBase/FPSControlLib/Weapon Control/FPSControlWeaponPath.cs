@@ -10,18 +10,25 @@ namespace FPSControl
     [RequireComponent (typeof(LineRenderer))]
     public class FPSControlWeaponPath : FPSControlWeaponComponent
     {
+        [HideInInspector]
         public FPSControlWeaponPathDefinition definition = new FPSControlWeaponPathDefinition();
-
+        [HideInInspector]
         public Transform origin;
+        [HideInInspector]
         public Material material;
         public float lineRendererScaleFactor = 1;
 
+        [HideInInspector]
         public Vector3 shootVelocity { get { return _startingVelocity; } }
 
+        [HideInInspector]
         private LineRenderer lineRenderer;
+        [HideInInspector]
         private Vector3 _startingVelocity;
+        [HideInInspector]
         private Transform interactionManager;
- 
+
+        [HideInInspector]
         public override void Initialize(FPSControlWeapon parent)
         {
             base.Initialize(parent);            
@@ -37,6 +44,7 @@ namespace FPSControl
             interactionManager = Weapon.Parent.Player.interactionManager.transform;
         }
 
+        [HideInInspector]
         WeaponState lastState;
         private void Update()
         {

@@ -9,14 +9,19 @@ namespace FPSControl
     [RequireComponent(typeof(AudioSource))]
     public class FPSControlWeaponSound : FPSControlWeaponComponent
     {
-
+        [HideInInspector]
         public FPSControlWeaponSoundDefinition definition = new FPSControlWeaponSoundDefinition();
-
+        [HideInInspector]
         public AudioClip equipSFX;
+        [HideInInspector]
         public AudioClip fire1SFX;
+        [HideInInspector]
         public AudioClip fire2SFX;
+        [HideInInspector]
         public AudioClip fire3SFX;
+        [HideInInspector]
         public AudioClip reloadSFX;
+        [HideInInspector]
         public AudioClip emptySFX;
 
         public void SFX_Equip()
