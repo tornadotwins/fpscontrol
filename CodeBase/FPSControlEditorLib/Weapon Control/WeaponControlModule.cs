@@ -661,7 +661,8 @@ namespace FPSControlEditor
         private void SaveWeaponCopy(FPSControlWeapon weapon)
         {
             Serializer.SaveData<FPSControlWeaponDefinitions>(PREF_SAVED_PREFIX + weapon.definition.weaponName, new FPSControlWeaponDefinitions(currentWeapon.weapon));
-            EditorPrefs.SetBool(PREF_SAVED_PREFIX + "NEEDS_SAVING", true);          
+            EditorPrefs.SetBool(PREF_SAVED_PREFIX + "NEEDS_SAVING", true);
+            if (!Application.isPlaying) SaveIfPrefab(currentWeapon.weapon.gameObject);
         }
 
         private void SaveIfPrefab(GameObject go)

@@ -27,7 +27,7 @@ RenderSettings:
   m_SpotCookie: {fileID: 0}
   m_ObjectHideFlags: 0
 --- !u!127 &3
-GameManager:
+LevelGameManager:
   m_ObjectHideFlags: 0
 --- !u!157 &4
 LightmapSettings:
@@ -16136,7 +16136,7 @@ MonoBehaviour:
   m_Script: {fileID: 603243038, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
   definition:
-    render: 1
+    render: 0
     consistentRender: 0
     isPreFire: 1
     maxDistance: 1000
@@ -16209,8 +16209,8 @@ MonoBehaviour:
     RUN: Run
     WALK: Walk
     IDLE: Idle
-    SCOPE_IO: Scope IO
-    SCOPE_LOOP: Scope Loop
+    SCOPE_IO: 
+    SCOPE_LOOP: 
     FIRE: Fire
     RELOAD: Reload
     EMPTY: Empty
@@ -70100,7 +70100,7 @@ MonoBehaviour:
   m_Name: 
   definition:
     render: 1
-    consistentRender: 0
+    consistentRender: 1
     isPreFire: 0
     maxDistance: 1000
     maxTimeDistance: 1.42307758

@@ -19,7 +19,7 @@ namespace FPSControl.Definitions
         public float maxTimeDistance = 3; //Used by the arch line render - time in seconds to predict
         public float leavingForce = 5;
         public Color lineColor = Color.green;
-        public float fadeOutTime = 0.25f;
+        public float fadeOutTime = 0.5f;
 
         public FPSControlWeaponPathDefinition() { }
     }

@@ -42,13 +42,14 @@ namespace FPSControl
         {
             yield return 0; //Wait one frame because Player refrence doent happen till end of frame
             interactionManager = Weapon.Parent.Player.interactionManager.transform;
+            if (origin == null) origin = interactionManager;
         }
 
         [HideInInspector]
         WeaponState lastState;
         private void Update()
         {
-            if (definition.render && definition.isPreFire)
+            if (definition.isPreFire)
             {
                 if (currentState == Weapon.idleState)
                 {
@@ -64,7 +65,7 @@ namespace FPSControl
                     if (lastState == Weapon.idleState)
                     {
                        //StartCoroutine(FadeLine(null, false));
-                        lineRenderer.SetVertexCount(0);
+                       lineRenderer.SetVertexCount(0);
                     }
                 }                
             }
@@ -98,6 +99,7 @@ namespace FPSControl
         
         private void RenderLine()
         {
+            float totalDistance = 1;
             lineRenderer.SetVertexCount(2);
             lineRenderer.SetPosition(0, origin.position);
             RaycastHit hit;
@@ -105,12 +107,17 @@ namespace FPSControl
             if (Physics.Raycast(ray, out hit, definition.maxDistance, ((FPSControlRangedWeapon)Weapon).gunDamageLayers.value))
             {
                 lineRenderer.SetPosition(1, hit.point);
+                totalDistance = hit.distance;
             }
             else
             {
                 Vector3 endPos = interactionManager.position + (interactionManager.forward * definition.maxDistance);
-                lineRenderer.SetPosition(1, hit.point);
+                lineRenderer.SetPosition(1, endPos);
+                totalDistance = definition.maxDistance;
             }
+            Vector2 newScale = material.mainTextureScale;
+            newScale.x = totalDistance * lineRendererScaleFactor;
+            material.mainTextureScale = newScale;
         }
 
         private void RenderOnce()
@@ -161,7 +168,7 @@ namespace FPSControl
 
         private void RenderArch()
         {
-            lineRenderer.SetVertexCount((int)(definition.maxTimeDistance * 60));
+            if(definition.render) lineRenderer.SetVertexCount((int)(definition.maxTimeDistance * 60));
             Vector3 previousPosition = origin.position;
             float totalDistance = 0;
             for (int i = 0; i < (int)(definition.maxTimeDistance * 60); i++)
@@ -176,14 +183,14 @@ namespace FPSControl
                 RaycastHit hitInfo = new RaycastHit();
                 if (Physics.Raycast(previousPosition, direction, out hitInfo, distance, ((FPSControlRangedWeapon)Weapon).gunDamageLayers.value))
                 {
-                    lineRenderer.SetPosition(i, hitInfo.point);
-                    lineRenderer.SetVertexCount(i);
+                    if (definition.render) lineRenderer.SetPosition(i, hitInfo.point);
+                    if (definition.render) lineRenderer.SetVertexCount(i);
                     break;
                 }
 
                 previousPosition = currentPosition;
                 currentPosition = transform.InverseTransformPoint(currentPosition);
-                lineRenderer.SetPosition(i, currentPosition);
+                if (definition.render) lineRenderer.SetPosition(i, currentPosition);
             }
             Vector2 newScale = material.mainTextureScale;
             newScale.x = totalDistance * lineRendererScaleFactor;
