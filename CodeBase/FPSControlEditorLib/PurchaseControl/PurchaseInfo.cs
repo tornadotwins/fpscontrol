@@ -15,6 +15,7 @@ namespace FPSControlEditor
 
         internal static bool CheckForPurchase(FPSControlModuleType module)
         {
+            //CreateTestJSON();
             if (module == FPSControlModuleType.BuildControl) return false;
             return true;
         }
@@ -37,6 +38,10 @@ namespace FPSControlEditor
             b.purchased = true;
             b.version = 1.0f;
             test.data.Add(FPSControlModuleType.WeaponControl, b);
+
+            test.login.passwordMatch = true;
+            test.login.userExsist = true;
+            test.login.subscription = "free";
 
             Debug.Log(JSONDeserializer.GenerateJSON(test));
         }

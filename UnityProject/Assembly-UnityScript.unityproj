@@ -87,6 +87,9 @@
  <Reference Include="ProBuilderCore">
  <HintPath>Assets\6by7\ProBuilder\Classes\ProBuilderCore.dll</HintPath>
  </Reference>
+ <Reference Include="JsonFx.Json">
+ <HintPath>Assets\FPSControlCore\Plugins\JsonFx.Json.dll</HintPath>
+ </Reference>
  <Reference Include="FPSControlLib">
  <HintPath>Assets\FPSControlCore\Plugins\FPSControlLib.dll</HintPath>
  </Reference>

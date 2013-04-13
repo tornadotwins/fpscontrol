@@ -73,6 +73,9 @@
  <Reference Include="FPSControlEditorLib">
  <HintPath>Assets\FPSControlCore\Editor\FPSControl\FPSControlEditorLib.dll</HintPath>
  </Reference>
+ <Reference Include="JsonFx.Json">
+ <HintPath>Assets\FPSControlCore\Plugins\JsonFx.Json.dll</HintPath>
+ </Reference>
  <Reference Include="FPSControlLib">
  <HintPath>Assets\FPSControlCore\Plugins\FPSControlLib.dll</HintPath>
  </Reference>
@@ -90,9 +93,6 @@
  </Reference>
  <Reference Include="UnityEditor.Graphs">
  <HintPath>C:\Program Files (x86)\Unity4\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
- </Reference>
- <Reference Include="JsonFx.Json">
- <HintPath>Assets\FPSControlCore\Editor\FPSControl\JsonFx.Json.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
