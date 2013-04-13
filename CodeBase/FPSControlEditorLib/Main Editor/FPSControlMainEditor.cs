@@ -34,6 +34,8 @@ namespace FPSControlEditor
     {
         static Rect windowSize;
 
+        public static FPSControlMainEditor window;
+
         #region Server Data
 
         const string HREF = @"http://www.fpscontrol.com/login.php";
@@ -152,7 +154,7 @@ namespace FPSControlEditor
             //Debug.Log("Opening FPSControl.");
             windowSize = new Rect((Screen.currentResolution.width / 2) - 287.5f, (Screen.currentResolution.height / 2) - 243, WINDOW_SIZE.x, WINDOW_SIZE.y);
 
-            FPSControlMainEditor window = EditorWindow.GetWindowWithRect<FPSControlMainEditor>(windowSize, true, "FPSControl", true);
+            window = EditorWindow.GetWindowWithRect<FPSControlMainEditor>(windowSize, true, "FPSControl", true);
 
             window.LoadAssets();
             window.PreloadModules();
@@ -162,7 +164,7 @@ namespace FPSControlEditor
         internal static void OpenTo(FPSControlModuleType m)
         {
             windowSize = new Rect((Screen.currentResolution.width / 2) - 287.5f, (Screen.currentResolution.height / 2) - 243, WINDOW_SIZE.x, WINDOW_SIZE.y);
-            FPSControlMainEditor window = EditorWindow.GetWindowWithRect<FPSControlMainEditor>(windowSize, true, "FPSControl", true);
+            window = EditorWindow.GetWindowWithRect<FPSControlMainEditor>(windowSize, true, "FPSControl", true);
 
             window.LoadAssets();
             window.PreloadModules(m);

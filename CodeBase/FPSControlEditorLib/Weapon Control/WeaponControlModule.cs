@@ -660,7 +660,7 @@ namespace FPSControlEditor
 
         private void SaveWeaponCopy(FPSControlWeapon weapon)
         {
-            Serializer.SaveData<FPSControlWeaponDefinitions>(PREF_SAVED_PREFIX + weapon.definition.weaponName, new FPSControlWeaponDefinitions(currentWeapon.weapon));
+            Serializer.SaveData<FPSControlWeaponDefinitions>(PREF_SAVED_PREFIX + weapon.definition.weaponName, new FPSControlWeaponDefinitions(currentWeapon.weapon), true, false, false);
             EditorPrefs.SetBool(PREF_SAVED_PREFIX + "NEEDS_SAVING", true);
             if (!Application.isPlaying) SaveIfPrefab(currentWeapon.weapon.gameObject);
         }
@@ -679,7 +679,7 @@ namespace FPSControlEditor
         {
             if (EditorPrefs.HasKey(PREF_SAVED_PREFIX + weapon.definition.weaponName))
             {
-                FPSControlWeaponDefinitions definitions = Serializer.LoadData<FPSControlWeaponDefinitions>(PREF_SAVED_PREFIX + weapon.definition.weaponName);
+                FPSControlWeaponDefinitions definitions = Serializer.LoadData<FPSControlWeaponDefinitions>(PREF_SAVED_PREFIX + weapon.definition.weaponName, false, false);
                 FPSControlWeaponDefinitions.LoadDefintionsIntoWeapon(definitions, ref weapon);
                 SaveIfPrefab(weapon.gameObject);
             }

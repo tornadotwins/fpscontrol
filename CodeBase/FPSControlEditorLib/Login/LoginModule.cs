@@ -13,7 +13,7 @@ namespace FPSControlEditor
     {
         const string BYPASS_LOGIN_USER = "!__=DEV=__!";//bypass for devs ;)
         const string BYPASS_LOGIN_PASS = "==";
-        const string LOGIN_URI = "http://gameprefabs.com/login.php"; //https://gameprefabs.com/login.php http://localhost/~efraim/logintest/index.html
+        const string LOGIN_URI = "http://gameprefabs.com/login2.php"; //https://gameprefabs.com/login.php http://localhost/~efraim/logintest/index.html
         const string RESULT_SUCCESS_FREEPLAN = "success=1&type=freePlan";
         const string PATH = "Login/";
 
@@ -131,6 +131,27 @@ namespace FPSControlEditor
 			
 			string result = Login(username, password, true);
 
+            RespounceHandler.LoadWebResult(result);
+
+            if (RespounceHandler.validPassword)
+            {
+                OnLoginSuccess(new FPSControlUserObject(username, System.DateTime.Now));
+                errorMsg = "";
+            }
+            else
+            {
+                if (!RespounceHandler.validUser)
+                {
+                    errorMsg = "User not found";
+                }
+                else
+                {
+                    errorMsg = "Incorrect Password";
+                }
+                OnLoginFail(null);
+            }
+
+
             Debug.Log(result);
 
             /*
@@ -142,31 +163,33 @@ namespace FPSControlEditor
             */
             //Debug.Log(result);
 
-            b = (result == RESULT_SUCCESS_FREEPLAN);
+            //b = (result == RESULT_SUCCESS_FREEPLAN);
 
             //Debug.Log(result + " == success=1&type=freePlan " + b); 
 
-            if(b)
-            {
-                OnLoginSuccess(new FPSControlUserObject(username,System.DateTime.Now));
-                errorMsg = "";
-            }
-            else
-            {
-                _fail = true;
-				if(result=="error=IncorrectLogin2")
-				{
-					errorMsg = "Incorrect Login";
-				}
-				else
-				{
-					errorMsg = "Error: " + result;
-				}
+
+
+            //if(b)
+            //{
+            //    OnLoginSuccess(new FPSControlUserObject(username,System.DateTime.Now));
+            //    errorMsg = "";
+            //}
+           // else
+           // {
+            //    _fail = true;
+			//	if(result=="error=IncorrectLogin2")
+			//	{
+			//		errorMsg = "Incorrect Login";
+			//	}
+			//	else
+			//	{
+			//		errorMsg = "Error: " + result;
+			//	}
                 //errorMsg = "Error: "+result;
 				//Debug.Log("Login Failure: "+result);
                 //Debug.Log("Login Failure");
-                OnLoginFail(null);
-            }
+            //    OnLoginFail(null);
+            //}
         }
 
         internal string Login(string un, string pwd, bool t)

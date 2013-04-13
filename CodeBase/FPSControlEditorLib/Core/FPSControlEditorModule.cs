@@ -51,7 +51,7 @@ namespace FPSControlEditor
         public virtual void Init() {
             WAS_PLAYING_WHEN_LOST_FOCUS = "_FPSControl_" + _type + "FocusedBeforePlay";
             JUST_LEFT_TO_CREATE_NEW = "_FPSControl_" + _type + "FocusedBeforePlay";
-            HandlePaidStatus(PurchaseInfo.CheckForPurchase(_type));
+            HandlePaidStatus(RespounceHandler.CheckForPurchase(_type));
         }
 
         public virtual void HandlePaidStatus(bool paid)
