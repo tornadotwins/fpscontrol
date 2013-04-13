@@ -130,7 +130,9 @@ namespace FPSControlEditor
             errorMsg = "";
 			
 			string result = Login(username, password, true);
-            
+
+            Debug.Log(result);
+
             /*
             System.Net.WebRequest req = System.Net.WebRequest.Create("http://equals-equals.com/test.php?username="+username+"&password="+password); //https://gameprefabs.com/login.php?username=test&password=123");
             //req.Proxy = new System.Net.WebProxy("", true); //true means no proxy
@@ -158,7 +160,7 @@ namespace FPSControlEditor
 				}
 				else
 				{
-					errorMsg = "Error: "+result;
+					errorMsg = "Error: " + result;
 				}
                 //errorMsg = "Error: "+result;
 				//Debug.Log("Login Failure: "+result);

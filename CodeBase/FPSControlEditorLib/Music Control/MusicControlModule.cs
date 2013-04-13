@@ -102,6 +102,7 @@ namespace FPSControlEditor
             ButtonStyle.alignment = TextAnchor.MiddleCenter;
             ButtonStyle.normal.background = Load<Texture2D>(FPSControlMainEditor.ASSET_PATH + FPSControlMainEditor.GRAPHICS + PATH + "button.png");			
             precisionBG = Load<Texture>(FPSControlMainEditor.ASSET_PATH + FPSControlMainEditor.GRAPHICS + PATH + "precision_box_bg.png");
+            base.Init();
              //Knobs.OnInteractionBegan = OnPress;
              //Knobs.OnInteract = OnDrag;
              //Knobs.OnInteractionEnd = OnRelease;

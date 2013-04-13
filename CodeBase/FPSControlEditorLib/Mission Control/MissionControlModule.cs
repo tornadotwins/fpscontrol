@@ -83,6 +83,7 @@ namespace FPSControlEditor
       	    stage2_background = Load<Texture>(FPSControlMainEditor.ASSET_PATH + FPSControlMainEditor.GRAPHICS + PATH + "stage2_background.png");
       	    stage3_background = Load<Texture>(FPSControlMainEditor.ASSET_PATH + FPSControlMainEditor.GRAPHICS + PATH + "stage3_background.png");
       	    stage4_background = Load<Texture>(FPSControlMainEditor.ASSET_PATH + FPSControlMainEditor.GRAPHICS + PATH + "stage4_background.png");
+            base.Init();
 		}
 		
 		

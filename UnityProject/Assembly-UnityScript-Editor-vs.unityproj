@@ -100,6 +100,9 @@
  <Reference Include="UnityEditor.Graphs">
  <HintPath>C:\Program Files (x86)\Unity4\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
  </Reference>
+ <Reference Include="JsonFx.Json">
+ <HintPath>Assets\FPSControlCore\Editor\FPSControl\JsonFx.Json.dll</HintPath>
+ </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-vs.csproj">

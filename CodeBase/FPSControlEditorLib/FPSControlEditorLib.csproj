@@ -49,6 +49,9 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JsonFx.Json">
+      <HintPath>..\..\UnityProject\Assets\FPSControlCore\Plugins\JsonFx.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="FPSControlLib">
       <HintPath>..\FPSControlLib\obj\Release\FPSControlLib.dll</HintPath>
@@ -68,9 +71,11 @@
     <Compile Include="Core\FPSControlEditorModule.cs" />
     <Compile Include="Core\UnavailableModule.cs" />
     <Compile Include="Core\Utils\ComponetHelper.cs" />
+    <Compile Include="Core\Utils\Crypto.cs" />
     <Compile Include="Core\Utils\Drag.cs" />
     <Compile Include="Core\Utils\FalloffSlider.cs" />
     <Compile Include="Core\Utils\HOEditorUndoManager.cs" />
+    <Compile Include="Core\Utils\JSONDeserializer.cs" />
     <Compile Include="Core\Utils\Popup.cs" />
     <Compile Include="Core\Utils\Knobs.cs" />
     <Compile Include="Core\Utils\Serializer.cs" />
@@ -86,6 +91,9 @@
     <Compile Include="Music Control\MusicControlInspector.cs" />
     <Compile Include="Music Control\MusicControlNode.cs" />
     <Compile Include="Optimize\OptimizeModule.cs" />
+    <Compile Include="PurchaseControl\PurchaseControlModule.cs" />
+    <Compile Include="PurchaseControl\PurchaseData.cs" />
+    <Compile Include="PurchaseControl\PurchaseInfo.cs" />
     <Compile Include="Teamwork\TeamworkModule.cs" />
     <Compile Include="Mission Control\MissionControlModule.cs" />
     <Compile Include="Optimize\MeshCombineUtility.cs" />

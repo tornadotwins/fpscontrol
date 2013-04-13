@@ -165,6 +165,8 @@ namespace FPSControlEditor
 
             templateFile = Load<TextAsset>(FPSControlMainEditor.ASSET_PATH + FPSControlMainEditor.TEXT_ASEETS + "GameSettings_Template.txt");
 
+            base.Init();
+
             //PullSettings();
            // Knobs.OnInteractionBegan = OnPress;
             //Knobs.OnInteract = OnDrag;

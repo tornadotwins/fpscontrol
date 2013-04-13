@@ -719,10 +719,10 @@ namespace FPSControlEditor
         }
 
         public override void Init()
-        {
-            base.Init();
+        {            
             LoadAssets();
             LocateWeapons();
+            base.Init();
         }
 
         private bool _rebuild = true;

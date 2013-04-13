@@ -15,7 +15,7 @@ namespace FPSControlEditor
 
         const string guiFolder = "BuildControl/";
 
-        private bool paidVersion = false;
+        private bool paidVersion = true;
 
         #region GUI Properties
         private Rect backgroundRect = new Rect(247, 50, 660, 580);
@@ -107,6 +107,12 @@ namespace FPSControlEditor
         {
             base.Init();
             LoadAssets();
+        }
+
+        public override void HandlePaidStatus(bool paid)
+        {
+            Debug.Log(paid);
+            paidVersion = paid;
         }
 
         override public void OnFocus(bool rebuild)

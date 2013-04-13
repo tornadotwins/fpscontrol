@@ -13,6 +13,7 @@ namespace FPSControlEditor
 {
     public enum FPSControlModuleType
     {
+        NeedsPurchasing = -3,
         NONE = -2, //No Module. Empty Screen
         UNAVAILABLE = -1, //An UnavailableModule, this is just a message and a link to the development roadmap.
         Login = 0,
@@ -112,22 +113,33 @@ namespace FPSControlEditor
         #region Modules
 
         static FPSControlEditorModule loadedModule;
+        //static FPSControlEditorModule needsPurchasing;
+        //public FPSControlEditorModule gameSettings;
+        //public FPSControlEditorModule footsteps;
+        //public FPSControlEditorModule buildcontrol;
+       // public FPSControlEditorModule missionControl;
+       // public FPSControlEditorModule optimize;
+       // public FPSControlEditorModule musicControl;
+        //public FPSControlEditorModule login;
+        //public FPSControlEditorModule teamwork;
+        //public FPSControlEditorModule weaponControl;
 
-        public FPSControlEditorModule gameSettings;
-        public FPSControlEditorModule footsteps;
-        public FPSControlEditorModule buildcontrol;
-        public FPSControlEditorModule missionControl;
-        public FPSControlEditorModule optimize;
-        public FPSControlEditorModule musicControl;
-        public FPSControlEditorModule login;
-        public FPSControlEditorModule teamwork;
-        public FPSControlEditorModule weaponControl;
+
+        public static Dictionary<FPSControlModuleType, FPSControlEditorModule> modules = new Dictionary<FPSControlModuleType,FPSControlEditorModule>();
 
         #endregion // Modules
 
         #region Editor Properties
 
-        string username = "";
+
+        string _username = "";
+        public string username
+        {
+            get
+            {
+                return _username;
+            }
+        }
         bool loggedIn = false;
 
         //int currentPage = 0; //current page of sidebar
@@ -145,7 +157,7 @@ namespace FPSControlEditor
             window.LoadAssets();
             window.PreloadModules();
             //window.Show();
-        }
+        } 
 
         internal static void OpenTo(FPSControlModuleType m)
         {
@@ -206,7 +218,7 @@ namespace FPSControlEditor
             GUILayout.FlexibleSpace();
             if (loggedIn)
             {
-                GUILayout.Label(username);
+                GUILayout.Label(_username);
                 if (GUILayout.Button("Logout", new GUILayoutOption[0] { }))
                 {
                     //Logout stuff here.
@@ -340,38 +352,52 @@ namespace FPSControlEditor
 
         public void LoadModule(FPSControlModuleType module)
         {
+            Debug.Log("Loading module: " + module);
+            if (!loggedIn)
+            {
+                module = FPSControlModuleType.Login;
+            }
+
+            //if (module != FPSControlModuleType.Login && !PurchaseInfo.CheckForPurchase(module))
+            //{
+            //    Debug.Log("AAAAA");
+            //    module = FPSControlModuleType.NeedsPurchasing;
+            //}
+
             EditorPrefs.SetInt("_FPSControl_LoadedModule", (int)module);
 
             if (loadedModule != null) loadedModule.Deinit(); //deinitialize current module.
 
             switch (module)
             {
-                case FPSControlModuleType.NONE: loadedModule = new FPSControlEditorModule(this); break;
+                case FPSControlModuleType.NONE:
+                    if (!modules.ContainsKey(module)) modules.Add(module, new FPSControlEditorModule(this));
+                    break;
 
                 case FPSControlModuleType.Login:
-                    login = new LoginModule(this);
-                    LoginModule _login = (LoginModule)login;
+                    LoginModule _login = new LoginModule(this);
                     _login.OnLoginSuccess += OnLoginSuccess;
                     _login.OnLoginFail += OnLoginFail;
                     _login.OnOfflineModePress += OnOfflineMode;
                     _login.OnRegisterPress += OnRegister;
                     _login.OnLoginPress += OnLoginPress;
-                    loadedModule = login;
+                    if (!modules.ContainsKey(module)) modules.Add(module, _login);
+                    break;
+
+                case FPSControlModuleType.NeedsPurchasing:
+                    if (!modules.ContainsKey(module)) modules.Add(module, new PurchaseControlModule(this));
                     break;
 
                 case FPSControlModuleType.GameSettings:
-                    if (gameSettings == null) gameSettings = new GameSettingsModule(this);
-                    loadedModule = gameSettings;
+                    if (!modules.ContainsKey(module)) modules.Add(module, new GameSettingsModule(this));
                     break;
 
                 case FPSControlModuleType.Footsteps:
-                    if (footsteps == null) footsteps = new FootstepControlModule(this);
-                    loadedModule = footsteps;
+                    if (!modules.ContainsKey(module)) modules.Add(module, new FootstepControlModule(this));
                     break;
 
                 case FPSControlModuleType.BuildControl:
-                    if (buildcontrol == null) buildcontrol = new BuildControlModule(this);
-                    loadedModule = buildcontrol;
+                    if (!modules.ContainsKey(module)) modules.Add(module, new BuildControlModule(this));
                     break;
                    /*
                 case FPSControlModuleType.MissionControl:
@@ -380,30 +406,27 @@ namespace FPSControlEditor
                     break;
                     */
                 case FPSControlModuleType.Optimize:
-                    if (missionControl == null) optimize = new OptimizeModule(this);
-                    loadedModule = optimize;
+                    if (!modules.ContainsKey(module)) modules.Add(module, new OptimizeModule(this));
                     break;
 
                 case FPSControlModuleType.WeaponControl:
-                    if (weaponControl == null) weaponControl = new WeaponControlModule(this);
-                    loadedModule = weaponControl;
+                    if (!modules.ContainsKey(module)) modules.Add(module, new WeaponControlModule(this));
                     break;
 
                 case FPSControlModuleType.MusicControl:
-                    if (musicControl == null) musicControl = new MusicControlModule(this);
-                    loadedModule = musicControl;
+                    if (!modules.ContainsKey(module)) modules.Add(module, new MusicControlModule(this));
                     break;
 
                 case FPSControlModuleType.TeamWork:
-                    if (teamwork == null) teamwork = new TeamworkModule(this);
-                    loadedModule = teamwork;
+                    if (!modules.ContainsKey(module)) modules.Add(module, new TeamworkModule(this));
                     break;
 
                 default:
-                    loadedModule = new UnavailableModule(this);
+                    if (!modules.ContainsKey(FPSControlModuleType.UNAVAILABLE)) modules.Add(FPSControlModuleType.UNAVAILABLE, new UnavailableModule(this));
+                    module = FPSControlModuleType.UNAVAILABLE;
                     break;
             }
-
+            loadedModule = modules[module];
             loadedModule.Init();
         }
 
@@ -421,16 +444,16 @@ namespace FPSControlEditor
 
         void DoPreload()
         {
-            gameSettings = new GameSettingsModule(this);
-            footsteps = new FootstepControlModule(this);
-            musicControl = new MusicControlModule(this);
+            if (!modules.ContainsKey(FPSControlModuleType.GameSettings)) modules.Add(FPSControlModuleType.GameSettings, new GameSettingsModule(this));
+            if (!modules.ContainsKey(FPSControlModuleType.Footsteps)) modules.Add(FPSControlModuleType.Footsteps, new FootstepControlModule(this));
+            if (!modules.ContainsKey(FPSControlModuleType.MusicControl)) modules.Add(FPSControlModuleType.MusicControl, new MusicControlModule(this));
 
-            login = new LoginModule(this);
+            //login = new LoginModule(this);
             loggedIn = CheckSession();
             //Here we'll need to check and see if we're logged in//
             if(loggedIn)
             {
-                username = FPSControlUserObject.current.name;
+                _username = FPSControlUserObject.current.name;
                 //we're already logged in. sweet.
                 //we can likely just load the last loaded module.
             }
@@ -465,7 +488,7 @@ namespace FPSControlEditor
         void OnLoginSuccess(object obj)
         {
             FPSControlUserObject user = (FPSControlUserObject) obj;
-            username = user.name;
+            _username = user.name;
             loggedIn = true;
             //Debug.Log(username + " successfully logged in.");
             LoadModule(FPSControlModuleType.NONE);

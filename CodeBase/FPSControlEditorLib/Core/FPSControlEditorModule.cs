@@ -12,6 +12,7 @@ namespace FPSControlEditor
     {
         public static Rect MODULE_SIZE { get { return new Rect(246, 50, 660, 578); } }
         public static GUILayoutOption[] NONE { get { return new GUILayoutOption[0] { }; } }
+        public float version = 1.0f; 
 
         protected EditorWindow _editor;
 
@@ -50,6 +51,12 @@ namespace FPSControlEditor
         public virtual void Init() {
             WAS_PLAYING_WHEN_LOST_FOCUS = "_FPSControl_" + _type + "FocusedBeforePlay";
             JUST_LEFT_TO_CREATE_NEW = "_FPSControl_" + _type + "FocusedBeforePlay";
+            HandlePaidStatus(PurchaseInfo.CheckForPurchase(_type));
+        }
+
+        public virtual void HandlePaidStatus(bool paid)
+        {
+            if (!paid) FPSControlMainEditor.OpenTo(FPSControlModuleType.NeedsPurchasing);
         }
 
         public virtual void Deinit() {

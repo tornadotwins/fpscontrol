@@ -12,19 +12,29 @@ namespace FPSControlEditor
     public class Serializer
     {
 
-        public static T LoadData<T>(string key)
+        public static T LoadData<T>(string key, bool encrypted = false)
         {            
             XmlSerializer serializer = new XmlSerializer(typeof(T));
-            StringReader sr = new StringReader(EditorPrefs.GetString(key));
+            string dataString = EditorPrefs.GetString(key);
+            if (encrypted)
+            {
+                dataString = Crypto.DecryptStringAES(dataString, "sdfiudsfsn939nm");
+            }
+            StringReader sr = new StringReader(dataString);
             return (T)serializer.Deserialize(sr);
         }
 
-        public static void SaveData<T>(string key, T source, bool save = true)
+        public static void SaveData<T>(string key, T source, bool save = true, bool encrypt = false)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(T));
             StringWriter sw = new StringWriter();
             serializer.Serialize(sw, source);
-            EditorPrefs.SetString(key, sw.ToString());
+            string dataString = sw.ToString();
+            if (encrypt)
+            {
+                dataString = Crypto.EncryptStringAES(dataString, "sdfiudsfsn939nm");
+            }
+            EditorPrefs.SetString(key, dataString);
             if (save) PlayerPrefs.Save();
         }
 
