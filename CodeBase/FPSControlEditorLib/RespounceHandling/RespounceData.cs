@@ -18,8 +18,8 @@ namespace FPSControlEditor
     [Serializable]
     internal class LoginData
     {
-       public bool userExsist = true;
-       public bool passwordMatch = false;
+        public bool userExsist = true;
+        public bool passwordMatch = false;
     }
 
     [Serializable]    

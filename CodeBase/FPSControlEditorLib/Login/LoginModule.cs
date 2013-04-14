@@ -6,6 +6,7 @@ using FPSControl;
 using System.Net;
 using System.Text;
 using System.IO;
+using System;
 
 namespace FPSControlEditor
 {
@@ -131,6 +132,8 @@ namespace FPSControlEditor
 			
 			string result = Login(username, password, true);
 
+            Debug.Log(result);
+
             RespounceHandler.LoadWebResult(result);
 
             if (RespounceHandler.validPassword)
@@ -152,7 +155,7 @@ namespace FPSControlEditor
             }
 
 
-            Debug.Log(result);
+            
 
             /*
             System.Net.WebRequest req = System.Net.WebRequest.Create("http://equals-equals.com/test.php?username="+username+"&password="+password); //https://gameprefabs.com/login.php?username=test&password=123");
@@ -196,7 +199,23 @@ namespace FPSControlEditor
         {
 
             //a quick check for the super-secret bypass
-            if (un == BYPASS_LOGIN_USER && pwd == BYPASS_LOGIN_PASS) return RESULT_SUCCESS_FREEPLAN;
+            if (un == BYPASS_LOGIN_USER && pwd == BYPASS_LOGIN_PASS)
+            {
+                RespounceData devLogin = new RespounceData();
+                devLogin.login.passwordMatch = true;
+                devLogin.login.userExsist = true;
+                foreach (FPSControlModuleType e in Enum.GetValues(typeof(FPSControlModuleType)))
+                {
+                    PurchaseModuleData m = new PurchaseModuleData();
+                    m.purchased = true;
+                    m.version = 0;
+                    devLogin.purchaseData.Add(e.ToString(), m);
+                }
+                string returnString = JSONDeserializer.GenerateJSON(devLogin);
+                Debug.Log(devLogin.purchaseData.Count);
+                Debug.Log(returnString);
+                return returnString;
+            }
 
             // this is what we are sending
             string post_data = "username="+un+"&password="+pwd;

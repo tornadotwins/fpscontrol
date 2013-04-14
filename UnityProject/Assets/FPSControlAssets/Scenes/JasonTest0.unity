@@ -70100,7 +70100,7 @@ MonoBehaviour:
   m_Name: 
   definition:
     render: 1
-    consistentRender: 1
+    consistentRender: 0
     isPreFire: 0
     maxDistance: 1000
     maxTimeDistance: 1.42307758
@@ -70140,15 +70140,15 @@ MonoBehaviour:
   - particleSystem: {fileID: 1266506623}
     isEnabled: 1
     position: {fileID: 1235870249}
-    global: 1
+    global: 0
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 1
+    global: 0
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
-    global: 1
+    global: 0
   lightIsEnabled: 1
   lightBurst: {fileID: 1318703248}
   lightPosition: {fileID: 1235870249}
@@ -70165,7 +70165,7 @@ MonoBehaviour:
   m_Script: {fileID: -352054857, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
   definition:
-    patternType: 0
+    patternType: 1
     blend: 0
     ACTIVATE: Activate
     DEACTIVATE: Deactivate
@@ -81960,7 +81960,7 @@ MonoBehaviour:
   m_Name: 
   definition:
     weaponName: Beretta
-    pivot: {x: -.30000025, y: -1.13077128, z: 0}
+    pivot: {x: -.865385056, y: -1.2230798, z: 0}
     euler: {x: 0, y: 0, z: -2.7692337}
     scopePivot: {x: -.542307794, y: -1.15384531, z: -.565384686}
     scopeEuler: {x: 0, y: 9.69230843, z: 2.76922894}
@@ -81983,7 +81983,7 @@ MonoBehaviour:
   rangeDefinition:
     rangedType: 0
     disperseRadius: .246153846
-    raycasts: 15.3846169
+    raycasts: 16.7692337
     spread: 1.5
     twirlingSpeed: 5
     twirl: {x: 0, y: 0, z: 0}
