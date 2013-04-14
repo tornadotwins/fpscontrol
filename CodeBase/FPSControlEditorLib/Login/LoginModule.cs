@@ -14,7 +14,7 @@ namespace FPSControlEditor
     {
         const string BYPASS_LOGIN_USER = "!__=DEV=__!";//bypass for devs ;)
         const string BYPASS_LOGIN_PASS = "==";
-        const string LOGIN_URI = "http://gameprefabs.com/login2.php"; //https://gameprefabs.com/login.php http://localhost/~efraim/logintest/index.html
+        const string LOGIN_URI = "http://gameprefabs.com/login3.php"; //https://gameprefabs.com/login.php http://localhost/~efraim/logintest/index.html
         const string RESULT_SUCCESS_FREEPLAN = "success=1&type=freePlan";
         const string PATH = "Login/";
 
