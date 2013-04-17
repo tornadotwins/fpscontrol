@@ -63,12 +63,10 @@ namespace FPSControlEditor
                         if (!discardUpdate && EditorUtility.DisplayDialog("Update!", "There is an update for this module would you like to update?", "Update", "Cancel"))
                         {
                             Debug.Log("Downloading new version of " + module);
-                            DownloadAndUpdate(mData);
-                        }
-                        else
-                        {
                             discardUpdate = true;
-                        }
+                            DownloadAndUpdate(mData); 
+                        }                        
+                        discardUpdate = true;
                     }
                     return true;
                 }
@@ -87,19 +85,29 @@ namespace FPSControlEditor
         static IEnumerator Download(string url)
         {
             WWW www = new WWW(url);
-            yield return www;
-            if (www.error != null)
+
+            while (!www.isDone)
             {
-                Debug.LogWarning("ERROR DOWNLOADING UPDATE: " + www.error);
+                EditorUtility.DisplayProgressBar("Update Manager", "Downloading update", www.progress);
             }
+
+            if (www.error != null)
+            { 
+                Debug.LogWarning("ERROR DOWNLOADING UPDATE: " + www.error);
+            } 
             else
             {
+                EditorUtility.DisplayProgressBar("Update Manager", "Installing update..", www.progress);
                 string tempPath = Path.Combine(Path.GetTempPath(), "temp.unitypackage");
                 System.IO.FileStream _FileStream = new System.IO.FileStream(tempPath, System.IO.FileMode.Create, System.IO.FileAccess.Write);
                 _FileStream.Write(www.bytes, 0, www.bytes.Length);
                 _FileStream.Close();
                 AssetDatabase.ImportPackage(tempPath, false);
             }
+
+            EditorUtility.ClearProgressBar();
+
+            yield break;
         }
 
         internal static void LoadWebResult(string json)
