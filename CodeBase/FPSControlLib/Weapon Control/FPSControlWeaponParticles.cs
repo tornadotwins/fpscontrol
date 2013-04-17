@@ -54,6 +54,7 @@ namespace FPSControl
             {
                 data.Spawn();
             }
+            StartCoroutine(ShowLight());
         }
 
         public void KillFX_Clear()

@@ -1,4 +1,4 @@
-Shader "ProBuilder/UnlitColor" 
+Shader "Hidden/ProBuilder/UnlitColor" 
 {
 	Properties
 	{
@@ -9,12 +9,13 @@ Shader "ProBuilder/UnlitColor"
 	Category
 	{
 		Lighting Off
-		ZWrite On 
-		Cull back
+		ZWrite On
+	//	ZTest Off
+		Cull Back
 		Blend SrcAlpha OneMinusSrcAlpha
 
-		AlphaTest Greater 0.001
-		Tags {"Queue"="Transparent"}
+	//	AlphaTest Greater 0.001
+		Tags {"Queue"="Geometry" }
 
 		SubShader
 		{
