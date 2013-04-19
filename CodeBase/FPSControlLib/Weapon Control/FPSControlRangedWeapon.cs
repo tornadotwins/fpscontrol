@@ -19,6 +19,10 @@ namespace FPSControl
         public GameObject projectileB;
         public LayerMask gunDamageLayers;
 
+        public GameObject bulletHole;
+        public float contactForce = 10.0F;
+        
+
         [HideInInspector]
         public FalloffData damageFalloff = new FalloffData();
 
@@ -43,6 +47,8 @@ namespace FPSControl
                 return true;
             }
         }
+
+        float scopeSpeed { get { return Parent.Player.playerCamera.scopeSpeed;} }
 
         [HideInInspector]
         int _currentClipContents = 0;
@@ -174,13 +180,13 @@ namespace FPSControl
 			
 			if (scoped)
             {
-                transform.localPosition = Vector3.Lerp(transform.localPosition, definition.scopePivot, Time.deltaTime * 3F); //this is actually more for debugging purposes, actually.
-                transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(definition.scopeEuler), Time.deltaTime * 3F);
+                transform.localPosition = Vector3.Lerp(transform.localPosition, definition.scopePivot, Time.deltaTime * scopeSpeed); //this is actually more for debugging purposes, actually.
+                transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(definition.scopeEuler), Time.deltaTime * scopeSpeed);
             }
             else
             {
-                transform.localPosition = Vector3.Lerp(transform.localPosition, definition.pivot, Time.deltaTime * 3F); //this is actually more for debugging purposes, actually.
-                transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(definition.euler), Time.deltaTime * 3F);
+                transform.localPosition = Vector3.Lerp(transform.localPosition, definition.pivot, Time.deltaTime * scopeSpeed); //this is actually more for debugging purposes, actually.
+                transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(definition.euler), Time.deltaTime * scopeSpeed);
             }
 
         }
@@ -224,17 +230,32 @@ namespace FPSControl
                                 randX = (UnityEngine.Random.value * (rangeDefinition.disperseRadius * 2)) - rangeDefinition.disperseRadius; //randomly get a position within the radius
                                 randY = (UnityEngine.Random.value * (rangeDefinition.disperseRadius * 2)) - rangeDefinition.disperseRadius;
                             }
-
+                            
                             //Vector3 perspectiveDistortion = new Vector3(rangeDefinition.spread * randX, rangeDefinition.spread * randY, 0);
-
+                            
                             Vector3 origin = shootFrom + new Vector3(randX, randY, 0);
                             Ray ray = new Ray(origin, Parent.Player.interactionManager.transform.forward);
-
+                             
                             Debug.DrawRay(ray.origin, ray.direction * damageFalloff.distance, Color.red, .5F);
 
                             RaycastHit hit;
                             if (Physics.Raycast(ray, out hit, damageFalloff.distance, gunDamageLayers.value))//did we actually hit anything?
                             {
+                                Vector3 contact = hit.point;
+                                Quaternion rot = Quaternion.FromToRotation(Vector3.up, hit.normal);
+                                if (hit.rigidbody)
+                                    hit.rigidbody.AddForceAtPosition(contactForce * ray.direction, contact);
+                                
+                                if ((hit.transform.tag != "NoBulletHoles") && (hit.transform.tag != "Untagged") && (hit.transform.tag != "Enemy"))
+                                {
+                                    if (bulletHole)
+                                    {
+                                        GameObject tr = (GameObject)Instantiate(bulletHole, contact, rot);
+                                        tr.SendMessage("SurfaceType", hit);
+                                        tr.transform.parent = hit.transform; // parent to hit object so the bullet holes move with object
+                                    }
+                                }
+
                                 Damageable damageable = hit.transform.GetComponent<Damageable>();
                                 if (damageable != null)
                                 {
