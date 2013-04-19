@@ -20,14 +20,14 @@ namespace FPSControl
 		private static CrosshairAnimator _singleton;
 		
 		public IntelliCrosshair crosshair; //a reference to the crosshair we want to controll
-        public FPSControlPlayerMovement playerMovement;
+        public FPSControlPlayerMovement playerMovement; 
 	
 		//---
 		//
 		//---
 		void  Awake ()
 		{
-			_singleton = this;
+			_singleton = this; 
 				
 			// if crosshair is not set....get the one from this gameobject
 			if(crosshair == null)
@@ -43,7 +43,8 @@ namespace FPSControl
 			//here we toggle the booleans of the IntelliCrosshair script	
 			crosshair.shoot=Input.GetButtonDown("Fire1");		//you may want to controll this inside your Fire function of your weapon
 			crosshair.fade=Input.GetKey(KeyCode.Q);			//if you  are aim down sights fade it off...if not fade it in
-		
+            if (playerMovement.Player.moving) ToggleSpread(true);
+            else ToggleSpread(false);
 		}
 	
 	
@@ -61,7 +62,8 @@ namespace FPSControl
 		//---
 		public static void ToggleSpread( bool state )
 		{
-			_singleton.crosshair.spread = state;
+            //Debug.Log("toggle: " + state);
+            _singleton.crosshair.spread = state;
 		}
 		
 	}

@@ -13,7 +13,7 @@ namespace FPSControl
         public FPSControlPlayerCamera playerCamera;
         public FPSControlPlayerInteractionManager interactionManager;
         public FPSControlPlayerMovement movementController;
-        public FPSControlPlayerWeaponManager weaponManager;
+        public FPSControlPlayerWeaponManager weaponManager; 
 
         //Player States
         public PlayerState idleState;
@@ -22,6 +22,7 @@ namespace FPSControl
         public PlayerState jumpState;
 
         //player info
+        public bool moving { get { return currentState != idleState; } } 
         public bool jumping { get { return movementController.isJumping; } }
         public bool crouching { get { return movementController.isCrouching; } }
         public bool strafing { get { return movementController.isStrafing; } }
