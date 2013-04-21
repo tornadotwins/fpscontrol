@@ -7987,6 +7987,8 @@ MonoBehaviour:
   gunDamageLayers:
     serializedVersion: 2
     m_Bits: 0
+  bulletHole: {fileID: 0}
+  contactForce: 10
   damageFalloff:
     distance: 2
     _points:
@@ -8088,7 +8090,7 @@ MonoBehaviour:
   m_Script: {fileID: 1348884034, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
   crosshair: {fileID: 11400024}
-  playerMovement: {fileID: 0}
+  playerMovement: {fileID: 11400018}
 --- !u!114 &11400032
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8249,6 +8251,8 @@ MonoBehaviour:
   gunDamageLayers:
     serializedVersion: 2
     m_Bits: 4294967295
+  bulletHole: {fileID: 100000, guid: dc7a3f19d937e6840ab2d9d681a73ed6, type: 2}
+  contactForce: 10
   damageFalloff:
     distance: 200
     _points:
@@ -8406,6 +8410,8 @@ MonoBehaviour:
   gunDamageLayers:
     serializedVersion: 2
     m_Bits: 0
+  bulletHole: {fileID: 0}
+  contactForce: 10
   damageFalloff:
     distance: 0
     _points: []
