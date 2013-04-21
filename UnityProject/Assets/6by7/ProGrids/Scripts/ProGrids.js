@@ -1,10 +1,9 @@
 #pragma strict
 
-
 //editor prefs change-able vars
-var gridLineColor_XY : Color;// = Color(.2,.65,.9,.125);
-var gridLineColor_XZ : Color;// = Color(.2,.65,.6,.125);
-var gridLineColor_YZ : Color;// = Color(.925,.22,.384,.125);
+var gridLineColor_XY : Color = Color(.2,.65,.9,.125);
+var gridLineColor_XZ : Color = Color(.2,.65,.6,.125);
+var gridLineColor_YZ : Color = Color(.925,.22,.384,.125);
 //
 
 var showAngles : boolean = true;  
@@ -15,9 +14,7 @@ var drawGrid_XY : boolean = false;
 var drawGrid_YZ : boolean = false;
 var snapToGrid : boolean = false;
 
-//+var gridSnapSize_Base : float = .25;
-//+var gridUnitsIndex : int = 1;
-//+var gridSnapSize_Factored : float = .25;
+var gridSnapSize_Factored : float = .25;
 
 var gridCenterPos : Vector3;
 

@@ -2,7 +2,7 @@ import System.Reflection;
 
 class ProGrids_GUI extends ProGrids_Base 
 {
-    //@MenuItem("Window/6by7/ProGrids (v1.5, Free)")
+    @MenuItem("Window/6by7/ProGrids (v1.5.1, Free)")
     static function Initialize()
 	{
         var window = GetWindow(ProGrids_GUI, false, "Grid");

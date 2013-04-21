@@ -15,10 +15,6 @@ class ProGrids_Base extends EditorWindow
 	
 	var proGrids : ProGrids;
 	
-	//var gridUnitsOptions : String[] = ["m", "cm", "ft", "in"];
-	//var gridUnitsFactors : float[] = [1.0,  0.01, 0.3048, 0.0254];
-	//var gridSnapSize_Local : float = .25;
-	
 	var toggleSnapGraphic : Texture2D;
 	var toggleVisGraphic : Texture2D;
 	var toggleAnglesGraphic : Texture2D;
@@ -52,12 +48,6 @@ class ProGrids_Base extends EditorWindow
 	function InitProGrids()
 	{		
 		var go : GameObject = GameObject.Find("_grid");
-	
-		// if(go == null) {
-			// why cast this as a texture?
-		// 	go = Instantiate((Resources.LoadAssetAtPath("Assets/6by7/ProGrids/_grid.prefab", typeof(Texture2D))), Vector3(-1,0,0), Quaternion.identity);
-		// 	go.name = "_grid";
-		// }
 
 		// not sure why this would fail, but jic
 		if(go == null) {
@@ -94,29 +84,6 @@ class ProGrids_Base extends EditorWindow
 		//else
 			//proGrids.activePoint = null;
 	}
-	
-	//snap object(s)
-	/*
-	function DoSnap()
-	{		
-		for(var i=0;i<Selection.transforms.Length;i++)
-		{
-			if(Selection.gameObjects[i].GetComponent(MeshFilter))
-			{
-				if(Selection.gameObjects[i].GetComponent(MeshFilter).sharedMesh.name == "DecalMeshObject")
-					return;
-				else
-					Selection.transforms[i].position = FindNearestSnapPos(Selection.transforms[i].position);
-			}
-			else
-			{
-				Selection.transforms[i].position = FindNearestSnapPos(Selection.transforms[i].position);
-			}
-		}
-
-		activeTransformPos = Selection.activeTransform.position; //position of the main transform center
-	}
-	*/
 	
 	function OnSelectionChange()
 	{
