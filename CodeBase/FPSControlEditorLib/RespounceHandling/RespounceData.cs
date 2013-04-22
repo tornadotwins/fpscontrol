@@ -13,6 +13,7 @@ namespace FPSControlEditor
         public float version;
         public bool purchased;
         public string url;
+        public string purl;
     }
 
     [Serializable]

@@ -132,7 +132,7 @@ namespace FPSControlEditor
 			
 			string result = Login(username, password, true);
 
-            Debug.Log(result);
+            //Debug.Log(result);
 
             RespounceHandler.LoadWebResult(result);
 
@@ -212,8 +212,8 @@ namespace FPSControlEditor
                     devLogin.purchaseData.Add(e.ToString(), m);
                 }
                 string returnString = JSONDeserializer.GenerateJSON(devLogin);
-                Debug.Log(devLogin.purchaseData.Count);
-                Debug.Log(returnString);
+                //Debug.Log(devLogin.purchaseData.Count);
+                ////Debug.Log(returnString);
                 return returnString;
             }
 

@@ -48,7 +48,7 @@ namespace FPSControlEditor
             switch (index)
             {
                 case 0:
-                    Debug.Log("Launching Build Control");
+                    //Debug.Log("Launching Build Control");
                     System.Type editorWindow = TypeHelper.GetType("pb_Editor");
                     if (editorWindow == null)
                     {
@@ -67,7 +67,7 @@ namespace FPSControlEditor
                     }                   
                     break;
                 case 1:
-                    Debug.Log("Launching Grid Control");
+                    //Debug.Log("Launching Grid Control");
                     System.Type gridWindow = TypeHelper.GetType("ProGrids_GUI");
                     if (gridWindow == null)
                     {
@@ -79,7 +79,7 @@ namespace FPSControlEditor
                     }
                     break;
                 case 2:
-                    Debug.Log("Launching Decal Control");
+                    //Debug.Log("Launching Decal Control");
                     System.Type decalsWindow = TypeHelper.GetType("QuickDecals_GUI");
                     if (decalsWindow == null)
                     {
@@ -111,7 +111,7 @@ namespace FPSControlEditor
 
         public override void HandlePaidStatus(bool paid)
         {
-            Debug.Log(paid);
+            //Debug.Log(paid);
             paidVersion = paid;
         }
 
@@ -146,7 +146,7 @@ namespace FPSControlEditor
 
         private void PurchasePro()
         {
-            Debug.Log("Purchasing Pro Version");
+            Application.OpenURL(RespounceHandler.purchaseURL);
         }
         #endregion
 

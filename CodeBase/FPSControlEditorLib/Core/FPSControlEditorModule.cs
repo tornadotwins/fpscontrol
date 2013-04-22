@@ -29,7 +29,7 @@ namespace FPSControlEditor
 
         internal void Prompt(string promptText)
         {
-            Debug.Log("Prompting user1");
+            //Debug.Log("Prompting user1");
             justReturnedFromPopup = true;
             if (Popup.Prompt(promptText, _editor))
             {
@@ -40,12 +40,12 @@ namespace FPSControlEditor
 
         public virtual void OnPromptCancle() 
         {
-            Debug.Log("OnPromptCancle");
+            //Debug.Log("OnPromptCancle");
         }
 
         public virtual void OnPromptInput(string userInput) 
         {
-            Debug.Log(userInput);
+           // Debug.Log(userInput);
         }
 
         public virtual void Init() {

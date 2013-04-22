@@ -109,7 +109,7 @@ namespace FPSControlEditor
 		//---
 		override public void OnFocus(bool rebuild)
 		{            
-            Debug.Log("Focused.");
+            //Debug.Log("Focused.");
             allVals = new float[4];
             LoadAssets();
             if (!rebuild && !justReturnedFromPopup) LoadTempDefinitions();
@@ -119,7 +119,7 @@ namespace FPSControlEditor
 
         override public void OnLostFocus(bool rebuild)
         {            
-            Debug.Log("Lost Focus.");
+            //Debug.Log("Lost Focus.");
             justGrabbed = false;
             if (justReturnedFromPopup) return;
             if (!rebuild) SaveTempDefinitions(footstepDef);
@@ -632,7 +632,7 @@ namespace FPSControlEditor
         {
             if (justGrabbed) //kind of a hack... but
             {
-                Debug.Log("Just grabbed...");
+                //Debug.Log("Just grabbed...");
                 justGrabbed = false;
                 return;
             }

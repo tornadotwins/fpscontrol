@@ -354,7 +354,7 @@ namespace FPSControlEditor
 
         public void LoadModule(FPSControlModuleType module)
         {
-            Debug.Log("Loading module: " + module);
+           // Debug.Log("Loading module: " + module);
             if (!loggedIn)
             {
                 module = FPSControlModuleType.Login;

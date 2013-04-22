@@ -43,7 +43,7 @@ namespace FPSControlEditor
 
             GUILayout.FlexibleSpace();
 
-            if (GUILayout.Button("Purchase", new GUILayoutOption[1] { GUILayout.Width(250) })) Application.OpenURL("http://www.fpscontrol.com/upgrade");
+            if (GUILayout.Button("Purchase", new GUILayoutOption[1] { GUILayout.Width(250) })) Application.OpenURL(RespounceHandler.purchaseURL);
 
             GUILayout.FlexibleSpace();
 

@@ -142,7 +142,7 @@ namespace FPSControlEditor
             if (style.bgTexture == null) GUI.backgroundColor = style.backgroundColor;
             if (GUI.Button(r, text, gs))
             {
-                Debug.Log("Clicked");
+                //Debug.Log("Clicked");
                 return DragResultState.Click;
             }
             GUI.backgroundColor = c;

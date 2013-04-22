@@ -48,6 +48,17 @@ namespace FPSControlEditor
             }
         }
 
+
+        private static string _URL;
+        public static string purchaseURL
+        {
+            get
+            {
+                if (_URL == null) return "http://www.fpscontrol.com/plugins";
+                return _URL;
+            }
+        }
+
         private static bool discardUpdate = false;
         internal static bool CheckForPurchase(FPSControlModuleType module)
         {
@@ -68,16 +79,18 @@ namespace FPSControlEditor
                         }                        
                         discardUpdate = true;
                     }
+                    _URL = mData.url;
                     return true;
                 }
             }
+            _URL = null;
             return false;
         }
 
         
         internal static void DownloadAndUpdate(PurchaseModuleData mData)
         {
-            string filepath = mData.url;
+            string filepath = mData.purl;
             MonoBehaviour invoker = (MonoBehaviour)GameObject.FindObjectOfType(typeof(MonoBehaviour));
             invoker.StartCoroutine(Download(filepath));
         }
@@ -133,7 +146,7 @@ namespace FPSControlEditor
             test.login.userExsist = true;
             //test.login.subscription = "free";
 
-            Debug.Log(JSONDeserializer.GenerateJSON(test));
+           // Debug.Log(JSONDeserializer.GenerateJSON(test));
         }
 
     }
