@@ -63,7 +63,7 @@ namespace FPSControlEditor
         public override void Init()
         {
             time = EditorApplication.timeSinceStartup;
-
+           // Debug.Log("AAAAAA");
             background = Load<Texture>(FPSControlMainEditor.ASSET_PATH + FPSControlMainEditor.GRAPHICS + PATH + "login_bg.png");
             username = EditorPrefs.GetString(FPSControlUserObject.KEY_HANDLE, "");
         }

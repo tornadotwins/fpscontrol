@@ -142,7 +142,18 @@ namespace FPSControlEditor
                 return _username;
             }
         }
-        bool loggedIn = false;
+
+        bool loggedIn
+        {
+            get
+            {
+                return EditorPrefs.GetBool("DBSU38HD", false);
+            }
+            set
+            {
+                EditorPrefs.SetBool("DBSU38HD", value);
+            }
+        }
 
         //int currentPage = 0; //current page of sidebar
 
@@ -354,7 +365,7 @@ namespace FPSControlEditor
 
         public void LoadModule(FPSControlModuleType module)
         {
-           // Debug.Log("Loading module: " + module);
+            //Debug.Log("Loading module: " + module + " LOGGEDIN:" + loggedIn);
             if (!loggedIn)
             {
                 module = FPSControlModuleType.Login;
@@ -492,7 +503,7 @@ namespace FPSControlEditor
             FPSControlUserObject user = (FPSControlUserObject) obj;
             _username = user.name;
             loggedIn = true;
-            //Debug.Log(username + " successfully logged in.");
+            Debug.Log(username + " successfully logged in.");
             LoadModule(FPSControlModuleType.NONE);
         }
 

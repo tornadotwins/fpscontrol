@@ -24,7 +24,7 @@ namespace FPSControl
         [HideInInspector]
         [SerializeField]
         public Transform lightPosition;
-        [HideInInspector]
+        //[HideInInspector]
         [SerializeField]
         public float lightDuration = 1F;
         [HideInInspector]
