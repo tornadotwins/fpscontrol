@@ -10,4 +10,19 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: -1626274649, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: FootstepControlDefinitions
-  footsteps: []
+  footsteps:
+  - name: aaaa
+    tag: 
+    sounds: []
+    textures: []
+    type: 0
+    minValPitch: -1
+    minLimitPitch: -3
+    maxValPitch: 1
+    maxLimitPitch: 3
+    minValVolume: .200000003
+    minLimitVolume: 0
+    maxValVolume: .5
+    maxLimitVolume: 1
+    audioScroll: {x: 0, y: 0}
+    textureScroll: {x: 0, y: 0}

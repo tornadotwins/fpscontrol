@@ -410,8 +410,8 @@ namespace FPSControlEditor
 
             GUILayout.EndArea();
 
-            Texture[] textures;
-            if (Drag.DragArea<Texture>(textureAreaRect, out textures, Drag.Styles.Hidden) == DragResultState.Drag)
+            Texture2D[] textures;
+            if (Drag.DragArea<Texture2D>(textureAreaRect, out textures, Drag.Styles.Hidden) == DragResultState.Drag)
             {
                 foreach (Texture2D t in textures)
                 {
