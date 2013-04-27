@@ -8,6 +8,7 @@ namespace FPSControl
     //[RequireComponent(typeof(Rigidbody))]
     //[RequireComponent(typeof(CapsuleCollider))]
     [RequireComponent(typeof(CharacterController))]
+    [RequireComponent(typeof(FootstepControl))]
     public class FPSControlPlayerMovement : FPSControlPlayerComponent
     {   
         public KeyCode runKeyLeft = KeyCode.LeftShift;

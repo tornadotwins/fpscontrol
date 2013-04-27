@@ -35,13 +35,14 @@ namespace FPSControlEditor
 		bool showEditor = false;
 		int selectedDefIndex;
 			
-		//GFXAQQ
+		//GFX
 		Texture background;
 		//Texture closeButton;
 		GUIStyle TextStyle = new GUIStyle();
 		//GUIStyle PopupStyle = new GUIStyle();
 		GUIStyle ButtonStyle = new GUIStyle();
       	Texture precisionBG;
+        FootstepControl component;
 
 		//Path
 		const string PATH = "Footstep/";
@@ -85,11 +86,74 @@ namespace FPSControlEditor
             {
                 LoadDefinitions();
             }
+
+            AcquireTarget();
 		}
 
         public override void Deinit()
         {
             base.Deinit();
+        }
+
+        void AcquireTarget()
+        {
+            FootstepControl[] scripts = (FootstepControl[])Resources.FindObjectsOfTypeAll(typeof(FootstepControl));
+
+            if (scripts.Length > 0)
+            {
+                bool setupCorrect = false;
+                for (int i = 0; i < scripts.Length; i++)
+                {
+                    FootstepControl script = scripts[i];
+                    FPSControlPlayerMovement playerMovement = script.GetComponent<FPSControlPlayerMovement>();
+                    if (playerMovement)
+                    {
+                        component = script;
+                        setupCorrect = true;
+                        break;
+                    }
+                }
+                if (setupCorrect)
+                {
+                    //we're good, don't worry
+                }
+                else
+                {
+                    if(EditorUtility.DisplayDialog("Component not found!", "There is no FootstepControl Component attached to an FPSControlPlayerMovement in this scene. Create one?", "OK", "Cancel"))
+                    {
+                        FPSControlPlayerMovement[] playerMovements = (FPSControlPlayerMovement[])Resources.FindObjectsOfTypeAll(typeof(FPSControlPlayerMovement));
+                        if (playerMovements.Length > 0)
+                        {
+                            foreach (FPSControlPlayerMovement c in playerMovements)
+                            {
+                                if (c.GetComponent<FootstepControl>() == null) c.gameObject.AddComponent<FootstepControl>();
+                            }
+                        }
+                        else
+                        {
+                            EditorUtility.DisplayDialog("Error!", "There is no FPSControlPlayerMovement in this scene. Insure that you have a correctly set up character in your scene.", "OK");
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (EditorUtility.DisplayDialog("Component not found!", "There is no FootstepControl Component attached to an FPSControlPlayerMovement in this scene. Create one?", "OK", "Cancel"))
+                {
+                    FPSControlPlayerMovement[] playerMovements = (FPSControlPlayerMovement[])Resources.FindObjectsOfTypeAll(typeof(FPSControlPlayerMovement));
+                    if (playerMovements.Length > 0)
+                    {
+                        foreach (FPSControlPlayerMovement c in playerMovements)
+                        {
+                            if (c.GetComponent<FootstepControl>() == null) c.gameObject.AddComponent<FootstepControl>();
+                        }
+                    }
+                    else
+                    {
+                        EditorUtility.DisplayDialog("Error!", "There is no FPSControlPlayerMovement in this scene. Insure that you have a correctly set up character in your scene.", "OK");
+                    }
+                }
+            }
         }
 
         void LoadAssets()
@@ -113,7 +177,7 @@ namespace FPSControlEditor
             allVals = new float[4];
             LoadAssets();
             if (!rebuild && !justReturnedFromPopup) LoadTempDefinitions();
-            else Debug.Log("just rebuilt or came back from popup.");
+            //else Debug.Log("just rebuilt or came back from popup.");
             base.OnFocus(rebuild);
 		}
 
@@ -638,11 +702,11 @@ namespace FPSControlEditor
             }
             //AssetDatabase.Refresh(ImportAssetOptions.Default);
             FootstepControlDefinitions loadedDef = (FootstepControlDefinitions) AssetDatabase.LoadAssetAtPath(TEMP_DEF_PATH, typeof(FootstepControlDefinitions));
-            Debug.Log("Loaded: " + loadedDef);
+            //Debug.Log("Loaded: " + loadedDef);
 
             if (loadedDef == null)
             {
-                Debug.LogWarning("Temporary Definition is null. Loading from saved resource.");
+                //Debug.LogWarning("Temporary Definition is null. Loading from saved resource.");
                 LoadDefinitions();
             }
             else
