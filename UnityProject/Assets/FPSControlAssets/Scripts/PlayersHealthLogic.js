@@ -136,7 +136,7 @@ function AmIDead ()
 		// show red screen, ala HalfLife 2??
 		if( _playerStateText != null )
 		{
-			_playerStateText.gameObject.active = true;
+			_playerStateText.gameObject.SetActive(true);
 		}
 		MessengerControl.Broadcast( "FadeIn", _deathMusic );
 		BroadcastMessage ("PlayerDied");

@@ -14,12 +14,14 @@ function Start () {
 	_ai.Agent.actionContext.SetContextItem.<float>("hungry", 15f);
 	_ai.Agent.actionContext.SetContextItem.<float>("dead", 0f);
 	_ai.Agent.actionContext.SetContextItem.<float>("foundfood", 0f);
+	_ai.Agent.actionContext.SetContextItem.<float>("gothit", 0f);
 }
 
 function Update () {
 
 	_ai.Agent.actionContext.SetContextItem.<float>("health", _dataController.current);
 	_ai.Agent.actionContext.SetContextItem.<float>("currenttime", Time.time);
+	_hungry = _ai.Agent.actionContext.GetContextItem.<float>("hungry");
 }
 
 function ApplyDamage(damageSource : DamageSource)

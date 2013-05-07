@@ -13,16 +13,18 @@ MonoBehaviour:
   footsteps:
   - name: aaaa
     tag: 
-    sounds: []
-    textures: []
+    sounds:
+    - {fileID: 8300000, guid: 2fc2061a0f51e4e57997bbd8407eaa79, type: 3}
+    textures:
+    - {fileID: 2800000, guid: c650367b4d9b24ab198876fe26ad7e8a, type: 3}
     type: 0
-    minValPitch: -1
+    minValPitch: .996153712
     minLimitPitch: -3
-    maxValPitch: 1
+    maxValPitch: 1.03461552
     maxLimitPitch: 3
-    minValVolume: .200000003
+    minValVolume: .142307699
     minLimitVolume: 0
-    maxValVolume: .5
+    maxValVolume: .188461438
     maxLimitVolume: 1
     audioScroll: {x: 0, y: 0}
     textureScroll: {x: 0, y: 0}

@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using RAIN.Core;
-using RAIN.Belief;
 using RAIN.Action;
 
 public class ActionTemplate_CS : Action

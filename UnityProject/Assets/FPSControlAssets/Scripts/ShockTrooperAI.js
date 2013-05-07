@@ -84,7 +84,7 @@ function Die()
 {
 	if (hideWhenDead)
 	{
-		gameObject.SetActiveRecursively(false);
+		gameObject.SetActive(false);
 	}
 	else
 	{
@@ -95,7 +95,7 @@ function Die()
 			{
 				if( typeof( colliders[i] ) == CharacterController )
 				{
-					colliders[i].gameObject.active = false;
+					colliders[i].gameObject.SetActive(false);
 				}
 				else
 				{

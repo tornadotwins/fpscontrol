@@ -3,15 +3,15 @@ var	_showTime : float;
 var	_hideTime : float;
 
 function OnEnable () {
-	_meshToHide.SetActiveRecursively(false);
+	_meshToHide.SetActive(false);
 }
 
 function AnimationStarted () {
 	//Debug.Log("GOT START MSG: " + name);
 	yield WaitForSeconds (_showTime);
-	_meshToHide.SetActiveRecursively(true);
+	_meshToHide.SetActive(true);
 	yield WaitForSeconds (_hideTime);
-	_meshToHide.SetActiveRecursively(false);
+	_meshToHide.SetActive(false);
 }
 
 function AnimationEnded () {

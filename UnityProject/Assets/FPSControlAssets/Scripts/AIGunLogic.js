@@ -108,7 +108,7 @@ function LateUpdate()
 	}
 	
 	if ( _muzzleBlast ) {
-		_muzzleBlast.active = (_muzzleBlastLight.intensity <= 0)?false:true;
+		_muzzleBlast.SetActive((_muzzleBlastLight.intensity <= 0)?false:true);
 	}
 }
 
@@ -155,7 +155,7 @@ function DropWeapon ()
 	_weaponInUse = false;
 	//Debug.Log( "Physically Drop this Weapon: " + name );
 	// instantiate pickup copy of weapon
-	gameObject.SetActiveRecursively (false);
+	gameObject.SetActive(false);
 }
 
 
@@ -178,7 +178,7 @@ function SwitchWeapon ( clip:String )
 	//if( _equipAudio ) _audioSrcFire1.PlayOneShot( _equipAudio );
 
 	yield WaitForSeconds (0.5);
-	gameObject.SetActiveRecursively (false);
+	gameObject.SetActive(false);
 }
 
 
@@ -255,7 +255,7 @@ function FirePrimary( fire:String, empty:String )
 			
 			if( _usesAmmo )
 			{
-				_muzzleBlast.active = true;
+				_muzzleBlast.SetActive(true);
 				_muzzleBlastLight.intensity = _blastInsensity;
 			}
 						
