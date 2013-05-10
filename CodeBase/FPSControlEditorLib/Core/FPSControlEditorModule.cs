@@ -107,6 +107,11 @@ namespace FPSControlEditor
         internal Texture LoadPNG(string folderName, string assetName)
         {
             string assetPath = FPSControlMainEditor.ASSET_PATH + FPSControlMainEditor.GRAPHICS + folderName + assetName + ".png";
+            if (!File.Exists(assetPath))
+            {
+                Debug.Log("Cant load GUI asset: " + assetPath);
+                return null;
+            }
             return Load<Texture>(assetPath);
         }
 

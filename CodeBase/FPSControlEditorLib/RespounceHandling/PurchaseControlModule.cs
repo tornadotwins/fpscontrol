@@ -9,18 +9,29 @@ namespace FPSControlEditor
     class PurchaseControlModule : FPSControlEditorModule
     {
 
+        const string guiFolder = "Purchase/";
+
         public PurchaseControlModule(EditorWindow editorWindow) : base(editorWindow)
         {
             _type = FPSControlModuleType.NeedsPurchasing;
         }
 
+        Texture background;
+
         public override void Init()
         {
             base.Init();
+            background = LoadPNG(guiFolder, RespounceHandler.lastChecked.ToString() + "_background");
+            if (background == null)
+            {
+                background = LoadPNG(guiFolder, "Template_background");
+            }
         }
 
         public override void OnGUI()
         {
+            if (background) GUI.Box(MODULE_SIZE, background, GUIStyle.none);
+
             GUIStyle alignment = new GUIStyle();
             alignment.alignment = TextAnchor.MiddleCenter;
             alignment.normal.textColor = Color.white;
@@ -32,7 +43,7 @@ namespace FPSControlEditor
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
 
-            GUILayout.Label("NEEDS PURCHING", alignment, NONE);
+            //GUILayout.Label("NEEDS PURCHING", alignment, NONE);
 
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();

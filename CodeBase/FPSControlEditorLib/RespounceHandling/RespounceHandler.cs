@@ -6,6 +6,7 @@ using System.Text;
 using System.IO;
 using UnityEngine;
 using FPSControlEditor;
+using FPSControl;
 //#if UNITY_EDITOR
 using UnityEditor;
 //#endif
@@ -59,11 +60,22 @@ namespace FPSControlEditor
             }
         }
 
-        private static bool discardUpdate = false;
-        internal static bool CheckForPurchase(FPSControlModuleType module)
+        public static FPSControlModuleType lastChecked
         {
+            get
+            {
+                return _lastChecked;
+            }
+        }
+
+        private static bool discardUpdate = false;
+        private static bool importReady = false;
+        private static FPSControlModuleType _lastChecked;
+        internal static bool CheckForPurchase(FPSControlModuleType module)
+        {            
             if (module == FPSControlModuleType.NONE || module == FPSControlModuleType.UNAVAILABLE || module == FPSControlModuleType.NeedsPurchasing) return true;
             if (respounceData == null) return false;
+            _lastChecked = module;
             if (respounceData.purchaseData.ContainsKey(module.ToString()))
             {
                 PurchaseModuleData mData = respounceData.purchaseData[module.ToString()];
@@ -82,7 +94,7 @@ namespace FPSControlEditor
                     _URL = mData.url;
                     return true;
                 }
-            }
+            }            
             _URL = null;
             return false;
         }
@@ -92,10 +104,16 @@ namespace FPSControlEditor
         {
             string filepath = mData.purl;
             MonoBehaviour invoker = (MonoBehaviour)GameObject.FindObjectOfType(typeof(MonoBehaviour));
-            invoker.StartCoroutine(Download(filepath));
+            if (invoker == null) {
+                new GameObject("Player", typeof(RBFPSControllerLogic));
+                invoker = (MonoBehaviour)GameObject.FindObjectOfType(typeof(MonoBehaviour));
+            }
+            invoker.StartCoroutine(Download(filepath, invoker));
         }
 
-        static IEnumerator Download(string url)
+        private static string tempPath = "";
+
+        static IEnumerator Download(string url, MonoBehaviour invoker)
         {
             WWW www = new WWW(url);
 
@@ -108,20 +126,20 @@ namespace FPSControlEditor
             { 
                 Debug.LogWarning("ERROR DOWNLOADING UPDATE: " + www.error);
             } 
-            else
+            else 
             {
                 EditorUtility.DisplayProgressBar("Update Manager", "Installing update..", www.progress);
-                string tempPath = Path.Combine(Path.GetTempPath(), "temp.unitypackage");
+                tempPath = Path.Combine(Path.GetTempPath(), "temp.unitypackage");
                 System.IO.FileStream _FileStream = new System.IO.FileStream(tempPath, System.IO.FileMode.Create, System.IO.FileAccess.Write);
+                int size = www.bytes.Length;
                 _FileStream.Write(www.bytes, 0, www.bytes.Length);
                 _FileStream.Close();
-                AssetDatabase.ImportPackage(tempPath, false);
+                AssetDatabase.ImportPackage(tempPath, false);                
             }
-
             EditorUtility.ClearProgressBar();
-
             yield break;
         }
+
 
         internal static void LoadWebResult(string json)
         {
