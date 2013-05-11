@@ -51,7 +51,11 @@ namespace FPSControl
         //---
         public void ReceivedInteraction (bool zone)
         {
-            SendMessage (_normalInteraction);
+            //this should be the new paradigm
+            InteractiveObject iObj = GetComponent<InteractiveObject>();
+            iObj.Interact();
+ 
+            SendMessage (_normalInteraction); //support legacy
             _doneInteraction = true;
          
             if (_oneTime) {
@@ -65,7 +69,7 @@ namespace FPSControl
         //---
         public void FinishedInteraction ()
         {
-            Debug.Log ("finished interact");
+            //Debug.Log ("finished interact");
             if (_doneInteraction) {
                 _doneInteraction = false;
             }
