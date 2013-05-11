@@ -217,7 +217,7 @@ function FirePrimary( fire:String, empty:String )
 					if ( _hit.rigidbody ) _hit.rigidbody.AddForceAtPosition ( _force * dir, contact );
 					
 					if (_hit.transform.tag.IndexOf("Interact") == -1) {
-						if( (_hit.transform.tag != "NoBulletHoles") && (_hit.transform.tag != "Untagged") ) {
+						if( (_hit.transform.tag != "Player") && (_hit.transform.tag != "NoBulletHoles") && (_hit.transform.tag != "Untagged") ) {
 							// clone a temp marker
 							if ( _bulletHole ) {
 								var tr:GameObject = Instantiate ( _bulletHole, contact, rot );
@@ -226,7 +226,8 @@ function FirePrimary( fire:String, empty:String )
 							}
 						}
 					}
-					if ( _impactSparks ) {
+					if (_impactSparks && _hit.transform.tag != "Player")
+                    {
 						Instantiate ( _impactSparks, contact, rot );
 					}
 					
