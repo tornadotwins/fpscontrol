@@ -15,6 +15,7 @@ namespace FPSControl
             if (weaponManager.CanAddWeapon(weaponName))
             {
                 weaponManager.Add(weaponName, equip);
+                Destroy(transform.parent.gameObject);
             }
             else
             {

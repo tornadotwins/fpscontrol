@@ -222,12 +222,12 @@ namespace FPSControl
 
         public void StartRun()
         {
-            _currentWeapon.StartRun();
+            if(_currentWeapon) _currentWeapon.StartRun();
         }
 
         public void EndRun()
         {
-            _currentWeapon.EndRun();
+            if (_currentWeapon) _currentWeapon.EndRun();
         }
 
         public override void DoUpdate()

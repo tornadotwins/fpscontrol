@@ -583,7 +583,7 @@ GameObject:
   - 114: {fileID: 11400034}
   - 114: {fileID: 11400038}
   - 114: {fileID: 11400036}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player 1
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -4260,7 +4260,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967039
+    m_Bits: 4294966015
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_HDR: 0
@@ -5001,10 +5001,9 @@ MonoBehaviour:
   weaponToggle: 113
   reloadKey: 114
   defendKey: 120
-  addWeaponsToInventory: 1
+  addWeaponsToInventory: 0
   weaponActors:
   - {fileID: 11400024}
-  - {fileID: 0}
   - {fileID: 11400022}
   shouldersOffset: {x: .319999993, y: -.289999992, z: .270000011}
 --- !u!114 &11400002

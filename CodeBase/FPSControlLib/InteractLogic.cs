@@ -57,7 +57,8 @@ namespace FPSControl
  
             SendMessage (_normalInteraction); //support legacy
             _doneInteraction = true;
-         
+            NonHighlighted();
+
             if (_oneTime) {
                 _canInteractWith = false;
             }
@@ -88,9 +89,12 @@ namespace FPSControl
      
         public void Highlighted ()
         {
-            if (! _canInteractWith)
+            Debug.Log("highlight");
+            if (!_canInteractWith)
+            {
+                Debug.Log("Trying to highlight but can't interact with object.");
                 return;
-         
+            }
             _fadeTimer = Time.time + _fadeTime;
          
             foreach (Renderer rend in _highlightParts) {

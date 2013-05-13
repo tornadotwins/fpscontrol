@@ -26,8 +26,9 @@ namespace FPSControl
         public override void DoUpdate()
         {
             Ray ray = new Ray(_transform.position, _transform.forward);
-            Debug.DrawRay(ray.origin, ray.direction * interactionMaxRange, Color.cyan);
-            
+            //Debug.DrawRay(ray.origin, ray.direction * interactionMaxRange, Color.cyan);
+            //Debug.Log("raycasting");
+
             if (!allowInteracting)
             {
                 if(_interactLogic)
@@ -42,9 +43,12 @@ namespace FPSControl
             if (Physics.Raycast(ray, out hit, interactionMaxRange, camera.cullingMask))
             {
                 InteractLogic interactiveLogic = hit.collider.GetComponent<InteractLogic>();
+                Debug.Log(hit.collider.gameObject.name);
                 if (interactiveLogic)
                 {
-                    if (!_interactLogic)
+                    //Debug.Log("interact logic");
+                    
+                    if (!_interactLogic || (_interactLogic == interactiveLogic))
                     {
                         _interactLogic = interactiveLogic;
                         _interactLogic.Highlighted();
@@ -55,9 +59,11 @@ namespace FPSControl
                         _interactLogic = interactiveLogic;
                         _interactLogic.Highlighted();
                     }
+
                 }
                 else
                 {
+                   // Debug.Log("No interact logic");
                     if (_interactLogic)
                     {
                         _interactLogic.NonHighlighted();
@@ -76,10 +82,10 @@ namespace FPSControl
 
             if (Input.GetKeyDown(interactionKey) && _interactLogic)
             {
-                Debug.Log("interacted");
+                //Debug.Log("interacted");
                 _interactLogic.ReceivedInteraction(true);
             }
-            else if (Input.GetKeyDown(interactionKey)) Debug.Log("tried to interact, but nothing to interact with");
+            //else if (Input.GetKeyDown(interactionKey)) Debug.Log("tried to interact, but nothing to interact with");
 
 
         }
