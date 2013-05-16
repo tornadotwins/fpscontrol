@@ -55,6 +55,9 @@ namespace FPSControl
         [HideInInspector]
         float _mouseCounter = 0;
 
+        public IntelliCrosshair defaultCrosshair;
+        public CrosshairAnimator crosshairAnimator;
+
         public override void SetState(States.State state)
         {
             base.SetState(state);
@@ -88,6 +91,8 @@ namespace FPSControl
                     }
                 }
             }
+
+            crosshairAnimator.SetCrossHair(defaultCrosshair);
         }
 
         public bool CanAddWeapon(string weaponName)
@@ -197,11 +202,13 @@ namespace FPSControl
             {
                 _queuedWeapon = _availableWeapons[index];
                 _currentWeapon.Deactivate(_ActivateQueuedWeapon);
+                crosshairAnimator.SetCrossHair(null);
             }
             else
             {
                 _currentWeapon = _availableWeapons[index];
                 _currentWeapon.Activate(this);
+                crosshairAnimator.SetCrossHair(_currentWeapon.crosshair);
             }
         }
 
@@ -209,6 +216,7 @@ namespace FPSControl
         {
             _currentWeapon = _queuedWeapon;
             _currentWeapon.Activate(this);
+            crosshairAnimator.SetCrossHair(_currentWeapon.crosshair);
             _queuedWeapon = null;
         }
 
@@ -222,7 +230,7 @@ namespace FPSControl
 
         public void StartRun()
         {
-            if(_currentWeapon) _currentWeapon.StartRun();
+            if(_currentWeapon)_currentWeapon.StartRun();
         }
 
         public void EndRun()
@@ -236,6 +244,8 @@ namespace FPSControl
 
             _mouseDownL = Input.GetMouseButton(0);
             _mouseDownR = Input.GetMouseButton(1);
+
+            crosshairAnimator.Fire(_mouseDownL);
 
             if(_mouseDownL && _mouseWasDownL && _mouseCounter < _currentWeapon.definition.chargeTime)
             {
@@ -258,11 +268,13 @@ namespace FPSControl
                 {
                     _currentWeapon.Scope();
                     Player.playerCamera.Scope(true, _currentWeapon.definition.scopeFOV);
+                    crosshairAnimator.StartZoom();
                 }
                 else if (!_mouseDownR && _mouseWasDownR)
                 {
                     _currentWeapon.ExitScope();
                     Player.playerCamera.Scope(false, Player.playerCamera.baseFOV);
+                    crosshairAnimator.EndZoom();
                 }
             }
 

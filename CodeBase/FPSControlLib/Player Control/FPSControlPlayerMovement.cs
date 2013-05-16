@@ -65,6 +65,8 @@ namespace FPSControl
 
         protected float _delta { get { return Time.deltaTime * 60F; } }
 
+        public CrosshairAnimator crosshairAnimator;
+
         void Awake()
         {
             UpdateVars();
@@ -138,7 +140,15 @@ namespace FPSControl
             if (projectedXZ != actualXZ) CorrectHorizontalForce(actualXZ - projectedXZ);
             if ((projectedY > actualY) && _movement.y > 0) CorrectUpForce(actualY - projectedY);
 
-            if (!_input) Player.ChangeState("Idle"); //if we have no input this frame, switch back to idle
+            if (_input)
+            {
+                crosshairAnimator.Move();
+            }
+            else
+            {
+                Player.ChangeState("Idle"); //if we have no input this frame, switch back to idle
+                crosshairAnimator.BeStill();
+            }
         }
 
         void CorrectHorizontalForce(Vector3 impact)

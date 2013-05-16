@@ -5006,6 +5006,8 @@ MonoBehaviour:
   - {fileID: 11400024}
   - {fileID: 11400022}
   shouldersOffset: {x: .319999993, y: -.289999992, z: .270000011}
+  defaultCrosshair: {fileID: 0}
+  crosshairAnimator: {fileID: 11400026}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5134,6 +5136,7 @@ MonoBehaviour:
   jumpForce: .349999994
   gravity: 4
   liveEditing: 0
+  crosshairAnimator: {fileID: 11400026}
 --- !u!114 &11400012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5323,6 +5326,7 @@ MonoBehaviour:
     name: 
   chargeState:
     name: 
+  crosshair: {fileID: 11400028}
   rangeDefinition:
     rangedType: 1
     disperseRadius: 0
@@ -5383,6 +5387,7 @@ MonoBehaviour:
     name: 
   chargeState:
     name: 
+  crosshair: {fileID: 11400028}
   rangeDefinition:
     rangedType: 0
     disperseRadius: 0
@@ -5423,15 +5428,14 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 1348884034, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
-  crosshair: {fileID: 11400028}
-  playerMovement: {fileID: 11400010}
+  crosshair: {fileID: 0}
 --- !u!114 &11400028
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100294}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 1228999585, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
