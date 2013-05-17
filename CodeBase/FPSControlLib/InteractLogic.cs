@@ -89,10 +89,10 @@ namespace FPSControl
      
         public void Highlighted ()
         {
-            Debug.Log("highlight");
+            //Debug.Log("highlight");
             if (!_canInteractWith)
             {
-                Debug.Log("Trying to highlight but can't interact with object.");
+                //Debug.Log("Trying to highlight but can't interact with object.");
                 return;
             }
             _fadeTimer = Time.time + _fadeTime;

@@ -43,7 +43,7 @@ namespace FPSControl
             if (Physics.Raycast(ray, out hit, interactionMaxRange, camera.cullingMask))
             {
                 InteractLogic interactiveLogic = hit.collider.GetComponent<InteractLogic>();
-                Debug.Log(hit.collider.gameObject.name);
+                //Debug.Log(hit.collider.gameObject.name);
                 if (interactiveLogic)
                 {
                     //Debug.Log("interact logic");

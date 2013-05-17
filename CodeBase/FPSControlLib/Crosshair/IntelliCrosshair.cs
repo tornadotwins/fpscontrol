@@ -46,18 +46,21 @@ namespace FPSControl
 		public int borderWidth = 1;    
 		public float offset = 3.0f; 
 		//the distance from the four lines to the center in % of the current screenheight   
-			
+//        public float scopeOffset = 1.0f;
+	    //distance when scoped
 		public bool centerPoint = true; 
 		//draw a dot in the middle 
 		public int centerWidth = 1; 
 		//set this to 1 or 3, even numbers can look off 
 		public bool showCrosshair = true; 
 		//a toggle for the crosshair     
-		public float globalRotation = 0.0f; 
+        public bool fadeOutOnScope = true;
+        //should crosshair fade out on scope
+        public float globalRotation = 0.0f; 
 		//you can rotate the crosshair around the center   
 		public float alpha = 1.0f; 
 		//the overall opacity of the crosshair     
-		public bool doAnimate = true;     
+		public bool doAnimate = true;
 		public float spreadAmount = 5.0f; 
 		//how far will it spread 
 		public float spreadSpeed = 20.0f; 
@@ -207,7 +210,7 @@ namespace FPSControl
   
 		void AnimateCrosshair () 
 		{    
-			if (fade)
+			if(fade)
 			{  
 				FadeOutCrosshair (fadeSpeed); 
 				return;  
@@ -245,8 +248,16 @@ namespace FPSControl
 
 		void FadeOutCrosshair (float speed) 
 		{
-			if (_offset > 0)  anim -= Time.deltaTime * (speed * newOffset / 10);     
-			if (_alpha > 0)  _alpha -= Time.deltaTime * (speed / 10);  _alpha = Mathf.Max (_alpha, 0);    
+            if (_offset > 0)
+            {
+                //newOffset = Mathf.Max(newOffset, scopeOffset);
+                anim -= Time.deltaTime * (speed * newOffset / 10);
+            }
+            if (fadeOutOnScope)
+            {
+                if (_alpha > 0) _alpha -= Time.deltaTime * (speed / 10);
+                _alpha = Mathf.Max(_alpha, 0);
+            }
 		}   
  
 		void FadeInCrosshair (float speed) 

@@ -49,9 +49,17 @@ namespace FPSControl
 
         public void SetCrossHair(IntelliCrosshair crosshair)
         {
-            if (this.crosshair) this.crosshair.enabled = false;
+            if (this.crosshair)
+            {
+                this.crosshair.enabled = false;
+            }
+
             this.crosshair = crosshair;
-            this.crosshair.enabled = true;
+
+            if (this.crosshair)
+            {
+                this.crosshair.enabled = true;
+            }
         }
 
         public void Fire(bool fire)
