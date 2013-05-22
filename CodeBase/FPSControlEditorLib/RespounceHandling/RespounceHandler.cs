@@ -81,7 +81,7 @@ namespace FPSControlEditor
                 PurchaseModuleData mData = respounceData.purchaseData[module.ToString()];
                 if (mData.purchased)
                 {
-                    if (FPSControlMainEditor.modules[module].version < mData.version)
+                    if (CompareVersions(mData.version, FPSControlMainEditor.modules[module].version) > 0)
                     {
                         if (!discardUpdate && EditorUtility.DisplayDialog("Update!", "There is an update for this module would you like to update?", "Update", "Cancel"))
                         {
@@ -99,6 +99,13 @@ namespace FPSControlEditor
             return false;
         }
 
+        internal static int CompareVersions(String strA, String strB)
+        {
+            Version vA = new Version("0." + strA.Replace(",", "."));
+            Version vB = new Version("0." + strB.Replace(",", "."));
+
+            return vA.CompareTo(vB);
+        }
         
         internal static void DownloadAndUpdate(PurchaseModuleData mData)
         {
@@ -152,12 +159,12 @@ namespace FPSControlEditor
 
             PurchaseModuleData a = new PurchaseModuleData();
             a.purchased = true;
-            a.version = 1.0f;
+            a.version = "1.0";
             //test.data.Add(FPSControlModuleType.MusicControl, a);
 
             PurchaseModuleData b = new PurchaseModuleData();
             b.purchased = true;
-            b.version = 1.0f;
+            b.version = "1.0";
            // test.data.Add(FPSControlModuleType.WeaponControl, b);
 
             test.login.passwordMatch = true;

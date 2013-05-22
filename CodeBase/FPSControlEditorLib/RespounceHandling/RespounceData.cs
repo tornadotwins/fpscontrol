@@ -10,7 +10,7 @@ namespace FPSControlEditor
     [Serializable]
     internal class PurchaseModuleData
     {
-        public float version;
+        public string version;
         public bool purchased;
         public string url;
         public string purl;

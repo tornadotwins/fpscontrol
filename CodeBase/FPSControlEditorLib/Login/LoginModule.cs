@@ -208,7 +208,7 @@ namespace FPSControlEditor
                 {
                     PurchaseModuleData m = new PurchaseModuleData();
                     m.purchased = true;
-                    m.version = 0;
+                    m.version = "0.0";
                     devLogin.purchaseData.Add(e.ToString(), m);
                 }
                 string returnString = JSONDeserializer.GenerateJSON(devLogin);

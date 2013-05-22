@@ -109,6 +109,24 @@ namespace FPSControlEditor
             LoadAssets();
         }
 
+        public override string version
+        {
+            get
+            {
+                string file = FPSControlMainEditor.PROBUILDER_VERSION_FILE;
+                string v = "0.0";
+                if (File.Exists(file))
+                {
+                    using (StreamReader sr = new StreamReader(file))
+                    {
+                        string line = sr.ReadLine();
+                        v = line.Split(" ".ToCharArray())[1];
+                    }
+                }
+                return v;
+            }
+        }
+
         public override void HandlePaidStatus(bool paid)
         {
             //Debug.Log(paid);

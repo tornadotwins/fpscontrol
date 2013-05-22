@@ -50,6 +50,7 @@ namespace FPSControlEditor
 
         public const string ROOT_FOLDER = "Assets/FPSControlCore/";
         public const string ASSET_PATH = ROOT_FOLDER + "Editor/FPSControl/Editor Assets/";
+        public const string PROBUILDER_VERSION_FILE = "Assets/6by7/ProBuilder/VersionInfo.txt";
         public const string RESOURCE_FOLDER = ROOT_FOLDER + "Resources/";
         public const string GRAPHICS = "Graphics/";
         public const string TEMP = "_TMP/";
