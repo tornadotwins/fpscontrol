@@ -5408,7 +5408,7 @@ MonoBehaviour:
   projectileB: {fileID: 0}
   gunDamageLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294967291
   bulletHole: {fileID: 100000, guid: dc7a3f19d937e6840ab2d9d681a73ed6, type: 2}
   contactForce: 10
   damageFalloff:
@@ -5456,6 +5456,7 @@ MonoBehaviour:
   centerPoint: 1
   centerWidth: 2
   showCrosshair: 1
+  fadeOutOnScope: 1
   globalRotation: 0
   alpha: 1
   doAnimate: 1

@@ -52,16 +52,16 @@ namespace FPSControl
         public void ReceivedInteraction (bool zone)
         {
             //this should be the new paradigm
-            //InteractiveObject iObj = GetComponent<InteractiveObject>();
-            //iObj.Interact();
+            InteractiveObject iObj = GetComponent<InteractiveObject>();
+            iObj.Interact();
  
-            //SendMessage (_normalInteraction); //support legacy
-            //_doneInteraction = true;
-            //NonHighlighted();
+            SendMessage (_normalInteraction); //support legacy
+            _doneInteraction = true;
+            NonHighlighted();
 
-            //if (_oneTime) {
-            //    _canInteractWith = false;
-            //}
+            if (_oneTime) {
+                _canInteractWith = false;
+            }
         }
      
      

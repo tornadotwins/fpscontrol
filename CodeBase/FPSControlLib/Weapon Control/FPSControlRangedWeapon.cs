@@ -256,20 +256,26 @@ namespace FPSControl
                                     }
                                 }
 
+                                DamageSource damageSource = new DamageSource();
+                                float distance = hit.distance;
+                                float normalizedDistance = distance / damageFalloff.distance; //normalize distance, 9F/10F = .9F
+                                float damageInflicted = (definition.maxDamagePerHit * damageFalloff.Evaluate(normalizedDistance)) / (float)rangeDefinition.raycasts; //divy the damage inflicted by number of raycasts
+                                damageSource.appliedToPosition = hit.point;
+                                damageSource.damageAmount = damageInflicted;
+                                damageSource.fromPosition = weaponPath.origin.position;
+                                damageSource.hitCollider = hit.collider;
+                                damageSource.sourceObjectType = DamageSource.DamageSourceObjectType.Player;
+                                damageSource.sourceType = DamageSource.DamageSourceType.GunFire;
+                                
                                 Damageable damageable = hit.transform.GetComponent<Damageable>();
                                 if (damageable != null)
                                 {
-                                    DamageSource damageSource = new DamageSource();
-                                    float distance = hit.distance;
-                                    float normalizedDistance = distance / damageFalloff.distance; //normalize distance, 9F/10F = .9F
-                                    float damageInflicted = (definition.maxDamagePerHit * damageFalloff.Evaluate(normalizedDistance)) / (float)rangeDefinition.raycasts; //divy the damage inflicted by number of raycasts
-                                    damageSource.appliedToPosition = hit.point;
-                                    damageSource.damageAmount = damageInflicted;
-                                    damageSource.fromPosition = weaponPath.origin.position;
-                                    damageSource.hitCollider = hit.collider;
-                                    damageSource.sourceObjectType = DamageSource.DamageSourceObjectType.Player;
-                                    damageSource.sourceType = DamageSource.DamageSourceType.GunFire;
-                                    damageable.ApplyDamage(damageSource);
+                                   damageable.ApplyDamage(damageSource);
+                                }
+                                else
+                                {
+                                    Debug.Log(hit.collider.gameObject.name+": No Damageable found. Reverting to SendMessage.");
+                                    hit.collider.SendMessage("ApplyDamage", damageSource, SendMessageOptions.DontRequireReceiver);
                                 }
                             }
                         }
