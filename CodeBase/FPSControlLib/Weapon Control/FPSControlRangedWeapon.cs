@@ -266,6 +266,7 @@ namespace FPSControl
                                 damageSource.hitCollider = hit.collider;
                                 damageSource.sourceObjectType = DamageSource.DamageSourceObjectType.Player;
                                 damageSource.sourceType = DamageSource.DamageSourceType.GunFire;
+                                damageSource.sourceObject = Parent.Player.gameObject;
                                 
                                 Damageable damageable = hit.transform.GetComponent<Damageable>();
                                 if (damageable != null)
