@@ -8,7 +8,6 @@ namespace FPSControlEditor
 {
     class PurchaseControlModule : FPSControlEditorModule
     {
-
         const string guiFolder = "Purchase/";
 
         public PurchaseControlModule(EditorWindow editorWindow) : base(editorWindow)

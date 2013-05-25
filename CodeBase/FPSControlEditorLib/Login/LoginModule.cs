@@ -260,6 +260,7 @@ namespace FPSControlEditor
 				
                 return myResult; //sr.ReadToEnd();
             }
+
             catch(System.Exception ex)
             {
                 _fail = true;

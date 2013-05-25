@@ -88,7 +88,7 @@ namespace FPSControlEditor
                         int secondsSinceEpoch = (int)t.TotalSeconds;
                         int lastUpdateTime = EditorPrefs.GetInt(LAST_UPDATE_TIME_KEY, 0);
                         int timeDif = secondsSinceEpoch - lastUpdateTime;
-                        if (timeDif > 240 && !discardUpdate && EditorUtility.DisplayDialog("Update!", "There is an update for this module would you like to update?", "Update", "Cancel"))
+                        if (timeDif > 60 && !discardUpdate && EditorUtility.DisplayDialog("Update!", "There is an update for this module would you like to update?", "Update", "Cancel"))
                         {
                             Debug.Log("Downloading new version of " + module);
                             discardUpdate = true;
@@ -154,12 +154,11 @@ namespace FPSControlEditor
             }
             EditorUtility.ClearProgressBar();
             yield break;
-        }
+        } 
 
 
         internal static void LoadWebResult(string json)
         {
-            Debug.Log(json);
             respounceData = JSONDeserializer.Get<RespounceData>(json);
         }
 

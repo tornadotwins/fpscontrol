@@ -13,11 +13,6 @@ namespace FPSControlEditor
         public static Rect MODULE_SIZE { get { return new Rect(246, 50, 660, 578); } }
         public static GUILayoutOption[] NONE { get { return new GUILayoutOption[0] { }; } }
 
-
-
-       // public float version = 1.0f;
-
-
         public virtual string version
         {
             get
