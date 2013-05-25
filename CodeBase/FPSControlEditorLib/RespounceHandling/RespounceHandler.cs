@@ -13,13 +13,14 @@ using UnityEditor;
 
 namespace FPSControlEditor
 {
-    
+
     internal static class RespounceHandler
     {
         private static string RESPOUNCE_DATA_KEY = "FPSCONTROL:RESPOUNCE_DATA_KEY";
+        private static string LAST_UPDATE_TIME_KEY = "FPSCONTROL:LAST_UPDATE_TIME_KEY";
 
         private static RespounceData _respounceData;
-        private static RespounceData respounceData 
+        private static RespounceData respounceData
         {
             get
             {
@@ -72,7 +73,7 @@ namespace FPSControlEditor
         private static bool importReady = false;
         private static FPSControlModuleType _lastChecked;
         internal static bool CheckForPurchase(FPSControlModuleType module)
-        {            
+        {
             if (module == FPSControlModuleType.NONE || module == FPSControlModuleType.UNAVAILABLE || module == FPSControlModuleType.NeedsPurchasing) return true;
             if (respounceData == null) return false;
             _lastChecked = module;
@@ -83,18 +84,22 @@ namespace FPSControlEditor
                 {
                     if (CompareVersions(mData.version, FPSControlMainEditor.modules[module].version) > 0)
                     {
-                        if (!discardUpdate && EditorUtility.DisplayDialog("Update!", "There is an update for this module would you like to update?", "Update", "Cancel"))
+                        TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
+                        int secondsSinceEpoch = (int)t.TotalSeconds;
+                        int lastUpdateTime = EditorPrefs.GetInt(LAST_UPDATE_TIME_KEY, 0);
+                        int timeDif = secondsSinceEpoch - lastUpdateTime;
+                        if (timeDif > 240 && !discardUpdate && EditorUtility.DisplayDialog("Update!", "There is an update for this module would you like to update?", "Update", "Cancel"))
                         {
                             Debug.Log("Downloading new version of " + module);
                             discardUpdate = true;
-                            DownloadAndUpdate(mData); 
-                        }                        
+                            DownloadAndUpdate(mData);
+                        }
                         discardUpdate = true;
                     }
                     _URL = mData.url;
                     return true;
                 }
-            }            
+            }
             _URL = null;
             return false;
         }
@@ -106,12 +111,13 @@ namespace FPSControlEditor
 
             return vA.CompareTo(vB);
         }
-        
+
         internal static void DownloadAndUpdate(PurchaseModuleData mData)
         {
             string filepath = mData.purl;
             MonoBehaviour invoker = (MonoBehaviour)GameObject.FindObjectOfType(typeof(MonoBehaviour));
-            if (invoker == null) {
+            if (invoker == null)
+            {
                 new GameObject("Player", typeof(RBFPSControllerLogic));
                 invoker = (MonoBehaviour)GameObject.FindObjectOfType(typeof(MonoBehaviour));
             }
@@ -130,10 +136,10 @@ namespace FPSControlEditor
             }
 
             if (www.error != null)
-            { 
+            {
                 Debug.LogWarning("ERROR DOWNLOADING UPDATE: " + www.error);
-            } 
-            else 
+            }
+            else
             {
                 EditorUtility.DisplayProgressBar("Update Manager", "Installing update..", www.progress);
                 tempPath = Path.Combine(Path.GetTempPath(), "temp.unitypackage");
@@ -141,7 +147,10 @@ namespace FPSControlEditor
                 int size = www.bytes.Length;
                 _FileStream.Write(www.bytes, 0, www.bytes.Length);
                 _FileStream.Close();
-                AssetDatabase.ImportPackage(tempPath, false);                
+                TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
+                int secondsSinceEpoch = (int)t.TotalSeconds;
+                EditorPrefs.SetInt(LAST_UPDATE_TIME_KEY, secondsSinceEpoch);
+                AssetDatabase.ImportPackage(tempPath, false);
             }
             EditorUtility.ClearProgressBar();
             yield break;
@@ -150,6 +159,7 @@ namespace FPSControlEditor
 
         internal static void LoadWebResult(string json)
         {
+            Debug.Log(json);
             respounceData = JSONDeserializer.Get<RespounceData>(json);
         }
 
@@ -165,13 +175,13 @@ namespace FPSControlEditor
             PurchaseModuleData b = new PurchaseModuleData();
             b.purchased = true;
             b.version = "1.0";
-           // test.data.Add(FPSControlModuleType.WeaponControl, b);
+            // test.data.Add(FPSControlModuleType.WeaponControl, b);
 
             test.login.passwordMatch = true;
             test.login.userExsist = true;
             //test.login.subscription = "free";
 
-           // Debug.Log(JSONDeserializer.GenerateJSON(test));
+            // Debug.Log(JSONDeserializer.GenerateJSON(test));
         }
 
     }
