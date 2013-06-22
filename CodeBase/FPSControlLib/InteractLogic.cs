@@ -55,7 +55,7 @@ namespace FPSControl
             InteractiveObject iObj = GetComponent<InteractiveObject>();
             iObj.Interact();
  
-            SendMessage (_normalInteraction); //support legacy
+            SendMessage (_normalInteraction, SendMessageOptions.DontRequireReceiver); //support legacy
             _doneInteraction = true;
             NonHighlighted();
 

@@ -87,6 +87,8 @@
     <Compile Include="Game Settings\RBFPSControllerLogicInspector.cs" />
     <Compile Include="Login\LoginModule.cs" />
     <Compile Include="Main Editor\FPSControlMainEditor.cs" />
+    <Compile Include="Messaging\MessageReceiverInspector.cs" />
+    <Compile Include="Messaging\MessageSenderInspector.cs" />
     <Compile Include="Music Control\MusicControlModule.cs" />
     <Compile Include="Music Control\MusicControlInspector.cs" />
     <Compile Include="Music Control\MusicControlNode.cs" />

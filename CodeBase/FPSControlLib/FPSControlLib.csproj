@@ -52,9 +52,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Unity 4.0\Data\Managed\UnityEngine.dll</HintPath>
+    <Reference Include="UnityEngine">
+      <HintPath>bin\Release\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +63,10 @@
     <Compile Include="Footstep Control\FootstepControl.cs" />
     <Compile Include="Footstep Control\FootstepControlDefinition.cs" />
     <Compile Include="Footstep Control\FootstepControlDefinitions.cs" />
+    <Compile Include="Interaction\InteractiveObject.cs" />
+    <Compile Include="Interaction\Pickups\WeaponPickup.cs" />
+    <Compile Include="Messaging\MessageReceiver.cs" />
+    <Compile Include="Messaging\MessageSender.cs" />
     <Compile Include="Player Control\FPSControlPlayer.cs" />
     <Compile Include="Player Control\FPSControlPlayerCamera.cs" />
     <Compile Include="Player Control\FPSControlPlayerComponent.cs" />

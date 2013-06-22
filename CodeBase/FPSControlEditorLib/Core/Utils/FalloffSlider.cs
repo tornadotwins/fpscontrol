@@ -266,7 +266,6 @@ namespace FPSControlEditor
             if (remainingX < 0) remainingX = 0;
             float remainingY = Mathf.Clamp(remainingX * slope, 0, 17);
 
-
             //DRAW THE GRAPH SLOPES
             if (src.distance > 0)
             {

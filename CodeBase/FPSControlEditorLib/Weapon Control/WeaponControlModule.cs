@@ -311,6 +311,7 @@ namespace FPSControlEditor
                 GUI.enabled = true;
             }
             GUI.EndGroup();
+            GUI.enabled = true;
         }
 
         private void GUIMeshAnimationWindow(int windowIndex)

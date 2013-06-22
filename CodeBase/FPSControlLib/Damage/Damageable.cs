@@ -14,6 +14,7 @@ namespace FPSControl
     */
     public class Damageable : MonoBehaviour
     {
+        public event System.Action<float> OnDamageApplied;
         /*!
         Initial health of the containing gameObject.
         */
@@ -54,7 +55,7 @@ namespace FPSControl
         {
             if (_health > 0f) {
                 _health -= damageSource.damageAmount;
-             
+                if (OnDamageApplied != null) OnDamageApplied(_health);
                 if (_health <= 0f)
                     OnDeath ();
             }

@@ -64,7 +64,8 @@ namespace FPSControl
 
         public void Fire(bool fire)
         {
-            crosshair.shoot = fire;
+            if (crosshair) crosshair.shoot = fire;
+            //else Debug.LogWarning("IntelliCrosshair crosshair in " + this + " is null. Have you correctly setup references?");
         }
 
         public void StartZoom()
