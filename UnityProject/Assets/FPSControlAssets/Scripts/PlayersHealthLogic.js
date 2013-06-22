@@ -69,6 +69,17 @@ function IsAlive() : boolean
 	return( _isAlive );
 }
 
+function ApplyHealthAdditive(value : float)
+{
+    _dataController.current += value;
+    AmIDead();
+}
+
+function ApplyHealth(value : float)
+{
+    _dataController.current = value;
+    AmIDead();
+}
 
 //---
 // called via SendMessage from weapons or traps raycasting
