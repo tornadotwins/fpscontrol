@@ -9,7 +9,7 @@ namespace FPSControlEditor
 {
 
     [CustomEditor(typeof(MessageSender))]
-    class MessageSenderInspector : Editor
+    class MessageSenderInspector : FPSControlAbstractInspector
     {
         MessageSender t { get { return (MessageSender)target; } }
 
