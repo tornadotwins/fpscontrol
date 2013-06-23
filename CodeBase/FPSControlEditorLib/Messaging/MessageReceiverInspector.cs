@@ -10,8 +10,17 @@ namespace FPSControlEditor
     
     [CustomEditor(typeof(MessageReceiver))]
     class MessageReceiverInspector : Editor
-    {
+    {        
         MessageReceiver t { get { return (MessageReceiver)target; } }
+
+        [MenuItem("FPS Control/Messaging/Add Receiver To Selected GameObjects")]
+        static void AddComponent()
+        {
+            foreach (GameObject go in Selection.gameObjects)
+            {
+                go.AddComponent<MessageReceiver>();
+            }
+        }
 
         public override void OnInspectorGUI()
         {
@@ -132,7 +141,8 @@ namespace FPSControlEditor
 
             //animation stuff
             Animation siblingAnimation = t.GetComponent<Animation>();
-/*            List<string> clips = new List<string>();
+            /*
+             * List<string> clips = new List<string>();
             if (siblingAnimation )
             {
                 foreach (AnimationState state in siblingAnimation)
@@ -176,7 +186,11 @@ namespace FPSControlEditor
             else
             {
                 //GUILayout.Box("[No Animation Component]", EditorStyles.textField);
-                if (GUILayout.Button("Add Animation Component")) t.gameObject.AddComponent<Animation>();
+                if (GUILayout.Button("Add Animation Component"))
+                {
+                    t.gameObject.AddComponent<Animation>();
+                    Repaint();
+                }
             }
             
             GUI.enabled = true;

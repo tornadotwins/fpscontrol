@@ -13,6 +13,15 @@ namespace FPSControlEditor
     {
         MessageSender t { get { return (MessageSender)target; } }
 
+        [MenuItem("FPS Control/Messaging/Add Sender To Selected GameObjects")]
+        static void AddComponent()
+        {
+            foreach (GameObject go in Selection.gameObjects)
+            {
+                go.AddComponent<MessageSender>();
+            }
+        }
+
         public override void OnInspectorGUI()
         {
             Color bgColor = GUI.backgroundColor;

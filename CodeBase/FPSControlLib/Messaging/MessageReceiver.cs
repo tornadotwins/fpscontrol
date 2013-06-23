@@ -23,9 +23,9 @@ namespace FPSControl
         public AudioSource soundEffect;
 
         public HealthModifier healthMod = HealthModifier.Plus;
-        public float health;
+        public float health = 0F;
 
-        public string animationName;
+        public string animationName = "";
 
         void Awake()
         {
