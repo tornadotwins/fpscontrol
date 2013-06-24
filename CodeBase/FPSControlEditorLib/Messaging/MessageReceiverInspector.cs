@@ -10,7 +10,17 @@ namespace FPSControlEditor
     
     [CustomEditor(typeof(MessageReceiver))]
     class MessageReceiverInspector : FPSControlAbstractInspector
-    {        
+    {
+        const string FOLDER = "Messaging/";
+        const string TOP_BG = "blueBG";
+        const string MID_BG = "redBG";
+        const string BOTTOM_BG = "darkRedBG";
+        const string HEADER = "receive_text";
+        const string TEXT = "takeActionText";
+
+        Texture2D topBG, midBG, bottomBG, header, text;
+        GUIStyle bgStyle;
+
         MessageReceiver t { get { return (MessageReceiver)target; } }
 
         [MenuItem("FPS Control/Messaging/Add Receiver To Selected GameObjects")]
@@ -22,55 +32,63 @@ namespace FPSControlEditor
             }
         }
 
+        void GetAssets()
+        {
+            if (!topBG) topBG = (Texture2D)LoadPNG(FOLDER, TOP_BG);
+            if (!midBG) midBG = (Texture2D)LoadPNG(FOLDER, MID_BG);
+            if (!bottomBG) bottomBG = (Texture2D)LoadPNG(FOLDER, BOTTOM_BG);
+            if (!header) header = (Texture2D)LoadPNG(FOLDER, HEADER);
+            if (!text) text = (Texture2D)LoadPNG(FOLDER, TEXT);
+        }
+
         public override void OnInspectorGUI()
         {
-            Color bgColor = GUI.backgroundColor;
+            GetAssets();
+            
+            Color bgColor = GUI.backgroundColor; 
             
             //draw message box
-            GUILayout.BeginVertical();
+            bgStyle = new GUIStyle();
+            bgStyle.normal.background = topBG;
+
+            GUILayout.BeginVertical(bgStyle);
 
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
-            GUILayout.Label("Receive Message:");
+            GUILayout.Label(header);
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
 
             GUILayout.Space(5);
-            
+
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
-            t.broadcastedMessage = GUILayout.TextField(t.broadcastedMessage,GUILayout.MinWidth(120));
+            t.broadcastedMessage = GUILayout.TextField(t.broadcastedMessage,GUILayout.MinWidth(200));
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
            
             GUILayout.EndVertical();
-            
-            GUI.backgroundColor = Color.blue;
-
-            GUI.depth--;
-            GUI.Box(GUILayoutUtility.GetLastRect(), "");
-            GUI.depth++;
-
+            GUILayout.Space(2);
             GUI.backgroundColor = bgColor;
 
-            GUILayout.Space(10);
-
-            //Now we do our mutually exclusive handler setup
-
-            GUILayout.BeginVertical();
-
-            GUILayout.BeginHorizontal();
+            bgStyle.normal.background = midBG;
+            GUILayout.BeginHorizontal(bgStyle);
             GUILayout.FlexibleSpace();
-            GUILayout.Label("Take Action:");
+            GUILayout.Label(text);
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
+            GUILayout.Space(2);
+
+            //Now we do our mutually exclusive handler setup
+            bgStyle.normal.background = bottomBG;
+            GUILayout.BeginVertical();
 
             MessageHandlerType handler = t.handler;
             bool hb;
 
             //spawn stuff
-            GUILayout.BeginHorizontal();
-            GUILayout.FlexibleSpace();
+            GUILayout.BeginHorizontal(bgStyle);
+            GUILayout.Space(5);
 
             hb = t.handler == MessageHandlerType.SpawnObject;
             hb = GUILayout.Toggle(hb, "", EditorStyles.radioButton);
@@ -88,10 +106,11 @@ namespace FPSControlEditor
             GUI.enabled = true;
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
+            GUILayout.Space(1);
 
             //music stuff
-            GUILayout.BeginHorizontal();
-            GUILayout.FlexibleSpace();
+            GUILayout.BeginHorizontal(bgStyle);
+            GUILayout.Space(5);
 
             hb = t.handler == MessageHandlerType.Music;
             hb = GUILayout.Toggle(hb, "", EditorStyles.radioButton);
@@ -104,10 +123,11 @@ namespace FPSControlEditor
             GUI.enabled = true;
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
+            GUILayout.Space(1);
 
             //sfx stuff
-            GUILayout.BeginHorizontal();
-            GUILayout.FlexibleSpace();
+            GUILayout.BeginHorizontal(bgStyle);
+            GUILayout.Space(5);
 
             hb = t.handler == MessageHandlerType.SoundEffect;
             hb = GUILayout.Toggle(hb, "", EditorStyles.radioButton);
@@ -120,10 +140,11 @@ namespace FPSControlEditor
             GUI.enabled = true;
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
+            GUILayout.Space(1);
 
             //player health stuff
-            GUILayout.BeginHorizontal();
-            GUILayout.FlexibleSpace();
+            GUILayout.BeginHorizontal(bgStyle);
+            GUILayout.Space(5);
 
             hb = t.handler == MessageHandlerType.PlayerHealth;
             hb = GUILayout.Toggle(hb, "", EditorStyles.radioButton);
@@ -138,22 +159,13 @@ namespace FPSControlEditor
             GUI.enabled = true;
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
+            GUILayout.Space(1);
 
             //animation stuff
             Animation siblingAnimation = t.GetComponent<Animation>();
-            /*
-             * List<string> clips = new List<string>();
-            if (siblingAnimation )
-            {
-                foreach (AnimationState state in siblingAnimation)
-                {
-                    GUILayout.Label(state.clip.name, EditorStyles.miniBoldLabel);
-                    clips.Add(state.clip.name);
-                }
-            }*/
-            
-            GUILayout.BeginHorizontal();
-            GUILayout.FlexibleSpace();
+
+            GUILayout.BeginHorizontal(bgStyle);
+            GUILayout.Space(5);
 
             hb = t.handler == MessageHandlerType.PlayAnimation;
             hb = GUILayout.Toggle(hb, "", EditorStyles.radioButton);
@@ -162,23 +174,8 @@ namespace FPSControlEditor
             GUILayout.Space(10);
             GUILayout.Label("Play animation: ");
             GUILayout.Space(10);
-            /*if (GUI.enabled) Repaint();
-            if (siblingAnimation && clips.Count > 0)
-            {
-                int indexOfClip = clips.Contains(t.animationName) ? clips.IndexOf(t.animationName) : 0;
-                indexOfClip = EditorGUILayout.Popup(indexOfClip,clips.ToArray());
-                t.animationName = clips[indexOfClip];
-            }
-            else if (siblingAnimation && clips.Count < 1)
-            {
-                GUILayout.Box("[Empty Animation Component]", EditorStyles.textField);
-            }
-            else
-            {
-                GUILayout.Box("[No Animation Component]", EditorStyles.textField);
-            }
-            clips = new List<string>();
-             * */
+
+
             if (siblingAnimation)
             {
                 t.animationName = GUILayout.TextField(t.animationName, GUILayout.MinWidth(120));
@@ -196,10 +193,11 @@ namespace FPSControlEditor
             GUI.enabled = true;
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
+            GUILayout.Space(1);
 
             //destroy stuff
-            GUILayout.BeginHorizontal();
-            GUILayout.FlexibleSpace();
+            GUILayout.BeginHorizontal(bgStyle);
+            GUILayout.Space(5);
 
             hb = t.handler == MessageHandlerType.DestroyThis;
             hb = GUILayout.Toggle(hb, "", EditorStyles.radioButton);
@@ -212,12 +210,6 @@ namespace FPSControlEditor
             GUILayout.EndHorizontal();
 
             GUILayout.EndVertical();
-
-            GUI.backgroundColor = Color.red;
-
-            GUI.depth--;
-            GUI.Box(GUILayoutUtility.GetLastRect(), "");
-            GUI.depth++;
 
             GUI.backgroundColor = bgColor;
         }
