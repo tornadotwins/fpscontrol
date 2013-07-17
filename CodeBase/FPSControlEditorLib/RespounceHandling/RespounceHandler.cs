@@ -82,15 +82,16 @@ namespace FPSControlEditor
                 PurchaseModuleData mData = respounceData.purchaseData[module.ToString()];
                 if (mData.purchased)
                 {
+                    //Debug.Log(mData.version + ":" + FPSControlMainEditor.modules[module].version);
                     if (CompareVersions(mData.version, FPSControlMainEditor.modules[module].version) > 0)
                     {
                         TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
                         int secondsSinceEpoch = (int)t.TotalSeconds;
                         int lastUpdateTime = EditorPrefs.GetInt(LAST_UPDATE_TIME_KEY, 0);
                         int timeDif = secondsSinceEpoch - lastUpdateTime;
-                        if (timeDif > 60 && !discardUpdate && EditorUtility.DisplayDialog("Update!", "There is an update for this module would you like to update?", "Update", "Cancel"))
+                        if (timeDif > 30 && !discardUpdate && EditorUtility.DisplayDialog("Update!", "There is an update for this module would you like to update?", "Update", "Cancel"))
                         {
-                            Debug.Log("Downloading new version of " + module);
+                            //Debug.Log("Downloading new version of " + module);
                             discardUpdate = true;
                             DownloadAndUpdate(mData);
                         }
@@ -137,7 +138,7 @@ namespace FPSControlEditor
 
             if (www.error != null)
             {
-                Debug.LogWarning("ERROR DOWNLOADING UPDATE: " + www.error);
+                Debug.LogWarning("ERROR DOWNLOADING UPDATE: " + www.error + " - " + url);
             }
             else
             {
@@ -157,9 +158,10 @@ namespace FPSControlEditor
         } 
 
 
-        internal static void LoadWebResult(string json)
+        internal static void LoadWebResult(string json) 
         {
             respounceData = JSONDeserializer.Get<RespounceData>(json);
+            //Debug.Log(json);
         }
 
         private static void CreateTestJSON()
@@ -168,7 +170,7 @@ namespace FPSControlEditor
 
             PurchaseModuleData a = new PurchaseModuleData();
             a.purchased = true;
-            a.version = "1.0";
+            a.version = "1.0"; 
             //test.data.Add(FPSControlModuleType.MusicControl, a);
 
             PurchaseModuleData b = new PurchaseModuleData();

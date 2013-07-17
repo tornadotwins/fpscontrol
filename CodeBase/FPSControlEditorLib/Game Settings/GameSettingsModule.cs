@@ -12,6 +12,14 @@ namespace FPSControlEditor
     public sealed class GameSettingsModule : FPSControlEditorModule
     {
 
+        public override string version
+        {
+            get
+            {
+                return "1.1";
+            }
+        }
+
         #region Keys
         internal const string EDITED_DURING_PLAY = "_FPSControl_GameSettingsEditedDuringPlay";
         #endregion // Keys
@@ -183,6 +191,10 @@ namespace FPSControlEditor
             }
             else
             {
+                (_editor as FPSControlMainEditor).LoadModule(FPSControlModuleType.NONE); //Temp hack
+                /*
+                 * temp hack
+                 * 
                 if (EditorUtility.DisplayDialog("Component not found!", "There is no Controller Logic in this scene. Create one?", "OK", "Cancel"))
                 {
                     GameObject go = new GameObject("Player");
@@ -192,6 +204,7 @@ namespace FPSControlEditor
                 {
                     (_editor as FPSControlMainEditor).LoadModule(FPSControlModuleType.NONE);
                 }
+                 */
             }
 
             //collect values and store them here.

@@ -14,6 +14,14 @@ namespace FPSControlEditor
         //Path
         const string guiFolder = "Weapon Control/";
 
+        public override string version
+        {
+            get
+            {
+                return "1.1";
+            }
+        }
+
         #region GUI Properties
         Rect[] windowSpaces = new Rect[4]{
             new Rect(258, 216, 330, 184),
@@ -32,8 +40,7 @@ namespace FPSControlEditor
         private Rect noWeaponsBox = new Rect(258, 137, 660, 580);
         private string[] testStrings = new string[] { "Test1", "Test2", "Test3", "Test4", "Test5" };
         #endregion 
-
-
+        
         #region GUI
         public override void OnGUI()
         {           

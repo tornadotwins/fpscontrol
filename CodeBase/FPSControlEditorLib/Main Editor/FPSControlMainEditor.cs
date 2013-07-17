@@ -211,6 +211,16 @@ namespace FPSControlEditor
             loadedModule.OnInspectorUpdate();
         }
 
+        void OnHierarchyChange()
+        {
+            if (!Application.isPlaying)
+            {
+                                              
+            }
+            Init();
+            window.Focus();  
+        }
+
         void OnGUI()
         {
             if (loadedModule == null)

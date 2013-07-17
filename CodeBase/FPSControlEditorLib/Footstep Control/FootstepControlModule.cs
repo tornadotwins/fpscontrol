@@ -119,6 +119,7 @@ namespace FPSControlEditor
                 }
                 else
                 {
+                    
                     if(EditorUtility.DisplayDialog("Component not found!", "There is no FootstepControl Component attached to an FPSControlPlayerMovement in this scene. Create one?", "OK", "Cancel"))
                     {
                         FPSControlPlayerMovement[] playerMovements = (FPSControlPlayerMovement[])Resources.FindObjectsOfTypeAll(typeof(FPSControlPlayerMovement));
@@ -134,6 +135,7 @@ namespace FPSControlEditor
                             EditorUtility.DisplayDialog("Error!", "There is no FPSControlPlayerMovement in this scene. Insure that you have a correctly set up character in your scene.", "OK");
                         }
                     }
+                     
                 }
             }
             else

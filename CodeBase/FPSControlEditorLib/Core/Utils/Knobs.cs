@@ -263,7 +263,7 @@ namespace FPSControlEditor
 
         #endregion // Knobs
 
-        #region // Interaction
+        #region Interaction
 
         static void CheckClick(Rect rect, uint id)
         {
@@ -325,6 +325,8 @@ namespace FPSControlEditor
 
         #region Draw
 
+        
+
         static void DrawKnob(Rect rect, float rotation, Texture tex, uint id, bool hideDecimal = false)
         {
             if (GUI.enabled)
@@ -342,12 +344,14 @@ namespace FPSControlEditor
                     gs.normal.background = (Texture2D)_precisionBG;
                     Rect precisionBox = new Rect(interactPos.x - 18, interactPos.y + 45, 80, 25);
                     if (hideDecimal)
-                    {
-                        GUI.Box(precisionBox, "" + Mathf.Floor(interactValue), gs);
+                    {                        
+                        string inputValue = GUI.TextField(precisionBox, "" + Mathf.Floor(interactValue), gs);
+                        //float.TryParse(inputValue, out interactValue);
                     }
                     else
                     {
-                        GUI.Box(precisionBox, "" + interactValue, gs);
+                        string inputValue = GUI.TextField(precisionBox, "" + interactValue, gs);
+                        //float.TryParse(inputValue, out interactValue);
                     }                    
                     parentWindow.Repaint();
                 }
