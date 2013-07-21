@@ -54,7 +54,7 @@ namespace FPSControlEditor
         public const string RESOURCE_FOLDER = ROOT_FOLDER + "Resources/";
         public const string GRAPHICS = "Graphics/";
         public const string TEMP = "_TMP/";
-        public const string TEXT_ASEETS = "Text Assets/";
+        public const string TEXT_ASSETS = "Text Assets/";
 
         //BG Graphics
         Texture header;
@@ -293,8 +293,8 @@ namespace FPSControlEditor
             GUILayout.Space(18);
             if (GUILayout.Button(module_playerControl_n, GUIStyle.none, new GUILayoutOption[2] { GUILayout.Width(97), GUILayout.Height(97) }))
             {
-                LoadModule(FPSControlModuleType.UNAVAILABLE);
-                (loadedModule as UnavailableModule).SetBG(playercontrolBGPath);
+                LoadModule(FPSControlModuleType.PlayerControl);
+                //(loadedModule as InputEditorModule).SetBG(playercontrolBGPath);
             }
             GUILayout.FlexibleSpace();
             if (GUILayout.Button(module_missionControl_n, GUIStyle.none, new GUILayoutOption[2] { GUILayout.Width(97), GUILayout.Height(97) }))
@@ -410,6 +410,10 @@ namespace FPSControlEditor
 
                 case FPSControlModuleType.NeedsPurchasing:
                     if (!modules.ContainsKey(module)) modules.Add(module, new PurchaseControlModule(this));
+                    break;
+
+                case FPSControlModuleType.PlayerControl:
+                    if (!modules.ContainsKey(module)) modules.Add(module, new InputEditorModule(this));
                     break;
 
                 case FPSControlModuleType.GameSettings:

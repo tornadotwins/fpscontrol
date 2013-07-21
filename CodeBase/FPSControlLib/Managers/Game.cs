@@ -98,20 +98,20 @@ namespace FPSControl
         public void Update ()
         {
             //--- toggle help text
-            if (Input.GetKeyUp (KeyCode.H)) {
+            if (UnityEngine.Input.GetKeyUp (KeyCode.H)) {
                 if (helpText != null)
                     helpText.active = !helpText.active;
             }
          
             //--- display Quit menu
-            if (Input.GetKeyUp (KeyCode.Escape)) {
+            if (UnityEngine.Input.GetKeyUp (KeyCode.Escape)) {
                 showMenu = !showMenu;
                 Screen.showCursor = showMenu;
                 Screen.lockCursor = !showMenu;
             }
          
             //--- accept "Y" keypress as quit confirmation
-            if (showMenu && Input.GetKeyUp (KeyCode.Y)) {
+            if (showMenu && UnityEngine.Input.GetKeyUp (KeyCode.Y)) {
                 Application.Quit ();
             }
         }

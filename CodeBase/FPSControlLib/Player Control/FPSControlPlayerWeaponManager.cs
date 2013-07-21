@@ -45,11 +45,11 @@ namespace FPSControl
         [HideInInspector]
         PlayerState _prevState;
         [HideInInspector]
-        bool _mouseDownL = false;
+        bool _fireDown = false;
         [HideInInspector]
         bool _mouseWasDownL = false;
         [HideInInspector]
-        bool _mouseDownR = false;
+        bool _scopeDown = false;
         [HideInInspector]
         bool _mouseWasDownR = false;
         [HideInInspector]
@@ -245,21 +245,21 @@ namespace FPSControl
         {
             if (!_currentWeapon) return;
 
-            _mouseDownL = Input.GetMouseButton(0);
-            _mouseDownR = Input.GetMouseButton(1);
+            _fireDown = FPSControlInput.IsFiring();
+            _scopeDown = FPSControlInput.IsScoping();
 
-            crosshairAnimator.Fire(_mouseDownL);
+            crosshairAnimator.Fire(_fireDown);
 
-            if(_mouseDownL && _mouseWasDownL && _mouseCounter < _currentWeapon.definition.chargeTime)
+            if(_fireDown && _mouseWasDownL && _mouseCounter < _currentWeapon.definition.chargeTime)
             {
                 _mouseCounter += Time.deltaTime;
             }
-            else if (_mouseDownL && _mouseWasDownL && _mouseCounter >= _currentWeapon.definition.chargeTime)
+            else if (_fireDown && _mouseWasDownL && _mouseCounter >= _currentWeapon.definition.chargeTime)
             {
                 _mouseCounter += Time.deltaTime;
                 _currentWeapon.Charge(Time.deltaTime);
             }
-            else if(!_mouseDownL && _mouseWasDownL)
+            else if(!_fireDown && _mouseWasDownL)
             {
                 _mouseCounter = 0;
                 _currentWeapon.Fire();
@@ -267,13 +267,13 @@ namespace FPSControl
 
             if (_currentWeapon.canScope)
             {
-                if (_mouseDownR && !_mouseWasDownR)
+                if (_scopeDown && !_mouseWasDownR)
                 {
                     _currentWeapon.Scope();
                     Player.playerCamera.Scope(true, _currentWeapon.definition.scopeFOV);
                     crosshairAnimator.StartZoom();
                 }
-                else if (!_mouseDownR && _mouseWasDownR)
+                else if (!_scopeDown && _mouseWasDownR)
                 {
                     _currentWeapon.ExitScope();
                     Player.playerCamera.Scope(false, Player.playerCamera.baseFOV);
@@ -281,17 +281,18 @@ namespace FPSControl
                 }
             }
 
-            if (Input.GetKeyDown(reloadKey)) _currentWeapon.Reload();
-            if (Input.GetKey(defendKey)) _currentWeapon.Defend();
+            if (FPSControlInput.IsReloading()) _currentWeapon.Reload();
+            if (FPSControlInput.IsDefending()) _currentWeapon.Defend();
 
-            if (Input.GetKeyDown(weaponToggle)) CycleToNextWeapon(_availableWeapons.IndexOf(_currentWeapon));
-            else if (Input.GetKeyDown(weaponKey1)) ActivateWeaponAt(0);
-            else if (Input.GetKeyDown(weaponKey2)) ActivateWeaponAt(1);
-            else if (Input.GetKeyDown(weaponKey3)) ActivateWeaponAt(2);
-            else if (Input.GetKeyDown(weaponKey4)) ActivateWeaponAt(3);
+            if (FPSControlInput.IsTogglingWeapon()) CycleToNextWeapon(_availableWeapons.IndexOf(_currentWeapon));
+            //#error Removed stuff
+            //else if (FPSControlInput.IsSelectingWeapon(0)) ActivateWeaponAt(0);
+            //else if (FPSControlInput.IsSelectingWeapon(1)) ActivateWeaponAt(1);
+           // else if (FPSControlInput.IsSelectingWeapon(2)) ActivateWeaponAt(2);
+           // else if (FPSControlInput.IsSelectingWeapon(3)) ActivateWeaponAt(3);
 
-            _mouseWasDownL = _mouseDownL;
-            _mouseWasDownR = _mouseDownR;
+            _mouseWasDownL = _fireDown;
+            _mouseWasDownR = _scopeDown;
         }
 
         public override void DoLateUpdate()

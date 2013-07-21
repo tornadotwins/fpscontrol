@@ -166,15 +166,18 @@ namespace FPSControl
         {
             if (!Player.currentState.canMove) return;
 
-            float hi = Input.GetAxis("Horizontal");
-            float vi = Input.GetAxis("Vertical");
+            Vector2 moveDir = FPSControlInput.GetMoveDirection();
+
+            float hi = moveDir.x;//Input.GetAxis("Horizontal");
+            float vi = moveDir.y;//Input.GetAxis("Vertical");
             _input = (hi != 0 || vi != 0);
 
             float strafeSqr = Mathf.Sqrt(2F) / 2F;
             if (hi == 0 || vi == 0) strafeSqr = 1F; 
 
             // Running?
-            if ((Input.GetKey(runKeyLeft) || Input.GetKey(runKeyRight)) && !_crouched && !_jumping) //you can't run if crouched, or if in mid jump
+            //if ((Input.GetKey(runKeyLeft) || Input.GetKey(runKeyRight)) && !_crouched && !_jumping) //you can't run if crouched, or if in mid jump
+            if(FPSControlInput.IsRunning() && !_crouched && !_jumping) //you can't run if crouched, or if in mid jump
             {
                 Player.ChangeState(Player["Run"]);
             }
@@ -237,7 +240,7 @@ namespace FPSControl
             
             if (!canJump) return;
 
-            if (Input.GetKeyDown(jumpKey) && _controller.isGrounded)
+            if (FPSControlInput.IsJumping() && _controller.isGrounded)
             {
                 //Debug.Log("jump!");
                 _input = true;
@@ -250,8 +253,8 @@ namespace FPSControl
         void UpdateCrouch()
         {
             if (!Player.currentState.canCrouch) return;
-            
-            _crouched = Input.GetKey(crouchKeyLeft) || Input.GetKey(crouchKeyRight);
+
+            _crouched = FPSControlInput.IsCrouching();//Input.GetKey(crouchKeyLeft) || Input.GetKey(crouchKeyRight);
             
             if(_crouched)
             {

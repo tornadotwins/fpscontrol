@@ -243,12 +243,12 @@ namespace FPSControl
 	     // trigger 1
 	     if( ! _reloading )
 	     {
-	         if( Input.GetButton ("Fire1") )     FirePrimary();
-	         if( Input.GetButtonUp( "Fire1" ) )  FirePrimaryStop();
+	         if( UnityEngine.Input.GetButton ("Fire1") )     FirePrimary();
+	         if( UnityEngine.Input.GetButtonUp( "Fire1" ) )  FirePrimaryStop();
 	     }
 	     
 	     // RELOAD WEAPON
-	     if ( Input.GetKeyUp ( _reloadKey ) )
+	     if ( UnityEngine.Input.GetKeyUp ( _reloadKey ) )
 	     {
 	         PlayWeaponsAnimationClip ("reload");
 	         _gunBrains.ReloadWeaponStart();
@@ -272,7 +272,7 @@ namespace FPSControl
 	     }
 	     
 	     // User interaction stuff
-	     if (Input.GetKeyUp ( _escapeKey )) Screen.lockCursor = false;
+	     if (UnityEngine.Input.GetKeyUp ( _escapeKey )) Screen.lockCursor = false;
 	     //$$if (_wasLocked && !Screen.lockCursor) Screen.lockCursor = true;
 	     
 	     // CHANGE WEAPON
@@ -282,18 +282,18 @@ namespace FPSControl
 	         {
 	             _previousWeapon = _currentWeapon;
 	             // Change weapon with Mouse Wheel
-	             if (Input.GetAxis("Mouse ScrollWheel") != 0.0F )
+	             if (UnityEngine.Input.GetAxis("Mouse ScrollWheel") != 0.0F )
 	             {
 	                 if( _scrollTimer <= Time.time ) 
 	                 {
 	                     _scrollTimer = Time.time + _scrollDelay;
 	                     
-	                     if (Input.GetAxis("Mouse ScrollWheel") > 0)
+	                     if (UnityEngine.Input.GetAxis("Mouse ScrollWheel") > 0)
 	                     {
 	                         _currentWeapon++;
 	                         //Debug.Log( "scroll weapon up to " + _currentWeapon );
 	                     }
-	                     else if (Input.GetAxis("Mouse ScrollWheel") < 0)
+	                     else if (UnityEngine.Input.GetAxis("Mouse ScrollWheel") < 0)
 	                     {
 	                         _currentWeapon--;
 	                         //Debug.Log( "scroll weapon down to " + _currentWeapon );
@@ -302,19 +302,19 @@ namespace FPSControl
 	             }
 	             
 	             // Change weapon with set number keys
-	             if ( Input.GetKeyDown(_weaponKey1) )
+	             if ( UnityEngine.Input.GetKeyDown(_weaponKey1) )
 	             {
 	                 _currentWeapon = 0;
 	             }
-	             else if ( Input.GetKeyDown(_weaponKey2) )
+	             else if ( UnityEngine.Input.GetKeyDown(_weaponKey2) )
 	             {
 	                 _currentWeapon = 1;
 	             }
-	             else if ( Input.GetKeyDown(_weaponKey3) )
+	             else if ( UnityEngine.Input.GetKeyDown(_weaponKey3) )
 	             {
 	                 _currentWeapon = 2;
 	             }
-	             else if ( Input.GetKeyDown(_weaponKey4) )
+	             else if ( UnityEngine.Input.GetKeyDown(_weaponKey4) )
 	             {
 	                 _currentWeapon = 3;
 	             }
@@ -359,7 +359,7 @@ namespace FPSControl
 	         // Jump
 	         if (_canJump)
 	         {
-	             if ( Time.time > _nextJump && Input.GetButton("Jump"))
+	             if ( Time.time > _nextJump && UnityEngine.Input.GetButton("Jump"))
 	             {
 	                 _grounded = false;
 	                 state = MoveState.Jumped;
@@ -566,8 +566,8 @@ namespace FPSControl
 	     }
 	         
 	     // Step1: Get your input values 
-	     float hi    = Input.GetAxis("Horizontal"); 
-	     float vi    = Input.GetAxis("Vertical"); 
+	     float hi    = UnityEngine.Input.GetAxis("Horizontal");
+         float vi = UnityEngine.Input.GetAxis("Vertical"); 
 	     // Step 2: Limit the movement on angles and then multiply those results 
 	     // by their appropriate speed variables 
 	     float percentofpercent = Mathf.Abs(hi) + Mathf.Abs(vi) - 1.0F; 
@@ -612,7 +612,7 @@ namespace FPSControl
 	         state = MoveState.Walking;
 	     }
 	     // Running?
-	     if ( Input.GetKey (_runKeyLeft) || Input.GetKey (_runKeyRight)  ) 
+	     if ( UnityEngine.Input.GetKey (_runKeyLeft) || UnityEngine.Input.GetKey (_runKeyRight)  ) 
 	     {       
 	         vi *= _runSpeedModifier;
 	         hi *= _runSpeedModifier;
@@ -704,7 +704,7 @@ namespace FPSControl
 	 {
 	     // Step1: Get your input values 
 	     float hi = 0;
-	     float vi = Input.GetAxis("Vertical"); 
+	     float vi = UnityEngine.Input.GetAxis("Vertical"); 
 	     // Step 2: Limit the movement on angles and then multiply those results 
 	     // by their appropriate speed variables 
 	     float percentofpercent = Mathf.Abs(hi) + Mathf.Abs(vi) - 1.0F; 
@@ -779,7 +779,7 @@ namespace FPSControl
 	         }
 	     }
 	         
-	     if ( Input.GetKey ( _interactionKey ) )
+	     if ( UnityEngine.Input.GetKey ( _interactionKey ) )
 	     {
 	         if (_inInteractZone)
 	         {
@@ -812,8 +812,8 @@ namespace FPSControl
 	 public void BobDaHead ()
 	 { // actually the effect is more like the gun bobbing up and down
 	     float waveslice = 0.0F; 
-	     float ih = Input.GetAxis("Horizontal"); 
-	     float iv = Input.GetAxis("Vertical"); 
+	     float ih = UnityEngine.Input.GetAxis("Horizontal"); 
+	     float iv = UnityEngine.Input.GetAxis("Vertical"); 
 	     
 	     Debug.Log( "BobDaHead" );
 	     if (Mathf.Abs(ih) == 0 && Mathf.Abs(iv) == 0)
@@ -999,7 +999,7 @@ namespace FPSControl
 	 {
 	     // Shift and Push the buffer
 	     _xInputBuffer.RemoveAt (0);
-	     _xInputBuffer.Add ( Input.GetAxis("Mouse X") * _sensitivityX );
+	     _xInputBuffer.Add ( UnityEngine.Input.GetAxis("Mouse X") * _sensitivityX );
 	     float buffers = 0.0F;
 	     for ( int i=0; i<_xInputBuffer.Count; i++ )
 	     {
@@ -1023,7 +1023,7 @@ namespace FPSControl
 	 {
 	     // Shift and Push the buffer
 	     _yInputBuffer.RemoveAt (0);
-	     float movY = Input.GetAxis("Mouse Y") * _sensitivityY;
+	     float movY = UnityEngine.Input.GetAxis("Mouse Y") * _sensitivityY;
 	     _yInputBuffer.Add ( movY );
 	     float buffers = 0.0F;
 	     for ( int i=0; i<_yInputBuffer.Count; i++ )

@@ -50,6 +50,8 @@ namespace FPSControl
 
         void Awake()
         {
+            FPSControlInput.LoadControlMapping();
+            
             //short cutting for demo purposes.
             Add(idleState);
             Add(walkState);

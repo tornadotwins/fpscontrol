@@ -80,7 +80,7 @@ namespace FPSControl
                 }
             }
 
-            if (Input.GetKeyDown(interactionKey) && _interactLogic)
+            if (FPSControlInput.IsInteracting() && _interactLogic)
             {
                 //Debug.Log("interacted");
                 _interactLogic.ReceivedInteraction(true);

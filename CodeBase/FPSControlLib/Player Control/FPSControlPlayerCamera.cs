@@ -128,8 +128,13 @@ namespace FPSControl
         public override void DoUpdate()
         {            
             //gather input, applying sensitivity and possible inverted Y, for those weiners out there who like to press down to look up.
-            float mouseX = Input.GetAxisRaw("Mouse X") * mouseSensitivity.x;
-            float mouseY = Input.GetAxisRaw("Mouse Y") * ((invertedY) ? -1 : 1) * mouseSensitivity.y;
+            Vector2 lookInput = FPSControlInput.GetLookDirection();
+            float mouseX = lookInput.x * mouseSensitivity.x;
+            float mouseY = lookInput.y * (FPSControlInput.invertedLook ? -1 : 1) * mouseSensitivity.y;
+
+            //legacy:
+            //float mouseX = Input.GetAxisRaw("Mouse X") * mouseSensitivity.x;
+            //float mouseY = Input.GetAxisRaw("Mouse Y") * ((invertedY) ? -1 : 1) * mouseSensitivity.y;
 
             //update values
             _yaw += mouseX;
