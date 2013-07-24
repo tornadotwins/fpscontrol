@@ -171,7 +171,7 @@ namespace FPSControlEditor
             movementKeyMappingBG = Load<Texture>(FPSControlMainEditor.ASSET_PATH + FPSControlMainEditor.GRAPHICS + PATH + "key_mapping_bg.png");
             mouseSettingsBG = Load<Texture>(FPSControlMainEditor.ASSET_PATH + FPSControlMainEditor.GRAPHICS + PATH + "mouse_settings_bg.png");
 
-            templateFile = Load<TextAsset>(FPSControlMainEditor.ASSET_PATH + FPSControlMainEditor.TEXT_ASEETS + "GameSettings_Template.txt");
+            templateFile = Load<TextAsset>(FPSControlMainEditor.ASSET_PATH + FPSControlMainEditor.TEXT_ASSETS + "GameSettings_Template.txt");
 
             base.Init();
 

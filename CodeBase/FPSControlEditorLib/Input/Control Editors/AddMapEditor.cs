@@ -54,7 +54,7 @@ namespace FPSControlEditor.Controls
             GUILayout.Space(5);
             GUILayout.BeginHorizontal();
             GUILayout.Space(5);
-            GUILayout.Label(title);
+            GUILayout.Label(title, EditorStyles.whiteLargeLabel);
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("Close")) Close();
             GUILayout.Space(5);
@@ -66,6 +66,7 @@ namespace FPSControlEditor.Controls
             GUILayout.BeginVertical();
             GUILayout.Space(5);
 
+            GUILayout.Label("Name");
             _key = GUILayout.TextField(_key);
             _makeDefault = GUILayout.Toggle(_makeDefault, "Make Default For Platform?");
             GUILayout.Space(10);

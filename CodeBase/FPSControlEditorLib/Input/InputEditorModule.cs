@@ -21,6 +21,7 @@ namespace FPSControlEditor
         ControlMapCatalogue catalogue;
         IControlEditor activeEditor = null;
         IControlEditor addEditor = null;
+        IEditorControlMapVis mapVis;
 
         Texture background;
 
@@ -28,7 +29,7 @@ namespace FPSControlEditor
 
         #region Editor Properties 
 
-        int _currentMap = 0;
+        int _currentMap = -1;
         string _currentMapName { get { return catalogue[_platform].GetKeys()[_currentMap]; } }
         FPSControlPlatform _platform;
 
@@ -67,6 +68,7 @@ namespace FPSControlEditor
 
         public override void OnFocus(bool rebuild)
         {
+            LoadAssets();
             AcquireTarget();
             base.OnFocus(rebuild);
         }
@@ -97,44 +99,24 @@ namespace FPSControlEditor
             int depth = GUI.depth;
             
             //GUI.DrawTexture(areaRect, background);
-            GUI.Box(areaRect, "");
 
             GUILayout.BeginArea(MODULE_SIZE);
+            GUI.DrawTexture(new Rect(0, 0, background.width, background.height), background);
 
-            bool guiEnabled;// = activeEditor == null && addEditor == null;
-
-            if (addEditor != null)
-            {
-                activeEditor = null;
-                GUI.depth++;
-                GUI.Box(new Rect(0, 0, MODULE_SIZE.width, MODULE_SIZE.height), "");
-                addEditor.Draw();
-                GUI.depth--;
-            }
-
-            if (activeEditor != null)
-            {
-                GUI.depth++;
-                GUI.Box(new Rect(0, 0, MODULE_SIZE.width, MODULE_SIZE.height), "");
-                activeEditor.Draw();
-                GUI.depth--;
-            }
-
-            guiEnabled = GUI.enabled = activeEditor == null && addEditor == null;
+            bool guiEnabled = GUI.enabled = activeEditor == null && addEditor == null;
 
             if (!catalogue) AcquireTarget();
 
             GUILayout.BeginHorizontal(GUILayout.Height(90));
-            GUILayout.Label("HEADER PLACEHOLDER");
+            GUILayout.Space(10);
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
 
-            GUI.Box(GUILayoutUtility.GetLastRect(), "");
             
             GUILayout.Space(5);
             
             GUILayout.BeginHorizontal(GUILayout.Height(35));
-
+            GUILayout.Space(20);
             GUILayout.Label("Set Controls to: ");
 
             bool b;
@@ -169,11 +151,12 @@ namespace FPSControlEditor
 
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
-
-            GUILayout.BeginHorizontal(); 
-
+            GUILayout.Space(4);
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(20);
+            //This is where we set the active map we will edit:
             GUILayout.Label("Set scheme to: ");
-
+            int prevMap = _currentMap;
             _currentMap = Mathf.Clamp(_currentMap,0,catalogue[_platform].GetKeys().Length-1);
 
             string[] groupKeys = catalogue[_platform].GetKeys();
@@ -190,7 +173,11 @@ namespace FPSControlEditor
                     if(groupKeys[i] == catalogue[_platform].DefaultKey) groupKeys[i] += " (Default)";
                 }
             }
+            
             _currentMap = EditorGUILayout.Popup(_currentMap, groupKeys);
+            bool changedFocusedMap = prevMap != _currentMap;
+            //now we provide controls for saving, creating/deleting maps, etc.
+
             GUILayout.Space(5);
             if (GUILayout.Button("Save")) SaveAsset(catalogue);
             GUILayout.Space(5);
@@ -203,24 +190,53 @@ namespace FPSControlEditor
                 catalogue[_platform].Remove(groupKeys[_currentMap]);
                 groupKeys = catalogue[_platform].GetKeys();//refresh
                 _currentMap = 0;
-
+                changedFocusedMap = true;
             }
             GUI.enabled = (!isDefault) ? guiEnabled : false; //if it is the default already, disable button
             if (GUILayout.Button("Mark Default")) catalogue[_platform].MarkDefault(groupKeys[_currentMap]);
             GUI.enabled = guiEnabled;
             GUILayout.FlexibleSpace();
 
-            //_currentMap = 
+            if (changedFocusedMap) LoadVisualization();
+
 
             GUILayout.EndHorizontal();
 
-            //catalogue = (FOOTSTEPTYPES)EditorGUI.EnumPopup(new Rect(125, 64, 130, 15), typeSelect);
-
-            DrawMap();
+            mapVis.Draw();//DrawMap();
             DrawMappingButtons();
 
+            GUI.depth++;
+            if (addEditor != null)
+            {
+                GUI.enabled = true;
+                activeEditor = null;
+
+                //GUI.Box(new Rect(0, 0, MODULE_SIZE.width, MODULE_SIZE.height), "");
+                addEditor.Draw();
+                GUI.enabled = guiEnabled;
+            }
+
+            if (activeEditor != null)
+            {
+                GUI.enabled = true;
+                //GUI.Box(new Rect(0, 0, MODULE_SIZE.width, MODULE_SIZE.height), "");
+                activeEditor.Draw();
+                GUI.enabled = guiEnabled;
+            }
+            GUI.depth--;
+
             GUILayout.EndArea();
-            _editor.Repaint();
+            if(activeEditor != null) _editor.Repaint();
+        }
+
+        void LoadVisualization()
+        {
+            switch (_platform)
+            {
+                case FPSControlPlatform.Mac: mapVis = new MacMapVis(catalogue.mac[_currentMapName]); break;
+                //case FPSControlPlatform.PC: mapVis = new MacMapVis(catalogue.mac[_currentMapName]); break;
+                //case FPSControlPlatform.Ouya: mapVis = new MacMapVis(catalogue.mac[_currentMapName]); break;    
+            }
         }
 
         void LaunchAddEditor()
@@ -238,11 +254,15 @@ namespace FPSControlEditor
             addEditor.Open();
         }
 
+        /*
         void DrawMap()
         {
+            if (catalogue == null) return;
             switch (_platform)
             {
                 case FPSControlPlatform.Mac:
+                    //Debug.Log("current map: " + _currentMapName);
+                    if (!catalogue.mac.ContainsKey(_currentMapName) || catalogue.mac[_currentMapName] == null) return; 
                     GUILayout.Label("Movement>> " + catalogue.mac[_currentMapName].movement.ToString());
                     GUILayout.Label("Look>> " + catalogue.mac[_currentMapName].look.ToString());
                     GUILayout.Label("Jump>> " + catalogue.mac[_currentMapName].jump.ToString());
@@ -256,12 +276,15 @@ namespace FPSControlEditor
                     GUILayout.Label("Defend>> " + catalogue.mac[_currentMapName].defend.ToString());
                     //GUILayout.Label("Movement: " + catalogue.mac[_currentMapName].movement.ToString());
                     break;
+                default: Debug.LogError("invalid"); break;
             }
-        }
+        }*/
 
         void OnAddMapApply()
         {
+            //Selection.activeObject = catalogue;
             addEditor.Close();
+            
         }
 
         void OnAddMapClose()
@@ -287,40 +310,52 @@ namespace FPSControlEditor
             {
                 case FPSControlPlatform.Mac:
 
-                    GUILayout.BeginArea(new Rect(175, 440, 475, 125));
+                    Color c = GUI.color;
+
+                    GUILayout.BeginArea(new Rect(25, 440, 475, 125));
 
                     GUILayout.BeginHorizontal();
                     GUILayout.BeginVertical();
+                    GUI.color = MacMapVis.ColorByControl(ControlMap.ControlID.Move);
                     if (GUILayout.Button("Movement")) activeEditor = new DesktopAxisEditor(catalogue.mac[_currentMapName].movement, "Movement Contols", OnActiveEditorClose, OnActiveEditorApply);
-                    bool g = GUI.enabled;
-                    GUI.enabled = false;
-                    if (GUILayout.Button("Weapon Select")) { }
-                    GUI.enabled = g;
+
+                    GUI.color = MacMapVis.ColorByControl(ControlMap.ControlID.Weapon1);
+                    DesktopButton[] weaponButtons = new DesktopButton[4]{catalogue.mac[_currentMapName].weapon1, catalogue.mac[_currentMapName].weapon2, catalogue.mac[_currentMapName].weapon3, catalogue.mac[_currentMapName].weapon4};
+                    if (GUILayout.Button("Weapon Select")) { activeEditor = new DesktopWeaponSelectEditor(weaponButtons, "Weapon Select Controls", OnActiveEditorClose, OnActiveEditorApply); }
+                    GUI.color = MacMapVis.ColorByControl(ControlMap.ControlID.Interact);
                     if (GUILayout.Button("Interaction")) activeEditor = new DesktopButtonEditor<DesktopButton>(catalogue.mac[_currentMapName].interact, "Interaction Control", OnActiveEditorClose, OnActiveEditorApply);
+                    GUI.color = MacMapVis.ColorByControl(ControlMap.ControlID.Jump);
                     if (GUILayout.Button("Jump")) activeEditor = new DesktopButtonEditor<DesktopButton>(catalogue.mac[_currentMapName].jump, "Jump Control", OnActiveEditorClose, OnActiveEditorApply);
+                    GUI.color = MacMapVis.ColorByControl(ControlMap.ControlID.Reload);
                     if (GUILayout.Button("Reload")) activeEditor = new DesktopButtonEditor<DesktopButton>(catalogue.mac[_currentMapName].reload, "Reload Control", OnActiveEditorClose, OnActiveEditorApply);
+                    GUI.color = MacMapVis.ColorByControl(ControlMap.ControlID.Run);
                     if (GUILayout.Button("Run")) activeEditor = new DesktopButtonEditor<DesktopPersistantButton>(catalogue.mac[_currentMapName].run, "Run Control", OnActiveEditorClose, OnActiveEditorApply);
                     GUILayout.EndVertical();
 
-                    GUILayout.FlexibleSpace();
+                    //GUILayout.FlexibleSpace();
 
                     GUILayout.BeginVertical();
+                    GUI.color = MacMapVis.ColorByControl(ControlMap.ControlID.Look);
                     if (GUILayout.Button("Look")) activeEditor = new DesktopAxisEditor(catalogue.mac[_currentMapName].look, "Look Controls", OnActiveEditorClose, OnActiveEditorApply);
+                    GUI.color = MacMapVis.ColorByControl(ControlMap.ControlID.Scope);
                     if (GUILayout.Button("Scope")) activeEditor = new DesktopButtonEditor<DesktopPersistantButton>(catalogue.mac[_currentMapName].scope, "Scope Control", OnActiveEditorClose, OnActiveEditorApply);
+                    GUI.color = MacMapVis.ColorByControl(ControlMap.ControlID.Fire);
                     if (GUILayout.Button("Action/Fire")) activeEditor = new DesktopButtonEditor<DesktopPersistantButton>(catalogue.mac[_currentMapName].fire, "Fire/Action Control", OnActiveEditorClose, OnActiveEditorApply);
+                    GUI.color = MacMapVis.ColorByControl(ControlMap.ControlID.Defend);
                     if (GUILayout.Button("Defend")) activeEditor = new DesktopButtonEditor<DesktopPersistantButton>(catalogue.mac[_currentMapName].defend, "Defend Control", OnActiveEditorClose, OnActiveEditorApply);
-                    if (GUILayout.Button("Weapon Cycle")) activeEditor = new DesktopButtonEditor<DesktopButton>(catalogue.mac[_currentMapName].weaponToggle, "Weapon Cycle Control", OnActiveEditorClose, OnActiveEditorApply);
+                    GUI.color = MacMapVis.ColorByControl(ControlMap.ControlID.WeaponCycle);
+                    if (GUILayout.Button("Cycle Weapon")) activeEditor = new DesktopButtonEditor<DesktopButton>(catalogue.mac[_currentMapName].weaponToggle, "Weapon Cycle Control", OnActiveEditorClose, OnActiveEditorApply);
+                    GUI.color = MacMapVis.ColorByControl(ControlMap.ControlID.Crouch);
                     if (GUILayout.Button("Crouch")) activeEditor = new DesktopButtonEditor<DesktopPersistantButton>(catalogue.mac[_currentMapName].crouch, "Crouch Control", OnActiveEditorClose, OnActiveEditorApply);
                     GUILayout.EndVertical();
 
-                    GUILayout.FlexibleSpace();
+                    GUILayout.Space(50);
 
                     GUILayout.EndHorizontal();
-                    GUI.depth--;
-                    GUI.Box(GUILayoutUtility.GetLastRect(), "");
-                    GUI.depth++;
 
                     GUILayout.EndArea();
+
+                    GUI.color = c;
                     
 
                    break;

@@ -11,23 +11,18 @@ using FPSControl.Controls;
 //---
 namespace FPSControlEditor.Controls
 {
-    public class DesktopPersistantButtonEditor : DesktopButtonEditor<DesktopPersistantButton>
+    public class DesktopWeaponSelectEditor : ControlEditor<DesktopButton>, IControlEditor
     {
-        public DesktopPersistantButtonEditor(DesktopPersistantButton t, string title, System.Action onClose, System.Action onApply) : base(t,title,onClose,onApply)
-        {
-
-        }
-    }
-
-    public class DesktopButtonEditor<T> : ControlEditor<T>, IControlEditor where T : DesktopButton
-    {
+        DesktopButton[] _buttons;
         bool _waitingForInput = false;
         Texture _bg;
-        
-        public DesktopButtonEditor(T t, string title, System.Action onClose, System.Action onApply) : base(onClose, onApply)
+        int _focusedKey = -1;
+
+        public DesktopWeaponSelectEditor(DesktopButton[] buttons, string title, System.Action onClose, System.Action onApply) : base(onClose, onApply)
         {
+            if (buttons.Length != 4) throw new System.Exception("Incorrect amount.");
             this.title = title;
-            target = t;
+            _buttons = buttons;
         }
 
         public void Open()
@@ -84,21 +79,14 @@ namespace FPSControlEditor.Controls
             GUILayout.BeginVertical();
             GUILayout.Space(5);
 
-            target.peripheral = (Peripheral)EditorGUILayout.EnumPopup(target.peripheral);
-
-            if (target.peripheral == Peripheral.Mouse)
-            {
-                target.mouseButton = EditorGUILayout.IntPopup(target.mouseButton, new string[3] { "Left", "Middle", "Right" }, new int[3] { 0, 2, 1 });
-            }
-            else
+            for(int i = 0; i < _buttons.Length; i++)
             {
                 GUILayout.BeginHorizontal();
-                GUILayout.Label("Key", EditorStyles.boldLabel);
-                target.key = (KeyCode)EditorGUILayout.EnumPopup(target.key);
+                GUILayout.Label("Weapon "+(i+1), EditorStyles.boldLabel);
+                _buttons[i].key = (KeyCode)EditorGUILayout.EnumPopup(_buttons[i].key);
                 GUILayout.FlexibleSpace();
-                if (GUILayout.Button("Map By Input")) WaitForKeyInput("");
+                if (GUILayout.Button("Map By Input")) WaitForKeyInput(i);
                 GUILayout.EndHorizontal();
-                
             }
 
             GUILayout.Space(5);
@@ -110,15 +98,20 @@ namespace FPSControlEditor.Controls
             GUILayout.EndArea();
         }
 
-        override protected void WaitForKeyInput(string key)
+        override protected void WaitForKeyInput(string s) { }
+        protected void WaitForKeyInput(int i)
         {
             _waitingForInput = true;
+            _focusedKey = i;
         }
 
         override protected void MapKey(KeyCode key)
         {
             _waitingForInput = false;
-            target.key = key;
+            _buttons[_focusedKey].key = key;
+            _focusedKey = -1;
         }
+
+
     }
 }

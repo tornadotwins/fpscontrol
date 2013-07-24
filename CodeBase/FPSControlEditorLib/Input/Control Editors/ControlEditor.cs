@@ -55,7 +55,7 @@ namespace FPSControlEditor.Controls
             return false;
         }
 
-        protected Rect position = new Rect(300, 160, 324, 197);//new Rect(168, 140, 324, 197);
+        protected Rect position = new Rect(165, 200, 324, 197);//new Rect(168, 140, 324, 197);
         protected T target;
         protected string title;
     }
