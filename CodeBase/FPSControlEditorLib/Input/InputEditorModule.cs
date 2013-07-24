@@ -226,7 +226,7 @@ namespace FPSControlEditor
             GUI.depth--;
 
             GUILayout.EndArea();
-            if(activeEditor != null) _editor.Repaint();
+            _editor.Repaint();
         }
 
         void LoadVisualization()
