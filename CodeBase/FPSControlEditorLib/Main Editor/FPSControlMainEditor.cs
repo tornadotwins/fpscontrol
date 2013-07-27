@@ -156,6 +156,8 @@ namespace FPSControlEditor
             }
         }
 
+        public bool isFocused { get; private set; }
+
         //int currentPage = 0; //current page of sidebar
 
         #endregion // Editor Properties
@@ -184,6 +186,7 @@ namespace FPSControlEditor
 
         void OnFocus()
         {
+            isFocused = true;
             bool rebuild = false;
             if (loadedModule == null)
             {
@@ -196,6 +199,7 @@ namespace FPSControlEditor
 
         void OnLostFocus()
         {
+            isFocused = false;
             bool rebuild = false;
             if (loadedModule == null)
             {
@@ -213,16 +217,14 @@ namespace FPSControlEditor
 
         void OnHierarchyChange()
         {
-            if (!Application.isPlaying)
-            {
-                                              
-            }
+            if (Application.isPlaying) return;
             Init();
             window.Focus();  
         }
 
         void OnGUI()
         {
+            //return;
             if (loadedModule == null)
             {
                 //Debug.Log("Loaded module is null! Recreating!");
