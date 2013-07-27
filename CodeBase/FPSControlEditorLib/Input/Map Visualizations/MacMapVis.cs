@@ -63,9 +63,9 @@ namespace FPSControlEditor.Controls
             DrawFill(new Vector2(217, 51), keyFill, KeyCode.Alpha7);
             DrawFill(new Vector2(247, 51), keyFill, KeyCode.Alpha8);
             DrawFill(new Vector2(277, 51), keyFill, KeyCode.Alpha9);
-            DrawFill(new Vector2(207, 51), keyFill, KeyCode.Alpha0);
+            DrawFill(new Vector2(307, 51), keyFill, KeyCode.Alpha0);
             DrawFill(new Vector2(338, 51), keyFill, KeyCode.Minus);
-            DrawFill(new Vector2(368, 51), keyFill, KeyCode.Plus);
+            DrawFill(new Vector2(368, 51), keyFill, KeyCode.Equals);
             DrawFill(new Vector2(397, 51), tabFill, KeyCode.Backspace);
 
             //row2
@@ -110,8 +110,7 @@ namespace FPSControlEditor.Controls
             DrawFill(new Vector2(255, 138), keyFill, KeyCode.M);
             DrawFill(new Vector2(285, 138), keyFill, KeyCode.Comma);
             DrawFill(new Vector2(315, 138), keyFill, KeyCode.Period);
-            DrawFill(new Vector2(345, 138), keyFill, KeyCode.Semicolon);
-            DrawFill(new Vector2(375, 138), keyFill, KeyCode.Slash);
+            DrawFill(new Vector2(345, 138), keyFill, KeyCode.Slash);
             DrawFill(new Vector2(405, 138), shiftFill, KeyCode.RightShift);
 
             //row5
@@ -145,7 +144,7 @@ namespace FPSControlEditor.Controls
             ControlMap.ControlID id = map.GetIDBoundToControl(keyCode);
             if (id == ControlMap.ControlID.NONE) return; //if we don't have a match just return
             Color color = GUI.color;
-            GUI.color = ColorByControl(id);
+            GUI.color = ColorByControl(id) - new Color(0, 0, 0, .25F);
             Rect r = new Rect(position.x, position.y, texture.width, texture.height);
             GUI.DrawTexture(r, texture);
             GUI.color = color;
@@ -156,7 +155,7 @@ namespace FPSControlEditor.Controls
             ControlMap.ControlID id = map.GetIDBoundToMouseButton(mouseButton);
             if (id == ControlMap.ControlID.NONE) return; //if we don't have a match just return
             Color color = GUI.color;
-            GUI.color = ColorByControl(id);
+            GUI.color = ColorByControl(id) - new Color(0, 0, 0, .25F);
             Rect r = new Rect(position.x, position.y, texture.width, texture.height);
             GUI.DrawTexture(r, texture);
             GUI.color = color;
@@ -167,34 +166,15 @@ namespace FPSControlEditor.Controls
             ControlMap.ControlID id = map.GetIDBoundToMouse();
             if (id == ControlMap.ControlID.NONE) return; //if we don't have a match just return
             Color color = GUI.color;
-            GUI.color = ColorByControl(id);
+            GUI.color = ColorByControl(id) - new Color(0, 0, 0, .25F);
             Rect r = new Rect(position.x, position.y, texture.width, texture.height);
             GUI.DrawTexture(r, texture);
             GUI.color = color;
         }
 
-        public static Color ColorByControl(ControlMap.ControlID control)
+        new public static Color ColorByControl(ControlMap.ControlID control)
         {
-            switch (control)
-            {
-                case ControlMap.ControlID.Crouch: return new Color(89 / 255F, 86 / 255F, 224 / 255F, 1F);
-                case ControlMap.ControlID.Jump: return new Color(42 / 255F, 51 / 255F, 237 / 255F, 1F);
-                case ControlMap.ControlID.Defend: return Color.grey;
-                case ControlMap.ControlID.Fire: return new Color(183 / 255F, 39 / 255F, 46 / 255F, 1F);
-                case ControlMap.ControlID.Interact: return new Color(236 / 255F, 121 / 255F, 42 / 255F, 1F);
-                case ControlMap.ControlID.Look: return Color.cyan;// new Color(89 / 255F, 86 / 255F, 224 / 255F, .8F);
-                case ControlMap.ControlID.Move: return new Color(85 / 255F, 162 / 255F, 218 / 255F, 1F);
-                case ControlMap.ControlID.Reload: return new Color(224 / 255F, 86 / 255F, 216 / 255F, 1F);
-                case ControlMap.ControlID.Run: return new Color(247 / 255F, 236 / 255F, 23 / 255F, 1F);
-                case ControlMap.ControlID.Scope: return new Color(132 / 255F, 71 / 255F, 183 / 255F, 1F);
-                case ControlMap.ControlID.Weapon1:
-                case ControlMap.ControlID.Weapon2:
-                case ControlMap.ControlID.Weapon3:
-                case ControlMap.ControlID.Weapon4: return new Color(62 / 255F, 178 / 255F, 72 / 255F, 1F);
-                case ControlMap.ControlID.WeaponCycle: return new Color(46 / 255F, 108 / 255F, 43 / 255F, 1F);
-            }
-
-            return Color.clear;
+            return EditorControlMapVis<ControlMap>.ColorByControl(control);
         }
 
     }

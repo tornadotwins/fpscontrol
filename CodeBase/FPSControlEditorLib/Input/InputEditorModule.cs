@@ -310,42 +310,43 @@ namespace FPSControlEditor
             {
                 case FPSControlPlatform.Mac:
 
-                    Color c = GUI.color;
+                    Color c = GUI.backgroundColor;
 
-                    GUILayout.BeginArea(new Rect(25, 440, 475, 125));
+                    GUILayout.BeginArea(new Rect(22, 485, 500, 125));
 
                     GUILayout.BeginHorizontal();
                     GUILayout.BeginVertical();
-                    GUI.color = MacMapVis.ColorByControl(ControlMap.ControlID.Move);
-                    if (GUILayout.Button("Movement")) activeEditor = new DesktopAxisEditor(catalogue.mac[_currentMapName].movement, "Movement Contols", OnActiveEditorClose, OnActiveEditorApply);
 
-                    GUI.color = MacMapVis.ColorByControl(ControlMap.ControlID.Weapon1);
-                    DesktopButton[] weaponButtons = new DesktopButton[4]{catalogue.mac[_currentMapName].weapon1, catalogue.mac[_currentMapName].weapon2, catalogue.mac[_currentMapName].weapon3, catalogue.mac[_currentMapName].weapon4};
-                    if (GUILayout.Button("Weapon Select")) { activeEditor = new DesktopWeaponSelectEditor(weaponButtons, "Weapon Select Controls", OnActiveEditorClose, OnActiveEditorApply); }
-                    GUI.color = MacMapVis.ColorByControl(ControlMap.ControlID.Interact);
-                    if (GUILayout.Button("Interaction")) activeEditor = new DesktopButtonEditor<DesktopButton>(catalogue.mac[_currentMapName].interact, "Interaction Control", OnActiveEditorClose, OnActiveEditorApply);
-                    GUI.color = MacMapVis.ColorByControl(ControlMap.ControlID.Jump);
-                    if (GUILayout.Button("Jump")) activeEditor = new DesktopButtonEditor<DesktopButton>(catalogue.mac[_currentMapName].jump, "Jump Control", OnActiveEditorClose, OnActiveEditorApply);
-                    GUI.color = MacMapVis.ColorByControl(ControlMap.ControlID.Reload);
+                    GUI.backgroundColor = MacMapVis.ColorByControl(ControlMap.ControlID.Fire);
+                    if (GUILayout.Button("Action/Fire")) activeEditor = new DesktopButtonEditor<DesktopPersistantButton>(catalogue.mac[_currentMapName].fire, "Fire/Action Control", OnActiveEditorClose, OnActiveEditorApply);
+                    GUI.backgroundColor = MacMapVis.ColorByControl(ControlMap.ControlID.Reload);
                     if (GUILayout.Button("Reload")) activeEditor = new DesktopButtonEditor<DesktopButton>(catalogue.mac[_currentMapName].reload, "Reload Control", OnActiveEditorClose, OnActiveEditorApply);
-                    GUI.color = MacMapVis.ColorByControl(ControlMap.ControlID.Run);
-                    if (GUILayout.Button("Run")) activeEditor = new DesktopButtonEditor<DesktopPersistantButton>(catalogue.mac[_currentMapName].run, "Run Control", OnActiveEditorClose, OnActiveEditorApply);
+                    GUI.backgroundColor = MacMapVis.ColorByControl(ControlMap.ControlID.Scope);
+                    if (GUILayout.Button("Scope")) activeEditor = new DesktopButtonEditor<DesktopPersistantButton>(catalogue.mac[_currentMapName].scope, "Scope Control", OnActiveEditorClose, OnActiveEditorApply);
+                    GUI.backgroundColor = MacMapVis.ColorByControl(ControlMap.ControlID.Interact);
+                    if (GUILayout.Button("Interaction")) activeEditor = new DesktopButtonEditor<DesktopButton>(catalogue.mac[_currentMapName].interact, "Interaction Control", OnActiveEditorClose, OnActiveEditorApply);
                     GUILayout.EndVertical();
 
-                    //GUILayout.FlexibleSpace();
+                    GUILayout.BeginVertical();
+                    GUI.backgroundColor = MacMapVis.ColorByControl(ControlMap.ControlID.Defend);
+                    if (GUILayout.Button("Defend")) activeEditor = new DesktopButtonEditor<DesktopPersistantButton>(catalogue.mac[_currentMapName].defend, "Defend Control", OnActiveEditorClose, OnActiveEditorApply);
+                    GUI.backgroundColor = MacMapVis.ColorByControl(ControlMap.ControlID.Weapon1);
+                    DesktopButton[] weaponButtons = new DesktopButton[4]{catalogue.mac[_currentMapName].weapon1, catalogue.mac[_currentMapName].weapon2, catalogue.mac[_currentMapName].weapon3, catalogue.mac[_currentMapName].weapon4};
+                    if (GUILayout.Button("Weapon Select")) { activeEditor = new DesktopWeaponSelectEditor(weaponButtons, "Weapon Select Controls", OnActiveEditorClose, OnActiveEditorApply); }
+                    GUI.backgroundColor = MacMapVis.ColorByControl(ControlMap.ControlID.WeaponCycle);
+                    if (GUILayout.Button("Cycle Weapon")) activeEditor = new DesktopButtonEditor<DesktopButton>(catalogue.mac[_currentMapName].weaponToggle, "Weapon Cycle Control", OnActiveEditorClose, OnActiveEditorApply);
+                    GUI.backgroundColor = MacMapVis.ColorByControl(ControlMap.ControlID.Look);
+                    if (GUILayout.Button("Look")) activeEditor = new DesktopAxisEditor(catalogue.mac[_currentMapName].look, "Look Controls", OnActiveEditorClose, OnActiveEditorApply);
+                    GUILayout.EndVertical();
 
                     GUILayout.BeginVertical();
-                    GUI.color = MacMapVis.ColorByControl(ControlMap.ControlID.Look);
-                    if (GUILayout.Button("Look")) activeEditor = new DesktopAxisEditor(catalogue.mac[_currentMapName].look, "Look Controls", OnActiveEditorClose, OnActiveEditorApply);
-                    GUI.color = MacMapVis.ColorByControl(ControlMap.ControlID.Scope);
-                    if (GUILayout.Button("Scope")) activeEditor = new DesktopButtonEditor<DesktopPersistantButton>(catalogue.mac[_currentMapName].scope, "Scope Control", OnActiveEditorClose, OnActiveEditorApply);
-                    GUI.color = MacMapVis.ColorByControl(ControlMap.ControlID.Fire);
-                    if (GUILayout.Button("Action/Fire")) activeEditor = new DesktopButtonEditor<DesktopPersistantButton>(catalogue.mac[_currentMapName].fire, "Fire/Action Control", OnActiveEditorClose, OnActiveEditorApply);
-                    GUI.color = MacMapVis.ColorByControl(ControlMap.ControlID.Defend);
-                    if (GUILayout.Button("Defend")) activeEditor = new DesktopButtonEditor<DesktopPersistantButton>(catalogue.mac[_currentMapName].defend, "Defend Control", OnActiveEditorClose, OnActiveEditorApply);
-                    GUI.color = MacMapVis.ColorByControl(ControlMap.ControlID.WeaponCycle);
-                    if (GUILayout.Button("Cycle Weapon")) activeEditor = new DesktopButtonEditor<DesktopButton>(catalogue.mac[_currentMapName].weaponToggle, "Weapon Cycle Control", OnActiveEditorClose, OnActiveEditorApply);
-                    GUI.color = MacMapVis.ColorByControl(ControlMap.ControlID.Crouch);
+                    GUI.backgroundColor = MacMapVis.ColorByControl(ControlMap.ControlID.Move);
+                    if (GUILayout.Button("Movement")) activeEditor = new DesktopAxisEditor(catalogue.mac[_currentMapName].movement, "Movement Contols", OnActiveEditorClose, OnActiveEditorApply);
+                    GUI.backgroundColor = MacMapVis.ColorByControl(ControlMap.ControlID.Jump);
+                    if (GUILayout.Button("Jump")) activeEditor = new DesktopButtonEditor<DesktopButton>(catalogue.mac[_currentMapName].jump, "Jump Control", OnActiveEditorClose, OnActiveEditorApply);
+                    GUI.backgroundColor = MacMapVis.ColorByControl(ControlMap.ControlID.Run);
+                    if (GUILayout.Button("Run")) activeEditor = new DesktopButtonEditor<DesktopPersistantButton>(catalogue.mac[_currentMapName].run, "Run Control", OnActiveEditorClose, OnActiveEditorApply);
+                    GUI.backgroundColor = MacMapVis.ColorByControl(ControlMap.ControlID.Crouch);
                     if (GUILayout.Button("Crouch")) activeEditor = new DesktopButtonEditor<DesktopPersistantButton>(catalogue.mac[_currentMapName].crouch, "Crouch Control", OnActiveEditorClose, OnActiveEditorApply);
                     GUILayout.EndVertical();
 
@@ -355,7 +356,7 @@ namespace FPSControlEditor
 
                     GUILayout.EndArea();
 
-                    GUI.color = c;
+                    GUI.backgroundColor = c;
                     
 
                    break;
