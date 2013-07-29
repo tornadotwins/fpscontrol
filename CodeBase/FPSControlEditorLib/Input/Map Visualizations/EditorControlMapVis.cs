@@ -20,12 +20,13 @@ namespace FPSControlEditor.Controls
     public abstract class EditorControlMapVis<T> where T : ControlMap
     {
         protected const string GENERAL_DIR = "Player Control/Platform Maps/";
-        
+        protected System.Action Repaint;
         protected T map;
 
-        public EditorControlMapVis(T focusedMap)
+        public EditorControlMapVis(T focusedMap, System.Action RepaintCallback)
         {
             map = focusedMap;
+            Repaint = RepaintCallback;
         }
 
         protected abstract void LoadAssets();

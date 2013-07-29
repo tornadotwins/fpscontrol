@@ -17,11 +17,10 @@ namespace FPSControlEditor.Controls
         const string MAC = "Mac";
         Texture outline, capsFill, cmdFill, escFill, funcFill, shiftFill, spaceFill, tabFill, keyFill;
         Texture mouseOutline, mouseLeft, mouseRight, mouseMotion;
-        int row = 0, column = 0;
 
         public ControlMap Map { get { return map; } }
 
-        public MacMapVis(DesktopControlMap focusedMap) : base(focusedMap)
+        public MacMapVis(DesktopControlMap focusedMap, System.Action RepaintCallback) : base(focusedMap, RepaintCallback)
         {
             LoadAssets();
         }
@@ -136,7 +135,7 @@ namespace FPSControlEditor.Controls
             DrawFill(new Vector2(93, 52), mouseRight, 1);
             GUILayout.EndArea();
             GUI.DrawTexture(mouseArea, mouseOutline);
-
+            Repaint();
         }
 
         void DrawFill(Vector2 position, Texture texture, KeyCode keyCode)
