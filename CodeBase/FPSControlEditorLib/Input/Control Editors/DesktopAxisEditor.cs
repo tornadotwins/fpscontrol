@@ -93,28 +93,28 @@ namespace FPSControlEditor.Controls
             else
             {
                 GUILayout.BeginHorizontal();
-                GUILayout.Label("X (-)",EditorStyles.boldLabel);
+                GUILayout.Label("Left",EditorStyles.boldLabel);
                 target.negativeX = (KeyCode) EditorGUILayout.EnumPopup(target.negativeX);
                 GUILayout.FlexibleSpace();
                 if (GUILayout.Button("Map By Input")) WaitForKeyInput(NEGATIVE_X);
                 GUILayout.EndHorizontal();
 
                 GUILayout.BeginHorizontal();
-                GUILayout.Label("X (+)", EditorStyles.boldLabel);
+                GUILayout.Label("Right", EditorStyles.boldLabel);
                 target.positiveX = (KeyCode)EditorGUILayout.EnumPopup(target.positiveX);
                 GUILayout.FlexibleSpace();
                 if (GUILayout.Button("Map By Input")) WaitForKeyInput(POSITIVE_X);
                 GUILayout.EndHorizontal();
 
                 GUILayout.BeginHorizontal();
-                GUILayout.Label("Y (-)", EditorStyles.boldLabel);
+                GUILayout.Label("Down", EditorStyles.boldLabel);
                 target.negativeY = (KeyCode)EditorGUILayout.EnumPopup(target.negativeY);
                 GUILayout.FlexibleSpace();
                 if (GUILayout.Button("Map By Input")) WaitForKeyInput(NEGATIVE_Y);
                 GUILayout.EndHorizontal();
 
                 GUILayout.BeginHorizontal();
-                GUILayout.Label("Y (+)", EditorStyles.boldLabel);
+                GUILayout.Label("Up", EditorStyles.boldLabel);
                 target.positiveY = (KeyCode)EditorGUILayout.EnumPopup(target.positiveY);
                 GUILayout.FlexibleSpace();
                 if (GUILayout.Button("Map By Input")) WaitForKeyInput(POSITIVE_Y);

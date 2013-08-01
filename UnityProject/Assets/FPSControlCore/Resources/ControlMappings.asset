@@ -191,9 +191,90 @@ MonoBehaviour:
     _keys: []
     _values: []
   _ouyaMaps:
-    _defaultKey: 
-    _keys: []
-    _values: []
+    _defaultKey: Default Ouya
+    _keys:
+    - Default Ouya
+    _values:
+    - _name: Default Ouya
+      invertedLook: 0
+      movement:
+        _controlID: 12
+        type: 0
+        upButton: 11
+        downButton: 13
+        leftButton: 11
+        rightButton: 12
+        xAxis: 0
+        yAxis: 1
+        deadZoneX: .25
+        deadZoneY: .25
+        _buttonNames: []
+        _stickNames: []
+      look:
+        _controlID: 13
+        type: 0
+        upButton: 0
+        downButton: 0
+        leftButton: 0
+        rightButton: 0
+        xAxis: 2
+        yAxis: 3
+        deadZoneX: .170731723
+        deadZoneY: .207317069
+        _buttonNames: []
+        _stickNames: []
+      run:
+        _controlID: 3
+        button: 4
+        _buttonNames: []
+      crouch:
+        _controlID: 2
+        button: 8
+        _buttonNames: []
+      fire:
+        _controlID: 14
+        button: 7
+        _buttonNames: []
+      scope:
+        _controlID: 15
+        button: 9
+        _buttonNames: []
+      defend:
+        _controlID: 5
+        button: 5
+        _buttonNames: []
+      jump:
+        _controlID: 1
+        button: 0
+        _buttonNames: []
+      reload:
+        _controlID: 6
+        button: 6
+        _buttonNames: []
+      interact:
+        _controlID: 4
+        button: 1
+        _buttonNames: []
+      weaponToggle:
+        _controlID: 11
+        button: 2
+        _buttonNames: []
+      weapon1:
+        _controlID: 7
+        button: 11
+        _buttonNames: []
+      weapon2:
+        _controlID: 8
+        button: 14
+        _buttonNames: []
+      weapon3:
+        _controlID: 9
+        button: 13
+        _buttonNames: []
+      weapon4:
+        _controlID: 10
+        button: 12
+        _buttonNames: []
   _steamboxMaps:
     _defaultKey: 
     _keys: []

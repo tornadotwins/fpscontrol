@@ -138,7 +138,7 @@ namespace FPSControlEditor
             b = _platform == FPSControlPlatform.Android;
             b = GUILayout.Toggle(b, "Android", EditorStyles.radioButton);
             _platform = b ? FPSControlPlatform.Android : _platform;
-            //GUI.enabled = guiEnabled;
+            GUI.enabled = guiEnabled;
             GUILayout.Space(10);
             b = _platform == FPSControlPlatform.Ouya;
             b = GUILayout.Toggle(b, "Ouya", EditorStyles.radioButton);
@@ -200,7 +200,6 @@ namespace FPSControlEditor
 
             if (changedFocusedMap) LoadVisualization();
 
-
             GUILayout.EndHorizontal();
 
             mapVis.Draw();//DrawMap();
@@ -237,7 +236,7 @@ namespace FPSControlEditor
             {
                 case FPSControlPlatform.Mac: mapVis = new MacMapVis(catalogue.mac[_currentMapName], Repaint); break;
                 case FPSControlPlatform.PC: mapVis = new PCMapVis(catalogue.pc[_currentMapName], Repaint); break;
-                //case FPSControlPlatform.Ouya: mapVis = new MacMapVis(catalogue.mac[_currentMapName]); break;    
+                case FPSControlPlatform.Ouya: mapVis = new OuyaMapVis(catalogue.ouya[_currentMapName], Repaint); break;    
             }
         }
 
@@ -251,7 +250,9 @@ namespace FPSControlEditor
                 case FPSControlPlatform.PC:
                     addEditor = new AddMapEditor<DesktopControlMapGroup, DesktopControlMap>(catalogue.pc, OnAddMapClose, OnAddMapApply);
                     break;
-                //case FPSControlPlatform.PC:
+                case FPSControlPlatform.Ouya:
+                    addEditor = new AddMapEditor<OuyaControlMapGroup, OuyaControlMap>(catalogue.ouya, OnAddMapClose, OnAddMapApply);
+                    break;
 
             }
 
@@ -403,6 +404,40 @@ namespace FPSControlEditor
                    GUILayout.Space(50);
 
                    GUILayout.EndHorizontal();
+
+                   GUILayout.EndArea();
+                   break;
+
+                case FPSControlPlatform.Ouya:
+                   GUILayout.BeginArea(new Rect(550, 250, 100, 400));
+
+                   GUI.backgroundColor = MacMapVis.ColorByControl(ControlMap.ControlID.Fire);
+                   if (GUILayout.Button("Action/Fire")) activeEditor = new OuyaButtonEditor(catalogue.ouya[_currentMapName].fire, "Fire/Action Control", OnActiveEditorClose, OnActiveEditorApply);
+                   GUI.backgroundColor = MacMapVis.ColorByControl(ControlMap.ControlID.Reload);
+                   if (GUILayout.Button("Reload")) activeEditor = new OuyaButtonEditor(catalogue.ouya[_currentMapName].reload, "Reload Control", OnActiveEditorClose, OnActiveEditorApply);
+                   GUI.backgroundColor = MacMapVis.ColorByControl(ControlMap.ControlID.Scope);
+                   if (GUILayout.Button("Scope")) activeEditor = new OuyaButtonEditor(catalogue.ouya[_currentMapName].scope, "Scope Control", OnActiveEditorClose, OnActiveEditorApply);
+                   GUI.backgroundColor = MacMapVis.ColorByControl(ControlMap.ControlID.Interact);
+                   if (GUILayout.Button("Interaction")) activeEditor = new OuyaButtonEditor(catalogue.ouya[_currentMapName].interact, "Interaction Control", OnActiveEditorClose, OnActiveEditorApply);
+
+                   GUI.backgroundColor = MacMapVis.ColorByControl(ControlMap.ControlID.Defend);
+                   if (GUILayout.Button("Defend")) activeEditor = new OuyaButtonEditor(catalogue.ouya[_currentMapName].defend, "Defend Control", OnActiveEditorClose, OnActiveEditorApply);
+                   GUI.backgroundColor = MacMapVis.ColorByControl(ControlMap.ControlID.Weapon1);
+                   OuyaButton[] ouyaWeaponButtons = new OuyaButton[4] { catalogue.ouya[_currentMapName].weapon1, catalogue.ouya[_currentMapName].weapon2, catalogue.ouya[_currentMapName].weapon3, catalogue.ouya[_currentMapName].weapon4 };
+                   if (GUILayout.Button("Weapon Select")) { activeEditor = new OuyaWeaponSelectEditor(ouyaWeaponButtons, "Weapon Select Controls", OnActiveEditorClose, OnActiveEditorApply); }
+                   GUI.backgroundColor = MacMapVis.ColorByControl(ControlMap.ControlID.WeaponCycle);
+                   if (GUILayout.Button("Cycle Weapon")) activeEditor = new OuyaButtonEditor(catalogue.ouya[_currentMapName].weaponToggle, "Weapon Cycle Control", OnActiveEditorClose, OnActiveEditorApply);
+                   GUI.backgroundColor = MacMapVis.ColorByControl(ControlMap.ControlID.Look);
+                   if (GUILayout.Button("Look")) activeEditor = new OuyaAxisEditor(catalogue.ouya[_currentMapName].look, "Look Controls", OnActiveEditorClose, OnActiveEditorApply);
+
+                   GUI.backgroundColor = MacMapVis.ColorByControl(ControlMap.ControlID.Move);
+                   if (GUILayout.Button("Movement")) activeEditor = new OuyaAxisEditor(catalogue.ouya[_currentMapName].movement, "Movement Contols", OnActiveEditorClose, OnActiveEditorApply);
+                   GUI.backgroundColor = MacMapVis.ColorByControl(ControlMap.ControlID.Jump);
+                   if (GUILayout.Button("Jump")) activeEditor = new OuyaButtonEditor(catalogue.ouya[_currentMapName].jump, "Jump Control", OnActiveEditorClose, OnActiveEditorApply);
+                   GUI.backgroundColor = MacMapVis.ColorByControl(ControlMap.ControlID.Run);
+                   if (GUILayout.Button("Run")) activeEditor = new OuyaButtonEditor(catalogue.ouya[_currentMapName].run, "Run Control", OnActiveEditorClose, OnActiveEditorApply);
+                   GUI.backgroundColor = MacMapVis.ColorByControl(ControlMap.ControlID.Crouch);
+                   if (GUILayout.Button("Crouch")) activeEditor = new OuyaButtonEditor(catalogue.ouya[_currentMapName].crouch, "Crouch Control", OnActiveEditorClose, OnActiveEditorApply);
 
                    GUILayout.EndArea();
                    break;

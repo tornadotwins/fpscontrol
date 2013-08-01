@@ -11,6 +11,8 @@ namespace FPSControl
     
     public class FPSControlInput
     {
+        public static event System.Action<ControlMap> OnMapLoad;
+        
         static ControlMap _map;
         static FPSControlPlatform _platform = FPSControlPlatform.Mac;
 
@@ -43,6 +45,8 @@ namespace FPSControl
         {
             ControlMapCatalogue cat = (ControlMapCatalogue) Resources.Load("ControlMappings");
             _map = cat.GetMap(platform, id);
+            _map.Initialize();
+            if (OnMapLoad != null) OnMapLoad(_map);
         }
 
         public static bool invertedLook { get { return _map.invertedLook; } }

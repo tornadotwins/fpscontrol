@@ -222,33 +222,90 @@ namespace FPSControl
     {
         //Note: We constrain the time of control here as they are always dealt with at a component level from the same context.
         //Axis
-        public DesktopAxis movement;
-        public DesktopAxis look;
+        public OuyaAxis movement = new OuyaAxis();
+        public OuyaAxis look = new OuyaAxis();
 
         //Buttons that are true while down
-        public DesktopPersistantButton run;
-        public DesktopPersistantButton crouch;
-        public DesktopPersistantButton fire;
-        public DesktopPersistantButton scope;
-        public DesktopPersistantButton defend;
+        public OuyaPersistantButton run = new OuyaPersistantButton();
+        public OuyaPersistantButton crouch = new OuyaPersistantButton();
+        public OuyaPersistantButton fire = new OuyaPersistantButton();
+        public OuyaPersistantButton scope = new OuyaPersistantButton();
+        public OuyaPersistantButton defend = new OuyaPersistantButton();
 
         //Buttons that are true only on the frame they are pressed
-        public DesktopButton jump;
-        public DesktopButton reload;
-        public DesktopButton interact;
-        public DesktopButton weaponToggle;
-        public DesktopButton weapon1;
-        public DesktopButton weapon2;
-        public DesktopButton weapon3;
-        public DesktopButton weapon4;
-        
+        public OuyaButton jump = new OuyaButton();
+        public OuyaButton reload = new OuyaButton();
+        public OuyaButton interact = new OuyaButton();
+        public OuyaButton weaponToggle = new OuyaButton();
+        public OuyaButton weapon1 = new OuyaButton();
+        public OuyaButton weapon2 = new OuyaButton();
+        public OuyaButton weapon3 = new OuyaButton();
+        public OuyaButton weapon4 = new OuyaButton();
+
+        public OuyaControlMap() : base("") { }
         public OuyaControlMap(string n) : base(n) { }
 
         override public void Initialize() { }
 
         override protected void SetIDs()
         {
+            movement.SetID(ControlID.Move);
+            look.SetID(ControlID.Look);
 
+            run.SetID(ControlID.Run);
+            crouch.SetID(ControlID.Crouch);
+            fire.SetID(ControlID.Fire);
+            scope.SetID(ControlID.Scope);
+            defend.SetID(ControlID.Defend);
+
+            jump.SetID(ControlID.Jump);
+            reload.SetID(ControlID.Reload);
+            interact.SetID(ControlID.Interact);
+            weaponToggle.SetID(ControlID.WeaponCycle);
+            weapon1.SetID(ControlID.Weapon1);
+            weapon2.SetID(ControlID.Weapon2);
+            weapon3.SetID(ControlID.Weapon3);
+            weapon4.SetID(ControlID.Weapon4);
+        }
+
+        public ControlID GetIDBoundToButton(int i)
+        {
+            if (ControlMatches(crouch, i)) return crouch.controlID;
+            if (ControlMatches(defend, i)) return defend.controlID;
+            if (ControlMatches(fire, i)) return fire.controlID;
+            if (ControlMatches(jump, i)) return jump.controlID;
+            if (ControlMatches(interact, i)) return interact.controlID;
+            if (ControlMatches(scope, i)) return scope.controlID;
+            if (ControlMatches(run, i)) return run.controlID;
+            if (ControlMatches(reload, i)) return reload.controlID;
+            if (ControlMatches(weapon1, i)) return weapon1.controlID;
+            if (ControlMatches(weapon2, i)) return weapon2.controlID;
+            if (ControlMatches(weapon3, i)) return weapon3.controlID;
+            if (ControlMatches(weapon4, i)) return weapon4.controlID;
+            if (ControlMatches(weaponToggle, i)) return weaponToggle.controlID;
+            return ControlID.NONE;
+        }
+
+        public ControlID GetIDBoundToAxis(int i)
+        {
+            if (ControlMatches(movement, i)) return movement.controlID;
+            if (ControlMatches(look, i)) return look.controlID;
+            return ControlID.NONE;
+        }
+
+        bool ControlMatches(OuyaButton control, int button)
+        {
+            return control.button == button;
+        }
+
+        bool ControlMatches(OuyaAxis control, int i)
+        {
+            if (control.type == AxisType.Digital)
+                return control.leftButton == i || control.rightButton == i || control.upButton == i || control.downButton == i;
+            else if (control.type == AxisType.Analogue)
+                return control.xAxis == i || control.yAxis == i;
+
+            return false;
         }
 
         override public bool GetJump() { return jump.GetValue(); }
@@ -354,10 +411,7 @@ namespace FPSControl
         
         public SteamboxControlMap(string n) : base(n) { }
 
-        override protected void SetIDs()
-        {
-
-        }
+        override protected void SetIDs(){}
 
         override public void Initialize() { }
 
@@ -512,6 +566,193 @@ namespace FPSControl
                 else
                     return false;
             }
+        }
+
+        [System.Serializable]
+        public class OuyaAxis : InputControl
+        {
+            public AxisType type = AxisType.Analogue;
+            
+            public int upButton;
+            public int downButton;
+            public int leftButton;
+            public int rightButton;
+
+            public int xAxis;
+            public int yAxis;
+
+            public float deadZoneX = .25F;
+            public float deadZoneY = .25F;
+
+            IOuyaAxis _axis;
+            IOuyaButton _button;
+
+            [SerializeField] string[] _buttonNames;
+            [SerializeField] string[] _stickNames;
+
+            public OuyaAxis() : base() 
+            { 
+                _buttonNames = OuyaButtons.ToArray();
+                _stickNames = OuyaSticks.ToArray();
+            }
+
+            public void Initialize(IOuyaAxis axis, IOuyaButton btn)
+            {
+                _axis = axis;
+                _button = btn;
+            }
+
+            public Vector2 GetValue()
+            {
+                float x = 0;
+                float y = 0;
+
+                if (type == AxisType.Analogue)
+                {
+                    x = _axis.GetAxis(OuyaSticks.ToArray()[xAxis]);
+                    y = _axis.GetAxis(OuyaSticks.ToArray()[yAxis]);
+
+                    x = Mathf.Abs(x) > deadZoneX ? x : 0;
+                    y = Mathf.Abs(y) > deadZoneY ? y : 0;
+
+                    return new Vector2(x,y);
+                }
+                else if (type == AxisType.Digital)
+                {
+                    bool nX = _button.GetButton(OuyaButtons.ToArray()[leftButton]);
+                    bool pX = _button.GetButton(OuyaButtons.ToArray()[rightButton]);
+                    bool nY = _button.GetButton(OuyaButtons.ToArray()[downButton]);
+                    bool pY = _button.GetButton(OuyaButtons.ToArray()[upButton]);
+
+                    if (nX && pX) x = 0;
+                    else if (nX) x = -1;
+                    else if (pX) x = 1;
+
+                    if (nY && pY) y = 0;
+                    else if (nY) y = -1;
+                    else if (pY) y = 1;
+
+                    return new Vector2(x, y);
+                }
+
+                return Vector2.zero;
+            }
+        }
+
+        [System.Serializable]
+        public class OuyaButton : InputControl
+        {
+            protected IOuyaButton _button;
+            public int button;
+            [SerializeField] protected string[] _buttonNames;
+
+            public OuyaButton() : base() { _buttonNames = OuyaButtons.ToArray(); }
+
+            public void Initialize(IOuyaButton btn) { _button = btn; }
+
+            public virtual bool GetValue()
+            {
+                return _button.GetButtonDown(_buttonNames[button]);
+            }
+        }
+
+        [System.Serializable]
+        public class OuyaPersistantButton : OuyaButton
+        {
+            public OuyaPersistantButton() : base() { }
+
+            override public bool GetValue()
+            {
+                return _button.GetButton(_buttonNames[button]);
+            }
+        }
+
+        public interface IOuyaButton
+        {
+            bool GetButtonDown(string button);
+            bool GetButton(string button);
+        }
+
+        public interface IOuyaAxis
+        {
+            float GetAxis(string axis);
+        }
+
+        /// <summary>
+        /// These are keycodes copied straight from the OuyaSDK class.
+        /// </summary>
+        public class OuyaButtons
+        {
+            public const string BUTTON_O = "O";
+            public const string BUTTON_U = "U";
+            public const string BUTTON_Y = "Y";
+            public const string BUTTON_A = "A";
+            
+            public const string BUTTON_LB = "LB";
+            public const string BUTTON_LT = "LT";
+            public const string BUTTON_RB = "RB";
+            public const string BUTTON_RT = "RT";
+            public const string BUTTON_L3 = "L3";
+            public const string BUTTON_R3 = "R3";
+            
+            public const string BUTTON_SYSTEM = "SYS";
+
+            public const string BUTTON_DPAD_UP = "DPU";
+            public const string BUTTON_DPAD_RIGHT = "DPR";
+            public const string BUTTON_DPAD_DOWN = "DPD";
+            public const string BUTTON_DPAD_LEFT = "DPL";
+            public const string BUTTON_DPAD_CENTER = "DPC";
+
+            public static string[] ToArray()
+            {
+                return new string[15]
+                {
+                    BUTTON_O,BUTTON_U,BUTTON_Y,BUTTON_A,
+                    BUTTON_LB,BUTTON_LT,BUTTON_RB,BUTTON_RT,BUTTON_L3,BUTTON_R3,
+                    BUTTON_SYSTEM,
+                    BUTTON_DPAD_UP,BUTTON_DPAD_RIGHT,BUTTON_DPAD_DOWN,BUTTON_DPAD_LEFT
+                };
+            }
+
+            public static string[] DisplayToArray()
+            {
+                return new string[15]
+                {
+                    "O Button","U Button","Y Button", "A Button",
+                    BUTTON_LB,"Left Trigger",BUTTON_RB,"Right Trigger",BUTTON_L3,BUTTON_R3,
+                    BUTTON_SYSTEM,
+                    "DPad Up","DPad Right","DPad Down","DPad Left"
+                };
+            }
+        }
+
+        public class OuyaSticks
+        {
+            /*AXIS_LSTICK_X = 0,
+            AXIS_LSTICK_Y = 1,
+            AXIS_RSTICK_X = 11,
+            AXIS_RSTICK_Y = 14*/
+            public const string AXIS_LSTICK_X = "LX";
+            public const string AXIS_LSTICK_Y = "LY";
+            public const string AXIS_RSTICK_X = "RX";
+            public const string AXIS_RSTICK_Y = "RY";
+
+            public static string[] ToArray()
+            {
+                return new string[4]
+                {
+                    AXIS_LSTICK_X,AXIS_LSTICK_Y,AXIS_RSTICK_X,AXIS_RSTICK_Y
+                };
+            }
+
+            public static string[] DisplayToArray()
+            {
+                return new string[4]
+                {
+                    "Left Stick X","Left Stick Y","Right Stick X","Right Stick Y"
+                };
+            }
+
         }
     }
 }
