@@ -286,10 +286,10 @@ namespace FPSControl
 
             if (FPSControlInput.IsTogglingWeapon()) CycleToNextWeapon(_availableWeapons.IndexOf(_currentWeapon));
             //#error Removed stuff
-            //else if (FPSControlInput.IsSelectingWeapon(0)) ActivateWeaponAt(0);
-            //else if (FPSControlInput.IsSelectingWeapon(1)) ActivateWeaponAt(1);
-           // else if (FPSControlInput.IsSelectingWeapon(2)) ActivateWeaponAt(2);
-           // else if (FPSControlInput.IsSelectingWeapon(3)) ActivateWeaponAt(3);
+            else if (FPSControlInput.IsSelectingWeapon(0)) ActivateWeaponAt(0);
+            else if (FPSControlInput.IsSelectingWeapon(1)) ActivateWeaponAt(1);
+            else if (FPSControlInput.IsSelectingWeapon(2)) ActivateWeaponAt(2);
+            else if (FPSControlInput.IsSelectingWeapon(3)) ActivateWeaponAt(3);
 
             _mouseWasDownL = _fireDown;
             _mouseWasDownR = _scopeDown;

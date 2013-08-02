@@ -96,10 +96,18 @@ namespace FPSControl
             return _map.GetWeaponToggle();
         }
 
-//        public static bool IsSelectingWeapon(int id)
-//        {
-//            return false;
-//        }
+        public static bool IsSelectingWeapon(int id)
+        {
+            switch (id)
+            {
+                case 0: return _map.GetWeapon1();
+                case 1: return _map.GetWeapon2();
+                case 2: return _map.GetWeapon3();
+                case 3: return _map.GetWeapon4();
+            }
+
+            return false;
+        }
 
         public static Vector2 GetMoveDirection()
         {
