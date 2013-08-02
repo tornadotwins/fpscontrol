@@ -6,7 +6,7 @@ namespace FPSControl
 {
     public enum FPSControlPlatform
     {
-        Mac,PC,Linux,iOS,Android,Ouya,Steambox
+        UNSUPPORTED=-1,Mac=0,PC=1,Linux=2,iOS=3,Android=4,Ouya=5,Steambox=6
     }
     
     public class FPSControlInput
@@ -21,18 +21,8 @@ namespace FPSControl
         /// </summary>
         public static void LoadControlMapping()
         {
-            FPSControlPlatform p = FPSControlPlatform.Mac;
+            FPSControlPlatform p = FPSControlSystemInfo.GetPlatform();
 
-            switch (Application.platform)
-            {
-                case RuntimePlatform.WindowsEditor:
-                case RuntimePlatform.WindowsPlayer:
-                case RuntimePlatform.WindowsWebPlayer: p = FPSControlPlatform.Mac; break;
-
-                case RuntimePlatform.OSXPlayer:
-                case RuntimePlatform.OSXWebPlayer:
-                case RuntimePlatform.OSXEditor: p = FPSControlPlatform.Mac; break;
-            }
             LoadControlMapping(p);
         }
         
