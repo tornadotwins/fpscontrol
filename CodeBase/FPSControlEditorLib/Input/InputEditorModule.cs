@@ -46,12 +46,8 @@ namespace FPSControlEditor
         {
             ControlMapCatalogue cat = new ControlMapCatalogue();
             cat.Add(FPSControlPlatform.Mac, "Default OSX");
-            cat.mac["Default OSX"].look = new DesktopAxis();
-            cat.mac["Default OSX"].fire = new DesktopPersistantButton();
-            cat.mac["Default OSX"].scope = new DesktopPersistantButton();
-            (cat.mac["Default OSX"].scope as DesktopPersistantButton).mouseButton = 1;
-            cat.mac["Default OSX"].jump = new DesktopButton();
-            (cat.mac["Default OSX"].jump as DesktopButton).key = KeyCode.Space;
+            cat.Add(FPSControlPlatform.PC, "Default PC");
+            cat.Add(FPSControlPlatform.Ouya, "Default Ouya");
 
             AssetDatabase.CreateAsset(cat, ControlMapCatalogue.FILE);
         }
@@ -81,6 +77,11 @@ namespace FPSControlEditor
         void AcquireTarget()
         {
             catalogue = (ControlMapCatalogue)AssetDatabase.LoadAssetAtPath(ControlMapCatalogue.FILE, typeof(ControlMapCatalogue));
+            if (catalogue == null)
+            {
+                NewCatalogue();
+                AcquireTarget();
+            }
         }
 
         void SaveAsset(ControlMapCatalogue obj)

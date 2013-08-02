@@ -35,3 +35,6 @@ C:\Users\Glitchy\Documents\fpscontrol\CodeBase\FPSControlEditorLib\obj\Release\F
 C:\Users\Joseph\Documents\Work\Unity\FPSControl\UnityProject\Assets\FPSControlCore\Editor\FPSControl\FPSControlEditorLib.dll
 C:\Users\Joseph\Documents\Work\Unity\FPSControl\CodeBase\FPSControlEditorLib\obj\Release\FPSControlEditorLib.csprojResolveAssemblyReference.cache
 C:\Users\Joseph\Documents\Work\Unity\FPSControl\CodeBase\FPSControlEditorLib\obj\Release\FPSControlEditorLib.dll
+C:\Users\Joseph\Documents\Work\Unity\_AgeofEdge\FPSControl\UnityProject\Assets\FPSControlCore\Editor\FPSControl\FPSControlEditorLib.dll
+C:\Users\Joseph\Documents\Work\Unity\_AgeofEdge\FPSControl\CodeBase\FPSControlEditorLib\obj\Release\FPSControlEditorLib.csprojResolveAssemblyReference.cache
+C:\Users\Joseph\Documents\Work\Unity\_AgeofEdge\FPSControl\CodeBase\FPSControlEditorLib\obj\Release\FPSControlEditorLib.dll

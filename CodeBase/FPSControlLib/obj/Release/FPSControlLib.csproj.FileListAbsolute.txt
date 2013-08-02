@@ -47,3 +47,8 @@ C:\Users\Joseph\Documents\Work\Unity\FPSControl\UnityProject\Assets\FPSControlCo
 C:\Users\Joseph\Documents\Work\Unity\FPSControl\CodeBase\FPSControlLib\obj\Release\FPSControlLib.csprojResolveAssemblyReference.cache
 C:\Users\Joseph\Documents\Work\Unity\FPSControl\CodeBase\FPSControlLib\obj\Release\FPSControlLib.dll
 C:\Users\Joseph\Documents\Work\Unity\FPSControl\CodeBase\FPSControlLib\obj\Release\FPSControlLib.pdb
+C:\Users\Joseph\Documents\Work\Unity\_AgeofEdge\FPSControl\UnityProject\Assets\FPSControlCore\Plugins\FPSControlLib.dll
+C:\Users\Joseph\Documents\Work\Unity\_AgeofEdge\FPSControl\UnityProject\Assets\FPSControlCore\Plugins\FPSControlLib.pdb
+C:\Users\Joseph\Documents\Work\Unity\_AgeofEdge\FPSControl\CodeBase\FPSControlLib\obj\Release\FPSControlLib.csprojResolveAssemblyReference.cache
+C:\Users\Joseph\Documents\Work\Unity\_AgeofEdge\FPSControl\CodeBase\FPSControlLib\obj\Release\FPSControlLib.dll
+C:\Users\Joseph\Documents\Work\Unity\_AgeofEdge\FPSControl\CodeBase\FPSControlLib\obj\Release\FPSControlLib.pdb

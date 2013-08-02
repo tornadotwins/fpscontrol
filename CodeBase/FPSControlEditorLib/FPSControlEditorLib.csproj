@@ -68,8 +68,10 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="BuildControl\BuildControlModule.cs" />
+    <Compile Include="Core\FPSControlAbstractInspector.cs" />
     <Compile Include="Core\FPSControlEditorModule.cs" />
     <Compile Include="Core\UnavailableModule.cs" />
+    <Compile Include="Core\Utils\AssetLoader.cs" />
     <Compile Include="Core\Utils\ComponetHelper.cs" />
     <Compile Include="Core\Utils\Crypto.cs" />
     <Compile Include="Core\Utils\Drag.cs" />
@@ -85,6 +87,19 @@
     <Compile Include="Game Settings\FPSControlGameSettingsTemp.cs" />
     <Compile Include="Game Settings\GameSettingsModule.cs" />
     <Compile Include="Game Settings\RBFPSControllerLogicInspector.cs" />
+    <Compile Include="Input\Control Editors\AddMapEditor.cs" />
+    <Compile Include="Input\Control Editors\ControlEditor.cs" />
+    <Compile Include="Input\Control Editors\OuyaWeaponSelectEditor.cs" />
+    <Compile Include="Input\Control Editors\DesktopAxisEditor.cs" />
+    <Compile Include="Input\Control Editors\DesktopButtonEditor.cs" />
+    <Compile Include="Input\Control Editors\DesktopWeaponSelectEditor.cs" />
+    <Compile Include="Input\Control Editors\OuyaAxisEditor.cs" />
+    <Compile Include="Input\Control Editors\OuyaButtonEditor.cs" />
+    <Compile Include="Input\Map Visualizations\OuyaMapVis.cs" />
+    <Compile Include="Input\Map Visualizations\PCMapVis.cs" />
+    <Compile Include="Input\Map Visualizations\EditorControlMapVis.cs" />
+    <Compile Include="Input\InputEditorModule.cs" />
+    <Compile Include="Input\Map Visualizations\MacMapVis.cs" />
     <Compile Include="Login\LoginModule.cs" />
     <Compile Include="Main Editor\FPSControlMainEditor.cs" />
     <Compile Include="Messaging\MessageReceiverInspector.cs" />

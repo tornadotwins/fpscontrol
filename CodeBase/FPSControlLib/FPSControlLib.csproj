@@ -63,6 +63,10 @@
     <Compile Include="Footstep Control\FootstepControl.cs" />
     <Compile Include="Footstep Control\FootstepControlDefinition.cs" />
     <Compile Include="Footstep Control\FootstepControlDefinitions.cs" />
+    <Compile Include="Input\ControlMap.cs" />
+    <Compile Include="Input\ControlMapCatalogue.cs" />
+    <Compile Include="Input\ControlMapGroup.cs" />
+    <Compile Include="Input\FPSControlInput.cs" />
     <Compile Include="Interaction\InteractiveObject.cs" />
     <Compile Include="Interaction\Pickups\WeaponPickup.cs" />
     <Compile Include="Messaging\MessageReceiver.cs" />
