@@ -37,11 +37,6 @@ C:\Users\Glitchy\Documents\GitHub\fpscontrol\UnityProject\Assets\FPSControlCore\
 C:\Users\Glitchy\Documents\GitHub\fpscontrol\CodeBase\FPSControlLib\obj\Release\FPSControlLib.dll
 C:\Users\Glitchy\Documents\GitHub\fpscontrol\CodeBase\FPSControlLib\obj\Release\FPSControlLib.pdb
 C:\Users\Glitchy\Documents\GitHub\fpscontrol\CodeBase\FPSControlLib\obj\Release\FPSControlLib.csprojResolveAssemblyReference.cache
-C:\Users\Glitchy\Documents\fpscontrol\UnityProject\Assets\FPSControlCore\Plugins\FPSControlLib.dll
-C:\Users\Glitchy\Documents\fpscontrol\UnityProject\Assets\FPSControlCore\Plugins\FPSControlLib.pdb
-C:\Users\Glitchy\Documents\fpscontrol\CodeBase\FPSControlLib\obj\Release\FPSControlLib.dll
-C:\Users\Glitchy\Documents\fpscontrol\CodeBase\FPSControlLib\obj\Release\FPSControlLib.pdb
-C:\Users\Glitchy\Documents\fpscontrol\CodeBase\FPSControlLib\obj\Release\FPSControlLib.csprojResolveAssemblyReference.cache
 C:\Users\Joseph\Documents\Work\Unity\FPSControl\UnityProject\Assets\FPSControlCore\Plugins\FPSControlLib.dll
 C:\Users\Joseph\Documents\Work\Unity\FPSControl\UnityProject\Assets\FPSControlCore\Plugins\FPSControlLib.pdb
 C:\Users\Joseph\Documents\Work\Unity\FPSControl\CodeBase\FPSControlLib\obj\Release\FPSControlLib.csprojResolveAssemblyReference.cache
@@ -52,3 +47,7 @@ C:\Users\Joseph\Documents\Work\Unity\_AgeofEdge\FPSControl\UnityProject\Assets\F
 C:\Users\Joseph\Documents\Work\Unity\_AgeofEdge\FPSControl\CodeBase\FPSControlLib\obj\Release\FPSControlLib.csprojResolveAssemblyReference.cache
 C:\Users\Joseph\Documents\Work\Unity\_AgeofEdge\FPSControl\CodeBase\FPSControlLib\obj\Release\FPSControlLib.dll
 C:\Users\Joseph\Documents\Work\Unity\_AgeofEdge\FPSControl\CodeBase\FPSControlLib\obj\Release\FPSControlLib.pdb
+C:\Users\Glitchy\Documents\fpscontrol\UnityProject\Assets\FPSControlCore\Plugins\FPSControlLib.dll
+C:\Users\Glitchy\Documents\fpscontrol\UnityProject\Assets\FPSControlCore\Plugins\FPSControlLib.pdb
+C:\Users\Glitchy\Documents\fpscontrol\CodeBase\FPSControlLib\obj\Release\FPSControlLib.dll
+C:\Users\Glitchy\Documents\fpscontrol\CodeBase\FPSControlLib\obj\Release\FPSControlLib.pdb
