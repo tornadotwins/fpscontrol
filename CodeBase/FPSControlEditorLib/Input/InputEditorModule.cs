@@ -52,7 +52,10 @@ namespace FPSControlEditor
             AssetDatabase.CreateAsset(cat, ControlMapCatalogue.FILE);
         }
 
-        public InputEditorModule(EditorWindow w) : base(w) {  }
+        public InputEditorModule(EditorWindow w) : base(w) 
+        {
+            _type = FPSControlModuleType.PlayerControl;
+        }
 
         public override void Init()
         {

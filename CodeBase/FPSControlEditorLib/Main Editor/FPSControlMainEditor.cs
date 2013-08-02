@@ -27,7 +27,8 @@ namespace FPSControlEditor
         Footsteps = 8,
         MusicControl = 9,
 		TeamWork = 10,
-        BuildControl = 11
+        BuildControl = 11,
+        ImpactControl = 12
     }
 
     public class FPSControlMainEditor : EditorWindow
@@ -100,6 +101,9 @@ namespace FPSControlEditor
 
         Texture module_buildcontrol_n;
         Texture module_buildcontrol_a;
+
+        Texture module_impactControl_n;
+        Texture module_impactControl_a;
 
         #endregion // Assets
 
@@ -299,10 +303,14 @@ namespace FPSControlEditor
                 //(loadedModule as InputEditorModule).SetBG(playercontrolBGPath);
             }
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button(module_missionControl_n, GUIStyle.none, new GUILayoutOption[2] { GUILayout.Width(97), GUILayout.Height(97) }))
+            //if (GUILayout.Button(module_missionControl_n, GUIStyle.none, new GUILayoutOption[2] { GUILayout.Width(97), GUILayout.Height(97) }))
+            //{
+            //    LoadModule(FPSControlModuleType.UNAVAILABLE);
+            //    (loadedModule as UnavailableModule).SetBG(missioncontrolBGPath);
+            //}           
+            if (GUILayout.Button((moduleType == FPSControlModuleType.ImpactControl) ? module_impactControl_a : module_impactControl_n, GUIStyle.none, new GUILayoutOption[2] { GUILayout.Width(97), GUILayout.Height(97) }))
             {
-                LoadModule(FPSControlModuleType.UNAVAILABLE);
-                (loadedModule as UnavailableModule).SetBG(missioncontrolBGPath);
+                LoadModule(FPSControlModuleType.ImpactControl);
             }
             GUILayout.Space(17);
             GUILayout.EndHorizontal();
@@ -451,6 +459,10 @@ namespace FPSControlEditor
                     if (!modules.ContainsKey(module)) modules.Add(module, new TeamworkModule(this));
                     break;
 
+                case FPSControlModuleType.ImpactControl:
+                    if (!modules.ContainsKey(module)) modules.Add(module, new ImpactControl(this));
+                    break;
+
                 default:
                     if (!modules.ContainsKey(FPSControlModuleType.UNAVAILABLE)) modules.Add(FPSControlModuleType.UNAVAILABLE, new UnavailableModule(this));
                     module = FPSControlModuleType.UNAVAILABLE;
@@ -583,6 +595,9 @@ namespace FPSControlEditor
 
             module_buildcontrol_n = Load<Texture>(ASSET_PATH + GRAPHICS + "Main Editor/btn_buildcontrol_n.png"); //normal
             module_buildcontrol_a = Load<Texture>(ASSET_PATH + GRAPHICS + "Main Editor/btn_buildcontrol_a.png"); //active
+
+            module_impactControl_n = Load<Texture>(ASSET_PATH + GRAPHICS + "Main Editor/btn_impactControl_n.png"); //normal
+            module_impactControl_a = Load<Texture>(ASSET_PATH + GRAPHICS + "Main Editor/btn_impactControl_a.png"); //active
         }
 
         T Load<T>(string assetPath) where T : UnityEngine.Object

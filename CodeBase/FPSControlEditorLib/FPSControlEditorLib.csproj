@@ -87,6 +87,7 @@
     <Compile Include="Game Settings\FPSControlGameSettingsTemp.cs" />
     <Compile Include="Game Settings\GameSettingsModule.cs" />
     <Compile Include="Game Settings\RBFPSControllerLogicInspector.cs" />
+    <Compile Include="ImpactControl\ImpactControl.cs" />
     <Compile Include="Input\Control Editors\AddMapEditor.cs" />
     <Compile Include="Input\Control Editors\ControlEditor.cs" />
     <Compile Include="Input\Control Editors\OuyaWeaponSelectEditor.cs" />
