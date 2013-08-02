@@ -28,6 +28,14 @@ namespace FPSControl
         
         public static void LoadControlMapping(FPSControlPlatform platform)
         {
+            GameObject adapter;
+            if (platform == FPSControlPlatform.Ouya)
+            {
+                GameObject tmp = (GameObject)Resources.Load("[Ouya Controller]", typeof(GameObject));
+                adapter = (GameObject) Object.Instantiate(tmp);
+                tmp.name = adapter.name;
+            }
+
             LoadControlMapping(platform, ""); //Just load the default for the platform.
         }
 
