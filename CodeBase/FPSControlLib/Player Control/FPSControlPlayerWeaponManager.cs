@@ -23,7 +23,9 @@ namespace FPSControl
         public FPSControlWeapon[] weaponActors; //all possible weapons should be setup here
         Dictionary<string, FPSControlWeapon> _weaponsCatalogue = new  Dictionary<string, FPSControlWeapon>(); //the catalogue of weapons, built dynamically from weaponActors array
         [HideInInspector]
-        List<FPSControlWeapon> _availableWeapons = new List<FPSControlWeapon>(); //the available weapons (max 
+        List<FPSControlWeapon> _availableWeapons = new List<FPSControlWeapon>(); //the available weapons (max
+        public FPSControlWeapon[] availableWeapons { get { return _availableWeapons.ToArray(); } }
+
         [HideInInspector]
         Transform _transform;
         [HideInInspector]
@@ -187,6 +189,11 @@ namespace FPSControl
             {
                 ActivateWeaponAt(0);
             }
+        }
+
+        public void ActivateWeapon(string weaponName)
+        {
+            ActivateWeaponAt(_availableWeapons.IndexOf(this[weaponName]));
         }
 
         public void ActivateWeaponAt(int index)

@@ -581,8 +581,8 @@ GameObject:
   - 114: {fileID: 11400010}
   - 143: {fileID: 14300000}
   - 114: {fileID: 11400034}
-  - 114: {fileID: 11400038}
   - 114: {fileID: 11400036}
+  - 114: {fileID: 11400038}
   m_Layer: 10
   m_Name: Player 1
   m_TagString: Player
@@ -5001,7 +5001,7 @@ MonoBehaviour:
   weaponToggle: 113
   reloadKey: 114
   defendKey: 120
-  addWeaponsToInventory: 0
+  addWeaponsToInventory: 1
   weaponActors:
   - {fileID: 11400024}
   - {fileID: 11400022}
@@ -5554,16 +5554,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 100074}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5e0535acf10e5846bad8a26d5b3375f, type: 3}
+  m_Script: {fileID: 594285081, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
-  _loadLevel: 1
-  _takeCollideDamage: 1
-  _collideThreshhold: 7
-  _maxHealth: 100
-  _defaultDamage: 1
-  _deathMusic: PlayerDeath
-  _playerStateText: {fileID: 0}
-  _dataController: {fileID: 11400036}
+  healthData: {fileID: 11400036}
+  loadLevel: 1
+  takeCollideDamage: 1
+  collideThreshold: 7
+  maxHealth: 100
+  defaultDamage: 1
+  deathMusic: PlayerDeath
 --- !u!114 &11400040
 MonoBehaviour:
   m_ObjectHideFlags: 1

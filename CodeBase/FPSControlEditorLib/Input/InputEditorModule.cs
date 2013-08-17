@@ -89,10 +89,12 @@ namespace FPSControlEditor
 
         void SaveAsset(ControlMapCatalogue obj)
         {
-            ControlMapCatalogue tmp = (ControlMapCatalogue) Object.Instantiate(obj);
-            AssetDatabase.DeleteAsset(ControlMapCatalogue.FILE);
-            AssetDatabase.CreateAsset(tmp, ControlMapCatalogue.FILE);
-            AssetDatabase.ImportAsset(ControlMapCatalogue.FILE);
+            EditorUtility.SetDirty(obj);
+            AssetDatabase.SaveAssets();
+            //ControlMapCatalogue tmp = (ControlMapCatalogue) Object.Instantiate(obj);
+            //AssetDatabase.DeleteAsset(ControlMapCatalogue.FILE);
+            //AssetDatabase.CreateAsset(tmp, ControlMapCatalogue.FILE);
+            //AssetDatabase.ImportAsset(ControlMapCatalogue.FILE);
             AcquireTarget();
         }
 

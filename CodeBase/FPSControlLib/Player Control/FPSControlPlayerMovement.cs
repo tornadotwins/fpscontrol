@@ -21,9 +21,10 @@ namespace FPSControl
         public Vector3 center { get { return new Vector3(0, height / 2F, 0); } }
         public float crouchHeight = 1.1F;
         public Vector3 crouchedCenter { get { return new Vector3(0, crouchHeight / 2F, 0); } }
-        [HideInInspector]
-        bool _crouched = false;
+        [HideInInspector] bool _crouched = false;
+        [HideInInspector] bool _sprint = false;
         public bool isCrouching { get { return _crouched; } }
+        public bool isRunning { get { return _sprint; } }
         public float crouchSpeedModifier = .5F;
         
         public bool isMovingBackwards { get; private set; }
@@ -97,15 +98,17 @@ namespace FPSControl
 
         public override void DoUpdate()
         {
-            
             Vector3 prevMovement = _movement;
             _input = false;//reset our input
             _movementRate = _movement / Time.deltaTime; // rate = distance/time
             Vector3 force = Vector3.zero; //reset for new loop
-            
-            UpdateMovement();
-            UpdateJump();
-            UpdateCrouch();
+
+            if (!FPSControlPlayerData.frozen)
+            {
+                UpdateMovement();
+                UpdateJump();
+                UpdateCrouch();
+            }
 
             //this dampening really helps everything flow better.
             float movementDampening = (1 + (.2F * _delta));
@@ -148,6 +151,7 @@ namespace FPSControl
             {
                 Player.ChangeState("Idle"); //if we have no input this frame, switch back to idle
                 crosshairAnimator.BeStill();
+                _sprint = false;
             }
         }
 
@@ -177,13 +181,19 @@ namespace FPSControl
 
             // Running?
             //if ((Input.GetKey(runKeyLeft) || Input.GetKey(runKeyRight)) && !_crouched && !_jumping) //you can't run if crouched, or if in mid jump
-            if(FPSControlInput.IsRunning() && !_crouched && !_jumping) //you can't run if crouched, or if in mid jump
+            if(FPSControlInput.IsRunning() && !_crouched && FPSControlPlayerData.canRun) //you can't run if crouched, or if we've restricted running
             {
                 Player.ChangeState(Player["Run"]);
+                _sprint = true;
             }
-            else if(_input) // Walking
+            else if (_input) // Walking
             {
                 Player.ChangeState(Player["Walk"]);
+                _sprint = false;
+            }
+            else
+            {
+                _sprint = false;
             }
 
             //this just allows us to use bigger numbers, so we aren't always dealing in centimeters
@@ -212,10 +222,8 @@ namespace FPSControl
             Vector3 fwd = Vector3.forward * vi;
             Vector3 hor = Vector3.right * hi;
 
-            
-
             _movement += _transform.TransformDirection(fwd+hor) * (strafeSqr * _delta);
-            //_movement *= _delta; //BAD???
+            
 
             /*DEBUGGING*/
             //reportedMovement = _movement;
@@ -242,9 +250,10 @@ namespace FPSControl
 
             if (FPSControlInput.IsJumping() && _controller.isGrounded)
             {
-                //Debug.Log("jump!");
+                Debug.Log("jump!");
                 _input = true;
                 _movement += new Vector3(0, jumpForce, 0);
+
                 Player.ChangeState("Jump");
                 _jumping = true;
             }
@@ -252,10 +261,11 @@ namespace FPSControl
 
         void UpdateCrouch()
         {
-            if (!Player.currentState.canCrouch) return;
+            if (!Player.currentState.canCrouch && !FPSControlPlayerData.forceCrouching) return;
 
             _crouched = FPSControlInput.IsCrouching();//Input.GetKey(crouchKeyLeft) || Input.GetKey(crouchKeyRight);
-            
+            if (FPSControlPlayerData.forceCrouching) _crouched = true;
+
             if(_crouched)
             {
                 //Debug.Log("crouching");

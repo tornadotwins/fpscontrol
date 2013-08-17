@@ -96,6 +96,12 @@ MonoBehaviour:
         peripheral: 1
         key: 52
         mouseButton: 0
+      pause:
+        _controlID: 16
+        peripheral: 1
+        key: 0
+        mouseButton: 0
+      hideMouseCursor: 1
   _pcMaps:
     _defaultKey: Default PC
     _keys:
@@ -182,6 +188,12 @@ MonoBehaviour:
         peripheral: 1
         key: 52
         mouseButton: 0
+      pause:
+        _controlID: 16
+        peripheral: 1
+        key: 0
+        mouseButton: 0
+      hideMouseCursor: 1
   _iOSMaps:
     _defaultKey: 
     _keys: []
@@ -275,6 +287,25 @@ MonoBehaviour:
         _controlID: 10
         button: 12
         _buttonNames: []
+      pause:
+        _controlID: 16
+        button: 0
+        _buttonNames:
+        - O
+        - U
+        - Y
+        - A
+        - LB
+        - LT
+        - RB
+        - RT
+        - L3
+        - R3
+        - SYS
+        - DPU
+        - DPR
+        - DPD
+        - DPL
   _steamboxMaps:
     _defaultKey: 
     _keys: []

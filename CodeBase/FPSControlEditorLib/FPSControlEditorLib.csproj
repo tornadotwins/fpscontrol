@@ -34,7 +34,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\FPS Control Beta4\Assets\Editor\FPSControl</OutputPath>
+    <OutputPath>..\..\UnityProject\Assets\FPSControlCore\Editor\FPSControl\</OutputPath>
     <DefineConstants>DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -53,10 +53,6 @@
       <HintPath>..\..\UnityProject\Assets\FPSControlCore\Plugins\JsonFx.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="FPSControlLib">
-      <HintPath>..\FPSControlLib\obj\Release\FPSControlLib.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System.XML" />
     <Reference Include="UnityEditor">
       <HintPath>..\UnityEditor.dll</HintPath>
@@ -141,6 +137,10 @@
       <Project>{FB04E437-013A-4EFB-A617-455A800ED157}</Project>
       <Name>FPSControlLib</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\FPSControlLib\FPSControlLib.csproj">
+      <Project>{FB04E437-013A-4EFB-A617-455A800ED157}</Project>
+      <Name>FPSControlLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

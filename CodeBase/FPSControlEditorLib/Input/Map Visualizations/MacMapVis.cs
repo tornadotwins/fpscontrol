@@ -47,7 +47,7 @@ namespace FPSControlEditor.Controls
         {
             int width = outline.width;
             int height = outline.height;
-            
+
             Rect drawRect = new Rect(20, 225, width, height);
             GUILayout.BeginArea(drawRect);
 
@@ -135,6 +135,15 @@ namespace FPSControlEditor.Controls
             DrawFill(new Vector2(93, 52), mouseRight, 1);
             GUILayout.EndArea();
             GUI.DrawTexture(mouseArea, mouseOutline);
+
+            GUILayout.BeginArea(new Rect(20, 440, 300, 50));
+            GUILayout.BeginHorizontal();
+            map.invertedLook = GUILayout.Toggle(map.invertedLook, "Invert Look");
+            GUILayout.Space(10);
+            map.hideMouseCursor = GUILayout.Toggle(map.hideMouseCursor, "Hide Cursor");
+            GUILayout.EndHorizontal();
+            GUILayout.EndArea();
+
             Repaint();
         }
 

@@ -11,7 +11,7 @@ namespace FPSControl
         #region IDs
         public enum ControlID
         {
-            NONE, Jump, Crouch, Run, Interact, Defend, Reload, Weapon1, Weapon2, Weapon3, Weapon4, WeaponCycle, Move, Look, Fire, Scope
+            NONE, Jump, Crouch, Run, Interact, Defend, Reload, Weapon1, Weapon2, Weapon3, Weapon4, WeaponCycle, Move, Look, Fire, Scope, Pause
         }
         /*public const string JUMP = "jump";
         public const string CROUCH = "crouch";
@@ -82,6 +82,8 @@ namespace FPSControl
         public abstract Vector2 GetMovement();
         public abstract Vector2 GetLook();
 
+        public abstract bool GetPause();
+
         protected abstract void SetIDs();
     }
 
@@ -109,6 +111,9 @@ namespace FPSControl
         public DesktopButton weapon2 = new DesktopButton();
         public DesktopButton weapon3 = new DesktopButton();
         public DesktopButton weapon4 = new DesktopButton();
+        public DesktopButton pause = new DesktopButton();
+
+        public bool hideMouseCursor = true;
 
         public DesktopControlMap() : base("") { }
         public DesktopControlMap(string n) : base(n) { }
@@ -132,6 +137,8 @@ namespace FPSControl
             weapon2.SetID(ControlID.Weapon2);
             weapon3.SetID(ControlID.Weapon3);
             weapon4.SetID(ControlID.Weapon4);
+
+            pause.SetID(ControlID.Pause);
         }
 
         public ControlID GetIDBoundToControl(KeyCode keyCode)
@@ -151,6 +158,7 @@ namespace FPSControl
             if (ControlMatches(weapon3, keyCode)) return weapon3.controlID;
             if (ControlMatches(weapon4, keyCode)) return weapon4.controlID;
             if (ControlMatches(weaponToggle, keyCode)) return weaponToggle.controlID;
+            if (ControlMatches(pause, keyCode)) return weaponToggle.controlID;
             return ControlID.NONE;
         }
 
@@ -169,6 +177,7 @@ namespace FPSControl
             if (ControlMatches(weapon3, mouseButton)) return weapon3.controlID;
             if (ControlMatches(weapon4, mouseButton)) return weapon4.controlID;
             if (ControlMatches(weaponToggle, mouseButton)) return weaponToggle.controlID;
+            if (ControlMatches(pause, mouseButton)) return pause.controlID;
             return ControlID.NONE;
         }
 
@@ -194,7 +203,7 @@ namespace FPSControl
             return control.type == AxisType.Digital && (control.negativeX == key || control.positiveX == key || control.negativeY == key || control.positiveY == key);
         }
 
-        override public void Initialize() { }
+        override public void Initialize() { Screen.showCursor = !hideMouseCursor; Screen.lockCursor = hideMouseCursor; }
 
         override public bool GetJump() { return jump.GetValue(); }
         override public bool GetFire() { /*Debug.Log("fire: " + fire.ToString());*/ return fire.GetValue(); }
@@ -212,6 +221,8 @@ namespace FPSControl
         override public bool GetWeapon3() { return weapon3.GetValue(); }
         override public bool GetWeapon4() { return weapon4.GetValue(); }
         override public bool GetWeaponToggle() { return weaponToggle.GetValue(); }
+
+        public override bool GetPause() { return pause.GetValue(); }
 
         override public Vector2 GetMovement() { return movement.GetValue(); }
         override public Vector2 GetLook() { return look.GetValue(); }
@@ -242,6 +253,8 @@ namespace FPSControl
         public OuyaButton weapon3 = new OuyaButton();
         public OuyaButton weapon4 = new OuyaButton();
 
+        public OuyaButton pause = new OuyaButton();
+
         public OuyaControlMap() : base("") { }
         public OuyaControlMap(string n) : base(n) { }
 
@@ -266,6 +279,8 @@ namespace FPSControl
             weapon2.SetID(ControlID.Weapon2);
             weapon3.SetID(ControlID.Weapon3);
             weapon4.SetID(ControlID.Weapon4);
+
+            pause.SetID(ControlID.Pause);
         }
 
         public ControlID GetIDBoundToButton(int i)
@@ -283,6 +298,7 @@ namespace FPSControl
             if (ControlMatches(weapon3, i)) return weapon3.controlID;
             if (ControlMatches(weapon4, i)) return weapon4.controlID;
             if (ControlMatches(weaponToggle, i)) return weaponToggle.controlID;
+            if (ControlMatches(pause,i)) return pause.controlID;
             return ControlID.NONE;
         }
 
@@ -324,6 +340,8 @@ namespace FPSControl
         override public bool GetWeapon3() { return weapon3.GetValue(); }
         override public bool GetWeapon4() { return weapon4.GetValue(); }
         override public bool GetWeaponToggle() { return weaponToggle.GetValue(); }
+
+        public override bool GetPause() { return pause.GetValue(); }
 
         override public Vector2 GetMovement() { return movement.GetValue(); }
         override public Vector2 GetLook() { return look.GetValue(); }
@@ -382,6 +400,11 @@ namespace FPSControl
 
         override public Vector2 GetMovement() { return movement.GetValue(); }
         override public Vector2 GetLook() { return look.GetValue(); }
+
+        public override bool GetPause()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     [System.Serializable]
@@ -434,6 +457,11 @@ namespace FPSControl
 
         override public Vector2 GetMovement() { return movement.GetValue(); }
         override public Vector2 GetLook() { return look.GetValue(); }
+
+        public override bool GetPause()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     namespace Controls

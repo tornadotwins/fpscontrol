@@ -125,8 +125,15 @@ namespace FPSControl
             _control.rotation = _root.rotation;
         }
 
+        public void SetVisibility(bool visible)
+        {
+            weaponCamera.enabled = visible;
+        }
+
         public override void DoUpdate()
-        {            
+        {
+            if (FPSControlPlayerData.frozen) return;
+            
             //gather input, applying sensitivity and possible inverted Y, for those weiners out there who like to press down to look up.
             Vector2 lookInput = FPSControlInput.GetLookDirection();
             float mouseX = lookInput.x * mouseSensitivity.x;

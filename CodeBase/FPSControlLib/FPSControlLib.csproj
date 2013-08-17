@@ -35,7 +35,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>..\..\UnityProject\Assets\FPSControlCore\Plugins\</OutputPath>
     <DefineConstants>DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -77,7 +77,9 @@
     <Compile Include="Player Control\FPSControlPlayerComponent.cs" />
     <Compile Include="Player Control\FPSControlPlayerInteractionManager.cs" />
     <Compile Include="Player Control\FPSControlPlayerMovement.cs" />
+    <Compile Include="Player Control\FPSControlPlayerStats.cs" />
     <Compile Include="Player Control\FPSControlPlayerWeaponManager.cs" />
+    <Compile Include="Player Control\FPSControlPlayerEvents.cs" />
     <Compile Include="Weapon Control\Data\DamageFalloff.cs" />
     <Compile Include="Weapon Control\Definitions\FPSControlWeaponDefinitions.cs" />
     <Compile Include="Weapon Control\Definitions\FPSControlRangeWeaponDefinition.cs" />
