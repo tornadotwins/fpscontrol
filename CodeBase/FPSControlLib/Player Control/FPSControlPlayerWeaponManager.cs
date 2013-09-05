@@ -210,7 +210,8 @@ namespace FPSControl
             {
                 //Debug.LogWarning("activating new");
                 _queuedWeapon = _availableWeapons[index];
-                _currentWeapon.Deactivate(_ActivateQueuedWeapon);
+                FPSControlWeapon _weaponBeingDeactivated = _currentWeapon;
+                _currentWeapon.Deactivate(() => { _ActivateQueuedWeapon(); FPSControlPlayerEvents.DeactivateWeapon(_weaponBeingDeactivated); });
                 crosshairAnimator.SetCrossHair(null);
             }
             else

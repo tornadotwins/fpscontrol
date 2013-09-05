@@ -70,7 +70,11 @@ namespace FPSControl
         public static void SetAmmo(FPSControlRangedWeapon weapon, int ammo, int clips) { weapon.SetAmmo(ammo, clips); }
         public static void SetAmmo(FPSControlRangedWeapon weapon, float energy) { weapon.SetAmmo(energy); }
 
-        public static void DeactivateCurrentWeapon() { FPSControlWeapon w = currentWeapon; player.weaponManager.currentWeapon.Deactivate(() => {FPSControlPlayerEvents.DeactivateWeapon(w);}); }
+        public static void DeactivateCurrentWeapon() 
+        { 
+            FPSControlWeapon w = currentWeapon; 
+            player.weaponManager.currentWeapon.Deactivate(() => {});
+        }
 
         #endregion // weapons
     }
