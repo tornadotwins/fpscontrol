@@ -14,3 +14,6 @@ UnityProject\Library\
 UnityProject/Library/AssetServerCacheV3
 UnityProject/Library/
 UnityProject/Assets/Plugins/
+UnityProject/Assets/_Local Only/
+UnityProject/Assets/Plugins.meta
+UnityProject/Assets/_Local Only.meta
