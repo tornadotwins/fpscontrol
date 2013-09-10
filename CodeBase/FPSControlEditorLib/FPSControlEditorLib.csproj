@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Asset Importers\PlayerControlImageImporter.cs" />
     <Compile Include="BuildControl\BuildControlModule.cs" />
     <Compile Include="Core\FPSControlAbstractInspector.cs" />
     <Compile Include="Core\FPSControlEditorModule.cs" />

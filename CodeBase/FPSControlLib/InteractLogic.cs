@@ -53,7 +53,8 @@ namespace FPSControl
         {
             //this should be the new paradigm
             InteractiveObject iObj = GetComponent<InteractiveObject>();
-            iObj.Interact();
+            if(iObj) iObj.Interact();
+            else Debug.LogWarning("No InteractiveObject available on " + gameObject.name + ", resorting to legacy interaction system.");
  
             SendMessage (_normalInteraction, SendMessageOptions.DontRequireReceiver); //support legacy
             _doneInteraction = true;

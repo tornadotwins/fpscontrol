@@ -16,7 +16,7 @@ namespace FPSControlEditor
 {
     public class InputEditorModule : FPSControlEditorModule 
 	{
-        const string PATH = "Player Control/";
+        public const string PATH = "Player Control/";
         //const int BUTTON_WIDTH =
         ControlMapCatalogue catalogue;
         IControlEditor activeEditor = null;

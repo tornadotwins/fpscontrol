@@ -37,6 +37,9 @@ namespace FPSControl
         static bool _frozen = false;
         public static bool frozen { get { return _frozen; } set { _frozen = value; FPSControlPlayerEvents.Freeze(value); } }
 
+        static Dictionary<Renderer, bool> _rendererStates = new Dictionary<Renderer, bool>();
+        static KeyValuePair<IntelliCrosshair, bool> _wasCrosshairEnabled = new KeyValuePair<IntelliCrosshair, bool>(null, false);
+
         static bool _visible = false;
         public static bool visible
         {
@@ -44,14 +47,48 @@ namespace FPSControl
             set
             {
                 _visible = value;
+
+                if (_visible) 
+                {
+                    foreach (KeyValuePair<Renderer, bool> kvp in _rendererStates)
+                    {
+                        kvp.Key.enabled = kvp.Value;
+                    }
+
+                    _rendererStates.Clear();
+
+                    if (player.weaponManager.crosshairAnimator.crosshair && _wasCrosshairEnabled.Key != null)
+                    {
+                        _wasCrosshairEnabled.Key.enabled = _wasCrosshairEnabled.Value;
+                    }
+                }
+                else
+                {
+                    _rendererStates = new Dictionary<Renderer, bool>();
+                    foreach(Renderer r in player.transform.GetComponentsInChildren<Renderer>(true))
+                    {
+                        _rendererStates.Add(r, r.enabled);
+                        r.enabled = false;
+                    }
+
+                    IntelliCrosshair c = player.weaponManager.crosshairAnimator.crosshair;
+
+                    if (c)
+                    {
+                        
+                        _wasCrosshairEnabled = new KeyValuePair<IntelliCrosshair, bool>(c, c.enabled);
+                        c.enabled = false;
+                    }
+                }
             }
         }
+
 
         #endregion // movement
 
         #region health
 
-        public DataController healthData { get { return player.GetComponent<FPSControlPlayerStats>().healthData; } }
+        public static DataController healthData { get { return player.GetComponent<FPSControlPlayerStats>().healthData; } }
 
         #endregion // health
 

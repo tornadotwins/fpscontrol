@@ -4,3 +4,12 @@ C:\Users\Prime\Desktop\FPSControlLibSource\FPSControlEditorLib\bin\Debug\nunit.f
 C:\Users\Prime\Desktop\FPSControlLibSource\FPSControlEditorLib\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\Prime\Desktop\FPSControlLibSource\FPSControlEditorLib\obj\Debug\FPSControlEditorLib.dll
 C:\Users\Prime\Desktop\FPSControlLibSource\FPSControlEditorLib\obj\Debug\FPSControlEditorLib.pdb
+C:\Users\Joseph\Documents\Work\Unity\_AgeofEdge\FPSControl\FPS Control Beta4\Assets\Editor\FPSControl\FPSControlEditorLib.dll
+C:\Users\Joseph\Documents\Work\Unity\_AgeofEdge\FPSControl\FPS Control Beta4\Assets\Editor\FPSControl\FPSControlEditorLib.pdb
+C:\Users\Joseph\Documents\Work\Unity\_AgeofEdge\FPSControl\CodeBase\FPSControlEditorLib\obj\Debug\FPSControlEditorLib.csprojResolveAssemblyReference.cache
+C:\Users\Joseph\Documents\Work\Unity\_AgeofEdge\FPSControl\CodeBase\FPSControlEditorLib\obj\Debug\FPSControlEditorLib.dll
+C:\Users\Joseph\Documents\Work\Unity\_AgeofEdge\FPSControl\CodeBase\FPSControlEditorLib\obj\Debug\FPSControlEditorLib.pdb
+C:\Users\Joseph\Documents\Work\Unity\_AgeofEdge\FPSControl\UnityProject\Assets\FPSControlCore\Editor\FPSControlEditorLib.dll
+C:\Users\Joseph\Documents\Work\Unity\_AgeofEdge\FPSControl\UnityProject\Assets\FPSControlCore\Editor\FPSControlEditorLib.pdb
+C:\Users\Joseph\Documents\Work\Unity\_AgeofEdge\FPSControl\UnityProject\Assets\FPSControlCore\Editor\FPSControl\FPSControlEditorLib.dll
+C:\Users\Joseph\Documents\Work\Unity\_AgeofEdge\FPSControl\UnityProject\Assets\FPSControlCore\Editor\FPSControl\FPSControlEditorLib.pdb

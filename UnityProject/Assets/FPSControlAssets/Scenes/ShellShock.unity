@@ -14381,6 +14381,10 @@ Prefab:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: e30c2eb927ff345568616b6942547c8d, type: 2}
+      propertyPath: addWeaponsToInventory
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e30c2eb927ff345568616b6942547c8d, type: 2}
   m_RootGameObject: {fileID: 1313006040}
@@ -42169,7 +42173,7 @@ MonoBehaviour:
   weaponToggle: 113
   reloadKey: 114
   defendKey: 120
-  addWeaponsToInventory: 0
+  addWeaponsToInventory: 1
   weaponActors:
   - {fileID: 636408499}
   - {fileID: 20243990}
