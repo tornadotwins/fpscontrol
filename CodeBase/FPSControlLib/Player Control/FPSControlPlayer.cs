@@ -110,7 +110,7 @@ namespace FPSControl
         public static void DeactivateCurrentWeapon() 
         { 
             FPSControlWeapon w = currentWeapon; 
-            player.weaponManager.currentWeapon.Deactivate(() => {});
+            player.weaponManager.DeactivateCurrentWeapon();
         }
 
         #endregion // weapons

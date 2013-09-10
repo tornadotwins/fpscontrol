@@ -33,6 +33,9 @@ public class PlayerDataExample : MonoBehaviour {
 
         //visible
         if (FPSControlPlayerData.visible != visible) FPSControlPlayerData.visible = visible;
+
+        //gravity
+        FPSControlPlayerData.gravity = gravity;
     }
 
     void OnSpawn()
@@ -54,9 +57,6 @@ public class PlayerDataExample : MonoBehaviour {
         //crouching
         FPSControlPlayerData.forceCrouching = forceCrouching;
 
-        //gravity
-        //FPSControlPlayerData.gravity = gravity;
-
         //health
         DataController healthData = FPSControlPlayerData.healthData; //gets the healthdata component
         healthData.autoHeal = autoHeal;
@@ -65,21 +65,13 @@ public class PlayerDataExample : MonoBehaviour {
         healthData.max = maxHealth;
         healthData.current = healthData.initial = startHealth;
 
-
-
-        return;
-
         //weapons
-        FPSControlRangedWeapon beretta = (FPSControlRangedWeapon) FPSControlPlayerData.GetWeapon("Beretta"); //gets the weapon named "Beretta"
-        FPSControlPlayerData.EquipWeapon("Beretta"); //equips the weapon with the specified name
-        FPSControlPlayerData.EquipWeaponAt(0); //equips the first weapon in our array of available weapons.
-        FPSControlPlayerData.DeactivateCurrentWeapon();//deactivates the current weapon, will dispatch FPSControlPlayerEvents.OnWeaponDeactivate event
-
+        //FPSControlPlayerData.EquipWeapon("Beretta"); //equips the weapon with the specified name
+        FPSControlPlayerData.EquipWeaponAt(1); //equips the second weapon in our array of available weapons.
+        //FPSControlPlayerData.DeactivateCurrentWeapon();//deactivates the current weapon, will dispatch FPSControlPlayerEvents.OnWeaponDeactivate event
+        
+        FPSControlRangedWeapon beretta = (FPSControlRangedWeapon)FPSControlPlayerData.GetWeapon("Beretta"); //gets the weapon named "Beretta"
         FPSControlPlayerData.SetAmmo(beretta, 10, 5); //(energyweapon,.5F) overload for energy weapon
-
-
-
-
 	}
 
 }

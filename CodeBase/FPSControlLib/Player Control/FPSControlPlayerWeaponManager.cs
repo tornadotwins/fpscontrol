@@ -191,6 +191,21 @@ namespace FPSControl
             }
         }
 
+        public void DeactivateCurrentWeapon()
+        {
+            FPSControlWeapon _weaponBeingDeactivated = _currentWeapon;
+            _currentWeapon.Deactivate
+            (
+                () => 
+                { 
+                    _currentWeapon = null; 
+                    _queuedWeapon = null; 
+                    crosshairAnimator.SetCrossHair(null); 
+                    FPSControlPlayerEvents.DeactivateWeapon(_weaponBeingDeactivated); 
+                }
+            );
+        }
+
         public void ActivateWeapon(string weaponName)
         {
             ActivateWeaponAt(_availableWeapons.IndexOf(this[weaponName]));
@@ -251,6 +266,7 @@ namespace FPSControl
 
         public override void DoUpdate()
         {
+            if (!FPSControlPlayerData.visible || FPSControlPlayerData.frozen) return;
             if (!_currentWeapon) return;
 
             _fireDown = FPSControlInput.IsFiring();

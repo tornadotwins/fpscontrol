@@ -33,6 +33,10 @@ import FPSControl;
 
         //visible
         if(FPSControlPlayerData.visible != visible) FPSControlPlayerData.visible = visible;
+
+        //gravity
+        FPSControlPlayerData.gravity = gravity;
+
     }
 
     function OnSpawn()
@@ -54,9 +58,6 @@ import FPSControl;
         //crouching
         FPSControlPlayerData.forceCrouching = forceCrouching;
 
-        //gravity
-        //FPSControlPlayerData.gravity = gravity;
-
         //health
         var healthData : DataController = FPSControlPlayerData.healthData; //gets the healthdata component
         healthData.autoHeal = autoHeal;
@@ -68,12 +69,8 @@ import FPSControl;
         //weapons
         var beretta : FPSControlRangedWeapon = FPSControlPlayerData.GetWeapon("Beretta") as FPSControlRangedWeapon; //gets the weapon named "Beretta"
         FPSControlPlayerData.EquipWeapon("Beretta"); //equips the weapon with the specified name
-        FPSControlPlayerData.EquipWeaponAt(0); //equips the first weapon in our array of available weapons.
+        FPSControlPlayerData.EquipWeaponAt(1); //equips the second weapon in our array of available weapons.
         FPSControlPlayerData.DeactivateCurrentWeapon();//deactivates the current weapon, will dispatch FPSControlPlayerEvents.OnWeaponDeactivate event
 
         FPSControlPlayerData.SetAmmo(beretta, 10, 5); //(energyweapon,.5F) overload for energy weapon
-
-
-
-
 	}

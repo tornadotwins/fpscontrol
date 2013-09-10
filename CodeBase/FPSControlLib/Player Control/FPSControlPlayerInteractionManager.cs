@@ -25,6 +25,8 @@ namespace FPSControl
 
         public override void DoUpdate()
         {
+            if (!FPSControlPlayerData.visible || FPSControlPlayerData.frozen) return;
+            
             Ray ray = new Ray(_transform.position, _transform.forward);
             //Debug.DrawRay(ray.origin, ray.direction * interactionMaxRange, Color.cyan);
             //Debug.Log("raycasting");
