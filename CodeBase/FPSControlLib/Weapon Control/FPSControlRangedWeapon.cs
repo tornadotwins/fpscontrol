@@ -51,14 +51,14 @@ namespace FPSControl
         float scopeSpeed { get { return Parent.Player.playerCamera.scopeSpeed;} }
 
         [HideInInspector]
-        int _currentClipContents = 0;
+        [SerializeField] int _currentClipContents = 0;
         [HideInInspector]
-        int _currentClips = 0;
+        [SerializeField] int _currentClips = 0;
         [HideInInspector]
-        int _currentAmmo = 0;
+        [SerializeField] int _currentAmmo = 0;
 
         [HideInInspector]
-        float _currentEnergy = 100F;
+        [SerializeField] float _currentEnergy = 100F;
         [HideInInspector]
         float _timeLastActive = -1F;
         [HideInInspector]
@@ -128,9 +128,24 @@ namespace FPSControl
 
         public override bool Reload()
         {
-            if (!canUse || rangeDefinition.reloadType == ReloadType.UnlimitedAmmo || rangeDefinition.reloadType == ReloadType.Recharge || (rangeDefinition.reloadType == ReloadType.Clips && _currentClipContents >= rangeDefinition.clipCapacity)) return false;
+            if (!canUse ||
+                rangeDefinition.reloadType == ReloadType.UnlimitedAmmo ||
+                rangeDefinition.reloadType == ReloadType.Recharge)
+            {
+                Debug.Log("Weapon type:" + rangeDefinition.reloadType + " is incompatible with reload function");
+                return false;
+            }
+            else if (rangeDefinition.reloadType == ReloadType.Clips && _currentClipContents >= rangeDefinition.clipCapacity)
+            {
+                Debug.Log("Trying to reload a full clip.");
+                return false;
+            }
 
-            if (_currentAmmo <= 0) return false;
+            if (_currentAmmo <= 0)
+            {
+                Debug.Log("Trying to reload a weapon with no ammo!");
+                return false;
+            }
 
             currentState = reloadState;
 

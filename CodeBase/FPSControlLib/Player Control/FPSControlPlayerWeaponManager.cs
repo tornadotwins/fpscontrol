@@ -68,7 +68,7 @@ namespace FPSControl
             _prevState = this.state;
         }
 
-        void Start()
+        void Awake()
         {
             _transform = transform;
             _parent = _transform.parent;
@@ -82,6 +82,7 @@ namespace FPSControl
                 if (weapon == null) continue;
                 weapon.transform.localPosition = weapon.definition.pivot;
                 weapon.transform.localRotation = Quaternion.Euler(weapon.definition.euler);
+                //Debug.Log("Adding " + weapon.definition.weaponName + " to the catalogue!");
                 _weaponsCatalogue.Add(weapon.definition.weaponName, weapon);
                 if (addWeaponsToInventory)
                 {
@@ -153,7 +154,11 @@ namespace FPSControl
         {
             get
             {
-                return _availableWeapons.Contains(_weaponsCatalogue[weaponName]) ? _weaponsCatalogue[weaponName] : null;
+                if (_weaponsCatalogue.ContainsKey(weaponName))
+                    return _weaponsCatalogue[weaponName];
+                else
+                    Debug.LogWarning("The weapon named \"" + weaponName + "\" could not be found!");
+                return null;
             }
         }
 
@@ -194,7 +199,7 @@ namespace FPSControl
         public void DeactivateCurrentWeapon()
         {
             FPSControlWeapon _weaponBeingDeactivated = _currentWeapon;
-            _currentWeapon.Deactivate
+            _currentWeapon.Deactivate 
             (
                 () => 
                 { 
@@ -204,7 +209,7 @@ namespace FPSControl
                     FPSControlPlayerEvents.DeactivateWeapon(_weaponBeingDeactivated); 
                 }
             );
-        }
+        } 
 
         public void ActivateWeapon(string weaponName)
         {
@@ -235,6 +240,7 @@ namespace FPSControl
                 _currentWeapon = _availableWeapons[index];
                 _currentWeapon.Activate(this);
                 crosshairAnimator.SetCrossHair(_currentWeapon.crosshair);
+                FPSControlPlayerEvents.ActivateWeapon(_currentWeapon);
             }
         }
 
@@ -244,6 +250,7 @@ namespace FPSControl
             _currentWeapon.Activate(this);
             crosshairAnimator.SetCrossHair(_currentWeapon.crosshair);
             _queuedWeapon = null;
+            FPSControlPlayerEvents.ActivateWeapon(_currentWeapon);
         }
 
         public void Initialize(FPSControlPlayerCamera playerCamera, FPSControlPlayerMovement playerMovement, FPSControlPlayer player)
@@ -305,7 +312,11 @@ namespace FPSControl
                 }
             }
 
-            if (FPSControlInput.IsReloading()) _currentWeapon.Reload();
+            if (FPSControlInput.IsReloading())
+            {
+                Debug.Log("Reload key!");
+                _currentWeapon.Reload();
+            }
             if (FPSControlInput.IsDefending()) _currentWeapon.Defend();
 
             if (FPSControlInput.IsTogglingWeapon()) CycleToNextWeapon(_availableWeapons.IndexOf(_currentWeapon));

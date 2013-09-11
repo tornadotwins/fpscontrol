@@ -44,7 +44,6 @@ public class PlayerDataExample : MonoBehaviour {
          * NOTE: This is simply an example of how to get/set player data, not a literal usage example.
          * 
          */
-
         //camera
         FPSControlPlayerData.cameraPitchConstraints = cameraPitchConstraints;
 
@@ -71,7 +70,7 @@ public class PlayerDataExample : MonoBehaviour {
         //FPSControlPlayerData.DeactivateCurrentWeapon();//deactivates the current weapon, will dispatch FPSControlPlayerEvents.OnWeaponDeactivate event
         
         FPSControlRangedWeapon beretta = (FPSControlRangedWeapon)FPSControlPlayerData.GetWeapon("Beretta"); //gets the weapon named "Beretta"
-        FPSControlPlayerData.SetAmmo(beretta, 10, 5); //(energyweapon,.5F) overload for energy weapon
+        if(beretta) FPSControlPlayerData.SetAmmo(beretta, 10, 5); //(energyweapon,.5F) overload for energy weapon
 	}
 
 }

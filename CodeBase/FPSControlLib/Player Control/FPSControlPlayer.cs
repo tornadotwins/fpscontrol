@@ -40,7 +40,7 @@ namespace FPSControl
         static Dictionary<Renderer, bool> _rendererStates = new Dictionary<Renderer, bool>();
         static KeyValuePair<IntelliCrosshair, bool> _wasCrosshairEnabled = new KeyValuePair<IntelliCrosshair, bool>(null, false);
 
-        static bool _visible = false;
+        static bool _visible = true;
         public static bool visible
         {
             get { return _visible; }
@@ -101,6 +101,12 @@ namespace FPSControl
 
         public static FPSControlWeapon GetWeapon(string weaponName) { return player.weaponManager[weaponName]; }
         public static FPSControlWeapon currentWeapon { get { return player.weaponManager.currentWeapon; } }
+        public static void Add(string weaponName, bool makeCurrent) 
+        { 
+            if (player.weaponManager.CanAddWeapon(weaponName)) player.weaponManager.Add(weaponName, makeCurrent); 
+            else Debug.LogWarning("Couldn't add weapon to inventory. It may already be there or the maximum has been reached."); 
+        }
+
         public static void EquipWeaponAt(int index) { player.weaponManager.ActivateWeaponAt(index); }
         public static void EquipWeapon(string weaponName) { player.weaponManager.ActivateWeapon(weaponName); }
 
