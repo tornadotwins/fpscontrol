@@ -216,13 +216,14 @@ namespace FPSControl
         public override void Fire()
         {
             //Debug.Log(canUse + ":" + firing + ":" + defending + ":" + reloading);
-            weaponPath.Fire();
+            
             if (canFire) //this is more like, can we actually pull the trigger?
             {                
                 currentState = fireState;
                 weaponAnimation.animationCompleteCallback = FireCompleted;
                 if (hasAmmo)
                 {
+                    weaponPath.Fire();
                     weaponAnimation.Fire(); //play our fire animation
                     
                     if (rangeDefinition.reloadType == ReloadType.Clips)
