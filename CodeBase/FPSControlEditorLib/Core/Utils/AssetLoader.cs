@@ -30,7 +30,7 @@ namespace FPSControlEditor.Utils
             UnityEngine.Object obj = AssetDatabase.LoadAssetAtPath(assetPath, typeof(T));
 
             #if DEBUG 
-            Debug.Log("Loading asset at: " + assetPath + ". asset: " + obj);
+            //Debug.Log("Loading asset at: " + assetPath + ". asset: " + obj);
             #endif
 
             return (T)obj;

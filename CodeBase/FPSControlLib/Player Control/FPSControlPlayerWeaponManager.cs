@@ -107,7 +107,7 @@ namespace FPSControl
         //Add a weapon to the list of available weapons
         public void Add(string weaponName, bool makeCurrent)
         {
-            Debug.Log(weaponName);
+            //Debug.Log(weaponName);
             if(_availableWeapons.Count == 4) return; //max capacity            
             FPSControlWeapon weapon = _weaponsCatalogue[weaponName];            
             _availableWeapons.Add(weapon);
@@ -314,7 +314,7 @@ namespace FPSControl
 
             if (FPSControlInput.IsReloading())
             {
-                Debug.Log("Reload key!");
+                //Debug.Log("Reload key!");
                 _currentWeapon.Reload();
             }
             if (FPSControlInput.IsDefending()) _currentWeapon.Defend();

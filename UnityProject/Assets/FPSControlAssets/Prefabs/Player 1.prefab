@@ -2788,7 +2788,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100070}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .0650224164, y: -.330265999, z: -.0519606397}
+  m_LocalPosition: {x: .0650224164, y: -.629999995, z: -.0519606397}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400012}
@@ -3549,7 +3549,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100196}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .0650224164, y: -.330265999, z: -.0519606397}
+  m_LocalPosition: {x: .0650224164, y: -.629999995, z: -.0519606397}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400216}
@@ -4420,7 +4420,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000e000000000000000, type: 0}
+  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -4766,6 +4766,8 @@ AudioSource:
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
   rolloffCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -4822,6 +4824,8 @@ AudioSource:
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
   rolloffCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -4994,6 +4998,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: -171798174, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   weaponKey1: 49
   weaponKey2: 50
   weaponKey3: 51
@@ -5001,7 +5006,7 @@ MonoBehaviour:
   weaponToggle: 113
   reloadKey: 114
   defendKey: 120
-  addWeaponsToInventory: 1
+  addWeaponsToInventory: 0
   weaponActors:
   - {fileID: 11400024}
   - {fileID: 11400022}
@@ -5018,6 +5023,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 603243038, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   definition:
     render: 1
     consistentRender: 0
@@ -5040,12 +5046,13 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 2141095057, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   equipSFX: {fileID: 8300000, guid: b91658268ac8846e699ef6a511802ebe, type: 3}
   fire1SFX: {fileID: 8300000, guid: d6d99694ac67f42838b406805c79fcde, type: 3}
   fire2SFX: {fileID: 8300000, guid: d6d99694ac67f42838b406805c79fcde, type: 3}
   fire3SFX: {fileID: 8300000, guid: d6d99694ac67f42838b406805c79fcde, type: 3}
   reloadSFX: {fileID: 8300000, guid: ba1eb2a332c71453eb5aab6cf8f0a76b, type: 3}
-  emptySFX: {fileID: 8300000, guid: b91658268ac8846e699ef6a511802ebe, type: 3}
+  emptySFX: {fileID: 8300000, guid: 43d3ba1a007014d6496bd0b859d02fcd, type: 3}
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5056,6 +5063,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 392185083, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   particles:
   - particleSystem: {fileID: 100256}
     isEnabled: 1
@@ -5084,6 +5092,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: -352054857, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   definition:
     patternType: 0
     blend: 0
@@ -5125,6 +5134,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 121224304, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   runKeyLeft: 304
   runKeyRight: 303
   crouchKeyLeft: 306
@@ -5147,6 +5157,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 1875604271, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   playerCamera: {fileID: 11400032}
   interactionManager: {fileID: 11400030}
   movementController: {fileID: 11400010}
@@ -5205,6 +5216,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 603243038, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   definition:
     render: 1
     consistentRender: 0
@@ -5227,6 +5239,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 2141095057, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   equipSFX: {fileID: 0}
   fire1SFX: {fileID: 0}
   fire2SFX: {fileID: 0}
@@ -5243,6 +5256,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 392185083, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   particles:
   - particleSystem: {fileID: 0}
     isEnabled: 0
@@ -5271,6 +5285,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: -352054857, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   definition:
     patternType: 0
     blend: 0
@@ -5304,6 +5319,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 1121929730, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   definition:
     weaponName: ArchThis
     pivot: {x: -.103846155, y: -1.29230857, z: -.138461471}
@@ -5355,6 +5371,10 @@ MonoBehaviour:
     _points:
     - location: 0
       value: 0
+  _currentClipContents: 0
+  _currentClips: 0
+  _currentAmmo: 0
+  _currentEnergy: 100
 --- !u!114 &11400024
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5365,11 +5385,12 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 1121929730, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   definition:
     weaponName: Beretta
-    pivot: {x: -.311538935, y: -1.23461819, z: .0230769552}
+    pivot: {x: -.311538935, y: -.923078954, z: .0230769552}
     euler: {x: -1.38461542, y: 4.15384626, z: -2.7692337}
-    scopePivot: {x: -.542307794, y: -1.15384531, z: -.565384686}
+    scopePivot: {x: -.55384624, y: -.842306495, z: -.565384686}
     scopeEuler: {x: 0, y: 9.69230843, z: 2.76922894}
     scopeFOV: 20
     maxDamagePerHit: 45.769249
@@ -5395,8 +5416,8 @@ MonoBehaviour:
     spread: 1.5
     twirlingSpeed: 5
     twirl: {x: 0, y: 0, z: 0}
-    reloadType: 0
-    clipCapacity: 8.69229603
+    reloadType: 1
+    clipCapacity: 12.346138
     maxClips: 3
     burstAmount: 1
     constantRegeneration: 1
@@ -5418,6 +5439,10 @@ MonoBehaviour:
       value: 1
     - location: .880952358
       value: .5
+  _currentClipContents: 0
+  _currentClips: 0
+  _currentAmmo: 0
+  _currentEnergy: 100
 --- !u!114 &11400026
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5428,6 +5453,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 1348884034, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   crosshair: {fileID: 0}
 --- !u!114 &11400028
 MonoBehaviour:
@@ -5439,6 +5465,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 1228999585, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   _camera: {fileID: 400294}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   enemyColor: {r: 1, g: 0, b: 0, a: 1}
@@ -5456,7 +5483,7 @@ MonoBehaviour:
   centerPoint: 1
   centerWidth: 2
   showCrosshair: 1
-  fadeOutOnScope: 1
+  fadeOutOnScope: 0
   globalRotation: 0
   alpha: 1
   doAnimate: 1
@@ -5480,6 +5507,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: -1677577522, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   interactionKey: 101
   allowInteracting: 1
   interactionMaxRange: 2
@@ -5493,6 +5521,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: -765792495, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   mouseSensitivity: {x: 3, y: 3}
   invertedY: 0
   pitchConstraints: {x: -65, y: 90}
@@ -5525,6 +5554,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: -1815056448, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   stepsPerSecondWalking: .5
   stepsPerSecondRunning: .25
   stepsPerSecondCrouching: .75
@@ -5539,6 +5569,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 1975918722, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   max: 100
   current: 100
   initial: 100
@@ -5556,6 +5587,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 594285081, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   healthData: {fileID: 11400036}
   loadLevel: 1
   takeCollideDamage: 1
@@ -5573,6 +5605,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 169768932, guid: d5b7e7bc48f50bc49b16520df5c134e0, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   rainVersionString: RAIN.Ontology.Decoration
   aspect:
     aspectName: meleetarget
@@ -5588,6 +5621,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 169768932, guid: d5b7e7bc48f50bc49b16520df5c134e0, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   rainVersionString: RAIN.Ontology.Decoration
   aspect:
     aspectName: player
@@ -5603,6 +5637,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 369423152, guid: d5b7e7bc48f50bc49b16520df5c134e0, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   rainVersionString: RAIN.Ontology.Entity
 --- !u!120 &12000000
 LineRenderer:
@@ -6855,6 +6890,7 @@ ParticleSystem:
       m_Bits: 4294967295
     quality: 0
     voxelSize: .5
+    collisionMessages: 0
   SubModule:
     enabled: 0
     subEmitterBirth: {fileID: 0}

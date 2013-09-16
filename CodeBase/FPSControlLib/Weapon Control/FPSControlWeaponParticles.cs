@@ -124,23 +124,23 @@ namespace FPSControl
             _shuriken = _particleSystem.GetComponent<ParticleSystem>();
             if(_shuriken)
             {
-                Debug.Log("Shuriken Emmiters");
-                if(FPSControlWeaponParticles.enableWarnings) Debug.LogWarning("Note: Shuriken particles must be set to use Local/Global Space in the asset.");
+                //Debug.Log("Shuriken Emmiters");
+                if (FPSControlWeaponParticles.enableWarnings) Debug.LogWarning("Courtesy Note: Shuriken particles must be set to use Local/Global Space in the asset instead of in WeaponControl.");
             }
             else
             {
-                Debug.Log("Legacy Emmiters");
+                //Debug.Log("Legacy Emmiters");
                 _legacyEmitter = _particleSystem.GetComponent<ParticleEmitter>();
                 _legacyRenderer = _particleSystem.GetComponent<ParticleRenderer>();
                 _legacyAnimator = _particleSystem.GetComponent<ParticleAnimator>();
                 if (_legacyEmitter == null || _legacyRenderer == null || _legacyAnimator == null)
                 {
-                    Debug.Log("False");
+                    //Debug.Log("False");
                     _enabled = false;
                 }
                 else
                 {
-                    Debug.Log("True");
+                    //Debug.Log("True");
                     _legacyEmitter.useWorldSpace = global;
                 }
             }

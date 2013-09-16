@@ -122,7 +122,7 @@ namespace FPSControl
 
         public void Activate()
         {
-            Debug.Log(_animation);
+            //Debug.Log(_animation);
             if (_animation[definition.ACTIVATE] == null)
             {
                 AnimationEvent_ActivateComplete();
@@ -334,7 +334,7 @@ namespace FPSControl
 
         public void AnimationEvent_EmptyComplete()
         {
-            Debug.Log("empty complete");
+            //Debug.Log("empty complete");
             DoCallBack();
         }
 

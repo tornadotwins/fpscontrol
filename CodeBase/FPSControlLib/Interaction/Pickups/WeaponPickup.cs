@@ -9,17 +9,32 @@ namespace FPSControl
         public FPSControlPlayerWeaponManager weaponManager;
         public string weaponName;
         public bool equip = true;
+        public bool ThisIsAWeapon = true;
+        public bool ThisIsAClip = false;
+        public int clips = 1;
+        //public FPSControlRangedWeaponType weaponType;
 
         public override void Interact()
         {
-            if (weaponManager.CanAddWeapon(weaponName))
+            if (ThisIsAWeapon)
             {
-                weaponManager.Add(weaponName, equip);
-                Destroy(transform.parent.gameObject);
+                if (weaponManager.CanAddWeapon(weaponName))
+                {   
+                    weaponManager.Add(weaponName, equip);
+                    Destroy(transform.parent.gameObject);
+                }
+                else
+                {
+                    Debug.LogWarning("Weapon \"" + weaponName + "\" could not be added.");
+                }
             }
-            else
+
+            if (ThisIsAClip)
             {
-                Debug.LogWarning("Weapon \"" + weaponName + "\" could not be added.");
+                FPSControlRangedWeapon weapon = (FPSControlRangedWeapon)FPSControlPlayerData.GetWeapon(weaponName);
+                weapon.AddAmmo(clips);
+                //Debug.Log("------- Destroying " + transform.parent.gameObject.name);
+                Destroy(transform.parent.gameObject);
             }
         } 
     }

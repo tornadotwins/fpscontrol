@@ -100,6 +100,13 @@ namespace FPSControl
             return remainder;
         }
 
+        //Added by Efraim
+        public int[] GetAmmo()
+        {
+            var ammo = new int[] { _currentClipContents, _currentClips, _currentAmmo };
+            return ammo;
+        }
+
         public void SetAmmo(int ammo, int clips)
         {
             _currentClipContents = Mathf.Min(ammo, (int)rangeDefinition.clipCapacity);
@@ -290,7 +297,7 @@ namespace FPSControl
                                 }
                                 else
                                 {
-                                    Debug.Log(hit.collider.gameObject.name+": No Damageable found. Reverting to SendMessage.");
+                                    //Debug.Log(hit.collider.gameObject.name+": No Damageable found. Reverting to SendMessage.");
                                     hit.collider.SendMessage("ApplyDamage", damageSource, SendMessageOptions.DontRequireReceiver);
                                 }
                             }
@@ -318,7 +325,7 @@ namespace FPSControl
                 }
                 else //we are empty, play the empty animation
                 {
-                    Debug.Log("empty!");
+                    //Debug.Log("empty!");
                     weaponAnimation.Empty();
                 }
             }
