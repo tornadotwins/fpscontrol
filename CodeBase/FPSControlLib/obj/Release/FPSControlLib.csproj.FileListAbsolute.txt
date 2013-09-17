@@ -56,3 +56,9 @@ C:\Users\TornadoTwins\Documents\GitHub\fpscontrol\UnityProject\Assets\FPSControl
 C:\Users\TornadoTwins\Documents\GitHub\fpscontrol\CodeBase\FPSControlLib\obj\Release\FPSControlLib.csprojResolveAssemblyReference.cache
 C:\Users\TornadoTwins\Documents\GitHub\fpscontrol\CodeBase\FPSControlLib\obj\Release\FPSControlLib.dll
 C:\Users\TornadoTwins\Documents\GitHub\fpscontrol\CodeBase\FPSControlLib\obj\Release\FPSControlLib.pdb
+C:\Users\TornadoTwins\Desktop\Latest From S3\Temp OutputPath\FPSControlLib.dll
+C:\Users\TornadoTwins\Desktop\Latest From S3\Temp OutputPath\FPSControlLib.pdb
+C:\Users\TornadoTwins\Desktop\Latest From S3\New RAIN\Assets\FPSControlCore\Plugins\FPSControlLib.dll
+C:\Users\TornadoTwins\Desktop\Latest From S3\New RAIN\Assets\FPSControlCore\Plugins\FPSControlLib.pdb
+C:\Users\TornadoTwins\Desktop\Latest From S3\RedHawk\Assets\FPSControlCore\Plugins\FPSControlLib.dll
+C:\Users\TornadoTwins\Desktop\Latest From S3\RedHawk\Assets\FPSControlCore\Plugins\FPSControlLib.pdb

@@ -43,7 +43,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\UnityProject\Assets\FPSControlCore\Editor\FPSControl\</OutputPath>
+    <OutputPath>..\..\..\..\..\Desktop\Latest From S3\Temp OutputPath\FPSControlLib\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>

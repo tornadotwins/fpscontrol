@@ -43,5 +43,9 @@ import FPSControl;
 				b.AddAmmo(1);
 			}
 		}
+		else
+		{
+			guiText.text = "";
+		}
 	}
 	

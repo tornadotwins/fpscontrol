@@ -44,7 +44,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\UnityProject\Assets\FPSControlCore\Plugins\</OutputPath>
+    <OutputPath>..\..\..\..\..\Desktop\Latest From S3\RedHawk\Assets\FPSControlCore\Plugins\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>

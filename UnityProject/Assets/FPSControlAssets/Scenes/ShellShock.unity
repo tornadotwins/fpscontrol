@@ -23901,6 +23901,8 @@ GameObject:
   - 33: {fileID: 430718203}
   - 23: {fileID: 430718202}
   - 111: {fileID: 430718204}
+  - 64: {fileID: 430718205}
+  - 54: {fileID: 430718206}
   m_Layer: 0
   m_Name: computer_tower_right
   m_TagString: Environment
@@ -23964,6 +23966,34 @@ Animation:
   m_UserAABB:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
+--- !u!64 &430718205
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 430718200}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 4300000, guid: 7cca891b208bc45b1b7726e7bf18c2bd, type: 3}
+--- !u!54 &430718206
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 430718200}
+  serializedVersion: 2
+  m_Mass: .5
+  m_Drag: 0
+  m_AngularDrag: .0500000007
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &430850942
 Prefab:
   m_ObjectHideFlags: 0
@@ -31591,6 +31621,8 @@ GameObject:
   - 33: {fileID: 604060236}
   - 23: {fileID: 604060235}
   - 111: {fileID: 604060237}
+  - 64: {fileID: 604060238}
+  - 54: {fileID: 604060239}
   m_Layer: 0
   m_Name: computer_tower_under
   m_TagString: Environment
@@ -31654,6 +31686,34 @@ Animation:
   m_UserAABB:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
+--- !u!64 &604060238
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 604060233}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 4300000, guid: 7f47e0f88200447df8011e3e201fd387, type: 3}
+--- !u!54 &604060239
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 604060233}
+  serializedVersion: 2
+  m_Mass: .600000024
+  m_Drag: 0
+  m_AngularDrag: .0500000007
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &604152327
 Prefab:
   m_ObjectHideFlags: 0
@@ -38623,7 +38683,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enterMusicName: Tension
-  _exitMusicName: 
+  _exitMusicName: Ambient
 --- !u!1 &760006434
 GameObject:
   m_ObjectHideFlags: 0
@@ -57291,6 +57351,8 @@ GameObject:
   - 33: {fileID: 1181896269}
   - 23: {fileID: 1181896268}
   - 111: {fileID: 1181896270}
+  - 65: {fileID: 1181896271}
+  - 54: {fileID: 1181896272}
   m_Layer: 0
   m_Name: document_holder_3
   m_TagString: Environment
@@ -57354,6 +57416,33 @@ Animation:
   m_UserAABB:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
+--- !u!65 &1181896271
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1181896266}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .308127165, y: .220072851, z: .465667546}
+  m_Center: {x: -.00013565275, y: .110036425, z: .0852522552}
+--- !u!54 &1181896272
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1181896266}
+  serializedVersion: 2
+  m_Mass: .200000003
+  m_Drag: 0
+  m_AngularDrag: .0500000007
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1186068868
 GameObject:
   m_ObjectHideFlags: 0
@@ -100103,6 +100192,74 @@ Transform:
   m_Children:
   - {fileID: 912972115}
   m_Father: {fileID: 1830904823}
+--- !u!1 &2037401838
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2037401840}
+  - 114: {fileID: 2037401839}
+  m_Layer: 0
+  m_Name: Music Control
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2037401839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2037401838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1076972552, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeSpeed: 1
+  audioTracks:
+  - track: {fileID: 8300000, guid: c94242ee9d2dc4621883b3b6501d00fe, type: 3}
+    name: Tension
+    volume: .890999973
+    backgroundMusic: 1
+    loop: 1
+    time: 0
+  - track: {fileID: 8300000, guid: bbed32fad1bfd4c11a5ac3b62726f6c3, type: 3}
+    name: Ambient
+    volume: .907000005
+    backgroundMusic: 1
+    loop: 1
+    time: 0
+  currentSource: {fileID: 0}
+  selectedTrack:
+    track: {fileID: 0}
+    name: 
+    volume: 1
+    backgroundMusic: 0
+    loop: 0
+    time: 0
+  previousTrack:
+    track: {fileID: 0}
+    name: 
+    volume: 1
+    backgroundMusic: 0
+    loop: 0
+    time: 0
+  currentVolume: 0
+--- !u!4 &2037401840
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2037401838}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
 --- !u!1001 &2037409783
 Prefab:
   m_ObjectHideFlags: 0

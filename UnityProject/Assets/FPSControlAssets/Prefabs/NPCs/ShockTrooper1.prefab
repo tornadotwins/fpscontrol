@@ -3641,6 +3641,7 @@ MonoBehaviour:
   waypointCollection: {fileID: 0}
   allow3DMovement: 0
   allow3DLook: 0
+  drawPaths: 0
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3659,6 +3660,9 @@ MonoBehaviour:
   - sensationName: touch
   useRaycastTest: 0
   raycastLocation: {fileID: 0}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
   visualize: 0
 --- !u!114 &11400006
 MonoBehaviour:
@@ -3678,6 +3682,9 @@ MonoBehaviour:
   - sensationName: sight
   useRaycastTest: 1
   raycastLocation: {fileID: 400000}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
   visualize: 0
 --- !u!114 &11400008
 MonoBehaviour:

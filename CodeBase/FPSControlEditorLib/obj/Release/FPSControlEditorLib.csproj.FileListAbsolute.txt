@@ -41,3 +41,4 @@ C:\Users\Glitchy\Documents\fpscontrol\CodeBase\FPSControlEditorLib\obj\Release\F
 C:\Users\TornadoTwins\Documents\GitHub\fpscontrol\UnityProject\Assets\FPSControlCore\Editor\FPSControl\FPSControlEditorLib.dll
 C:\Users\TornadoTwins\Documents\GitHub\fpscontrol\CodeBase\FPSControlEditorLib\obj\Release\FPSControlEditorLib.csprojResolveAssemblyReference.cache
 C:\Users\TornadoTwins\Documents\GitHub\fpscontrol\CodeBase\FPSControlEditorLib\obj\Release\FPSControlEditorLib.dll
+C:\Users\TornadoTwins\Desktop\Latest From S3\Temp OutputPath\FPSControlLib\FPSControlEditorLib.dll

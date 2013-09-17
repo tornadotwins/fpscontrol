@@ -62,6 +62,11 @@ namespace FPSControl
                 }
                 else if (currentState == Weapon.fireState)
                 {
+                    //Efraim Hack
+                    //Resetting the velocity during the fire state keeps the weapon from staying focused on
+                    //one point while the mouse is being pressed down continually
+                    _startingVelocity = (origin.forward * (definition.leavingForce));
+                    
                     if (lastState == Weapon.idleState)
                     {
                        //StartCoroutine(FadeLine(null, false));
