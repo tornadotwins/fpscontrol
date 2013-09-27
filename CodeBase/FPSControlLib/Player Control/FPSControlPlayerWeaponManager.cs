@@ -223,7 +223,7 @@ namespace FPSControl
 
             if (_currentWeapon && _currentWeapon == _availableWeapons[index])
             {
-                //Debug.Log("Already there");
+                Debug.LogWarning("Attempting to activate the current weapon, but it is already activated!");
                 return; //already there
             }
             else if (_currentWeapon)
