@@ -12,7 +12,11 @@ namespace FPSControl
 {
     [Serializable]
     public class FootstepControlDefinitions : ScriptableObject
-    {        
+    {
+        [SerializeField]
+        public bool terrainCheck;
+        /*!
+        */
         [SerializeField]
         public List<FootstepControlDefinition> footsteps = new List<FootstepControlDefinition> ();
     }

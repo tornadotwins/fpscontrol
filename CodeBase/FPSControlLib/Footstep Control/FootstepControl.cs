@@ -20,13 +20,15 @@ namespace FPSControl
 		[SerializeField] private float stepsPerSecondWalking		= 1.0f;
 		[SerializeField] private float stepsPerSecondRunning		= 0.5f;
 		[SerializeField] private float stepsPerSecondCrouching	= 1.5f;		
-		[SerializeField] private float stepsPerSecondBackwards	= 1.0f;	
+		[SerializeField] private float stepsPerSecondBackwards	= 1.0f;
+        [SerializeField] private float updateSurfaceTimer = 0.5f;	
 		
 		private FPSControlPlayer				player;	
 		private FootstepControlDefinitions		def;
 		private List<System.Object>				soundLib;
 		private FootstepControlDefinition		currentClip			= null;
 		private float							currentTime			= 0f;
+        private float                           surfaceTime         = 0f;
 		private PlayerState						currentState		= null;
 		private bool							isStandingStill	= true;
 		private float							clipLength			= 1F;
@@ -94,6 +96,9 @@ namespace FPSControl
 				}
 				
 				currentTime -= Time.deltaTime;
+
+                if (surfaceTime > 0)
+                    surfaceTime -= Time.deltaTime;
 				
 				CheckTimeToNewSound();
 			}
@@ -104,7 +109,7 @@ namespace FPSControl
 		// Only check on new collision if we need to play a new sound
 		//---
 		public void OnCollisionEnter( Collision collision )
-		{
+        {
 			CheckStandingSurface();
 		}
 		
@@ -116,6 +121,8 @@ namespace FPSControl
 		{
 			RaycastHit hit;
             bool found = false;
+
+            surfaceTime = updateSurfaceTimer;
 			
 			if (Physics.Raycast (transform.position, -transform.up, out hit)) 
 			{
@@ -143,53 +150,47 @@ namespace FPSControl
 					}
 				}
 
-                //If nothing was found check to see if we're on a terrain, this is more expensive
-                if (!found)
+                //If nothing was found check to see if we're on a terrain
+                // this is more expensive, so only check if the flag for it is set
+                if (!found && def.terrainCheck)
                 {
                     Terrain terrain = hit.collider.gameObject.GetComponent<Terrain>();
                     if (terrain != null)
                     {
-                        Texture terrainTex = null;
+                        // try to determine best texture at this point
+                        Vector3 pos = terrain.transform.InverseTransformPoint(hit.point);
+
+                        // calculate which splat map cell the worldPos falls within (ignoring y)
+                        int mapX = (int)(((pos.x) / terrain.terrainData.size.x) * terrain.terrainData.alphamapWidth);
+                        int mapZ = (int)(((pos.z) / terrain.terrainData.size.z) * terrain.terrainData.alphamapHeight);
+
+                        float[, ,] splatmapData = terrain.terrainData.GetAlphamaps(mapX, mapZ, 1, 1);
+
+                        float maxMix = 0;
+                        int maxIndex = 0;
+
+                        int numTex = terrain.terrainData.splatPrototypes.Length;
+
+                        // loop through each mix value and find the maximum
+                        for (int i = 0; i < numTex; ++i)
+                        {
+                            if (splatmapData[0, 0, i] > maxMix)
+                            {
+                                maxIndex = i;
+                                maxMix = splatmapData[0, 0, i];
+                            }
+                        }
+
+                        Texture terrainTex = terrain.terrainData.splatPrototypes[maxIndex].texture;
 
                         foreach (FootstepControlDefinition obj in soundLib)
                         {
-                            // we're on a terrain, only check if the flag is set for it
-                            if (obj.terrainCheck)
+                            foreach (Texture texture in obj.textures)
                             {
-                                // we only want to look for the texture once
-                                if (terrainTex == null)
+                                if (terrainTex == texture)
                                 {
-                                    // try to determine best texture at this point
-                                    Vector3 pos = terrain.transform.InverseTransformPoint(hit.point);
-
-                                    float[, ,] splatmapData = terrain.terrainData.GetAlphamaps((int)pos.x, (int)pos.z, 1, 1);
-
-                                    float maxMix = 0;
-                                    int maxIndex = 0;
-
-                                    int numTex = terrain.terrainData.splatPrototypes.Length;
-
-                                    // loop through each mix value and find the maximum
-                                    for (int i = 0; i < numTex; ++i)
-                                    {
-                                        if (splatmapData[0, 0, i] > maxMix)
-                                        {
-                                            maxIndex = i;
-                                            maxMix = splatmapData[0, 0, i];
-                                        }
-                                    }
-
-                                    terrainTex = terrain.terrainData.splatPrototypes[maxIndex].texture;
-                                    print(terrainTex);
-                                }
-
-                                foreach (Texture texture in obj.textures)
-                                {
-                                    if (terrainTex == texture)
-                                    {
-                                        currentClip = obj;
-                                        break;
-                                    }
+                                    currentClip = obj;
+                                    break;
                                 }
                             }
                         }
@@ -203,7 +204,17 @@ namespace FPSControl
 		//---
 		private void CheckTimeToNewSound()
 		{
-			if( currentTime <= 0 && !isStandingStill && currentClip != null ) // && (currentState != MoveState.None) )
+            if (isStandingStill || currentClip == null)
+            {
+                return;
+            }
+
+            if (surfaceTime <= 0 && updateSurfaceTimer > 0)
+            {
+                CheckStandingSurface();
+            }
+
+			if( currentTime <= 0 ) // && (currentState != MoveState.None) )
 			{
 				//Play the sound once
 				int which = UnityEngine.Random.Range(0, currentClip.sounds.Count-1);

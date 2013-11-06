@@ -430,12 +430,6 @@ namespace FPSControlEditor
             //}
             GUI.enabled = true;				 
 			footDef.tag = EditorGUI.TagField( new Rect(550,210, 70, 15), footDef.tag);
-
-            // check terrain flag TODO: this can look better
-            Color prevColor = GUI.color;
-            GUI.color = Color.grey;
-            footDef.terrainCheck = GUI.Toggle(new Rect(500, 300, 105, 35), footDef.terrainCheck, "Check Terrain");
-            GUI.color = prevColor;
             
             AudioClip[] clips;
             if (Drag.DragArea<AudioClip>(audioAreaRect, out clips, Drag.Styles.Hidden) == DragResultState.Drag)
@@ -535,6 +529,11 @@ namespace FPSControlEditor
 				
 				this.Repaint();
 			}
+
+            //--- Terrain Check Button
+            // TODO: this can look better
+            GUIContent terrainGC = new GUIContent("Check Terrain", "Enable checking footsteps against terrain");
+            footstepDef.terrainCheck = GUI.Toggle(new Rect(300, 10, 105, 35), footstepDef.terrainCheck, terrainGC);
 
             GUIContent toolGC = new GUIContent("Reload", "Reverts all changes to the last save.");
 
