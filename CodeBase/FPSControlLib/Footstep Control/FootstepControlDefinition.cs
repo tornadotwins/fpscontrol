@@ -37,6 +37,10 @@ namespace FPSControl
         [SerializeField]
         /*!
         */
+        public bool terrainCheck;
+        [SerializeField]
+        /*!
+        */
         public List<AudioClip> sounds = new List<AudioClip> ();
         [SerializeField]
         /*!

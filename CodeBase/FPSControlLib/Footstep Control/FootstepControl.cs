@@ -115,6 +115,7 @@ namespace FPSControl
 		private void CheckStandingSurface()
 		{
 			RaycastHit hit;
+            bool found = false;
 			
 			if (Physics.Raycast (transform.position, -transform.up, out hit)) 
 			{
@@ -124,6 +125,7 @@ namespace FPSControl
 					if( hit.collider.tag.ToString().Equals(obj.tag.ToString()) )
 					{
 						currentClip = obj;
+                        found = true;
 		        		break;
 					}
 					//Otherwise check on material. This check is a little expensive, please use tags.
@@ -134,14 +136,67 @@ namespace FPSControl
 							if( hit.collider.gameObject.renderer.material.mainTexture == texture )
 							{
 								currentClip = obj;
+                                found = true;
 								break;
 							}
 						}
 					}
 				}
+
+                //If nothing was found check to see if we're on a terrain, this is more expensive
+                if (!found)
+                {
+                    Terrain terrain = hit.collider.gameObject.GetComponent<Terrain>();
+                    if (terrain != null)
+                    {
+                        Texture terrainTex = null;
+
+                        foreach (FootstepControlDefinition obj in soundLib)
+                        {
+                            // we're on a terrain, only check if the flag is set for it
+                            if (obj.terrainCheck)
+                            {
+                                // we only want to look for the texture once
+                                if (terrainTex == null)
+                                {
+                                    // try to determine best texture at this point
+                                    Vector3 pos = terrain.transform.InverseTransformPoint(hit.point);
+
+                                    float[, ,] splatmapData = terrain.terrainData.GetAlphamaps((int)pos.x, (int)pos.z, 1, 1);
+
+                                    float maxMix = 0;
+                                    int maxIndex = 0;
+
+                                    int numTex = terrain.terrainData.splatPrototypes.Length;
+
+                                    // loop through each mix value and find the maximum
+                                    for (int i = 0; i < numTex; ++i)
+                                    {
+                                        if (splatmapData[0, 0, i] > maxMix)
+                                        {
+                                            maxIndex = i;
+                                            maxMix = splatmapData[0, 0, i];
+                                        }
+                                    }
+
+                                    terrainTex = terrain.terrainData.splatPrototypes[maxIndex].texture;
+                                    print(terrainTex);
+                                }
+
+                                foreach (Texture texture in obj.textures)
+                                {
+                                    if (terrainTex == texture)
+                                    {
+                                        currentClip = obj;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
 			}
 		}
-		
 		
 		//---
 		//
