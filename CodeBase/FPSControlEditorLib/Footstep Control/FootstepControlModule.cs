@@ -533,7 +533,10 @@ namespace FPSControlEditor
             //--- Terrain Check Button
             // TODO: this can look better
             GUIContent terrainGC = new GUIContent("Check Terrain", "Enable checking footsteps against terrain");
-            footstepDef.terrainCheck = GUI.Toggle(new Rect(300, 10, 105, 35), footstepDef.terrainCheck, terrainGC);
+            GUIStyle tgs = new GUIStyle();
+            tgs.normal.textColor = Color.white;
+            footstepDef.terrainCheck = GUI.Toggle(new Rect(300, 10, 35, 35), footstepDef.terrainCheck, "");
+            GUI.Label(new Rect(320, 10, 75, 35), terrainGC, tgs);
 
             GUIContent toolGC = new GUIContent("Reload", "Reverts all changes to the last save.");
 

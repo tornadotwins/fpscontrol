@@ -30,7 +30,8 @@ namespace FPSControl
 		private float							currentTime			= 0f;
         private float                           surfaceTime         = 0f;
 		private PlayerState						currentState		= null;
-		private bool							isStandingStill	= true;
+		private bool							isStandingStill	    = true;
+        private bool                            didJumpCheck        = false;
 		private float							clipLength			= 1F;
 		private AudioSource						_audio;
 		
@@ -71,8 +72,16 @@ namespace FPSControl
                 //Walking, Running, Backwards, Crouching, Jumped, None
 				//TODO Add jump logic
 				//if( player.state != MoveState.None ) Debug.Log( "FS state: " + player.state );
-				
-				if( player.currentState != currentState )
+
+                bool reset = false; // for any checks that require updating the current state
+
+                // double checking the jump state
+                if (didJumpCheck && currentState != player["Jump"] && !player.jumping)
+                {
+                    reset = true;
+                }
+
+                if (player.currentState != currentState || reset)
 				{
 					//Debug.Log( "FS switch state " + player.state + " -- " + currentState );
 					currentState = player.currentState;
@@ -247,6 +256,7 @@ namespace FPSControl
             }
             else if (currentState == player["Jump"] || player.jumping)
             {
+                didJumpCheck = true; // we need to double check the jump state later on
                 isStandingStill = true;
             }
             else if (currentState == player["Run"])
