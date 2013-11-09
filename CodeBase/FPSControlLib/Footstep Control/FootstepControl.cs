@@ -78,6 +78,7 @@ namespace FPSControl
                 // double checking the jump state
                 if (didJumpCheck && currentState != player["Jump"] && !player.jumping)
                 {
+                    didJumpCheck = false;
                     reset = true;
                 }
 
@@ -256,6 +257,11 @@ namespace FPSControl
             }
             else if (currentState == player["Jump"] || player.jumping)
             {
+                if (!didJumpCheck && _audio.isPlaying)
+                {
+                    _audio.Stop();
+                }
+                currentTime = stepsPerSecondWalking; // try to make sure it doesn't try to play extra
                 didJumpCheck = true; // we need to double check the jump state later on
                 isStandingStill = true;
             }

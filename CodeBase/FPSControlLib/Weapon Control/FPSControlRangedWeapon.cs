@@ -274,12 +274,17 @@ namespace FPSControl
                                 
                                 if ((hit.transform.tag != "NoBulletHoles") && (hit.transform.tag != "Untagged") && (hit.transform.tag != "Enemy"))
                                 {
-                                    if (bulletHole)
+                                    ImpactControl impact = Parent.Player.GetComponent<ImpactControl>();
+                                    if (impact != null)
                                     {
-                                        GameObject tr = (GameObject)Instantiate(bulletHole, contact, rot);
-                                        tr.SendMessage("SurfaceType", hit);
-                                        tr.transform.parent = hit.transform; // parent to hit object so the bullet holes move with object
+                                        impact.OnImpact(hit);
                                     }
+                                //    if (bulletHole)
+                                //    {
+                                //        GameObject tr = (GameObject)Instantiate(bulletHole, contact, rot);
+                                //        tr.SendMessage("SurfaceType", hit);
+                                //        tr.transform.parent = hit.transform; // parent to hit object so the bullet holes move with object
+                                //   }
                                 }
 
                                 DamageSource damageSource = new DamageSource();

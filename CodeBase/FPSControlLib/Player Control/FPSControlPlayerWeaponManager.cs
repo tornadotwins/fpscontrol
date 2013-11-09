@@ -221,6 +221,8 @@ namespace FPSControl
             //Debug.Log(index + ":" + _availableWeapons.Count);
             if (index >= _availableWeapons.Count || index >= 4) return;
 
+            string wpnName;
+
             if (_currentWeapon && _currentWeapon == _availableWeapons[index])
             {
                 Debug.LogWarning("Attempting to activate the current weapon, but it is already activated!");
@@ -233,6 +235,8 @@ namespace FPSControl
                 FPSControlWeapon _weaponBeingDeactivated = _currentWeapon;
                 _currentWeapon.Deactivate(() => { _ActivateQueuedWeapon(); FPSControlPlayerEvents.DeactivateWeapon(_weaponBeingDeactivated); });
                 crosshairAnimator.SetCrossHair(null);
+
+                wpnName = _queuedWeapon.name;
             }
             else
             {
@@ -241,6 +245,14 @@ namespace FPSControl
                 _currentWeapon.Activate(this);
                 crosshairAnimator.SetCrossHair(_currentWeapon.crosshair);
                 FPSControlPlayerEvents.ActivateWeapon(_currentWeapon);
+
+                wpnName = _currentWeapon.name;
+            }
+
+            ImpactControl impact = Player.GetComponent<ImpactControl>();
+            if (impact != null)
+            {
+                impact.ActivateImpactEffect(wpnName);
             }
         }
 

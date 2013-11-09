@@ -460,7 +460,7 @@ namespace FPSControlEditor
                     break;
 
                 case FPSControlModuleType.ImpactControl:
-                    if (!modules.ContainsKey(module)) modules.Add(module, new ImpactControl(this));
+                    if (!modules.ContainsKey(module)) modules.Add(module, new ImpactControlModule(this));
                     break;
 
                 default:
