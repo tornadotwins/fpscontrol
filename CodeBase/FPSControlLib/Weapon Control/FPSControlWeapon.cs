@@ -34,6 +34,8 @@ namespace FPSControl
         public FPSControlWeaponParticles weaponParticles;
         [HideInInspector]
         public FPSControlWeaponSound weaponSound;
+        [HideInInspector]
+        public string impactName;
 
         //States
         [HideInInspector]

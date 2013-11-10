@@ -570,6 +570,8 @@ namespace FPSControlEditor
             CheckDragAreaForComponent<Transform>(new Rect(76, 79, 200, 18), ref ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.origin);
             GUI.enabled = true;
             ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.definition.consistentRender = GUI.Toggle(new Rect(15, 100, 15, 15), ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath.definition.consistentRender, "");
+            impactIndex = EditorGUI.Popup(new Rect(125, 143, 150, 15), impactIndex, impactNames.ToArray());
+            currentWeapon.weapon.impactName = impactNames[impactIndex];
             GUI.EndGroup();
         }
 
@@ -657,7 +659,10 @@ namespace FPSControlEditor
         private FPSControlWeapon[] weapons;
         private WeaponData currentWeapon;
         private bool weaponsAvailable;
+        private List<string> impactNames = new List<string>();
+        private int impactIndex = 0;
         private static string lastWeaponName;
+
 
         private const string PREF_SAVED_PREFIX = "FPSCONTROL_WEAPON_SAVED_";
 
@@ -727,9 +732,10 @@ namespace FPSControlEditor
         }
 
         public override void Init()
-        {            
+        {
             LoadAssets();
             LocateWeapons();
+            LoadImpactNames();
             base.Init();
         }
 
@@ -875,6 +881,26 @@ namespace FPSControlEditor
             if (currentWeapon.weapon.weaponSound == null) currentWeapon.weapon.weaponSound = GetOrCreateComponent<FPSControlWeaponSound>(currentWeapon.modelControler);
             if (currentWeapon.isRanged && ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath == null) ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath = GetOrCreateComponent<FPSControlWeaponPath>(currentWeapon.modelControler);
             if (currentWeapon.isRanged) ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath = ((FPSControlRangedWeapon)currentWeapon.weapon).weaponPath;
+        }
+
+        private void LoadImpactNames()
+        {
+            impactNames.Clear();
+            impactIndex = 0;
+
+            string assetPath = FPSControlMainEditor.RESOURCE_FOLDER + "ImpactControlDefinitions.asset";
+            AssetDatabase.ImportAsset(assetPath);
+
+            ImpactControlDefinitions loadedDef = (ImpactControlDefinitions)AssetDatabase.LoadAssetAtPath(assetPath, typeof(ImpactControlDefinitions));
+
+            impactNames.Add("None");
+            foreach(ImpactControlDefinition impact in loadedDef.impacts)
+            {
+                if (!impactNames.Contains(impact.name))
+                {
+                    impactNames.Add(impact.name);
+                }
+            }
         }
 
         private Transform GetOrCreateChild(Transform parent, string name)

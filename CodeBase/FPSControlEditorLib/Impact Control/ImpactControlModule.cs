@@ -21,11 +21,11 @@ namespace FPSControlEditor
         //Sstatic Rect windowSize;
 	
 		//Rect audioViewRect = new Rect(0, 0, 180, 1);
-		Rect audioAreaRect = new Rect(240, 160, 210, 100);
-        Rect particleAreaRect = new Rect(25, 160, 210, 100);
-        Rect decalAreaRect = new Rect(455, 160, 210, 100);
+		Rect audioAreaRect = new Rect(225, 155, 210, 75);
+        Rect particleAreaRect = new Rect(15, 155, 210, 75);
+        Rect decalAreaRect = new Rect(430, 155, 210, 75);
 		Rect textureViewRect = new Rect(0, 0, 1, 130);
-		Rect textureAreaRect = new Rect(25, 330, 620, 135);
+		Rect textureAreaRect = new Rect(30, 380, 620, 135);
 		int defIndex = 0;
 		int currDefIndex = -1;
         int groupIndex = 0;
@@ -36,6 +36,7 @@ namespace FPSControlEditor
 			
 		//GFX
 		Texture background;
+        Texture itemBG;
 		//Texture closeButton;
 		GUIStyle TextStyle = new GUIStyle();
 		//GUIStyle PopupStyle = new GUIStyle();
@@ -167,9 +168,9 @@ namespace FPSControlEditor
         {
             TextStyle.normal.textColor = Color.white;
             ButtonStyle = EditorStyles.miniButton;
-            background = Load<Texture>(FPSControlMainEditor.ASSET_PATH + FPSControlMainEditor.GRAPHICS + PATH + "im_bg.png");
+            background = Load<Texture>(FPSControlMainEditor.ASSET_PATH + FPSControlMainEditor.GRAPHICS + PATH + "background.png");
             precisionBG = Load<Texture>(FPSControlMainEditor.ASSET_PATH + FPSControlMainEditor.GRAPHICS + PATH + "precision_box_bg.png");
-
+            //itemBG = Load<Texture>(FPSControlMainEditor.ASSET_PATH + FPSControlMainEditor.GRAPHICS + PATH + "button.png");
             //Knobs.OnInteractionBegan = OnPress;
             //Knobs.OnInteract = OnDrag;
             //Knobs.OnInteractionEnd = OnRelease;
@@ -235,6 +236,10 @@ namespace FPSControlEditor
 
             aDef.particleScroll = GUILayout.BeginScrollView(aDef.particleScroll, new GUILayoutOption[0] { });
 
+            GUIStyle btnBG = new GUIStyle();
+            //btnBG.normal.background = itemBG as Texture2D;
+            //btnBG.normal.textColor = Color.white;
+            //btnBG.alignment = TextAnchor.MiddleLeft;
             GUILayout.BeginHorizontal();
             GUILayout.Space(5);
             bool even = true;
@@ -247,18 +252,18 @@ namespace FPSControlEditor
                 GUILayout.BeginHorizontal();
 
                 GUILayout.Space(10);
-                GUILayout.Label(aDef.particles[i].effectObj.name, new GUILayoutOption[1] { GUILayout.Height(20) });
+                GUILayout.Label(aDef.particles[i].effectObj.name, btnBG, new GUILayoutOption[1] { GUILayout.Height(20) });
                 bool useNormal = aDef.particles[i].normalRotate;
                 string norm = useNormal ? "N" : "U";
 
-                if (GUILayout.Button(norm, new GUILayoutOption[2] { GUILayout.Width(20), GUILayout.Height(20) }))
+                if (GUILayout.Button(norm, btnBG, new GUILayoutOption[2] { GUILayout.Width(20), GUILayout.Height(20) }))
                 {
                     aDef.particles[i].normalRotate = !useNormal;
                 }
 
-                if (GUILayout.Button("X", new GUILayoutOption[2] { GUILayout.Width(20), GUILayout.Height(20) }))
+                if (GUILayout.Button("X", btnBG, new GUILayoutOption[2] { GUILayout.Width(20), GUILayout.Height(20) }))
                 {
-                    aDef.sounds.RemoveAt(i);
+                    aDef.particles.RemoveAt(i);
                     GUI.changed = true;
                 }
 
@@ -270,7 +275,7 @@ namespace FPSControlEditor
                 //GUI.depth++;
                 //GUI.backgroundColor = c;
 
-                if (i == aDef.sounds.Count - 1) GUILayout.Space(3);
+                if (i == aDef.particles.Count - 1) GUILayout.Space(3);
                 even = !even;
             }
             GUILayout.EndVertical();
@@ -297,8 +302,8 @@ namespace FPSControlEditor
                 GUILayout.BeginHorizontal();
                         
                 GUILayout.Space(10);
-                GUILayout.Label(aDef.sounds[i].name, new GUILayoutOption[1] { GUILayout.Height(20) });
-                if (GUILayout.Button("X",new GUILayoutOption[2]{GUILayout.Width(20),GUILayout.Height(20)}))
+                GUILayout.Label(aDef.sounds[i].name, btnBG, new GUILayoutOption[1] { GUILayout.Height(20) });
+                if (GUILayout.Button("X", btnBG, new GUILayoutOption[2] { GUILayout.Width(20), GUILayout.Height(20) }))
 				{
                     aDef.sounds.RemoveAt(i);
 					GUI.changed = true;
@@ -339,10 +344,10 @@ namespace FPSControlEditor
                 GUILayout.BeginHorizontal();
 
                 GUILayout.Space(10);
-                GUILayout.Label(aDef.decals[i].name, new GUILayoutOption[1] { GUILayout.Height(20) });
-                if (GUILayout.Button("X", new GUILayoutOption[2] { GUILayout.Width(20), GUILayout.Height(20) }))
+                GUILayout.Label(aDef.decals[i].name, btnBG, new GUILayoutOption[1] { GUILayout.Height(20) });
+                if (GUILayout.Button("X", btnBG, new GUILayoutOption[2] { GUILayout.Width(20), GUILayout.Height(20) }))
                 {
-                    aDef.sounds.RemoveAt(i);
+                    aDef.decals.RemoveAt(i);
                     GUI.changed = true;
                 }
 
@@ -354,7 +359,7 @@ namespace FPSControlEditor
                 //GUI.depth++;
                 //GUI.backgroundColor = c;
 
-                if (i == aDef.sounds.Count - 1) GUILayout.Space(3);
+                if (i == aDef.decals.Count - 1) GUILayout.Space(3);
                 even = !even;
             }
             GUILayout.EndVertical();
@@ -364,10 +369,10 @@ namespace FPSControlEditor
 
             Knobs.Theme(Knobs.Themes.BLACK, _editor);
             GUI.enabled = showEditor;
-            allVals[0] = aDef.minValPitch = Knobs.MinMax(new Vector2(260, 270), aDef.minValPitch, aDef.minLimitPitch, aDef.maxLimitPitch, 0);
-            allVals[1] = aDef.maxValPitch = Knobs.MinMax(new Vector2(320, 270), aDef.maxValPitch, aDef.minLimitPitch, aDef.maxLimitPitch, 1);
-            allVals[2] = aDef.minValVolume = Knobs.MinMax(new Vector2(400, 270), aDef.minValVolume, aDef.minLimitVolume, aDef.maxLimitVolume, 2);
-            allVals[3] = aDef.maxValVolume = Knobs.MinMax(new Vector2(460, 270), aDef.maxValVolume, aDef.minLimitVolume, aDef.maxLimitVolume, 3);
+            allVals[0] = aDef.minValPitch = Knobs.MinMax(new Vector2(220, 270), aDef.minValPitch, aDef.minLimitPitch, aDef.maxLimitPitch, 0);
+            allVals[1] = aDef.maxValPitch = Knobs.MinMax(new Vector2(280, 270), aDef.maxValPitch, aDef.minLimitPitch, aDef.maxLimitPitch, 1);
+            allVals[2] = aDef.minValVolume = Knobs.MinMax(new Vector2(360, 270), aDef.minValVolume, aDef.minLimitVolume, aDef.maxLimitVolume, 2);
+            allVals[3] = aDef.maxValVolume = Knobs.MinMax(new Vector2(420, 270), aDef.maxValVolume, aDef.minLimitVolume, aDef.maxLimitVolume, 3);
 
             //if(Knobs.interactID != -1)
             //{
@@ -380,7 +385,7 @@ namespace FPSControlEditor
             //    _editor.Repaint();
             //}
             GUI.enabled = true;
-            aDef.tag = EditorGUI.TagField(new Rect(25, 500, 70, 15), aDef.tag);
+            aDef.tag = EditorGUI.TagField(new Rect(30, 550, 70, 15), aDef.tag);
 
             GameObject[] particles;
             if (Drag.DragArea<GameObject>(particleAreaRect, out particles, Drag.Styles.Hidden) == DragResultState.Drag)
@@ -401,9 +406,7 @@ namespace FPSControlEditor
                     {
                         ImpactControlEffect effect = new ImpactControlEffect();
                         effect.effectObj = p;
-                        Debug.Log("Creating effect with " + p.name);
                         aDef.particles.Add(effect);
-                        Debug.Log(aDef.particles.Count);
                         //GUI.changed = true;
                     }
                 }
@@ -570,12 +573,11 @@ namespace FPSControlEditor
                 }
 
                 currentName = name;
-                Debug.Log(currentName + "is Set");
                 defNames.Add(currentName);
                 defIndex = defNames.Count - 1;
                 return;
             }
-            Debug.Log(currentName+name);
+
             foreach (ImpactControlDefinition def in impactDef.impacts)
             {
                 if (def.name == currentName && def.group == name)

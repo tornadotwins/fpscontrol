@@ -17,10 +17,7 @@ namespace FPSControl
 	
 	public class ImpactControl : MonoBehaviour
 	{	
-	//	[SerializeField] private float stepsPerSecondWalking		= 1.0f;
-	//	[SerializeField] private float stepsPerSecondRunning		= 0.5f;
-	//	[SerializeField] private float stepsPerSecondCrouching	= 1.5f;		
-	//	[SerializeField] private float stepsPerSecondBackwards	= 1.0f;	
+		[SerializeField] private float defaultEffectLifetime		= 1.0f;
 		
 		private FPSControlPlayer				player;	
 		private ImpactControlDefinitions		def;
@@ -197,9 +194,16 @@ namespace FPSControl
 
             GameObject decal = currentClip.decals[which];
 
-            GameObject tr = (GameObject)Instantiate(decal, hit.point, rot);
-            tr.SendMessage("SurfaceType", hit);
-            tr.transform.parent = hit.transform; // parent to hit object so the bullet holes move with object
+            Component cd = decal.GetComponent("destroy");
+
+            GameObject dcl = (GameObject)Instantiate(decal, hit.point, rot);
+            dcl.SendMessage("SurfaceType", hit);
+            dcl.transform.parent = hit.transform; // parent to hit object so the bullet holes move with object
+
+            if (cd == null)
+            {
+                Destroy(decal, defaultEffectLifetime);
+            }
         }
 
         //---
@@ -217,9 +221,16 @@ namespace FPSControl
                 rot = Quaternion.FromToRotation(Vector3.up, hit.normal);
             }
 
-            GameObject tr = (GameObject)Instantiate(effect.effectObj, hit.point, rot);
-            //tr.SendMessage("SurfaceType", hit);
-            //tr.transform.parent = hit.transform; // parent to hit object so the bullet holes move with object
+            Component cd = effect.effectObj.GetComponent("destroy");
+
+            GameObject pr = (GameObject)Instantiate(effect.effectObj, hit.point, rot);
+            //pr.SendMessage("SurfaceType", hit);
+            //pr.transform.parent = hit.transform; // parent to hit object so the bullet holes move with object
+
+            if (cd == null)
+            {
+                Destroy(pr, defaultEffectLifetime);
+            }
         }
 	}
 }

@@ -236,7 +236,7 @@ namespace FPSControl
                 _currentWeapon.Deactivate(() => { _ActivateQueuedWeapon(); FPSControlPlayerEvents.DeactivateWeapon(_weaponBeingDeactivated); });
                 crosshairAnimator.SetCrossHair(null);
 
-                wpnName = _queuedWeapon.name;
+                wpnName = _queuedWeapon.impactName == "None" ? _queuedWeapon.name : _queuedWeapon.impactName;
             }
             else
             {
@@ -246,7 +246,7 @@ namespace FPSControl
                 crosshairAnimator.SetCrossHair(_currentWeapon.crosshair);
                 FPSControlPlayerEvents.ActivateWeapon(_currentWeapon);
 
-                wpnName = _currentWeapon.name;
+                wpnName = _currentWeapon.impactName == "None" ? _currentWeapon.name : _currentWeapon.impactName;
             }
 
             ImpactControl impact = Player.GetComponent<ImpactControl>();
