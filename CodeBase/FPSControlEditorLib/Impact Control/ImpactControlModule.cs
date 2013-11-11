@@ -21,7 +21,7 @@ namespace FPSControlEditor
         //Sstatic Rect windowSize;
 	
 		//Rect audioViewRect = new Rect(0, 0, 180, 1);
-		Rect audioAreaRect = new Rect(225, 155, 210, 75);
+		Rect audioAreaRect = new Rect(222, 155, 210, 75);
         Rect particleAreaRect = new Rect(15, 155, 210, 75);
         Rect decalAreaRect = new Rect(430, 155, 210, 75);
 		Rect textureViewRect = new Rect(0, 0, 1, 130);
@@ -39,6 +39,7 @@ namespace FPSControlEditor
         Texture itemBG;
 		//Texture closeButton;
 		GUIStyle TextStyle = new GUIStyle();
+        GUIStyle KnobStyle = null;
 		//GUIStyle PopupStyle = new GUIStyle();
 		GUIStyle ButtonStyle = new GUIStyle();
       	Texture precisionBG;
@@ -167,6 +168,9 @@ namespace FPSControlEditor
         void LoadAssets()
         {
             TextStyle.normal.textColor = Color.white;
+            KnobStyle = new GUIStyle(TextStyle);
+            KnobStyle.alignment = TextAnchor.MiddleCenter;
+            KnobStyle.wordWrap = true;
             ButtonStyle = EditorStyles.miniButton;
             background = Load<Texture>(FPSControlMainEditor.ASSET_PATH + FPSControlMainEditor.GRAPHICS + PATH + "background.png");
             precisionBG = Load<Texture>(FPSControlMainEditor.ASSET_PATH + FPSControlMainEditor.GRAPHICS + PATH + "precision_box_bg.png");
@@ -229,17 +233,19 @@ namespace FPSControlEditor
 
             GUI.enabled = true;
 
+
             //---
             // particles area
             //---       
+            GUI.Label(new Rect(30, 135, 210, 15), "...spark one of these particles:", TextStyle);
             GUILayout.BeginArea(particleAreaRect);
 
             aDef.particleScroll = GUILayout.BeginScrollView(aDef.particleScroll, new GUILayoutOption[0] { });
 
-            GUIStyle btnBG = new GUIStyle();
-            //btnBG.normal.background = itemBG as Texture2D;
-            //btnBG.normal.textColor = Color.white;
-            //btnBG.alignment = TextAnchor.MiddleLeft;
+            GUIStyle itemStyle = new GUIStyle();
+            itemStyle.normal.background = itemBG as Texture2D;
+            itemStyle.normal.textColor = Color.white;
+            itemStyle.alignment = TextAnchor.MiddleLeft;
             GUILayout.BeginHorizontal();
             GUILayout.Space(5);
             bool even = true;
@@ -252,16 +258,16 @@ namespace FPSControlEditor
                 GUILayout.BeginHorizontal();
 
                 GUILayout.Space(10);
-                GUILayout.Label(aDef.particles[i].effectObj.name, btnBG, new GUILayoutOption[1] { GUILayout.Height(20) });
+                GUILayout.Label(aDef.particles[i].effectObj.name, itemStyle, new GUILayoutOption[1] { GUILayout.Height(20) });
                 bool useNormal = aDef.particles[i].normalRotate;
                 string norm = useNormal ? "N" : "U";
 
-                if (GUILayout.Button(norm, btnBG, new GUILayoutOption[2] { GUILayout.Width(20), GUILayout.Height(20) }))
+                if (GUILayout.Button(norm, ButtonStyle, new GUILayoutOption[2] { GUILayout.Width(20), GUILayout.Height(20) }))
                 {
                     aDef.particles[i].normalRotate = !useNormal;
                 }
 
-                if (GUILayout.Button("X", btnBG, new GUILayoutOption[2] { GUILayout.Width(20), GUILayout.Height(20) }))
+                if (GUILayout.Button("X", ButtonStyle, new GUILayoutOption[2] { GUILayout.Width(20), GUILayout.Height(20) }))
                 {
                     aDef.particles.RemoveAt(i);
                     GUI.changed = true;
@@ -286,6 +292,7 @@ namespace FPSControlEditor
 			//---
 			// Audio area
 			//---       
+            GUI.Label(new Rect(235, 135, 210, 15), "...and play one of these sounds:", TextStyle);
 			GUILayout.BeginArea(audioAreaRect);
 
             aDef.audioScroll = GUILayout.BeginScrollView(aDef.audioScroll, new GUILayoutOption[0] { });
@@ -302,8 +309,8 @@ namespace FPSControlEditor
                 GUILayout.BeginHorizontal();
                         
                 GUILayout.Space(10);
-                GUILayout.Label(aDef.sounds[i].name, btnBG, new GUILayoutOption[1] { GUILayout.Height(20) });
-                if (GUILayout.Button("X", btnBG, new GUILayoutOption[2] { GUILayout.Width(20), GUILayout.Height(20) }))
+                GUILayout.Label(aDef.sounds[i].name, itemStyle, new GUILayoutOption[1] { GUILayout.Height(20) });
+                if (GUILayout.Button("X", ButtonStyle, new GUILayoutOption[2] { GUILayout.Width(20), GUILayout.Height(20) }))
 				{
                     aDef.sounds.RemoveAt(i);
 					GUI.changed = true;
@@ -328,6 +335,7 @@ namespace FPSControlEditor
             //---
             // decal area
             //---       
+            GUI.Label(new Rect(445, 135, 210, 15), "...displaying of these decals:", TextStyle);
             GUILayout.BeginArea(decalAreaRect);
 
             aDef.decalScroll = GUILayout.BeginScrollView(aDef.decalScroll, new GUILayoutOption[0] { });
@@ -344,8 +352,8 @@ namespace FPSControlEditor
                 GUILayout.BeginHorizontal();
 
                 GUILayout.Space(10);
-                GUILayout.Label(aDef.decals[i].name, btnBG, new GUILayoutOption[1] { GUILayout.Height(20) });
-                if (GUILayout.Button("X", btnBG, new GUILayoutOption[2] { GUILayout.Width(20), GUILayout.Height(20) }))
+                GUILayout.Label(aDef.decals[i].name, itemStyle, new GUILayoutOption[1] { GUILayout.Height(20) });
+                if (GUILayout.Button("X", ButtonStyle, new GUILayoutOption[2] { GUILayout.Width(20), GUILayout.Height(20) }))
                 {
                     aDef.decals.RemoveAt(i);
                     GUI.changed = true;
@@ -367,12 +375,18 @@ namespace FPSControlEditor
             GUILayout.EndScrollView();
             GUILayout.EndArea();
 
+            GUI.Label(new Rect(260, 240, 210, 15), "...with these parameters:", TextStyle);
             Knobs.Theme(Knobs.Themes.BLACK, _editor);
             GUI.enabled = showEditor;
-            allVals[0] = aDef.minValPitch = Knobs.MinMax(new Vector2(220, 270), aDef.minValPitch, aDef.minLimitPitch, aDef.maxLimitPitch, 0);
-            allVals[1] = aDef.maxValPitch = Knobs.MinMax(new Vector2(280, 270), aDef.maxValPitch, aDef.minLimitPitch, aDef.maxLimitPitch, 1);
-            allVals[2] = aDef.minValVolume = Knobs.MinMax(new Vector2(360, 270), aDef.minValVolume, aDef.minLimitVolume, aDef.maxLimitVolume, 2);
-            allVals[3] = aDef.maxValVolume = Knobs.MinMax(new Vector2(420, 270), aDef.maxValVolume, aDef.minLimitVolume, aDef.maxLimitVolume, 3);
+            allVals[0] = aDef.minValPitch = Knobs.MinMax(new Vector2(210, 260), aDef.minValPitch, aDef.minLimitPitch, aDef.maxLimitPitch, 0);
+            allVals[1] = aDef.maxValPitch = Knobs.MinMax(new Vector2(270, 260), aDef.maxValPitch, aDef.minLimitPitch, aDef.maxLimitPitch, 1);
+            allVals[2] = aDef.minValVolume = Knobs.MinMax(new Vector2(350, 260), aDef.minValVolume, aDef.minLimitVolume, aDef.maxLimitVolume, 2);
+            allVals[3] = aDef.maxValVolume = Knobs.MinMax(new Vector2(410, 260), aDef.maxValVolume, aDef.minLimitVolume, aDef.maxLimitVolume, 3);
+
+            GUI.Label(new Rect(200, 300, 60, 30), "Minimum Pitch", KnobStyle);
+            GUI.Label(new Rect(260, 300, 60, 30), "Maximum Pitch", KnobStyle);
+            GUI.Label(new Rect(340, 300, 60, 30), "Minimum Volume", KnobStyle);
+            GUI.Label(new Rect(400, 300, 60, 30), "Maximum Volume", KnobStyle);
 
             //if(Knobs.interactID != -1)
             //{
@@ -386,6 +400,7 @@ namespace FPSControlEditor
             //}
             GUI.enabled = true;
             aDef.tag = EditorGUI.TagField(new Rect(30, 550, 70, 15), aDef.tag);
+            GUI.Label(new Rect(25, 530, 150, 15), "Collidable Tag: (optional)");
 
             GameObject[] particles;
             if (Drag.DragArea<GameObject>(particleAreaRect, out particles, Drag.Styles.Hidden) == DragResultState.Drag)
@@ -441,6 +456,7 @@ namespace FPSControlEditor
 			//---
 			// Texture area
 			//---
+            GUI.Label(new Rect(30, 350, 620, 15), "\"" + aDef.group + "\" group contains:");
             textureViewRect.width = (105.0f * aDef.textures.Count);
 
             GUILayout.BeginArea(textureAreaRect);
@@ -482,7 +498,6 @@ namespace FPSControlEditor
                     }
                 }
             }
-
 
             if (currentName == null)
             {
@@ -536,7 +551,8 @@ namespace FPSControlEditor
             //--- Terrain Check Button
             // TODO: this can look better
             GUIContent terrainGC = new GUIContent("Check Terrain", "Enable checking Impacts against terrain");
-            impactDef.terrainCheck = GUI.Toggle(new Rect(300, 10, 105, 35), impactDef.terrainCheck, terrainGC);
+            impactDef.terrainCheck = GUI.Toggle(new Rect(300, 10, 35, 35), impactDef.terrainCheck, "");
+            GUI.Label(new Rect(320, 10, 75, 35), terrainGC, TextStyle);
 
             GUIContent toolGC = new GUIContent("Reload", "Reverts all changes to the last save.");
 
@@ -619,11 +635,13 @@ namespace FPSControlEditor
             List<string> groups = new List<string>();
             List<ImpactControlDefinition> temp = new List<ImpactControlDefinition>();
 
+            GUI.Label(new Rect(30, 60, 150, 15), "If a Weapon uses this definition:", TextStyle);
+            GUI.Label(new Rect(30, 100, 150, 15), "...and hits a texture within this group:", TextStyle);
             if (defNames.Count > 0)
             {
                 showEditor = true;
 
-                defIndex = EditorGUI.Popup(new Rect(205, 60, 150, 15), defIndex, defNames.ToArray());
+                defIndex = EditorGUI.Popup(new Rect(255, 60, 150, 15), defIndex, defNames.ToArray());
 
                 if (!settingName)
                     currentName = defNames[defIndex];
@@ -648,25 +666,25 @@ namespace FPSControlEditor
 
                 if (groups.Count > 0)
                 {
-                    groupIndex = EditorGUI.Popup(new Rect(205, 100, 150, 15), groupIndex, groups.ToArray());
+                    groupIndex = EditorGUI.Popup(new Rect(255, 100, 150, 15), groupIndex, groups.ToArray());
 
                     currentDef = temp[groupIndex];
                 }
                 else
                 {
                     currentDef = null;
-                    EditorGUI.Popup(new Rect(205, 100, 150, 15), 0, groups.ToArray());
+                    EditorGUI.Popup(new Rect(255, 100, 150, 15), 0, groups.ToArray());
                 }
 			}
 			else 
 			{
                 currentDef = null;
-                EditorGUI.Popup(new Rect(205, 60, 150, 15), 0, defNames.ToArray());
+                EditorGUI.Popup(new Rect(255, 60, 150, 15), 0, defNames.ToArray());
 			}
 
             GUI.enabled = defNames.Count > 0;
 
-            if (GUI.Button(new Rect(355, 60, 20, 20), "X", ButtonStyle))
+            if (GUI.Button(new Rect(405, 60, 20, 20), "X", ButtonStyle))
             {
                 for (int i = impactDef.impacts.Count - 1; i >= 0; --i)
                 {
@@ -689,7 +707,7 @@ namespace FPSControlEditor
 
             GUI.enabled = true;
 
-            if (GUI.Button(new Rect(380, 60, 130, 20), "New Definition"))
+            if (GUI.Button(new Rect(430, 60, 130, 20), "New Definition", ButtonStyle))
             {
                 prevName = currentName;
                 currentName = null;
@@ -699,7 +717,7 @@ namespace FPSControlEditor
 
             GUI.enabled = groups.Count > 0;
 
-            if (GUI.Button(new Rect(355, 98, 20, 20), "X", ButtonStyle))
+            if (GUI.Button(new Rect(405, 98, 20, 20), "X", ButtonStyle))
             {
                 if (currentDef != null)
                     impactDef.impacts.Remove(currentDef);
@@ -712,7 +730,7 @@ namespace FPSControlEditor
 
             GUI.enabled = currentName != null;
 
-            if (GUI.Button(new Rect(380, 98, 130, 20), "New Group"))
+            if (GUI.Button(new Rect(430, 98, 130, 20), "New Group", ButtonStyle))
             {
                 Prompt("Enter a name for the new Impact Group.");
             }
@@ -816,7 +834,6 @@ namespace FPSControlEditor
             }
             //AssetDatabase.Refresh(ImportAssetOptions.Default);
             ImpactControlDefinitions loadedDef = (ImpactControlDefinitions) AssetDatabase.LoadAssetAtPath(TEMP_DEF_PATH, typeof(ImpactControlDefinitions));
-            //Debug.Log("Loaded: " + loadedDef);
 
             if (loadedDef == null)
             {

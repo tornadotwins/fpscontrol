@@ -112,6 +112,11 @@ namespace FPSControl
 				
 				CheckTimeToNewSound();
 			}
+
+            if (isStandingStill)
+            {
+                _audio.volume = 0.0f;
+            }
 		}
 		
 		

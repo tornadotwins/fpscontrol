@@ -272,20 +272,20 @@ namespace FPSControl
                                 if (hit.rigidbody)
                                     hit.rigidbody.AddForceAtPosition(contactForce * ray.direction, contact);
                                 
-                                if ((hit.transform.tag != "NoBulletHoles") && (hit.transform.tag != "Untagged") && (hit.transform.tag != "Enemy"))
+                                ImpactControl impact = Parent.Player.GetComponent<ImpactControl>();
+                                if (impact != null)
                                 {
-                                    ImpactControl impact = Parent.Player.GetComponent<ImpactControl>();
-                                    if (impact != null)
-                                    {
-                                        impact.OnImpact(hit);
-                                    }
+                                    impact.OnImpact(hit);
+                                }
+                                //if ((hit.transform.tag != "NoBulletHoles") && (hit.transform.tag != "Untagged") && (hit.transform.tag != "Enemy"))
+                                //{
                                 //    if (bulletHole)
                                 //    {
                                 //        GameObject tr = (GameObject)Instantiate(bulletHole, contact, rot);
                                 //        tr.SendMessage("SurfaceType", hit);
                                 //        tr.transform.parent = hit.transform; // parent to hit object so the bullet holes move with object
                                 //   }
-                                }
+                                //}
 
                                 DamageSource damageSource = new DamageSource();
                                 float distance = hit.distance;
