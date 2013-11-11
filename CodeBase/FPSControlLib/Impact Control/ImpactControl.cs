@@ -202,7 +202,7 @@ namespace FPSControl
 
             if (cd == null)
             {
-                Destroy(decal, defaultEffectLifetime);
+                Destroy(dcl, defaultEffectLifetime);
             }
         }
 

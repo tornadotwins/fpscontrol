@@ -869,6 +869,15 @@ namespace FPSControlEditor
             currentWeapon.isRanged = (weapon.GetType() == typeof(FPSControlRangedWeapon));
             CheckCurrentWeapon();
             if (Application.isPlaying) lastWeaponName = weapon.definition.weaponName;
+
+            if (currentWeapon.weapon != null && impactNames.Contains(currentWeapon.weapon.impactName))
+            {
+                impactIndex = impactNames.IndexOf(currentWeapon.weapon.impactName);
+            }
+            else
+            {
+                impactIndex = 0;
+            }
             //SetCurrentSave();
         }
 
@@ -892,14 +901,23 @@ namespace FPSControlEditor
             AssetDatabase.ImportAsset(assetPath);
 
             ImpactControlDefinitions loadedDef = (ImpactControlDefinitions)AssetDatabase.LoadAssetAtPath(assetPath, typeof(ImpactControlDefinitions));
-
+            
             impactNames.Add("None");
-            foreach(ImpactControlDefinition impact in loadedDef.impacts)
+
+            if (loadedDef != null)
             {
-                if (!impactNames.Contains(impact.name))
+                foreach (ImpactControlDefinition impact in loadedDef.impacts)
                 {
-                    impactNames.Add(impact.name);
+                    if (!impactNames.Contains(impact.name))
+                    {
+                        impactNames.Add(impact.name);
+                    }
                 }
+            }
+
+            if (currentWeapon.weapon != null && impactNames.Contains(currentWeapon.weapon.impactName))
+            {
+                impactIndex = impactNames.IndexOf(currentWeapon.weapon.impactName);
             }
         }
 
