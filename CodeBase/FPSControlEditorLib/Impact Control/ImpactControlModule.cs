@@ -378,15 +378,15 @@ namespace FPSControlEditor
             GUI.Label(new Rect(260, 240, 210, 15), "...with these parameters:", TextStyle);
             Knobs.Theme(Knobs.Themes.BLACK, _editor);
             GUI.enabled = showEditor;
-            allVals[0] = aDef.minValPitch = Knobs.MinMax(new Vector2(210, 260), aDef.minValPitch, aDef.minLimitPitch, aDef.maxLimitPitch, 0);
-            allVals[1] = aDef.maxValPitch = Knobs.MinMax(new Vector2(270, 260), aDef.maxValPitch, aDef.minLimitPitch, aDef.maxLimitPitch, 1);
-            allVals[2] = aDef.minValVolume = Knobs.MinMax(new Vector2(350, 260), aDef.minValVolume, aDef.minLimitVolume, aDef.maxLimitVolume, 2);
-            allVals[3] = aDef.maxValVolume = Knobs.MinMax(new Vector2(410, 260), aDef.maxValVolume, aDef.minLimitVolume, aDef.maxLimitVolume, 3);
-
-            GUI.Label(new Rect(200, 300, 60, 30), "Minimum Pitch", KnobStyle);
-            GUI.Label(new Rect(260, 300, 60, 30), "Maximum Pitch", KnobStyle);
-            GUI.Label(new Rect(340, 300, 60, 30), "Minimum Volume", KnobStyle);
-            GUI.Label(new Rect(400, 300, 60, 30), "Maximum Volume", KnobStyle);
+            allVals[0] = aDef.minValPitch = Knobs.MinMax(new Vector2(205, 260), aDef.minValPitch, aDef.minLimitPitch, aDef.maxLimitPitch, 0);
+            allVals[1] = aDef.maxValPitch = Knobs.MinMax(new Vector2(275, 260), aDef.maxValPitch, aDef.minLimitPitch, aDef.maxLimitPitch, 1);
+            allVals[2] = aDef.minValVolume = Knobs.MinMax(new Vector2(345, 260), aDef.minValVolume, aDef.minLimitVolume, aDef.maxLimitVolume, 2);
+            allVals[3] = aDef.maxValVolume = Knobs.MinMax(new Vector2(415, 260), aDef.maxValVolume, aDef.minLimitVolume, aDef.maxLimitVolume, 3);
+            
+            if (Knobs.interactID != 0) GUI.Label(new Rect(195, 300, 60, 30), "Minimum Pitch", KnobStyle);
+            if (Knobs.interactID != 1) GUI.Label(new Rect(265, 300, 60, 30), "Maximum Pitch", KnobStyle);
+            if (Knobs.interactID != 2) GUI.Label(new Rect(335, 300, 60, 30), "Minimum Volume", KnobStyle);
+            if (Knobs.interactID != 3) GUI.Label(new Rect(405, 300, 60, 30), "Maximum Volume", KnobStyle);
 
             //if(Knobs.interactID != -1)
             //{
@@ -623,6 +623,7 @@ namespace FPSControlEditor
 
                 impactDef.impacts.Add(newDef);
                 RecollectFiltered();
+                groupIndex = icDefs.Count - 1;
             }
         }
 		

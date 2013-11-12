@@ -129,7 +129,11 @@ namespace FPSControl
                 {   // found a terrain, try to determine best texture at this point
                     Vector3 pos = terrain.transform.InverseTransformPoint(hit.point);
 
-                    float[,,] splatmapData = terrain.terrainData.GetAlphamaps( (int) pos.x, (int) pos.z, 1, 1);
+                    // calculate which splat map cell the worldPos falls within (ignoring y)
+                    int mapX = (int)(((pos.x) / terrain.terrainData.size.x) * terrain.terrainData.alphamapWidth);
+                    int mapZ = (int)(((pos.z) / terrain.terrainData.size.z) * terrain.terrainData.alphamapHeight);
+
+                    float[, ,] splatmapData = terrain.terrainData.GetAlphamaps(mapX, mapZ, 1, 1);
 
                     float maxMix = 0;
                     int maxIndex = 0;
@@ -139,7 +143,7 @@ namespace FPSControl
                     // loop through each mix value and find the maximum
                     for (int i = 0; i < numTex; ++i)
                     {
-                        if (splatmapData[0,0,i] > maxMix)
+                        if (splatmapData[0, 0, i] > maxMix)
                         {
                             maxIndex = i;
                             maxMix = splatmapData[0, 0, i];
@@ -150,14 +154,12 @@ namespace FPSControl
 
                     foreach (ImpactControlDefinition obj in effectsLib)
                     {
-                        //if (obj.terrainCheck)
+                        foreach (Texture texture in obj.textures)
                         {
-                            foreach (Texture texture in obj.textures)
+                            if (terrainTex == texture)
                             {
-                                if (terrainTex == texture)
-                                {
-                                    return true;
-                                }
+                                currentClip = obj;
+                                return true;
                             }
                         }
                     }
