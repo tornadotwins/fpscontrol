@@ -44,6 +44,7 @@ namespace FPSControl
             ControlMapCatalogue cat = (ControlMapCatalogue) Resources.Load("ControlMappings");
             _map = cat.GetMap(platform, id);
             _map.Initialize();
+            Debug.Log("Loaded control map: " + platform + " : " + _map.name);
             //Screen.lockCursor = true; Debug.Log("locking cursor!");
             if (OnMapLoad != null) OnMapLoad(_map);
         }

@@ -135,7 +135,11 @@ namespace FPSControl
 
         public override bool Reload()
         {
-            if (!canUse ||
+            if (!canUse)
+            {
+                Debug.Log("Attempting to reload an inactive weapon.");
+            }
+            else if (
                 rangeDefinition.reloadType == ReloadType.UnlimitedAmmo ||
                 rangeDefinition.reloadType == ReloadType.Recharge)
             {
@@ -272,11 +276,12 @@ namespace FPSControl
                                 if (hit.rigidbody)
                                     hit.rigidbody.AddForceAtPosition(contactForce * ray.direction, contact);
                                 
-                                ImpactControl impact = Parent.Player.GetComponent<ImpactControl>();
-                                if (impact != null)
-                                {
-                                    impact.OnImpact(hit);
-                                }
+                                //ImpactControl impact = Parent.Player.GetComponent<ImpactControl>();
+                                //if (impact != null)
+                                //{
+                                //    impact.OnImpact(hit);
+                                //}
+
                                 //if ((hit.transform.tag != "NoBulletHoles") && (hit.transform.tag != "Untagged") && (hit.transform.tag != "Enemy"))
                                 //{
                                 //    if (bulletHole)
@@ -354,16 +359,34 @@ namespace FPSControl
 
         public override void Activate(FPSControlPlayerWeaponManager parent)
         {
+            _Activate(parent, null);
+        }
+
+        Action _cbFunc;
+
+        internal override void _Activate(FPSControlPlayerWeaponManager parent, Action cbFunc)
+        {
+            Debug.Log("Internal _Activate" + (cbFunc != null ? "  with callback." : "."));
+            _cbFunc = cbFunc;
+
             gameObject.SetActive(true);
             Parent = parent;
-            weaponAnimation.animationCompleteCallback = WeaponBecameActive;
+
+            weaponAnimation.animationCompleteCallback = () =>
+            {
+                Debug.Log("Lamda");
+                if (_cbFunc != null) _cbFunc();
+                _cbFunc = null;
+                WeaponBecameActive();
+            };
+
             weaponAnimation.Activate();
             weaponPath.Initialize(this);
         }
 
         void WeaponBecameActive()
         {
-            //Debug.Log("weapon: " + weaponName + " became active");
+            Debug.Log("weapon: " + name + " became active");
             canUse = true;
             weaponAnimation.Idle();
             currentState = idleState;
@@ -377,23 +400,28 @@ namespace FPSControl
                 float regen = Mathf.Floor(timeSinceLastActive) * rangeDefinition.regenerationRate;
 				_currentEnergy = Mathf.Min(_currentEnergy+regen,100F);
 			}
+
+            FPSControlPlayerEvents.ActivateWeapon(this);
         }
         
         public override void Deactivate(System.Action cbFunc)
         {
+            Debug.Log("Deactivating weapon:" + name + " " + (cbFunc != null ? "  with callback." : "."));
             _deactivateCallback = cbFunc;
+            canUse = false;
+            _timeLastActive = Time.time;
             weaponAnimation.animationCompleteCallback = WeaponBecameInactive;
             //play deactivate animation
             weaponAnimation.Deactivate();
         }
 
-        void WeaponBecameInactive()
+        void WeaponBecameInactive() 
         {
-            canUse = false;            
-            _deactivateCallback();
-            _deactivateCallback = null;
-			_timeLastActive = Time.time;
             gameObject.SetActive(false);
+            if(_deactivateCallback != null) _deactivateCallback();
+            _deactivateCallback = null;
+
+            FPSControlPlayerEvents.DeactivateWeapon(this);
         }
         
         public override void Charge(float accum)

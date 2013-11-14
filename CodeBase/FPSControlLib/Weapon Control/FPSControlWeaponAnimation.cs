@@ -23,11 +23,16 @@ namespace FPSControl
         [HideInInspector]
         private bool _patternComplete = false;
 
+        public string currentState { get; private set; }
+
         [HideInInspector]
         public System.Action animationCompleteCallback;
 
+        public bool isPlaying { get { return _animation.isPlaying; } }
+
         void Awake()
         {
+            currentState = "";
             _animation = animation;
             
             //LAYERING SETUP
@@ -129,6 +134,7 @@ namespace FPSControl
             }
             else
             {
+                currentState = definition.ACTIVATE;
                 _animation.CrossFade(definition.ACTIVATE);
             }
         }
@@ -141,6 +147,7 @@ namespace FPSControl
             }
             else
             {
+                currentState = definition.DEACTIVATE;
                 _animation.CrossFade(definition.DEACTIVATE);
             }
         }
@@ -149,18 +156,21 @@ namespace FPSControl
         {
             if (_animation[definition.IDLE] == null) return;
             _animation.CrossFade(definition.IDLE);
+            currentState = definition.IDLE;
         }
 
         public void Walk()
         {
             if (_animation[definition.WALK] == null) return;
             _animation.CrossFade(definition.WALK);
+            currentState = definition.WALK;
         }
 
         public void Run()
         {
             if (_animation[definition.RUN] == null) return;
             _animation.CrossFade(definition.RUN);
+            currentState = definition.RUN;
         }
 
         public void Fire()
@@ -175,12 +185,18 @@ namespace FPSControl
                 {
                     _animation[definition.FIRE].time = 0;//.wrapMode = WrapMode.ClampForever;
                     _animation.CrossFade(definition.FIRE, .05F);
+                    currentState = definition.FIRE;
                 }
                 else
                 {
                     StartCoroutine("DoFiringPattern");
                 }
             }
+        }
+
+        internal void ReverseAnimation(string animState)
+        {
+            animation[animState].speed *= -1F;
         }
 
         IEnumerator DoFiringPattern()
@@ -194,6 +210,7 @@ namespace FPSControl
                 {
                     _animation[definition.FIRE].time = 0;//.wrapMode = WrapMode.ClampForever;
                     _animation.CrossFade(definition.FIRE, .05F);
+                    currentState = definition.FIRE;
 
                     if (i < firingPattern.Length - 1)
                     {
@@ -221,6 +238,7 @@ namespace FPSControl
             else
             {
                 _animation.CrossFade(definition.RELOAD);
+                currentState = definition.RELOAD;
             }
         }
 
@@ -234,6 +252,7 @@ namespace FPSControl
             {
                 _animation[definition.EMPTY].time = 0;
                 _animation.CrossFade(definition.EMPTY);
+                currentState = definition.EMPTY;
             }
         }
 
@@ -242,6 +261,7 @@ namespace FPSControl
             if (_animation[definition.SCOPE_IO] == null) return;
             _animation[definition.SCOPE_IO].time = 1F;
             _animation.CrossFade(definition.SCOPE_IO);
+            currentState = definition.SCOPE_IO;
         }
 
         public void ScopeOut()
@@ -249,12 +269,14 @@ namespace FPSControl
             if (_animation[definition.SCOPE_IO] == null) return;
             _animation[definition.SCOPE_IO].time = -1F;
             _animation.CrossFade(definition.SCOPE_IO);
+            currentState = definition.SCOPE_IO;
         }
 
         void ScopeIdle()
         {
             if (_animation[definition.SCOPE_LOOP] == null) return;
             _animation.Play(definition.SCOPE_LOOP);
+            currentState = definition.SCOPE_LOOP;
         }
 
         public void Attack()
@@ -262,12 +284,14 @@ namespace FPSControl
             if (_animation[definition.ATTACK] == null) return;
             _animation[definition.ATTACK].time = 0;
             _animation.CrossFade(definition.ATTACK, .05F);
+            currentState = definition.ATTACK;
         }
 
         public void Charge()
         {
             if (_animation[definition.CHARGE] == null) return;
             _animation.CrossFade(definition.CHARGE);
+            currentState = definition.CHARGE;
         }
 
         public void DefendIn()
@@ -279,6 +303,7 @@ namespace FPSControl
             else
             {
                 _animation.CrossFade(definition.DEFEND_ENTER);
+                currentState = definition.DEFEND_ENTER;
             }            
         }
 
@@ -286,12 +311,14 @@ namespace FPSControl
         {
             if (_animation[definition.DEFEND_EXIT] == null) return;
             _animation.CrossFade(definition.DEFEND_EXIT);
+            currentState = definition.DEFEND_EXIT;
         }
 
         void DefendLoop()
         {
             if (_animation[definition.DEFEND_LOOP] == null) return;
             _animation.Play(definition.DEFEND_LOOP);
+            currentState = definition.DEFEND_LOOP;
         }
 
         #endregion // Invoke States
@@ -300,12 +327,12 @@ namespace FPSControl
 
         public void AnimationEvent_ActivateComplete()
         {
-            DoCallBack();
+            DoCallBack("AnimationEvent_ActivateComplete");
         }
 
         public void AnimationEvent_DeactivateComplete()
         {
-            DoCallBack();
+            DoCallBack("AnimationEvent_DeactivateComplete");
         }
 
         public void AnimationEvent_ScopeInComplete()
@@ -324,27 +351,28 @@ namespace FPSControl
 			{
 				if(!_patternComplete) return;
 			}			
-			DoCallBack();			
+			DoCallBack("AnimationEvent_FireComplete");			
         }
 
         public void AnimationEvent_ReloadComplete()
         {
-            DoCallBack();
+            DoCallBack("AnimationEvent_ReloadComplete");
         }
 
         public void AnimationEvent_EmptyComplete()
         {
             //Debug.Log("empty complete");
-            DoCallBack();
+            DoCallBack("AnimationEvent_EmptyComplete");
         }
 
         #endregion 
 
-        void DoCallBack()
+        void DoCallBack(string id)
         {
             if (animationCompleteCallback != null) animationCompleteCallback();
             else Debug.LogWarning("No callback provided!");
-            animationCompleteCallback = null;
+            Debug.Log(id + " Callback complete. Removing animationCompleteCallback.");
+            //animationCompleteCallback = null;
         }
     }
 }

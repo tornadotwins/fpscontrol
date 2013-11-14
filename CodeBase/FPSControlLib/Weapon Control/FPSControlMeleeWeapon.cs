@@ -69,9 +69,26 @@ namespace FPSControl
 
         public override void Activate(FPSControlPlayerWeaponManager parent)
         {
+            _Activate(parent, null);
+        }
+        Action _cbFunc;
+
+        internal override void _Activate(FPSControlPlayerWeaponManager parent, Action cbFunc)
+        {
+            Debug.Log("Internal _Activate" + (cbFunc != null ? "  with callback." : "."));
+            _cbFunc = cbFunc;
+
             gameObject.SetActive(true);
             Parent = parent;
-            weaponAnimation.animationCompleteCallback = WeaponBecameActive;
+
+            weaponAnimation.animationCompleteCallback = () =>
+            {
+                Debug.Log("Lamda");
+                if (_cbFunc != null) _cbFunc();
+                _cbFunc = null;
+                WeaponBecameActive();
+            };
+
             weaponAnimation.Activate();
         }
 
@@ -80,6 +97,7 @@ namespace FPSControl
             canUse = true;
             weaponAnimation.Idle();
             currentState = idleState;
+            FPSControlPlayerEvents.ActivateWeapon(this);
         }
 
         public override void Deactivate(System.Action cbFunc)
@@ -98,6 +116,8 @@ namespace FPSControl
             _deactivateCallback = null;
 
             gameObject.SetActive(false);
+
+            FPSControlPlayerEvents.DeactivateWeapon(this);
         }
 
         public override void Charge(float accum)

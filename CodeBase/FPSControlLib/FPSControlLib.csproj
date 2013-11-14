@@ -64,6 +64,9 @@
     <Compile Include="Footstep Control\FootstepControlDefinition.cs" />
     <Compile Include="Footstep Control\FootstepControlDefinitions.cs" />
     <Compile Include="FPSControlSystemInfo.cs" />
+    <Compile Include="Impact Control\ImpactControl.cs" />
+    <Compile Include="Impact Control\ImpactControlDefinition.cs" />
+    <Compile Include="Impact Control\ImpactControlDefinitions.cs" />
     <Compile Include="Input\ControlMap.cs" />
     <Compile Include="Input\ControlMapCatalogue.cs" />
     <Compile Include="Input\ControlMapGroup.cs" />

@@ -133,5 +133,7 @@ namespace FPSControl
         public abstract void ExitDefend();
         public abstract void StartRun();
         public abstract void EndRun();
+
+        internal abstract void _Activate(FPSControlPlayerWeaponManager parent, System.Action cbFunc);
     }
 }

@@ -188,6 +188,11 @@ namespace FPSControl
                 _currIndex++;
                 if (_currIndex >= _availableWeapons.Count) _currIndex = 0; //wrap
                 //_currIndex = (int) Mathf.Repeat(_currIndex + 1, _availableWeapons.Count-1);
+                if (_currIndex == currentIndex)
+                {
+                    Debug.Log("Only one weapon - bypassing.");
+                    return;
+                }
                 ActivateWeaponAt(_currIndex);
             }
             else
@@ -198,17 +203,12 @@ namespace FPSControl
 
         public void DeactivateCurrentWeapon()
         {
-            FPSControlWeapon _weaponBeingDeactivated = _currentWeapon;
-            _currentWeapon.Deactivate 
-            (
-                () => 
-                { 
-                    _currentWeapon = null; 
-                    _queuedWeapon = null; 
-                    crosshairAnimator.SetCrossHair(null); 
-                    FPSControlPlayerEvents.DeactivateWeapon(_weaponBeingDeactivated); 
-                }
-            );
+
+            crosshairAnimator.SetCrossHair(null);
+            FPSControlWeapon tmp = _currentWeapon;
+            _currentWeapon = null;
+            _queuedWeapon = null;
+            tmp.Deactivate(() => { });
         } 
 
         public void ActivateWeapon(string weaponName)
@@ -218,8 +218,12 @@ namespace FPSControl
 
         public void ActivateWeaponAt(int index)
         {
-            //Debug.Log(index + ":" + _availableWeapons.Count);
-            if (index >= _availableWeapons.Count || index >= 4) return;
+            //Debug.Log(string.Format("Activating weapon {0} of {1}", index+1, _availableWeapons.Count));
+            if (index >= _availableWeapons.Count || index >= 4)
+            {
+                Debug.LogWarning("Attempting to activate a weapon which index exceeds the maximum of 4.");
+                return;
+            }
 
             string wpnName;
 
@@ -233,27 +237,40 @@ namespace FPSControl
                 //Debug.LogWarning("activating new");
                 _queuedWeapon = _availableWeapons[index];
                 FPSControlWeapon _weaponBeingDeactivated = _currentWeapon;
-                _currentWeapon.Deactivate(() => { _ActivateQueuedWeapon(); FPSControlPlayerEvents.DeactivateWeapon(_weaponBeingDeactivated); });
                 crosshairAnimator.SetCrossHair(null);
+                _currentWeapon.Deactivate(() => { Debug.Log("Deactivation complete. Activating queued weapon.");  _ActivateQueuedWeapon(); });
+                _currentWeapon = null;
 
                 wpnName = _queuedWeapon.impactName == "None" ? _queuedWeapon.name : _queuedWeapon.impactName;
             }
             else
             {
-                //Debug.LogWarning("activating first");
-                _currentWeapon = _availableWeapons[index];
-                _currentWeapon.Activate(this);
-                crosshairAnimator.SetCrossHair(_currentWeapon.crosshair);
-                FPSControlPlayerEvents.ActivateWeapon(_currentWeapon);
+                Debug.Log("No current weapon. Activating fresh.");
+                if (index < _availableWeapons.Count)
+                {
+                    _currentWeapon = _availableWeapons[index];
+                }
+                else
+                {
+                    Debug.LogError(string.Format("Out of scope. Attempting to activate weapon at index ({0}) when available weapons length is {1}", index, _availableWeapons.Count));
+                    return;
+                }
+
+                _currentWeapon._Activate(this, () =>
+                {
+                    Debug.Log("Setting crosshair and calling activate weapon event.");
+                    crosshairAnimator.SetCrossHair(_currentWeapon.crosshair);
+                    
+                });
 
                 wpnName = _currentWeapon.impactName == "None" ? _currentWeapon.name : _currentWeapon.impactName;
             }
 
-            ImpactControl impact = Player.GetComponent<ImpactControl>();
-            if (impact != null)
-            {
-                impact.ActivateImpactEffect(wpnName);
-            }
+            //ImpactControl impact = Player.GetComponent<ImpactControl>();
+            //if (impact != null)
+            //{
+            //    impact.ActivateImpactEffect(wpnName);
+            //}
         }
 
         internal void _ActivateQueuedWeapon()
@@ -286,60 +303,67 @@ namespace FPSControl
         public override void DoUpdate()
         {
             if (!FPSControlPlayerData.visible || FPSControlPlayerData.frozen) return;
-            if (!_currentWeapon) return;
-
-            _fireDown = FPSControlInput.IsFiring();
-            _scopeDown = FPSControlInput.IsScoping();
-
-            crosshairAnimator.Fire(_fireDown);
-
-            if(_fireDown && _mouseWasDownL && _mouseCounter < _currentWeapon.definition.chargeTime)
+            if (_currentWeapon)
             {
-                _mouseCounter += Time.deltaTime;
-            }
-            else if (_fireDown && _mouseWasDownL && _mouseCounter >= _currentWeapon.definition.chargeTime)
-            {
-                _mouseCounter += Time.deltaTime;
-                _currentWeapon.Charge(Time.deltaTime);
-            }
-            else if(!_fireDown && _mouseWasDownL)
-            {
-                _mouseCounter = 0;
-                _currentWeapon.Fire();
-            }
 
-            if (_currentWeapon.canScope)
-            {
-                if (_scopeDown && !_mouseWasDownR)
+                _fireDown = FPSControlInput.IsFiring();
+                _scopeDown = FPSControlInput.IsScoping();
+
+                crosshairAnimator.Fire(_fireDown);
+
+                if (_fireDown && _mouseWasDownL && _mouseCounter < _currentWeapon.definition.chargeTime)
                 {
-                    _currentWeapon.Scope();
-                    Player.playerCamera.Scope(true, _currentWeapon.definition.scopeFOV);
-                    crosshairAnimator.StartZoom();
+                    _mouseCounter += Time.deltaTime;
                 }
-                else if (!_scopeDown && _mouseWasDownR)
+                else if (_fireDown && _mouseWasDownL && _mouseCounter >= _currentWeapon.definition.chargeTime)
                 {
-                    _currentWeapon.ExitScope();
-                    Player.playerCamera.Scope(false, Player.playerCamera.baseFOV);
-                    crosshairAnimator.EndZoom();
+                    _mouseCounter += Time.deltaTime;
+                    _currentWeapon.Charge(Time.deltaTime);
                 }
-            }
+                else if (!_fireDown && _mouseWasDownL)
+                {
+                    _mouseCounter = 0;
+                    _currentWeapon.Fire();
+                }
 
-            if (FPSControlInput.IsReloading())
-            {
-                //Debug.Log("Reload key!");
-                _currentWeapon.Reload();
+                if (_currentWeapon.canScope)
+                {
+                    if (_scopeDown && !_mouseWasDownR)
+                    {
+                        _currentWeapon.Scope();
+                        Player.playerCamera.Scope(true, _currentWeapon.definition.scopeFOV);
+                        crosshairAnimator.StartZoom();
+                    }
+                    else if (!_scopeDown && _mouseWasDownR)
+                    {
+                        _currentWeapon.ExitScope();
+                        Player.playerCamera.Scope(false, Player.playerCamera.baseFOV);
+                        crosshairAnimator.EndZoom();
+                    }
+                }
+
+                if (FPSControlInput.IsReloading())
+                {
+                    //Debug.Log("Reload key!");
+                    _currentWeapon.Reload();
+                }
+                if (FPSControlInput.IsDefending()) _currentWeapon.Defend();
+
+                _mouseWasDownL = _fireDown;
+                _mouseWasDownR = _scopeDown;
             }
-            if (FPSControlInput.IsDefending()) _currentWeapon.Defend();
 
             if (FPSControlInput.IsTogglingWeapon()) CycleToNextWeapon(_availableWeapons.IndexOf(_currentWeapon));
             //#error Removed stuff
-            else if (FPSControlInput.IsSelectingWeapon(0)) ActivateWeaponAt(0);
+            else if (FPSControlInput.IsSelectingWeapon(0)) {
+                //Debug.Log("Pressed ActivateAt0"); 
+                ActivateWeaponAt(0); 
+            }
             else if (FPSControlInput.IsSelectingWeapon(1)) ActivateWeaponAt(1);
             else if (FPSControlInput.IsSelectingWeapon(2)) ActivateWeaponAt(2);
             else if (FPSControlInput.IsSelectingWeapon(3)) ActivateWeaponAt(3);
 
-            _mouseWasDownL = _fireDown;
-            _mouseWasDownR = _scopeDown;
+            
         }
 
         public override void DoLateUpdate()
