@@ -1434,6 +1434,7 @@ GameObject:
   - 114: {fileID: 11400030}
   - 114: {fileID: 11400032}
   - 114: {fileID: 11400034}
+  - 114: {fileID: 11400054}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -5242,6 +5243,7 @@ MonoBehaviour:
   weaponAnimation: {fileID: 11400050}
   weaponParticles: {fileID: 11400048}
   weaponSound: {fileID: 11400046}
+  impactName: 
   idleState:
     name: 
   fireState:
@@ -5453,6 +5455,7 @@ MonoBehaviour:
   stepsPerSecondRunning: .25
   stepsPerSecondCrouching: .75
   stepsPerSecondBackwards: .699999988
+  updateSurfaceTimer: .5
 --- !u!114 &11400032
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5727,6 +5730,7 @@ MonoBehaviour:
   weaponAnimation: {fileID: 11400042}
   weaponParticles: {fileID: 11400040}
   weaponSound: {fileID: 11400038}
+  impactName: 
   idleState:
     name: 
   fireState:
@@ -5772,6 +5776,18 @@ MonoBehaviour:
   _currentClips: 0
   _currentAmmo: 0
   _currentEnergy: 100
+--- !u!114 &11400054
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1723350012, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultEffectLifetime: 1
 --- !u!120 &12000000
 LineRenderer:
   m_ObjectHideFlags: 1

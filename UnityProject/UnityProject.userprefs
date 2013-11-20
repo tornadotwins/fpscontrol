@@ -1,0 +1,42 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="../../write2/CodeBase/FPSControlLib/AIGunLogic.cs">
+    <Files>
+      <File FileName="../../write2/CodeBase/FPSControlLib/AIGunLogic.cs" Line="1" Column="1" />
+      <File FileName="Assets/AI/Actions/SetMoveTarget.cs" Line="24" Column="1" />
+      <File FileName="Assets/FPSControlAssets/Scripts/RatAI.js" Line="1" Column="1" />
+      <File FileName="Assets/FPSControlAssets/Scripts/ShockTrooperAI.js" Line="1" Column="1" />
+      <File FileName="Assets/FPSControlAssets/Scripts/SkinnedMeshHide.js" Line="1" Column="1" />
+      <File FileName="Assets/FPSControlAssets/Scripts/AIGunLogic.js" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="Assembly-CSharp" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="AI" expanded="True">
+                <Node name="Actions" expanded="True">
+                  <Node name="SetMoveTarget.cs" selected="True" />
+                </Node>
+              </Node>
+              <Node name="FPSControlAssets" expanded="True">
+                <Node name="Scripts" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+          <Node name="Assembly-UnityScript" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="FPSControlAssets" expanded="True">
+                <Node name="Scripts" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

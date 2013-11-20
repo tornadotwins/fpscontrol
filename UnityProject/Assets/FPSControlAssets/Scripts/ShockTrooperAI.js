@@ -1,6 +1,7 @@
 //import Aether;
 //import Legion.Core;
 import RAIN.Core;
+import RAIN.Animation;
 
 var _gunLogic : AIGunLogic;
 //var _rival : Rival;
@@ -8,21 +9,25 @@ var _dataController : DataController;
 var _player : GameObject;
 var meleeDamage : float = 10.0f;
 var hideWhenDead : boolean = false;
-var _ai : RAINAgent;
+var _ai : AIRig;
+var _mecanimAnimator : UnityEngine.Animator;
 
 function Start()
 {
 	_player = GameObject.Find("Player");
-	_ai = gameObject.GetComponent("RAINAgent");
+	_ai = gameObject.GetComponentInChildren.<AIRig>();
 	_dataController = gameObject.GetComponent("DataController");
+	_mecanimAnimator = _ai.AI.Animator.Animator;	
+		
 }
 
 function Update()
 {	
-	_ai.Agent.actionContext.SetContextItem.<float>("health", _dataController.current);
-	_ai.Agent.actionContext.SetContextItem.<float>("ammo", _gunLogic.dataController.current);
 	
-	var shootAt : GameObject = _ai.Agent.actionContext.GetContextItem.<GameObject>("enemytarget");
+	_ai.AI.WorkingMemory.SetItem.<float>("health", _dataController.current);
+	_ai.AI.WorkingMemory.SetItem.<float>("ammo", _gunLogic.dataController.current);
+	
+	var shootAt : GameObject = _ai.AI.WorkingMemory.GetItem.<GameObject>("enemytarget");
 	if (shootAt != null)
 	{
 		_gunLogic._1stShootTo = shootAt.transform;
@@ -34,7 +39,7 @@ function ApplyDamage(damageSource : DamageSource)
 	if ((damageSource.sourceType == DamageSource.DamageSourceType.GunFire) &&
 	    (damageSource.sourceObjectType != DamageSource.DamageSourceObjectType.Obstacle))
     {
-		_ai.Agent.actionContext.SetContextItem.<float>("gothit", 1.0f);
+		_ai.AI.WorkingMemory.SetItem.<boolean>("gothit", true);
 
 		transform.Rotate(Vector3.up, -45f);
 		var testforward:Vector3 = transform.forward;
@@ -44,19 +49,30 @@ function ApplyDamage(damageSource : DamageSource)
 		if (Vector3.Dot(testforward, damageSource.fromPosition) > 0)
 		{
 			if (Vector3.Dot(testright, damageSource.fromPosition) > 0)
-				_ai.Agent.actionContext.SetContextItem.<float>("hitdir", 1f); //left
+				_mecanimAnimator.SetInteger("HitDirection", 4); //left
 			else
-				_ai.Agent.actionContext.SetContextItem.<float>("hitdir", 4f); //front
+				_mecanimAnimator.SetInteger("HitDirection", 1); //front
 		}
 		else
 		{
 			if (Vector3.Dot(testright, damageSource.fromPosition) > 0)
-				_ai.Agent.actionContext.SetContextItem.<float>("hitdir", 2f); //back
+				_mecanimAnimator.SetInteger("HitDirection", 3); //back
 			else
-				_ai.Agent.actionContext.SetContextItem.<float>("hitdir", 3f); //right
+				_mecanimAnimator.SetInteger("HitDirection", 2); //right
 		}
-		
-		_ai.Agent.actionContext.SetContextItem.<GameObject>("enemytarget", damageSource.sourceObject);
+
+		var verticalDistance : float;
+		verticalDistance = damageSource.appliedToPosition.y - _ai.AI.Body.transform.position.y;
+		if (verticalDistance > 1f)
+			_mecanimAnimator.SetInteger("HitHeight", 1);
+		else if (verticalDistance > 0.5f)
+			_mecanimAnimator.SetInteger("HitHeight", 2);
+		else
+			_mecanimAnimator.SetInteger("HitHeight", 3);
+			
+		_ai.AI.Animator.StartState("Hit");
+					
+		_ai.AI.WorkingMemory.SetItem.<GameObject>("enemytarget", damageSource.sourceObject);
 	}
 	_dataController.current -= damageSource.damageAmount;
 }
@@ -109,12 +125,13 @@ function Die()
 //@Aether.MessageHandler("MeleeAttack")
 function MeleeAttack()
 {
-	var target : GameObject = _ai.Agent.actionContext.GetContextItem.<GameObject>("meleetarget");
+	var target : GameObject = _ai.AI.WorkingMemory.GetItem.<GameObject>("meleetarget");
 	var damageSource : DamageSource = new DamageSource();
 	damageSource.appliedToPosition = target.transform.position;
 	damageSource.damageAmount = meleeDamage;
-	damageSource.fromPosition = _ai.Agent.Avatar.gameObject.transform.position;
-	damageSource.sourceObject = _ai.Agent.Avatar.gameObject;
+	
+	damageSource.fromPosition = _ai.AI.Body.transform.position;
+	damageSource.sourceObject = _ai.AI.Body;
 	damageSource.sourceObjectType = DamageSource.DamageSourceObjectType.AI;
 	damageSource.sourceType = DamageSource.DamageSourceType.MeleeAttack;
 	

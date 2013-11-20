@@ -2,26 +2,26 @@
 
 import RAIN.Core;
 
-var _ai : RAINAgent;
+var _ai : AIRig;
 var _dataController : DataController;
 var _hungry: float;
 
 function Start () {
 
-	_ai = gameObject.GetComponent.<RAINAgent>();
+	_ai = gameObject.GetComponentInChildren.<AIRig>();
 	_dataController = gameObject.GetComponent.<DataController>();
 	
-	_ai.Agent.actionContext.SetContextItem.<float>("hungry", 15f);
-	_ai.Agent.actionContext.SetContextItem.<float>("dead", 0f);
-	_ai.Agent.actionContext.SetContextItem.<float>("foundfood", 0f);
-	_ai.Agent.actionContext.SetContextItem.<float>("gothit", 0f);
+	_ai.AI.WorkingMemory.SetItem.<float>("hungry", 15f);
+	_ai.AI.WorkingMemory.SetItem.<boolean>("dead", false);
+	_ai.AI.WorkingMemory.SetItem.<boolean>("foundfood", false);
+	_ai.AI.WorkingMemory.SetItem.<boolean>("gothit", false);
 }
 
 function Update () {
 
-	_ai.Agent.actionContext.SetContextItem.<float>("health", _dataController.current);
-	_ai.Agent.actionContext.SetContextItem.<float>("currenttime", Time.time);
-	_hungry = _ai.Agent.actionContext.GetContextItem.<float>("hungry");
+	_ai.AI.WorkingMemory.SetItem.<float>("health", _dataController.current);
+	_ai.AI.WorkingMemory.SetItem.<float>("currenttime", Time.time);
+	_hungry = _ai.AI.WorkingMemory.GetItem.<float>("hungry");
 }
 
 function ApplyDamage(damageSource : DamageSource)
@@ -29,8 +29,8 @@ function ApplyDamage(damageSource : DamageSource)
 	if ((damageSource.sourceType == DamageSource.DamageSourceType.GunFire) &&
 	    (damageSource.sourceObjectType != DamageSource.DamageSourceObjectType.Obstacle))
     {
-		_ai.Agent.actionContext.SetContextItem.<float>("gothit", 1.0f);
-		_ai.Agent.actionContext.SetContextItem.<GameObject>("enemytarget", damageSource.sourceObject);
+		_ai.AI.WorkingMemory.SetItem.<boolean>("gothit", true);
+		_ai.AI.WorkingMemory.SetItem.<GameObject>("enemytarget", damageSource.sourceObject);
 	}
 	
 	_dataController.current -= damageSource.damageAmount;
