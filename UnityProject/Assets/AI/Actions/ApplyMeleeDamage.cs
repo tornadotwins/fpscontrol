@@ -19,6 +19,7 @@ public class ApplyMeleeDamage : RAINAction
 
     public override ActionResult Execute(AI ai)
     {
+		ai.Body.SendMessage("MeleeAttack");
         return ActionResult.SUCCESS;
     }
 

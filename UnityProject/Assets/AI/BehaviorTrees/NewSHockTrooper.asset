@@ -39,7 +39,7 @@ MonoBehaviour:
       /&gt;&lt;/selector&gt;&lt;/parallel&gt;&lt;/constraint&gt;&lt;constraint repeatuntil=&quot;running&quot;
       name=&quot;search&quot; constraint=&quot;currentState == &amp;quot;search&amp;quot;&quot;&gt;&lt;parallel
       tiebreaker=&quot;fail&quot; succeed=&quot;all&quot; repeatuntil=&quot;&quot;
-      name=&quot;sequencer&quot; fail=&quot;any&quot;&gt;&lt;sequencer usepriorities=&quot;False&quot;
+      name=&quot;seeking&quot; fail=&quot;any&quot;&gt;&lt;sequencer usepriorities=&quot;False&quot;
       repeatuntil=&quot;&quot; name=&quot;sequencer&quot;&gt;&lt;move turnspeed=&quot;&quot;
       repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;move&quot; movetarget=&quot;lastSeenPlayerPos&quot;
       movespeed=&quot;2&quot; facetarget=&quot;&quot; closeenoughdistance=&quot;3&quot;
@@ -77,19 +77,22 @@ MonoBehaviour:
       name=&quot;priority&quot;&gt;&lt;sequencer usepriorities=&quot;False&quot; repeatuntil=&quot;&quot;
       priority=&quot;&quot; name=&quot;sequencer&quot;&gt;&lt;detect sensor=&quot;melee&quot;
       repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;detect melee&quot;
-      entityobjectvariable=&quot;&quot; aspectvariable=&quot;&quot; aspectobjectvariable=&quot;playerMeleeTarget&quot;
+      entityobjectvariable=&quot;meleetarget&quot; aspectvariable=&quot;&quot; aspectobjectvariable=&quot;&quot;
       aspect=&quot;player&quot; /&gt;&lt;animate repeatuntil=&quot;&quot; priority=&quot;&quot;
-      name=&quot;animate&quot; animationstate=&quot;&quot; /&gt;&lt;action repeatuntil=&quot;&quot;
+      name=&quot;animate&quot; animationstate=&quot;Melee&quot; /&gt;&lt;action repeatuntil=&quot;&quot;
       priority=&quot;&quot; parametervalues=&quot;&quot; parameters=&quot;&quot; namespace=&quot;(global)&quot;
       name=&quot;action&quot; classname=&quot;ApplyMeleeDamage&quot; /&gt;&lt;/sequencer&gt;&lt;sequencer
       usepriorities=&quot;False&quot; repeatuntil=&quot;&quot; priority=&quot;&quot;
       name=&quot;sequencer&quot;&gt;&lt;detect sensor=&quot;gunpoint&quot; repeatuntil=&quot;&quot;
       priority=&quot;&quot; name=&quot;detect range&quot; entityobjectvariable=&quot;&quot;
       aspectvariable=&quot;&quot; aspectobjectvariable=&quot;playerGunTarget&quot;
-      aspect=&quot;player&quot; /&gt;&lt;/sequencer&gt;&lt;move turnspeed=&quot;&quot;
-      repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;move&quot; movetarget=&quot;playerobj&quot;
-      movespeed=&quot;2&quot; facetarget=&quot;&quot; closeenoughdistance=&quot;5&quot;
-      closeenoughangle=&quot;5&quot; /&gt;&lt;/selector&gt;&lt;/parallel&gt;&lt;/constraint&gt;&lt;constraint
+      aspect=&quot;player&quot; /&gt;&lt;animate repeatuntil=&quot;&quot; priority=&quot;&quot;
+      name=&quot;animate&quot; animationstate=&quot;Aim&quot; /&gt;&lt;action repeatuntil=&quot;&quot;
+      priority=&quot;&quot; parametervalues=&quot;&quot; parameters=&quot;&quot; namespace=&quot;(global)&quot;
+      name=&quot;action&quot; classname=&quot;FireRangedWeapon&quot; /&gt;&lt;/sequencer&gt;&lt;move
+      turnspeed=&quot;&quot; repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;move&quot;
+      movetarget=&quot;playerobj&quot; movespeed=&quot;2&quot; facetarget=&quot;&quot;
+      closeenoughdistance=&quot;5&quot; closeenoughangle=&quot;5&quot; /&gt;&lt;/selector&gt;&lt;/parallel&gt;&lt;/constraint&gt;&lt;constraint
       repeatuntil=&quot;running&quot; name=&quot;hide&quot; constraint=&quot;currentState
       == &amp;quot;hide&amp;quot;&quot;&gt;&lt;parallel tiebreaker=&quot;fail&quot;
       succeed=&quot;all&quot; repeatuntil=&quot;&quot; name=&quot;parallel&quot; fail=&quot;any&quot;&gt;&lt;constraint
