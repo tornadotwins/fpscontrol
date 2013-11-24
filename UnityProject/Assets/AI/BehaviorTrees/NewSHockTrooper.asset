@@ -67,32 +67,40 @@ MonoBehaviour:
       name=&quot;fight&quot; constraint=&quot;currentState == &amp;quot;fight&amp;quot;&quot;&gt;&lt;parallel
       tiebreaker=&quot;fail&quot; succeed=&quot;all&quot; repeatuntil=&quot;&quot;
       name=&quot;parallel&quot; fail=&quot;any&quot;&gt;&lt;constraint repeatuntil=&quot;running&quot;
-      name=&quot;constraint&quot; constraint=&quot;health &amp;lt; 50&quot;&gt;&lt;expression
-      returnvalue=&quot;evaluate&quot; repeatuntil=&quot;&quot; name=&quot;expression&quot;
-      expression=&quot;currentState = &amp;quot;hide&amp;quot;&quot; /&gt;&lt;/constraint&gt;&lt;constraint
-      repeatuntil=&quot;running&quot; name=&quot;constraint&quot; constraint=&quot;playerobj
-      == null&quot;&gt;&lt;expression returnvalue=&quot;success&quot; repeatuntil=&quot;&quot;
-      name=&quot;expression&quot; expression=&quot;currentState = &amp;quot;search&amp;quot;&quot;
-      /&gt;&lt;/constraint&gt;&lt;selector usepriorities=&quot;False&quot; repeatuntil=&quot;running&quot;
-      name=&quot;priority&quot;&gt;&lt;sequencer usepriorities=&quot;False&quot; repeatuntil=&quot;&quot;
-      priority=&quot;&quot; name=&quot;sequencer&quot;&gt;&lt;detect sensor=&quot;melee&quot;
-      repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;detect melee&quot;
-      entityobjectvariable=&quot;meleetarget&quot; aspectvariable=&quot;&quot; aspectobjectvariable=&quot;&quot;
-      aspect=&quot;player&quot; /&gt;&lt;animate repeatuntil=&quot;&quot; priority=&quot;&quot;
-      name=&quot;animate&quot; animationstate=&quot;Melee&quot; /&gt;&lt;action repeatuntil=&quot;&quot;
-      priority=&quot;&quot; parametervalues=&quot;&quot; parameters=&quot;&quot; namespace=&quot;(global)&quot;
-      name=&quot;action&quot; classname=&quot;ApplyMeleeDamage&quot; /&gt;&lt;/sequencer&gt;&lt;constraint
+      name=&quot;constraint&quot; constraint=&quot;health &amp;lt; 50&quot;&gt;&lt;mecparam
+      valueexpression=&quot;false&quot; repeatuntil=&quot;&quot; parametertype=&quot;boolean&quot;
+      parametername=&quot;Aim&quot; name=&quot;mecparam&quot; damptime=&quot;0&quot;
+      /&gt;&lt;expression returnvalue=&quot;success&quot; repeatuntil=&quot;&quot;
+      name=&quot;expression&quot; expression=&quot;currentState = &amp;quot;hide&amp;quot;&quot;
+      /&gt;&lt;/constraint&gt;&lt;constraint repeatuntil=&quot;running&quot; name=&quot;constraint&quot;
+      constraint=&quot;playerobj == null&quot;&gt;&lt;mecparam valueexpression=&quot;false&quot;
+      repeatuntil=&quot;&quot; parametertype=&quot;boolean&quot; parametername=&quot;Aim&quot;
+      name=&quot;mecparam&quot; damptime=&quot;0&quot; /&gt;&lt;expression returnvalue=&quot;success&quot;
+      repeatuntil=&quot;&quot; name=&quot;expression&quot; expression=&quot;currentState
+      = &amp;quot;search&amp;quot;&quot; /&gt;&lt;/constraint&gt;&lt;selector usepriorities=&quot;False&quot;
+      repeatuntil=&quot;running&quot; name=&quot;priority&quot;&gt;&lt;sequencer usepriorities=&quot;False&quot;
+      repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;sequencer&quot;&gt;&lt;detect
+      sensor=&quot;melee&quot; repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;detect
+      melee&quot; entityobjectvariable=&quot;meleetarget&quot; aspectvariable=&quot;&quot;
+      aspectobjectvariable=&quot;&quot; aspect=&quot;player&quot; /&gt;&lt;animate
+      repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;animate&quot; animationstate=&quot;Melee&quot;
+      /&gt;&lt;action repeatuntil=&quot;&quot; priority=&quot;&quot; parametervalues=&quot;&quot;
+      parameters=&quot;&quot; namespace=&quot;(global)&quot; name=&quot;action&quot;
+      classname=&quot;ApplyMeleeDamage&quot; /&gt;&lt;/sequencer&gt;&lt;constraint
       repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;constraint&quot; constraint=&quot;ammo
       &amp;lt;= 0&quot;&gt;&lt;animate repeatuntil=&quot;&quot; name=&quot;animate&quot;
       animationstate=&quot;Reload&quot; /&gt;&lt;action repeatuntil=&quot;&quot; parametervalues=&quot;&quot;
       parameters=&quot;&quot; namespace=&quot;(global)&quot; name=&quot;action&quot;
-      classname=&quot;ReloadWeapon&quot; /&gt;&lt;/constraint&gt;&lt;sequencer usepriorities=&quot;False&quot;
+      classname=&quot;ReloadWeapon&quot; /&gt;&lt;timer waitforsec=&quot;2&quot; returnvalue=&quot;success&quot;
+      name=&quot;timer&quot; /&gt;&lt;/constraint&gt;&lt;sequencer usepriorities=&quot;False&quot;
       repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;sequencer&quot;&gt;&lt;detect
       sensor=&quot;gunpoint&quot; repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;detect
-      range&quot; entityobjectvariable=&quot;&quot; aspectvariable=&quot;&quot; aspectobjectvariable=&quot;playerGunTarget&quot;
-      aspect=&quot;player&quot; /&gt;&lt;animate repeatuntil=&quot;&quot; priority=&quot;&quot;
-      name=&quot;animate&quot; animationstate=&quot;Aim&quot; /&gt;&lt;action repeatuntil=&quot;&quot;
-      priority=&quot;&quot; parametervalues=&quot;&quot; parameters=&quot;&quot; namespace=&quot;(global)&quot;
+      range&quot; entityobjectvariable=&quot;enemytarget&quot; aspectvariable=&quot;&quot;
+      aspectobjectvariable=&quot;gunTarget&quot; aspect=&quot;player&quot; /&gt;&lt;animate
+      repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;animate&quot; animationstate=&quot;Aim&quot;
+      /&gt;&lt;timer waitforsec=&quot;1&quot; returnvalue=&quot;success&quot; priority=&quot;&quot;
+      name=&quot;timer&quot; /&gt;&lt;action repeatuntil=&quot;&quot; priority=&quot;&quot;
+      parametervalues=&quot;&quot; parameters=&quot;&quot; namespace=&quot;(global)&quot;
       name=&quot;action&quot; classname=&quot;FireRangedWeapon&quot; /&gt;&lt;/sequencer&gt;&lt;move
       turnspeed=&quot;&quot; repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;move&quot;
       movetarget=&quot;playerobj&quot; movespeed=&quot;2&quot; facetarget=&quot;&quot;

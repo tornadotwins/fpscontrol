@@ -31,6 +31,29 @@ function Update()
 	if (shootAt != null)
 	{
 		_gunLogic._1stShootTo = shootAt.transform;
+		
+		// if we're aiming, set the current aim angle
+		if (_mecanimAnimator.GetBool("Aim"))
+		{
+			var aiPos : Vector3 = _ai.AI.Body.transform.position;
+			var targetPos : Vector3 = shootAt.transform.position;
+			
+			var xdist : float = aiPos.x - targetPos.x;
+			var yA : float = aiPos.y - targetPos.y + 0.75f; // add height to account for AI shoulder height
+			var z : float = aiPos.z - targetPos.z;
+			xdist = Mathf.Sqrt(xdist*xdist + z*z);
+			
+			yA = Mathf.Atan(-yA/xdist) * Mathf.Rad2Deg;
+			_mecanimAnimator.SetFloat("GunAngle", yA);
+		}
+		else
+		{
+			_mecanimAnimator.SetFloat("GunAngle", 0.0f);
+		}
+	}
+	else
+	{
+		_mecanimAnimator.SetFloat("GunAngle", 0.0f);
 	}
 }
 
