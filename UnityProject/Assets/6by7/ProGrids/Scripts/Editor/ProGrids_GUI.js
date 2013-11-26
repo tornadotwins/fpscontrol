@@ -104,23 +104,23 @@ class ProGrids_GUI extends ProGrids_Base
 				SceneView.RepaintAll();
 			}
 			
-			//snap selected button
-			if(GUILayout.Button(GUIContent(snapSelectedGraphic, "Snap All Selected items to Nearest Grid Point")))
-			{
-				EditorUtility.DisplayDialog("Snap Selected", "You can instantly snap all selected objects to the grid. Sorry, not available in the Free Version.", "Okay");
-			}			
-			
-			//snap size
-			if(GUILayout.Button(GUIContent(snapSizeGraphic, "Change the Grid Size and Units")))
-			{
-				EditorUtility.DisplayDialog("Grid Size and Units", "Grid size and units are adjustable at any time! Meters, Centimeters, Feet, and Inches are available. Sorry, not available in the Free Version.", "Okay");
-			}
+//snap selected button
+            //if(GUILayout.Button(GUIContent(snapSelectedGraphic, "Snap All Selected items to Nearest Grid Point")))
+            //{
+            //    EditorUtility.DisplayDialog("Snap Selected", "You can instantly snap all selected objects to the grid. Sorry, not available in the Free Version.", "Okay");
+            //}            
+            
+            //snap size
+            if(GUILayout.Button(GUIContent(snapSizeGraphic as UnityEngine.Texture, "Change the Grid Size and Units")))
+            {
+                EditorUtility.DisplayDialog("Grid Size and Units", "Grid size and units are adjustable at any time! Meters, Centimeters, Feet, and Inches are available. Sorry, not available in the Free Version.", "Okay");
+            }
 
-			//show angles on/off toggle
-			if(GUILayout.Button(GUIContent(anglesOffGraphic, "Toggle Angles Visibility On/Off")))
-			{
-				EditorUtility.DisplayDialog("Angle Guidelines", "You can view handy Angle Guidelines for precise construction. Sorry, not available in the Free Version.", "Okay");
-			}
+            //show angles on/off toggle
+            if(GUILayout.Button(GUIContent(anglesOffGraphic as UnityEngine.Texture, "Toggle Angles Visibility On/Off")))
+            {
+                EditorUtility.DisplayDialog("Angle Guidelines", "You can view handy Angle Guidelines for precise construction. Sorry, not available in the Free Version.", "Okay");
+            }
 			
 			EditorGUILayout.EndVertical();
 
