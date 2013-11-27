@@ -26,6 +26,9 @@ namespace FPSControl
         public bool isCrouching { get { return _crouched; } }
         public bool isRunning { get { return _sprint; } }
         public float crouchSpeedModifier = .5F;
+        public float fallTollerance = 0.5f;
+        public float fallDamageThreshold = 3f;
+        public float fallDamageAmount = 50f;
         
         public bool isMovingBackwards { get; private set; }
         public bool isStrafing { get; private set; }
@@ -45,6 +48,10 @@ namespace FPSControl
         bool canJump { get { return Player.currentState.canJump && _controller.height == height; } }
 
         public float gravity = 4F;
+        [HideInInspector]
+        float _fallDist = 0f;
+        [HideInInspector]
+        float _lastY = 0f;
 
         public bool liveEditing = false;
         [HideInInspector]
@@ -139,6 +146,21 @@ namespace FPSControl
 
             Vector3 actualXZ = Vector3.Scale(_transform.localPosition, new Vector3(1, 0, 1));
             float actualY = _transform.localPosition.y;
+
+            if (!_controller.isGrounded)
+            {
+                _fallDist += _lastY - actualY;
+            }
+            else
+            {
+                if (!_wasGrounded)
+                {
+                    DoFallDamage();
+                }
+
+                _fallDist = 0.0f;
+            }
+            _lastY = actualY;
 
             if (projectedXZ != actualXZ) CorrectHorizontalForce(actualXZ - projectedXZ);
             if ((projectedY > actualY) && _movement.y > 0) CorrectUpForce(actualY - projectedY);
@@ -248,7 +270,7 @@ namespace FPSControl
             
             if (!canJump) return;
 
-            if (FPSControlInput.IsJumping() && _controller.isGrounded)
+            if (FPSControlInput.IsJumping() && (_controller.isGrounded || _fallDist < fallTollerance))
             {
                 Debug.Log("jump!");
                 _input = true;
@@ -288,6 +310,24 @@ namespace FPSControl
             }
 
             _cam.height = _controller.height;
+        }
+
+        void DoFallDamage()
+        {
+            if (_fallDist < fallDamageThreshold) return;
+
+            _fallDist -= fallDamageThreshold;
+            float damage = (_fallDist / fallDamageThreshold) * fallDamageAmount;
+
+            DamageSource damageSource = new DamageSource();
+            damageSource.damageAmount = damage;
+            damageSource.fromPosition = _controller.transform.position;
+            damageSource.appliedToPosition = _controller.transform.position;
+            damageSource.sourceObject = _controller.gameObject;
+            damageSource.sourceObjectType = DamageSource.DamageSourceObjectType.Obstacle;
+            damageSource.sourceType = DamageSource.DamageSourceType.StaticCollision;
+
+            Player.SendMessage("ApplyDamage", damageSource, SendMessageOptions.DontRequireReceiver);
         }
     }
 }
