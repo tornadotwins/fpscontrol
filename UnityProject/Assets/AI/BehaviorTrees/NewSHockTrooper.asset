@@ -15,25 +15,30 @@ MonoBehaviour:
     _serializedData: <scriptableobject version="1.0" type="RAIN.BehaviorTrees.BTAsset"><fields><field
       value="&lt;behaviortree version=&quot;1.0&quot; repeatuntil=&quot;&quot; name=&quot;NewSHockTrooper&quot;&gt;&lt;parallel
       tiebreaker=&quot;fail&quot; succeed=&quot;all&quot; repeatuntil=&quot;&quot;
-      name=&quot;root&quot; fail=&quot;any&quot;&gt;&lt;sequencer usepriorities=&quot;False&quot;
-      repeatuntil=&quot;running&quot; name=&quot;sequencer&quot;&gt;&lt;detect sensor=&quot;st_eyes&quot;
-      repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;detect&quot; entityobjectvariable=&quot;playerobj&quot;
-      aspectvariable=&quot;&quot; aspectobjectvariable=&quot;&quot; aspect=&quot;player&quot;
-      /&gt;&lt;action repeatuntil=&quot;&quot; priority=&quot;&quot; parametervalues=&quot;&quot;
-      parameters=&quot;&quot; namespace=&quot;(global)&quot; name=&quot;action&quot;
-      classname=&quot;SetMoveTarget&quot; /&gt;&lt;/sequencer&gt;&lt;constraint repeatuntil=&quot;running&quot;
-      name=&quot;patrol&quot; constraint=&quot;currentState == &amp;quot;patrol&amp;quot;&quot;&gt;&lt;parallel
-      tiebreaker=&quot;fail&quot; succeed=&quot;all&quot; repeatuntil=&quot;&quot;
-      name=&quot;parallel&quot; fail=&quot;any&quot;&gt;&lt;waypointpatrol waypointsetvariable=&quot;&amp;quot;ShockTrooper1Waypoints&amp;quot;&quot;
-      waypointactiontype=&quot;patrol&quot; traversetype=&quot;loop&quot; traverseorder=&quot;forward&quot;
-      repeatuntil=&quot;&quot; pathtargetvariable=&quot;&quot; name=&quot;waypointpatrol&quot;
-      movetargetvariable=&quot;nextPatrolPoint&quot; /&gt;&lt;move turnspeed=&quot;&quot;
-      repeatuntil=&quot;running&quot; name=&quot;move&quot; movetarget=&quot;nextPatrolPoint&quot;
-      movespeed=&quot;1&quot; facetarget=&quot;&quot; closeenoughdistance=&quot;&quot;
-      closeenoughangle=&quot;&quot; /&gt;&lt;selector usepriorities=&quot;False&quot;
-      repeatuntil=&quot;running&quot; name=&quot;selector&quot;&gt;&lt;expression
+      name=&quot;root&quot; fail=&quot;any&quot;&gt;&lt;constraint repeatuntil=&quot;running&quot;
+      name=&quot;constraint&quot; constraint=&quot;health &amp;lt;= 0 &amp;amp;&amp;amp;
+      currentState != &amp;quot;dead&amp;quot;&quot;&gt;&lt;animate repeatuntil=&quot;&quot;
+      name=&quot;animate&quot; animationstate=&quot;DieEasy&quot; /&gt;&lt;expression
+      returnvalue=&quot;success&quot; repeatuntil=&quot;&quot; name=&quot;expression&quot;
+      expression=&quot;currentState = &amp;quot;dead&amp;quot;&quot; /&gt;&lt;/constraint&gt;&lt;sequencer
+      usepriorities=&quot;False&quot; repeatuntil=&quot;running&quot; name=&quot;sequencer&quot;&gt;&lt;detect
+      sensor=&quot;st_eyes&quot; repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;detect&quot;
+      entityobjectvariable=&quot;attacktarget&quot; aspectvariable=&quot;&quot; aspectobjectvariable=&quot;&quot;
+      aspect=&quot;player&quot; /&gt;&lt;action repeatuntil=&quot;&quot; priority=&quot;&quot;
+      parametervalues=&quot;&quot; parameters=&quot;&quot; namespace=&quot;(global)&quot;
+      name=&quot;action&quot; classname=&quot;SetMoveTarget&quot; /&gt;&lt;/sequencer&gt;&lt;constraint
+      repeatuntil=&quot;running&quot; name=&quot;patrol&quot; constraint=&quot;currentState
+      == &amp;quot;patrol&amp;quot;&quot;&gt;&lt;parallel tiebreaker=&quot;fail&quot;
+      succeed=&quot;all&quot; repeatuntil=&quot;&quot; name=&quot;parallel&quot; fail=&quot;any&quot;&gt;&lt;waypointpatrol
+      waypointsetvariable=&quot;&amp;quot;ShockTrooper1Waypoints&amp;quot;&quot; waypointactiontype=&quot;patrol&quot;
+      traversetype=&quot;loop&quot; traverseorder=&quot;forward&quot; repeatuntil=&quot;&quot;
+      pathtargetvariable=&quot;&quot; name=&quot;waypointpatrol&quot; movetargetvariable=&quot;nextPatrolPoint&quot;
+      /&gt;&lt;move turnspeed=&quot;&quot; repeatuntil=&quot;running&quot; name=&quot;move&quot;
+      movetarget=&quot;nextPatrolPoint&quot; movespeed=&quot;1&quot; facetarget=&quot;&quot;
+      closeenoughdistance=&quot;&quot; closeenoughangle=&quot;&quot; /&gt;&lt;selector
+      usepriorities=&quot;False&quot; repeatuntil=&quot;running&quot; name=&quot;selector&quot;&gt;&lt;expression
       returnvalue=&quot;evaluate&quot; repeatuntil=&quot;&quot; priority=&quot;&quot;
-      name=&quot;expression&quot; expression=&quot;playerobj == null&quot; /&gt;&lt;expression
+      name=&quot;expression&quot; expression=&quot;attacktarget == null&quot; /&gt;&lt;expression
       returnvalue=&quot;evaluate&quot; repeatuntil=&quot;&quot; priority=&quot;&quot;
       name=&quot;expression&quot; expression=&quot;currentState = &amp;quot;fight&amp;quot;&quot;
       /&gt;&lt;/selector&gt;&lt;/parallel&gt;&lt;/constraint&gt;&lt;constraint repeatuntil=&quot;running&quot;
@@ -60,51 +65,49 @@ MonoBehaviour:
       = &amp;quot;patrol&amp;quot;&quot; /&gt;&lt;/sequencer&gt;&lt;selector usepriorities=&quot;False&quot;
       repeatuntil=&quot;running&quot; name=&quot;selector&quot;&gt;&lt;expression
       returnvalue=&quot;evaluate&quot; repeatuntil=&quot;&quot; priority=&quot;&quot;
-      name=&quot;expression&quot; expression=&quot;playerobj == null&quot; /&gt;&lt;expression
+      name=&quot;expression&quot; expression=&quot;attacktarget == null&quot; /&gt;&lt;expression
       returnvalue=&quot;evaluate&quot; repeatuntil=&quot;&quot; priority=&quot;&quot;
       name=&quot;expression&quot; expression=&quot;currentState = &amp;quot;fight&amp;quot;&quot;
       /&gt;&lt;/selector&gt;&lt;/parallel&gt;&lt;/constraint&gt;&lt;constraint repeatuntil=&quot;running&quot;
       name=&quot;fight&quot; constraint=&quot;currentState == &amp;quot;fight&amp;quot;&quot;&gt;&lt;parallel
       tiebreaker=&quot;fail&quot; succeed=&quot;all&quot; repeatuntil=&quot;&quot;
       name=&quot;parallel&quot; fail=&quot;any&quot;&gt;&lt;constraint repeatuntil=&quot;running&quot;
-      name=&quot;constraint&quot; constraint=&quot;health &amp;lt; 50&quot;&gt;&lt;mecparam
-      valueexpression=&quot;false&quot; repeatuntil=&quot;&quot; parametertype=&quot;boolean&quot;
-      parametername=&quot;Aim&quot; name=&quot;mecparam&quot; damptime=&quot;0&quot;
-      /&gt;&lt;expression returnvalue=&quot;success&quot; repeatuntil=&quot;&quot;
+      name=&quot;constraint&quot; constraint=&quot;health &amp;lt; 50 &amp;amp;&amp;amp;
+      health &amp;gt; 25&quot;&gt;&lt;mecparam valueexpression=&quot;false&quot; repeatuntil=&quot;&quot;
+      parametertype=&quot;boolean&quot; parametername=&quot;Aim&quot; name=&quot;mecparam&quot;
+      damptime=&quot;0&quot; /&gt;&lt;expression returnvalue=&quot;success&quot; repeatuntil=&quot;&quot;
       name=&quot;expression&quot; expression=&quot;currentState = &amp;quot;hide&amp;quot;&quot;
       /&gt;&lt;/constraint&gt;&lt;constraint repeatuntil=&quot;running&quot; name=&quot;constraint&quot;
-      constraint=&quot;playerobj == null&quot;&gt;&lt;mecparam valueexpression=&quot;false&quot;
+      constraint=&quot;attacktarget == null&quot;&gt;&lt;mecparam valueexpression=&quot;false&quot;
       repeatuntil=&quot;&quot; parametertype=&quot;boolean&quot; parametername=&quot;Aim&quot;
       name=&quot;mecparam&quot; damptime=&quot;0&quot; /&gt;&lt;expression returnvalue=&quot;success&quot;
       repeatuntil=&quot;&quot; name=&quot;expression&quot; expression=&quot;currentState
-      = &amp;quot;search&amp;quot;&quot; /&gt;&lt;/constraint&gt;&lt;selector usepriorities=&quot;False&quot;
-      repeatuntil=&quot;running&quot; name=&quot;priority&quot;&gt;&lt;sequencer usepriorities=&quot;False&quot;
-      repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;sequencer&quot;&gt;&lt;detect
-      sensor=&quot;melee&quot; repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;detect
-      melee&quot; entityobjectvariable=&quot;meleetarget&quot; aspectvariable=&quot;&quot;
-      aspectobjectvariable=&quot;&quot; aspect=&quot;player&quot; /&gt;&lt;animate
-      repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;animate&quot; animationstate=&quot;Melee&quot;
-      /&gt;&lt;action repeatuntil=&quot;&quot; priority=&quot;&quot; parametervalues=&quot;&quot;
-      parameters=&quot;&quot; namespace=&quot;(global)&quot; name=&quot;action&quot;
-      classname=&quot;ApplyMeleeDamage&quot; /&gt;&lt;/sequencer&gt;&lt;constraint
-      repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;constraint&quot; constraint=&quot;ammo
-      &amp;lt;= 0&quot;&gt;&lt;animate repeatuntil=&quot;&quot; name=&quot;animate&quot;
-      animationstate=&quot;Reload&quot; /&gt;&lt;action repeatuntil=&quot;&quot; parametervalues=&quot;&quot;
-      parameters=&quot;&quot; namespace=&quot;(global)&quot; name=&quot;action&quot;
-      classname=&quot;ReloadWeapon&quot; /&gt;&lt;timer waitforsec=&quot;2&quot; returnvalue=&quot;success&quot;
-      name=&quot;timer&quot; /&gt;&lt;/constraint&gt;&lt;sequencer usepriorities=&quot;False&quot;
-      repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;sequencer&quot;&gt;&lt;detect
-      sensor=&quot;gunpoint&quot; repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;detect
-      range&quot; entityobjectvariable=&quot;enemytarget&quot; aspectvariable=&quot;&quot;
-      aspectobjectvariable=&quot;gunTarget&quot; aspect=&quot;player&quot; /&gt;&lt;animate
-      repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;animate&quot; animationstate=&quot;Aim&quot;
-      /&gt;&lt;timer waitforsec=&quot;1&quot; returnvalue=&quot;success&quot; priority=&quot;&quot;
-      name=&quot;timer&quot; /&gt;&lt;action repeatuntil=&quot;&quot; priority=&quot;&quot;
+      = &amp;quot;search&amp;quot;&quot; /&gt;&lt;/constraint&gt;&lt;action repeatuntil=&quot;running&quot;
       parametervalues=&quot;&quot; parameters=&quot;&quot; namespace=&quot;(global)&quot;
-      name=&quot;action&quot; classname=&quot;FireRangedWeapon&quot; /&gt;&lt;/sequencer&gt;&lt;move
+      name=&quot;action&quot; classname=&quot;AIChooseAttackPosition&quot; /&gt;&lt;selector
+      usepriorities=&quot;False&quot; repeatuntil=&quot;running&quot; name=&quot;priority&quot;&gt;&lt;sequencer
+      usepriorities=&quot;False&quot; repeatuntil=&quot;&quot; priority=&quot;&quot;
+      name=&quot;sequencer&quot;&gt;&lt;detect sensor=&quot;melee&quot; repeatuntil=&quot;&quot;
+      priority=&quot;&quot; name=&quot;detect melee&quot; entityobjectvariable=&quot;meleetarget&quot;
+      aspectvariable=&quot;&quot; aspectobjectvariable=&quot;&quot; aspect=&quot;player&quot;
+      /&gt;&lt;animate repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;animate&quot;
+      animationstate=&quot;Melee&quot; /&gt;&lt;action repeatuntil=&quot;&quot; priority=&quot;&quot;
+      parametervalues=&quot;&quot; parameters=&quot;&quot; namespace=&quot;(global)&quot;
+      name=&quot;action&quot; classname=&quot;ApplyMeleeDamage&quot; /&gt;&lt;/sequencer&gt;&lt;constraint
+      repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;sequencer&quot; constraint=&quot;ammo
+      &amp;gt; 0&quot;&gt;&lt;detect sensor=&quot;gunpoint&quot; repeatuntil=&quot;&quot;
+      name=&quot;detect range&quot; entityobjectvariable=&quot;enemytarget&quot; aspectvariable=&quot;&quot;
+      aspectobjectvariable=&quot;gunTarget&quot; aspect=&quot;player&quot; /&gt;&lt;animate
+      repeatuntil=&quot;&quot; name=&quot;animate&quot; animationstate=&quot;Aim&quot;
+      /&gt;&lt;timer waitforsec=&quot;1&quot; returnvalue=&quot;success&quot; name=&quot;timer&quot;
+      /&gt;&lt;action repeatuntil=&quot;&quot; parametervalues=&quot;&quot; parameters=&quot;&quot;
+      namespace=&quot;(global)&quot; name=&quot;action&quot; classname=&quot;FireRangedWeapon&quot;
+      /&gt;&lt;/constraint&gt;&lt;action repeatuntil=&quot;failure&quot; priority=&quot;&quot;
+      parametervalues=&quot;&quot; parameters=&quot;&quot; namespace=&quot;(global)&quot;
+      name=&quot;action&quot; classname=&quot;AIUpdateAttackPosition&quot; /&gt;&lt;move
       turnspeed=&quot;&quot; repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;move&quot;
-      movetarget=&quot;playerobj&quot; movespeed=&quot;2&quot; facetarget=&quot;&quot;
-      closeenoughdistance=&quot;5&quot; closeenoughangle=&quot;5&quot; /&gt;&lt;/selector&gt;&lt;/parallel&gt;&lt;/constraint&gt;&lt;constraint
+      movetarget=&quot;attackposition&quot; movespeed=&quot;2&quot; facetarget=&quot;attacktarget&quot;
+      closeenoughdistance=&quot;1&quot; closeenoughangle=&quot;5&quot; /&gt;&lt;/selector&gt;&lt;/parallel&gt;&lt;/constraint&gt;&lt;constraint
       repeatuntil=&quot;running&quot; name=&quot;hide&quot; constraint=&quot;currentState
       == &amp;quot;hide&amp;quot;&quot;&gt;&lt;parallel tiebreaker=&quot;fail&quot;
       succeed=&quot;all&quot; repeatuntil=&quot;&quot; name=&quot;parallel&quot; fail=&quot;any&quot;&gt;&lt;constraint
@@ -112,7 +115,7 @@ MonoBehaviour:
       &amp;gt; 50&quot;&gt;&lt;expression returnvalue=&quot;success&quot; repeatuntil=&quot;&quot;
       name=&quot;expression&quot; expression=&quot;currentState = &amp;quot;search&amp;quot;&quot;
       /&gt;&lt;/constraint&gt;&lt;constraint repeatuntil=&quot;running&quot; name=&quot;constraint&quot;
-      constraint=&quot;health &amp;lt; 25 &amp;amp;&amp;amp; playerobj != null&quot;&gt;&lt;expression
+      constraint=&quot;health &amp;lt; 25 &amp;amp;&amp;amp; attacktarget != null&quot;&gt;&lt;expression
       returnvalue=&quot;success&quot; repeatuntil=&quot;&quot; name=&quot;expression&quot;
       expression=&quot;currentState = &amp;quot;fight&amp;quot;&quot; /&gt;&lt;/constraint&gt;&lt;sequencer
       usepriorities=&quot;False&quot; repeatuntil=&quot;running&quot; name=&quot;sequencer&quot;&gt;&lt;random

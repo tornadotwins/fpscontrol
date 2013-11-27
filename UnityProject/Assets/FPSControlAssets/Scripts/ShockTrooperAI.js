@@ -39,7 +39,7 @@ function Update()
 			var targetPos : Vector3 = shootAt.transform.position;
 			
 			var xdist : float = aiPos.x - targetPos.x;
-			var yA : float = aiPos.y - targetPos.y + 0.75f; // add height to account for AI shoulder height
+			var yA : float = aiPos.y - targetPos.y; // + 0.75f; // add height to account for AI shoulder height
 			var z : float = aiPos.z - targetPos.z;
 			xdist = Mathf.Sqrt(xdist*xdist + z*z);
 			

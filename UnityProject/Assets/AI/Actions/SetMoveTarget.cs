@@ -19,7 +19,7 @@ public class SetMoveTarget : RAINAction
 
     public override ActionResult Execute(AI ai)
     {
-		GameObject player = ai.WorkingMemory.GetItem<GameObject>("playerobj");
+		GameObject player = ai.WorkingMemory.GetItem<GameObject>("attacktarget");
 		
 		ai.WorkingMemory.SetItem<Vector3>("lastSeenPlayerPos", player.transform.position);
 		
