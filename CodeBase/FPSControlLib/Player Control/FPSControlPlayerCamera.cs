@@ -130,6 +130,11 @@ namespace FPSControl
             weaponCamera.enabled = visible;
         }
 
+        public void ResetRotation()
+        {
+            _playerPrevRotation = _startRotation = _root.rotation;
+        }
+
         public override void DoUpdate()
         {
             if (FPSControlPlayerData.frozen) return;

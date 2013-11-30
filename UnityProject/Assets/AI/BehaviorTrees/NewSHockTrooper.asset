@@ -82,7 +82,10 @@ MonoBehaviour:
       repeatuntil=&quot;&quot; parametertype=&quot;boolean&quot; parametername=&quot;Aim&quot;
       name=&quot;mecparam&quot; damptime=&quot;0&quot; /&gt;&lt;expression returnvalue=&quot;success&quot;
       repeatuntil=&quot;&quot; name=&quot;expression&quot; expression=&quot;currentState
-      = &amp;quot;search&amp;quot;&quot; /&gt;&lt;/constraint&gt;&lt;action repeatuntil=&quot;running&quot;
+      = &amp;quot;search&amp;quot;&quot; /&gt;&lt;/constraint&gt;&lt;constraint repeatuntil=&quot;&quot;
+      name=&quot;constraint&quot; constraint=&quot;ammo &amp;lt;= 0&quot;&gt;&lt;expression
+      returnvalue=&quot;success&quot; repeatuntil=&quot;&quot; name=&quot;expression&quot;
+      expression=&quot;fightDist = 1&quot; /&gt;&lt;/constraint&gt;&lt;action repeatuntil=&quot;running&quot;
       parametervalues=&quot;&quot; parameters=&quot;&quot; namespace=&quot;(global)&quot;
       name=&quot;action&quot; classname=&quot;AIChooseAttackPosition&quot; /&gt;&lt;selector
       usepriorities=&quot;False&quot; repeatuntil=&quot;running&quot; name=&quot;priority&quot;&gt;&lt;sequencer
@@ -102,12 +105,13 @@ MonoBehaviour:
       /&gt;&lt;timer waitforsec=&quot;1&quot; returnvalue=&quot;success&quot; name=&quot;timer&quot;
       /&gt;&lt;action repeatuntil=&quot;&quot; parametervalues=&quot;&quot; parameters=&quot;&quot;
       namespace=&quot;(global)&quot; name=&quot;action&quot; classname=&quot;FireRangedWeapon&quot;
-      /&gt;&lt;/constraint&gt;&lt;action repeatuntil=&quot;failure&quot; priority=&quot;&quot;
-      parametervalues=&quot;&quot; parameters=&quot;&quot; namespace=&quot;(global)&quot;
-      name=&quot;action&quot; classname=&quot;AIUpdateAttackPosition&quot; /&gt;&lt;move
-      turnspeed=&quot;&quot; repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;move&quot;
+      /&gt;&lt;/constraint&gt;&lt;parallel tiebreaker=&quot;succeed&quot; succeed=&quot;any&quot;
+      repeatuntil=&quot;&quot; priority=&quot;&quot; name=&quot;parallel&quot; fail=&quot;any&quot;&gt;&lt;action
+      repeatuntil=&quot;failure&quot; parametervalues=&quot;&quot; parameters=&quot;&quot;
+      namespace=&quot;(global)&quot; name=&quot;action&quot; classname=&quot;AIUpdateAttackPosition&quot;
+      /&gt;&lt;move turnspeed=&quot;&quot; repeatuntil=&quot;&quot; name=&quot;move&quot;
       movetarget=&quot;attackposition&quot; movespeed=&quot;2&quot; facetarget=&quot;attacktarget&quot;
-      closeenoughdistance=&quot;1&quot; closeenoughangle=&quot;5&quot; /&gt;&lt;/selector&gt;&lt;/parallel&gt;&lt;/constraint&gt;&lt;constraint
+      closeenoughdistance=&quot;fightDist&quot; closeenoughangle=&quot;5&quot; /&gt;&lt;/parallel&gt;&lt;/selector&gt;&lt;/parallel&gt;&lt;/constraint&gt;&lt;constraint
       repeatuntil=&quot;running&quot; name=&quot;hide&quot; constraint=&quot;currentState
       == &amp;quot;hide&amp;quot;&quot;&gt;&lt;parallel tiebreaker=&quot;fail&quot;
       succeed=&quot;all&quot; repeatuntil=&quot;&quot; name=&quot;parallel&quot; fail=&quot;any&quot;&gt;&lt;constraint

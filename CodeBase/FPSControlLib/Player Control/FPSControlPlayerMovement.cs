@@ -29,6 +29,7 @@ namespace FPSControl
         public float fallTollerance = 0.5f;
         public float fallDamageThreshold = 3f;
         public float fallDamageAmount = 50f;
+        public float slideSpeed = 0f;
         
         public bool isMovingBackwards { get; private set; }
         public bool isStrafing { get; private set; }
@@ -115,6 +116,24 @@ namespace FPSControl
                 UpdateMovement();
                 UpdateJump();
                 UpdateCrouch();
+            }
+
+            if (slideSpeed > 0.0f)
+            {
+                RaycastHit hit;
+                float rayDistance = height * 2;
+                
+                if (Physics.Raycast(Player.transform.position, -Vector3.up, out hit, rayDistance))
+                {
+                    if (Vector3.Angle(hit.normal, Vector3.up) > _controller.slopeLimit)
+                    {
+                        Vector3 hitNormal = hit.normal;
+                        Vector3 slideDirection = new Vector3(hitNormal.x, -hitNormal.y, hitNormal.z);
+                        Vector3.OrthoNormalize(ref hitNormal, ref slideDirection);
+                        slideDirection *= slideSpeed;
+                        _movement = slideDirection;
+                    }
+                }
             }
 
             //this dampening really helps everything flow better.
@@ -270,7 +289,7 @@ namespace FPSControl
             
             if (!canJump) return;
 
-            if (FPSControlInput.IsJumping() && (_controller.isGrounded || _fallDist < fallTollerance))
+            if (FPSControlInput.IsJumping() && (_controller.isGrounded || (_fallDist >= 0 && _fallDist < fallTollerance)))
             {
                 Debug.Log("jump!");
                 _input = true;
@@ -319,15 +338,20 @@ namespace FPSControl
             _fallDist -= fallDamageThreshold;
             float damage = (_fallDist / fallDamageThreshold) * fallDamageAmount;
 
-            DamageSource damageSource = new DamageSource();
-            damageSource.damageAmount = damage;
-            damageSource.fromPosition = _controller.transform.position;
-            damageSource.appliedToPosition = _controller.transform.position;
-            damageSource.sourceObject = _controller.gameObject;
-            damageSource.sourceObjectType = DamageSource.DamageSourceObjectType.Obstacle;
-            damageSource.sourceType = DamageSource.DamageSourceType.StaticCollision;
+            if (damage > 0)
+            {
+                Vector3 pos = _controller.transform.position;
 
-            Player.SendMessage("ApplyDamage", damageSource, SendMessageOptions.DontRequireReceiver);
+                DamageSource damageSource = new DamageSource();
+                damageSource.damageAmount = damage;
+                damageSource.fromPosition = pos;
+                damageSource.appliedToPosition = pos;
+                damageSource.sourceObject = _controller.gameObject;
+                damageSource.sourceObjectType = DamageSource.DamageSourceObjectType.Obstacle;
+                damageSource.sourceType = DamageSource.DamageSourceType.Fall;
+
+                Player.SendMessage("ApplyDamage", damageSource, SendMessageOptions.DontRequireReceiver);
+            }
         }
     }
 }

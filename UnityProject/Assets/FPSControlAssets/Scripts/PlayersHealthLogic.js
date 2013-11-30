@@ -95,7 +95,11 @@ function ApplyDamage( damageSource : DamageSource )
 	var forwardDist : float = Vector3.Dot( forward, hitDir );
 	var sideDist : float = Vector3.Dot( left, hitDir );
 	
-	if( Mathf.Abs( sideDist ) < 0.1F )
+	if( damageSource.sourceType == DamageSource.DamageSourceType.Fall )
+	{
+		hurtQuad = HurtQuadrant.BACK;
+	}
+	else if( Mathf.Abs( sideDist ) < 0.1F )
 	{
 		if( forwardDist < 0 )
 		{
