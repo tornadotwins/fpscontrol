@@ -118,11 +118,12 @@ namespace FPSControl
             weaponCamera.farClipPlane = weaponCameraFarClip;
 
             _root = player.transform;
-            _playerPrevRotation = _startRotation = _root.rotation;
-            _control = new GameObject("[PLAYER ROTATION CONTROL]").transform;
-            _control.gameObject.hideFlags = HideFlags.HideInHierarchy;
+            ResetRotation();
+            if(!_control) _control = new GameObject("[PLAYER ROTATION CONTROL]").transform;
+            _control.gameObject.hideFlags = HideFlags.HideAndDontSave;
             _control.position = _root.position;
             _control.rotation = _root.rotation;
+            _yaw = _control.rotation.eulerAngles.y;
         }
 
         public void SetVisibility(bool visible)
@@ -132,13 +133,14 @@ namespace FPSControl
 
         public void ResetRotation()
         {
+            //Debug.Log("at reset: "+_root.rotation.eulerAngles);
             _playerPrevRotation = _startRotation = _root.rotation;
         }
 
         public override void DoUpdate()
         {
             if (FPSControlPlayerData.frozen) return;
-            
+            //Debug.Log("update: " + _root.rotation.eulerAngles);
             //gather input, applying sensitivity and possible inverted Y, for those weiners out there who like to press down to look up.
             Vector2 lookInput = FPSControlInput.GetLookDirection();
             float mouseX = lookInput.x * mouseSensitivity.x;
@@ -225,12 +227,12 @@ namespace FPSControl
 
             //get rotational values back from our pitch/yaw data
             Quaternion pitch;// = Quaternion.AngleAxis(_pitch - _startPitch, Vector3.left);
-            Quaternion yaw = Quaternion.AngleAxis(_yaw - _startYaw, Vector3.up);
+            Quaternion yaw = Quaternion.AngleAxis(_yaw, Vector3.up);
 
             //gotta rotate the character's body
             pitch = Quaternion.AngleAxis(0, -_root.right);
 
-            _root.rotation = pitch * yaw;
+            _root.rotation = yaw;
             
             //rotate our head
             pitch = Quaternion.AngleAxis(_pitch - _startPitch, -_root.right);
@@ -244,8 +246,8 @@ namespace FPSControl
 
             weaponHolder.rotation = Quaternion.Slerp(weaponHolder.rotation, _control.rotation, Time.deltaTime * trackSpeed);
 
-            _playerPrevRotation = transform.localRotation;
-            //Debug.Log(_transform.rotation);
+            _playerPrevRotation = _root.rotation;
+            //Debug.Log("late update: " + _root.rotation.eulerAngles);
         }
         /*
         float diff;
