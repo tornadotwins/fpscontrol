@@ -141,7 +141,7 @@ namespace FPSControl
             float mouseY = lookInput.y * (FPSControlInput.invertedLook ? -1 : 1) * mouseSensitivity.y;
 
             //reseting values to account for mouse position
-            _yaw = -mouseX;
+            _yaw = _root.rotation.eulerAngles.y - mouseX;
             _pitch = -mouseY;
         }
 
