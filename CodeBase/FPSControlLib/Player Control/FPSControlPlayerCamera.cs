@@ -135,6 +135,14 @@ namespace FPSControl
         {
             //Debug.Log("at reset: "+_root.rotation.eulerAngles);
             _playerPrevRotation = _startRotation = _root.rotation;
+
+            Vector2 lookInput = FPSControlInput.GetLookDirection();
+            float mouseX = lookInput.x * mouseSensitivity.x;
+            float mouseY = lookInput.y * (FPSControlInput.invertedLook ? -1 : 1) * mouseSensitivity.y;
+
+            //reseting values to account for mouse position
+            _yaw = -mouseX;
+            _pitch = -mouseY;
         }
 
         public override void DoUpdate()
