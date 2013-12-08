@@ -79,5 +79,43 @@ namespace FPSControl
 
             return false;
         }
+
+        public static bool ReSpawnAt(FPSControlPlayer player, int ID)
+        {
+
+            FPSControlPlayerSpawn spawn = null;
+            float minDist = -1f;
+            float d = 0f;
+
+            foreach (FPSControlPlayerSpawn sp in _spawnPoints)
+            {
+                if (sp.available && sp.spawnID == ID)
+                {
+                    d = Vector3.Distance(player.transform.position, sp.transform.position);
+
+                    if (minDist < 0 || d < minDist)
+                    {
+                        minDist = d;
+                        spawn = sp;
+                    }
+                }
+            }
+
+            if (spawn != null)
+            {
+                //Debug.Log(spawn);
+                Vector3 pos = spawn.transform.position;
+                player.transform.position = pos;
+                Quaternion rot = spawn.transform.rotation;
+                player.transform.rotation = rot;
+                player.playerCamera.ResetRotation();
+
+                FPSControlPlayerEvents.Spawn();
+
+                return true;
+            }
+
+            return false;
+        }
     }
 }
