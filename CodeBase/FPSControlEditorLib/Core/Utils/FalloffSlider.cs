@@ -94,6 +94,7 @@ namespace FPSControlEditor
             if (GUI.Button(new Rect(position.x + 258, position.y + 23, addButton.width, addButton.height), "", style))
             {
                 src.Add(new FalloffPoint(.5F, 1F));
+                GUI.changed = true;
             }
             GUI.enabled = enabled;
             //DRAW OUR DISTANCE FIELD HERE
@@ -159,6 +160,7 @@ namespace FPSControlEditor
                     {
                         evt.Use();
                         src.Remove(p);
+                        GUI.changed = true;
                         continue;
                     }
                 }
@@ -177,6 +179,7 @@ namespace FPSControlEditor
                     FalloffPoint pt = new FalloffPoint(loc, p.value);
                     src[i] = pt;
                     _focusedSlider = pt;
+                    GUI.changed = true;
                     evt.Use();
                 }
                 else if (evt.type == EventType.MouseUp || !GUI.enabled)
@@ -249,6 +252,7 @@ namespace FPSControlEditor
             if (GUI.Button(new Rect(position.x + 258, position.y + 23, addButton.width, addButton.height), "", style))
             {
                 src.Add(new FalloffPoint(.5F, 1F));
+                GUI.changed = true;
             }
             GUI.enabled = enabled;
             //DRAW OUR DISTANCE FIELD HERE
@@ -327,6 +331,7 @@ namespace FPSControlEditor
                     {
                         evt.Use();
                         src.Remove(p);
+                        GUI.changed = true;
                         continue;
                     }
                 }
@@ -345,6 +350,7 @@ namespace FPSControlEditor
                     FalloffPoint pt = new FalloffPoint(loc, p.value);
                     src[i] = pt;
                     _focusedSlider = pt;
+                    GUI.changed = true;
                     evt.Use();
                 }
                 else if (evt.type == EventType.MouseUp || !GUI.enabled)

@@ -40,14 +40,16 @@ namespace FPSControlEditor
             justReturnedFromPopup = true;
             if (Popup.Prompt(promptText, _editor))
             {
-                Popup.OnCancleInput += OnPromptCancle;
+                Popup.OnCancleInput += OnPromptCancel;
                 Popup.OnUserInput += OnPromptInput;
             }
         }
 
-        public virtual void OnPromptCancle() 
+        public virtual void OnPlayModeChange(bool isPlaying) { Debug.Log(isPlaying ? "Entering Play Mode" : "Leaving Play Mode"); }
+
+        public virtual void OnPromptCancel() 
         {
-            //Debug.Log("OnPromptCancle");
+            //Debug.Log("OnPromptCancel");
         }
 
         public virtual void OnPromptInput(string userInput) 
@@ -58,7 +60,7 @@ namespace FPSControlEditor
         public virtual void Init() {
             WAS_PLAYING_WHEN_LOST_FOCUS = "_FPSControl_" + _type + "FocusedBeforePlay";
             JUST_LEFT_TO_CREATE_NEW = "_FPSControl_" + _type + "FocusedBeforePlay";
-            HandlePaidStatus(RespounceHandler.CheckForPurchase(_type));
+            HandlePaidStatus(ResponseHandler.CheckForPurchase(_type));
         }
 
         public virtual void HandlePaidStatus(bool paid)

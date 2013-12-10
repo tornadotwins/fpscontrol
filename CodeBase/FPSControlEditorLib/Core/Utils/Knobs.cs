@@ -120,6 +120,7 @@ namespace FPSControlEditor
 
         public static int Incremental(Vector2 position, ref float knobPosition, int value, int min, int max, uint id)
         {
+            int _val = value;
             //safety.
             if (max != 5 && max != 10 && max != 20)
             {
@@ -129,12 +130,14 @@ namespace FPSControlEditor
             int i = Incremental(position, ref knobPosition, value, min, max, (Increments)max, id);
 
             if (id == interactID) interactValue = i;
-
+            
             return i;
         }
 
         public static int Incremental(Vector2 position, ref float knobPosition, int value, int min, int max, Increments increments, uint id)
         {
+            int _val = value;
+            
             //formulate a rect based on the desired position and the bg's dimensions
             Rect rect = new Rect(position.x, position.y, WIDTH, HEIGHT);
 
@@ -174,6 +177,7 @@ namespace FPSControlEditor
 
             if (id == interactID) interactValue = newValue;
 
+            GUI.changed = _val == newValue ? GUI.changed : true; 
             return newValue;
         }
 
@@ -186,7 +190,7 @@ namespace FPSControlEditor
         public static int Rotary(Vector2 position, int value, uint id)
         {
             float i = value;
-
+            float _val = value;
             //formulate a rect based on the desired position and the bg's dimensions
             Rect rect = new Rect(position.x, position.y, WIDTH, HEIGHT);
 
@@ -210,6 +214,7 @@ namespace FPSControlEditor
 
             if (id == interactID) interactValue = i;
 
+            GUI.changed = _val == i ? GUI.changed : true; 
             return (int)i;
         }
 
@@ -220,6 +225,7 @@ namespace FPSControlEditor
         public static float MinMax(Vector2 position, float value, float min, float max, uint id, bool hideDecimal = false)
         {
             float i = value;
+            float _val = value;
 
             value = Mathf.Clamp(value, min, max); //just for safety!		
 
@@ -257,7 +263,7 @@ namespace FPSControlEditor
             DrawKnob(rect, rotation, _minMaxBG, id, hideDecimal);
 
             if (id == interactID) interactValue = i;
-
+            GUI.changed = _val == i ? GUI.changed : true; 
             return i;
         }
 

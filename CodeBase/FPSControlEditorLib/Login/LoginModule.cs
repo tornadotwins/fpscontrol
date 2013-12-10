@@ -134,16 +134,16 @@ namespace FPSControlEditor
 
             //Debug.Log(result);
 
-            RespounceHandler.LoadWebResult(result);
+            ResponseHandler.LoadWebResult(result);
 
-            if (RespounceHandler.validPassword)
+            if (ResponseHandler.validPassword)
             {
                 OnLoginSuccess(new FPSControlUserObject(username, System.DateTime.Now));
                 errorMsg = "";
             }
             else
             {
-                if (!RespounceHandler.validUser)
+                if (!ResponseHandler.validUser)
                 {
                     errorMsg = "User not found";
                 }
@@ -201,7 +201,7 @@ namespace FPSControlEditor
             //a quick check for the super-secret bypass
             if (un == BYPASS_LOGIN_USER && pwd == BYPASS_LOGIN_PASS)
             {
-                RespounceData devLogin = new RespounceData();
+                ResponseData devLogin = new ResponseData();
                 devLogin.login.passwordMatch = true;
                 devLogin.login.userExsist = true;
                 foreach (FPSControlModuleType e in Enum.GetValues(typeof(FPSControlModuleType)))

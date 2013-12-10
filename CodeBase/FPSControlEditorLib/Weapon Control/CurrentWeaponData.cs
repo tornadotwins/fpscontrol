@@ -15,7 +15,7 @@ namespace FPSControlEditor
         [SerializeField]
         public Transform modelOffset;
         [SerializeField]
-        public Transform modelControler;
+        public Transform modelController;
         [SerializeField]
         public bool isRanged = false;
         [SerializeField]

@@ -36,6 +36,7 @@ namespace FPSControlEditor
         static Rect windowSize;
 
         public static FPSControlMainEditor window;
+        internal static System.Action<string> _PlayModeChanged;
 
         #region Server Data
 
@@ -177,7 +178,8 @@ namespace FPSControlEditor
             window.LoadAssets();
             window.PreloadModules();
             //window.Show();
-        } 
+        }
+
 
         internal static void OpenTo(FPSControlModuleType m)
         {
@@ -212,6 +214,28 @@ namespace FPSControlEditor
                 rebuild = true;
             }
             loadedModule.OnLostFocus(rebuild);
+        }
+
+        bool _wasPlaying;
+        void Update()
+        {
+            if (EditorApplication.isPlayingOrWillChangePlaymode)
+            {
+                //if ((!_wasPlaying && EditorApplication.isPlaying) || !EditorApplication.isPlaying ) 
+                //Debug.Log(string.Format("Playmode changed! {0}, {1}", EditorApplication.isPlaying, EditorApplication.isPaused));
+                if (EditorApplication.isPlaying == false) // We just entered play mode.
+                    loadedModule.OnPlayModeChange(true);
+            }
+            else if (_wasPlaying && !EditorApplication.isPlaying) // We just left play mode.
+            {
+                //Debug.Log("Leaving playmode!");
+                loadedModule.OnPlayModeChange(false);
+            }
+            _wasPlaying = EditorApplication.isPlaying;
+
+            loadedModule.Update();
+
+            Repaint();
         }
 
         void OnInspectorUpdate()

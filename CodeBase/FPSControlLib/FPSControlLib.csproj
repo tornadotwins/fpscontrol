@@ -80,6 +80,7 @@
     <Compile Include="Player Control\FPSControlPlayerComponent.cs" />
     <Compile Include="Player Control\FPSControlPlayerInteractionManager.cs" />
     <Compile Include="Player Control\FPSControlPlayerMovement.cs" />
+    <Compile Include="Player Control\FPSControlPlayerSpawn.cs" />
     <Compile Include="Player Control\FPSControlPlayerStats.cs" />
     <Compile Include="Player Control\FPSControlPlayerWeaponManager.cs" />
     <Compile Include="Player Control\FPSControlPlayerEvents.cs" />

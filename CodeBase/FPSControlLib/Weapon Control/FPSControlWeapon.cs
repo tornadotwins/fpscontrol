@@ -21,37 +21,47 @@ namespace FPSControl
     
     public abstract class FPSControlWeapon : StateMachine
     {
-        [HideInInspector]
+        //[HideInInspector]
         public FPSControlPlayerWeaponManager Parent { get; protected set; }
 
-        [HideInInspector]
+        //[HideInInspector]
         public FPSControlWeaponDefinition definition = new FPSControlWeaponDefinition();
 
         //Sub-Components
-        [HideInInspector]
+        //[HideInInspector]
         public FPSControlWeaponAnimation weaponAnimation;
-        [HideInInspector]
+        //[HideInInspector]
         public FPSControlWeaponParticles weaponParticles;
-        [HideInInspector]
+        //[HideInInspector]
         public FPSControlWeaponSound weaponSound;
-        [HideInInspector]
+        //[HideInInspector]
         public string impactName;
 
         //States
-        [HideInInspector]
+        //[HideInInspector]
         public WeaponState idleState;
-        [HideInInspector]
+        //[HideInInspector]
         public WeaponState fireState;
-        [HideInInspector]
+        //[HideInInspector]
         public WeaponState reloadState;
-        [HideInInspector]
+        //[HideInInspector]
         public WeaponState defendState;
-        [HideInInspector]
+        //[HideInInspector]
         public WeaponState chargeState;
 
         //Internal Stats
-        [HideInInspector]
+        //[HideInInspector]
         protected float _accumulatedCharge = 0F;
+
+        // Important hierarchy objects
+        public Transform modelController { get { return _modelController; } set { _modelController = value; } }
+        [SerializeField] 
+        //[HideInInspector] 
+        Transform _modelController;
+        public Transform modelOffset { get { return _modelOffset; } set { _modelOffset = value; } }
+        [SerializeField]
+        //[HideInInspector]
+        Transform _modelOffset;
 
         //Info
         public bool isActiveWeapon
@@ -68,11 +78,12 @@ namespace FPSControl
         public bool defending { get { return currentState == defendState; } }
         public bool charging { get { return currentState == chargeState; } }
         public bool canFire { get { return canUse && !firing && !defending && !reloading; } }
-        [HideInInspector]
+        //[HideInInspector]
         public bool canUse { get; protected set; }
-        [HideInInspector] bool __hasAmmo = false;
+        //[HideInInspector] 
+        bool __hasAmmo = false;
         public virtual bool hasAmmo { get { return __hasAmmo; } }
-        [HideInInspector]
+        //[HideInInspector]
         public virtual bool canScope { get; protected set; }
 
         public IntelliCrosshair crosshair;
@@ -81,7 +92,7 @@ namespace FPSControl
         {
 
             gameObject.SetActive(false);
-            
+           
             idleState.name = "Idle";
             fireState.name = "Fire";
             reloadState.name = "Reload";
@@ -93,7 +104,10 @@ namespace FPSControl
             Add(reloadState);
             Add(defendState);
             Add(chargeState);
-            
+
+            weaponAnimation.Initialize(this);
+            weaponParticles.Initialize(this);
+            weaponSound.Initialize(this);
             Initialize(idleState);
         }
 

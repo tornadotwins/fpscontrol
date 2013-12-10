@@ -11,7 +11,8 @@ namespace FPSControlEditor
     {
         None,
         Drag,
-        Click
+        Click,
+        ContextClick
     }
 
     public class DragStyle
@@ -140,11 +141,11 @@ namespace FPSControlEditor
 
             Color c = GUI.backgroundColor;
             if (style.bgTexture == null) GUI.backgroundColor = style.backgroundColor;
-            if (GUI.Button(r, text, gs))
-            {
-                //Debug.Log("Clicked");
+            GUI.Box(r, text, gs);
+            if (Event.current.type == EventType.ContextClick && r.Contains(Event.current.mousePosition))
+                return DragResultState.ContextClick;
+            else if (Event.current.type == EventType.MouseDown && r.Contains(Event.current.mousePosition))
                 return DragResultState.Click;
-            }
             GUI.backgroundColor = c;
 
             List<T> returnList = new List<T>();

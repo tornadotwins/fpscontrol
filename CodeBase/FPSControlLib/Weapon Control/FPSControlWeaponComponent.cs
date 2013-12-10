@@ -7,13 +7,14 @@ namespace FPSControl
 {
     public abstract class FPSControlWeaponComponent : MonoBehaviour
     {
-        [HideInInspector]
+        //[HideInInspector]
         public FPSControlWeapon Weapon { get; protected set; }
-        [HideInInspector]
+        //[HideInInspector]
         public WeaponState currentState { get { return (WeaponState) Weapon.currentState; } }
 
         public virtual void Initialize(FPSControlWeapon parent)
         {
+            Debug.Log("Initializing: " + this + " at " + name); 
             Weapon = parent;
         }
 

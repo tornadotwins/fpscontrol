@@ -164,7 +164,7 @@ namespace FPSControlEditor
 
         private void PurchasePro()
         {
-            Application.OpenURL(RespounceHandler.purchaseURL);
+            Application.OpenURL(ResponseHandler.purchaseURL);
         }
         #endregion
 

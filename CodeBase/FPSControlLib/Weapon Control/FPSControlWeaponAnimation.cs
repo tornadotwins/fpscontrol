@@ -14,18 +14,18 @@ namespace FPSControl
     [RequireComponent(typeof(Animation))]
     public class FPSControlWeaponAnimation : FPSControlWeaponComponent
     {
-        [HideInInspector]
+        //[HideInInspector]
         public FPSControlWeaponAnimationDefinition definition = new FPSControlWeaponAnimationDefinition();
-        [HideInInspector]
+        //[HideInInspector]
         public FalloffData firingPattern = new FalloffData();
-        [HideInInspector]
+        //[HideInInspector]
         private Animation _animation;
-        [HideInInspector]
+        //[HideInInspector]
         private bool _patternComplete = false;
 
         public string currentState { get; private set; }
 
-        [HideInInspector]
+        //[HideInInspector]
         public System.Action animationCompleteCallback;
 
         public bool isPlaying { get { return _animation.isPlaying; } }

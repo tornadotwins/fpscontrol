@@ -106,9 +106,9 @@
     <Compile Include="Music Control\MusicControlInspector.cs" />
     <Compile Include="Music Control\MusicControlNode.cs" />
     <Compile Include="Optimize\OptimizeModule.cs" />
-    <Compile Include="RespounceHandling\PurchaseControlModule.cs" />
-    <Compile Include="RespounceHandling\RespounceData.cs" />
-    <Compile Include="RespounceHandling\RespounceHandler.cs" />
+    <Compile Include="ResponseHandling\PurchaseControlModule.cs" />
+    <Compile Include="ResponseHandling\ResponseData.cs" />
+    <Compile Include="ResponseHandling\ResponseHandler.cs" />
     <Compile Include="Teamwork\TeamworkModule.cs" />
     <Compile Include="Mission Control\MissionControlModule.cs" />
     <Compile Include="Optimize\MeshCombineUtility.cs" />

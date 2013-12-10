@@ -11,7 +11,7 @@ namespace FPSControl
     {
         [HideInInspector]
         public FPSControlRangeWeaponDefinition rangeDefinition = new FPSControlRangeWeaponDefinition();
-        [HideInInspector]
+        //[HideInInspector]
         public FPSControlWeaponPath weaponPath;
         [HideInInspector]
         public GameObject projectileA;
@@ -85,6 +85,7 @@ namespace FPSControl
 
         protected override void OnInitialize()
         {
+            weaponPath.Initialize(this);
             base.OnInitialize();
             if (damageFalloff.distance == 0) damageFalloff.distance = 20;
         }
@@ -380,8 +381,8 @@ namespace FPSControl
                 WeaponBecameActive();
             };
 
+            weaponPath.Initialize(this); // re-initialize path.
             weaponAnimation.Activate();
-            weaponPath.Initialize(this);
         }
 
         void WeaponBecameActive()
@@ -436,7 +437,7 @@ namespace FPSControl
 
         void OnDrawGizmos()
         {
-            if (!weaponPath.origin) return;
+            if (!weaponPath || !weaponPath.origin) return;
             Gizmos.color = Color.magenta;
             Gizmos.DrawWireSphere(weaponPath.origin.position, rangeDefinition.disperseRadius);
         }

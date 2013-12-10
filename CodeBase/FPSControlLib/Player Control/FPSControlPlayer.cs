@@ -113,7 +113,7 @@ namespace FPSControl
         public static void SetAmmo(FPSControlRangedWeapon weapon, int ammo, int clips) { weapon.SetAmmo(ammo, clips); }
         public static void SetAmmo(FPSControlRangedWeapon weapon, float energy) { weapon.SetAmmo(energy); }
 
-        public static int[] GetAmmo(FPSControlRangedWeapon weapon) { return weapon.GetAmmo();  }
+        public static int[] GetAmmo(FPSControlRangedWeapon weapon) { return weapon ? weapon.GetAmmo() : new int[3] { 0, 0, 0 }; }
 
         public static void DeactivateCurrentWeapon() 
         { 
