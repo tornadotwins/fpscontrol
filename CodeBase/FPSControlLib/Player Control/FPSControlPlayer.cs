@@ -196,6 +196,11 @@ namespace FPSControl
             return FPSControlPlayerSpawn.ReSpawn(this);
         }
 
+        public bool RespawnAt(int ID)
+        {
+            return FPSControlPlayerSpawn.ReSpawnAt(this, ID);
+        }
+
         void Awake()
         {
             FPSControlPlayerData.player = this;
