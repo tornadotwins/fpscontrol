@@ -75,6 +75,7 @@
     <Compile Include="Interaction\Pickups\WeaponPickup.cs" />
     <Compile Include="Messaging\MessageReceiver.cs" />
     <Compile Include="Messaging\MessageSender.cs" />
+    <Compile Include="Persistent Data\PersistentData.cs" />
     <Compile Include="Player Control\FPSControlPlayer.cs" />
     <Compile Include="Player Control\FPSControlPlayerCamera.cs" />
     <Compile Include="Player Control\FPSControlPlayerComponent.cs" />
@@ -144,7 +145,12 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\LitJson\LitJson.csproj">
+      <Project>{9DA76A61-1FCF-4D73-B3C4-52175B35DF8E}</Project>
+      <Name>LitJson</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

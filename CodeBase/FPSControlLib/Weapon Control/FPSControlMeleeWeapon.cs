@@ -4,7 +4,7 @@ using UnityEngine;
 using FPSControl.States.Weapon;
 
 namespace FPSControl
-{
+{    
     public class FPSControlMeleeWeapon : FPSControlWeapon
     {
         new public WeaponState currentState

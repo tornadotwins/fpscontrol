@@ -85,7 +85,7 @@ namespace FPSControl
 
         protected override void OnInitialize()
         {
-            weaponPath.Initialize(this);
+            weaponPath.Link(this);
             base.OnInitialize();
             if (damageFalloff.distance == 0) damageFalloff.distance = 20;
         }
@@ -104,8 +104,13 @@ namespace FPSControl
         //Added by Efraim
         public int[] GetAmmo()
         {
-            var ammo = new int[] { _currentClipContents, _currentClips, _currentAmmo };
+            int[] ammo = new int[3] { _currentClipContents, _currentClips, _currentAmmo };
             return ammo;
+        }
+
+        public float GetEnergy()
+        {
+            return _currentEnergy;
         }
 
         public void SetAmmo(int ammo, int clips)
@@ -118,6 +123,12 @@ namespace FPSControl
         public void SetAmmo(float energy)
         {
             _currentEnergy = Mathf.Clamp(energy,0,100);
+        }
+
+        internal void _PDLoadAmmo(int ammo, int clips, int clipContents, float energy)
+        {
+            SetAmmo(ammo, clips);
+            SetAmmo(energy);
         }
 
         public override void StartRun()

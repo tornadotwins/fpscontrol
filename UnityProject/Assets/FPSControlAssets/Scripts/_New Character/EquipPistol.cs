@@ -10,13 +10,13 @@ public class EquipPistol : MonoBehaviour
         if(enabled)
         {
             FPSControlPlayerWeaponManager weapons = GetComponent<FPSControlPlayerWeaponManager>();
-            weapons.Add("Beretta", false);
+            weapons.AddToInventory("Beretta", false);
             FPSControlRangedWeapon beretta = weapons.Get<FPSControlRangedWeapon>("Beretta");
             beretta.SetAmmo(10, 3);
-            
-            weapons.Add("Melee", false);
-			
-			weapons.Add("Test", true);
+
+            weapons.AddToInventory("Melee", false);
+
+            weapons.AddToInventory("Test", true);
         }
 
 	}

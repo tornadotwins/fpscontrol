@@ -4,12 +4,37 @@ using System.Collections.Generic;
 
 using FPSControl.States;
 using FPSControl.States.Player;
+using FPSControl.PersistentData;
 
 namespace FPSControl
 {
     public class FPSControlPlayerData : object
     {        
         internal static FPSControlPlayer player;
+
+        #region Persistent Data
+
+        public static void SaveWeaponData()
+        {
+            if (player == null)
+            {
+                Debug.LogWarning("Can't save. Player object is null.");
+                return;
+            }
+            else if (player.weaponManager == null)
+            {
+                Debug.LogWarning("Can't save. Weapon Manager object is null.");
+                return;
+            }
+
+            PersistentData.PersistentData.Write<FPSControlPlayerWeaponManagerSaveData>(
+                PersistentData.PersistentData.NS_WEAPONS,
+                "Weapons Manager",
+                new FPSControlPlayerWeaponManagerSaveData(player.weaponManager),
+                false);
+        }
+
+        #endregion // Persistent Data
 
         #region camera
 
@@ -96,14 +121,14 @@ namespace FPSControl
 
         public static FPSControlWeapon[] availableWeapons { get { return player.weaponManager.availableWeapons; } }
 
-        public static void AddWeapon(string name, bool equip) { player.weaponManager.Add(name, equip); }
+        public static void AddWeapon(string name, bool equip) { player.weaponManager.AddToInventory(name, equip); }
         public static void RemoveWeapon(FPSControlWeapon weapon) { player.weaponManager.Remove(weapon); }
 
         public static FPSControlWeapon GetWeapon(string weaponName) { return player.weaponManager[weaponName]; }
         public static FPSControlWeapon currentWeapon { get { return player.weaponManager.currentWeapon; } }
         public static void Add(string weaponName, bool makeCurrent) 
         { 
-            if (player.weaponManager.CanAddWeapon(weaponName)) player.weaponManager.Add(weaponName, makeCurrent); 
+            if (player.weaponManager.CanAddWeapon(weaponName)) player.weaponManager.AddToInventory(weaponName, makeCurrent); 
             else Debug.LogWarning("Couldn't add weapon to inventory. It may already be there or the maximum has been reached."); 
         }
 

@@ -12,10 +12,15 @@ namespace FPSControl
         //[HideInInspector]
         public WeaponState currentState { get { return (WeaponState) Weapon.currentState; } }
 
+        public void Link(FPSControlWeapon parent)
+        {
+            Weapon = parent;
+        }
+
         public virtual void Initialize(FPSControlWeapon parent)
         {
-            Debug.Log("Initializing: " + this + " at " + name); 
-            Weapon = parent;
+            Debug.Log("Initializing: " + this + " at " + name);
+            Link(parent);
         }
 
     }

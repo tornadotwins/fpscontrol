@@ -9,6 +9,45 @@ using FPSControl.Definitions;
 
 namespace FPSControl
 {
+    public class FPSControlWeaponSaveData
+    {
+        public string name;
+        public enum WeaponType { Melee, Ranged }
+        public WeaponType type;
+
+        public int ammo;
+        public int clips;
+        public int clipContents;
+        public float energy;
+
+        public FPSControlWeaponSaveData() { }
+        public FPSControlWeaponSaveData(FPSControlRangedWeapon weapon) 
+        {
+            name = weapon.definition.weaponName;
+            type = WeaponType.Ranged;
+            int[] data = weapon.GetAmmo();
+            clipContents = data[0];
+            clips = data[1];
+            ammo = data[2];
+            energy = weapon.GetEnergy();
+        }
+        public FPSControlWeaponSaveData(FPSControlMeleeWeapon weapon)
+        {
+            name = weapon.definition.weaponName;
+            type = WeaponType.Melee;
+        }
+
+        public void Update(FPSControlRangedWeapon weapon)
+        {
+            weapon._PDLoadAmmo(ammo, clips, clipContents, energy);
+        }
+
+        public void Update(FPSControlMeleeWeapon weapon)
+        {
+            // Nothing to remember yet.
+        }
+    }
+    
     public enum FPSControlRangedWeaponType
     {
         Bullets,Projectile
@@ -105,14 +144,14 @@ namespace FPSControl
             Add(defendState);
             Add(chargeState);
 
-            weaponAnimation.Initialize(this);
-            weaponParticles.Initialize(this);
-            weaponSound.Initialize(this);
             Initialize(idleState);
         }
 
         protected override void OnInitialize()
         {
+            weaponAnimation.Link(this);
+            weaponParticles.Link(this);
+            weaponSound.Link(this);
             //throw new System.NotImplementedException();
         }
 

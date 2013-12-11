@@ -3,9 +3,59 @@ using System.Collections;
 using System.Collections.Generic;
 using FPSControl;
 using FPSControl.States.Player;
+using FPSControl.PersistentData;
 
 namespace FPSControl
 {
+    public class FPSControlPlayerWeaponManagerSaveData
+    {
+        public FPSControlWeaponSaveData[] weapons;
+        public string activeWeaponName;
+
+        public FPSControlPlayerWeaponManagerSaveData() { }
+
+        public FPSControlPlayerWeaponManagerSaveData(FPSControlPlayerWeaponManager manager)
+        {
+
+            FPSControlWeapon[] available = manager.availableWeapons;
+            weapons = new FPSControlWeaponSaveData[available.Length];
+            for (int i = 0; i < weapons.Length; i++)
+            {
+                if (available[i] is FPSControlMeleeWeapon) weapons[i] = new FPSControlWeaponSaveData((FPSControlMeleeWeapon) available[i]);
+                else weapons[i] = new FPSControlWeaponSaveData((FPSControlRangedWeapon) available[i]);
+            }
+
+            if (manager.currentWeapon == null) 
+                activeWeaponName = "<NULL>";
+            else 
+                activeWeaponName = manager.currentWeapon.definition.weaponName;
+        }
+
+        public void Update(FPSControlPlayerWeaponManager manager)
+        {
+            List<FPSControlWeapon> availableWeapons = new List<FPSControlWeapon>();
+            for (int i = 0; i < weapons.Length; i++)
+            {
+                foreach(FPSControlWeapon actor in manager.weaponActors)
+                {
+                    if (actor.definition.weaponName == weapons[i].name)
+                    {
+                        availableWeapons.Add(actor);
+                        if (weapons[i].type == FPSControlWeaponSaveData.WeaponType.Melee)
+                            weapons[i].Update((FPSControlMeleeWeapon)actor);
+                        else
+                            weapons[i].Update((FPSControlRangedWeapon)actor);
+                    }
+                }
+            }
+            manager._PDLoadAvailableWeapons(availableWeapons);
+
+            if (activeWeaponName != "<NULL>")
+                manager.ActivateWeapon(activeWeaponName);
+
+        }
+    }
+    
     /// <summary>
     /// this class will manage weapons, such as swapping, and the actual attacking
     /// </summary>
@@ -25,6 +75,11 @@ namespace FPSControl
         [HideInInspector]
         List<FPSControlWeapon> _availableWeapons = new List<FPSControlWeapon>(); //the available weapons (max
         public FPSControlWeapon[] availableWeapons { get { return _availableWeapons.ToArray(); } }
+        
+        internal void _PDLoadAvailableWeapons(List<FPSControlWeapon> weapons)
+        {
+            _availableWeapons = weapons;
+        }
 
         [HideInInspector]
         Transform _transform;
@@ -76,27 +131,41 @@ namespace FPSControl
             crosshairAnimator.SetCrossHair(defaultCrosshair);
             
             int added = 0;
-            for (int i = 0; i < weaponActors.Length; i++)
+
+            bool first = true;
+            List<FPSControlWeapon> _collectedActors = new List<FPSControlWeapon>();
+            bool persistentData = 
+                PersistentData.PersistentData.Exists<FPSControlPlayerWeaponManagerSaveData>(PersistentData.PersistentData.NS_WEAPONS, "Weapon Manager");
+            foreach (Transform t in transform)
             {
-                FPSControlWeapon weapon = weaponActors[i];
-                if (weapon == null) continue;
-                weapon.transform.localPosition = weapon.definition.pivot;
-                weapon.transform.localRotation = Quaternion.Euler(weapon.definition.euler);
-                //Debug.Log("Adding " + weapon.definition.weaponName + " to the catalogue!");
-                _weaponsCatalogue.Add(weapon.definition.weaponName, weapon);
-                if (addWeaponsToInventory)
+                FPSControlWeapon weapon = t.GetComponent<FPSControlWeapon>();
+                if (weapon)
                 {
-                    added++;
-                    if (added < 4)
+                    _collectedActors.Add(weapon);
+                    weapon.transform.localPosition = weapon.definition.pivot;
+                    weapon.transform.localRotation = Quaternion.Euler(weapon.definition.euler);
+                    
+                    weapon.definition.weaponName = t.name; // Insure names are synced correctly.
+                    
+                    _weaponsCatalogue.Add(weapon.definition.weaponName, weapon);
+
+                    if (addWeaponsToInventory && !persistentData) // If we have persistent data saved, don't do this.
                     {
-                        Add(weapon.definition.weaponName, (i == 0));
-                        if (weapon.GetType() == typeof(FPSControlRangedWeapon))
+                        added++;
+                        if (added < 4)
                         {
-                           ((FPSControlRangedWeapon)weapon).SetAmmo((int)((FPSControlRangedWeapon)weapon).rangeDefinition.clipCapacity, 0);
+                            AddToInventory(weapon.definition.weaponName, first);
+                            first = false;
+                            if (weapon.GetType() == typeof(FPSControlRangedWeapon))
+                            {
+                                ((FPSControlRangedWeapon)weapon).SetAmmo((int)((FPSControlRangedWeapon)weapon).rangeDefinition.clipCapacity, 0);
+                            }
                         }
                     }
                 }
             }
+
+            weaponActors = _collectedActors.ToArray();
         }
 
         public bool CanAddWeapon(string weaponName)
@@ -105,7 +174,7 @@ namespace FPSControl
         }
 
         //Add a weapon to the list of available weapons
-        public void Add(string weaponName, bool makeCurrent)
+        public void AddToInventory(string weaponName, bool makeCurrent)
         {
             //Debug.Log(weaponName);
             if(_availableWeapons.Count == 4) return; //max capacity            
@@ -288,6 +357,19 @@ namespace FPSControl
             _playerCamera = playerCamera;
             _transform.localPosition = shouldersOffset; //position the shoulders below the head            
             Initialize(player);
+
+            if (PersistentData.PersistentData.Exists<FPSControlPlayerWeaponManagerSaveData>( PersistentData.PersistentData.NS_WEAPONS, "Weapon Manager"))
+            {
+                FPSControlPlayerWeaponManagerSaveData saveData = PersistentData.PersistentData.Read<FPSControlPlayerWeaponManagerSaveData>(
+                    PersistentData.PersistentData.NS_WEAPONS,
+                    "Weapon Manager");
+
+                saveData.Update(this);
+            }
+            else
+            {
+                FPSControlPlayerData.SaveWeaponData(); // Save the data to kick off.
+            }
         }
 
         public void StartRun()
