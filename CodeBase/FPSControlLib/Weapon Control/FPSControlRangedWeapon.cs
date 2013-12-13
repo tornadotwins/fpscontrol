@@ -283,7 +283,7 @@ namespace FPSControl
                             RaycastHit hit;
                             if (Physics.Raycast(ray, out hit, damageFalloff.distance, gunDamageLayers.value))//did we actually hit anything?
                             {
-                                Debug.Log("Hit: " + hit.collider.name);
+                                //Debug.Log("Hit: " + hit.collider.name);
                                 
                                 Vector3 contact = hit.point;
                                 Quaternion rot = Quaternion.FromToRotation(Vector3.up, hit.normal);
@@ -379,6 +379,8 @@ namespace FPSControl
         Action _cbFunc;
         internal override void _Activate(FPSControlPlayerWeaponManager parent, Action cbFunc)
         {
+            weaponPath.Initialize(this); // re-initialize path.
+            
             Debug.Log("Internal _Activate" + (cbFunc != null ? "  with callback." : "."));
             _cbFunc = cbFunc;
 
@@ -387,7 +389,6 @@ namespace FPSControl
 
             weaponAnimation.animationCompleteCallback = OnActivationAnimationComplete;
 
-            weaponPath.Initialize(this); // re-initialize path.
             weaponAnimation.Activate();
         }
 

@@ -125,7 +125,8 @@ namespace FPSControl
         //[HideInInspector]
         public virtual bool canScope { get; protected set; }
 
-        public IntelliCrosshair crosshair;
+        public string crossHairName;
+        public IntelliCrosshair crosshair { get; set; }
 
         void Awake()
         {

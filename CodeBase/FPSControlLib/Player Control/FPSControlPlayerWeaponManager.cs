@@ -131,7 +131,16 @@ namespace FPSControl
             crosshairAnimator.SetCrossHair(defaultCrosshair);
             
             List<FPSControlWeapon> _collectedActors = new List<FPSControlWeapon>();
-            
+
+            Dictionary<string, IntelliCrosshair> _allCrosshairs = new Dictionary<string,IntelliCrosshair>();
+            foreach (IntelliCrosshair ch in Resources.FindObjectsOfTypeAll(typeof(IntelliCrosshair)))
+            {
+                if (_allCrosshairs.ContainsKey(ch.name))
+                    Debug.LogWarning("Duplicate Crosshair name detected: " + ch.name);
+                else
+                _allCrosshairs.Add(ch.name, ch);
+            }
+
             foreach (Transform t in transform)
             {
                 FPSControlWeapon weapon = t.GetComponent<FPSControlWeapon>();
@@ -140,6 +149,11 @@ namespace FPSControl
                     _collectedActors.Add(weapon);
                     weapon.transform.localPosition = weapon.definition.pivot;
                     weapon.transform.localRotation = Quaternion.Euler(weapon.definition.euler);
+                    
+                    if(_allCrosshairs.ContainsKey(weapon.crossHairName))
+                        weapon.crosshair = _allCrosshairs[weapon.crossHairName];
+                    else
+                        Debug.LogWarning("Could not find Crosshair with name: " + weapon.crossHairName);
                     
                     weapon.definition.weaponName = t.name; // Insure names are synced correctly.
                     _weaponsCatalogue.Add(weapon.definition.weaponName, weapon);

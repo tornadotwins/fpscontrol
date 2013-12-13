@@ -93,25 +93,18 @@ namespace FPSControlEditor
         {
             base.OnPlayModeChange(playMode);
 
-            if (playMode)
+            if (!playMode)
             {
-                CreatePlaymodeBuffer();
-            }
-            else
-            {
-                
-                
                 // If we had added a prefab during play mode it won't be there when we exit - so we need to add it.
                 if (!_prefabInstance) InstantiateCurrent();
 
                 if (!InstanceComponent) return;
 
                 // Alert the user with a prompt if they want to keep or revert changes
-                bool prompt = EditorUtility.DisplayDialog("Exiting Play Mode - Keep Changes?", "Would you like to keep changes? \n" +
-                    "Note: This will not save your Prefab. You must still save manually to make changes to the Prefab!",
+                bool prompt = (EditorUtility.DisplayDialog("Save Changes?", "Exiting Play Mode - Would you like to save changes?",
                     "Yes",
                     "No"
-                );
+                ));
                 ClearBuffer(prompt);
             }
         }
@@ -168,10 +161,11 @@ namespace FPSControlEditor
             Debug.Log("Creating buffer object at: " + string.Format(BUFFER_PREFAB_FORMAT, CurrentPrefab.name));
             Object buffer = PrefabUtility.CreateEmptyPrefab(string.Format(BUFFER_PREFAB_FORMAT, CurrentPrefab.name));
             _tmpPlaymodeBuffer = PrefabUtility.ReplacePrefab(_prefabInstance, buffer);
-            EditorUtility.CopySerialized(BufferComponent, InstanceComponent); // copy the values back so they persist into play mode.
+            
             Debug.Log("Successfully created buffer.");
         }
 
+        double _lastWriteTime = 0;
         void WriteToBuffer()
         {
             // We should never be writing to a buffer outside of play mode.
@@ -179,9 +173,19 @@ namespace FPSControlEditor
 
             // If the buffer exists, write over it
             if (_tmpPlaymodeBuffer)
-                _tmpPlaymodeBuffer = PrefabUtility.ReplacePrefab(_prefabInstance, _tmpPlaymodeBuffer);
-            else // Otherwise create new
-                CreatePlaymodeBuffer();
+            {
+                // Write to the buffer only once per second.
+                if (EditorApplication.timeSinceStartup - _lastWriteTime > 1D)
+                {
+                    _tmpPlaymodeBuffer = PrefabUtility.ReplacePrefab(_prefabInstance, _tmpPlaymodeBuffer);
+                    dirty = false;
+                    _lastWriteTime = EditorApplication.timeSinceStartup;
+                }
+            }
+            else
+            {
+                Debug.LogError("Cannot write to temporary buffer because it could not be located.");
+            }
         }
 
         void ClearBuffer(bool saveChanges)
@@ -191,7 +195,12 @@ namespace FPSControlEditor
                 if (saveChanges)
                 {
                     if (InstanceComponent)
+                    {
                         EditorUtility.CopySerialized(BufferComponent, InstanceComponent);
+                        Save();
+                    }
+                    else
+                        Debug.LogError("Could not keep changes because the reference to the Instance component in this scene was broken.");
                 }
 
                 // Delete our temp buffer
@@ -453,6 +462,9 @@ namespace FPSControlEditor
                 GUI.Label(noWeaponsBox, "No definitions exist for this type. \nPlease add one", gs);
             }
 
+            if (EditorApplication.isPlaying && currentIndex != -1 && dirty)
+                WriteToBuffer();
+
             #region ##### OLD CODE #####
 
             /*
@@ -627,12 +639,27 @@ namespace FPSControlEditor
             Rect newRect = new Rect(527, 114, 76, 14);
 
             int prevIndex = currentIndex;
+            GameObject _prevPrefabInstance = _prefabInstance;
+            FPSControlWeapon _prevInstanceComponent = InstanceComponent;
+            GameObject _prevPrefab = CurrentPrefab;
+            FPSControlWeapon _prevPrefabComponent = PrefabComponent;
             if (names.Count > 0)
             {
                 EditorGUI.BeginChangeCheck();
                 currentIndex = EditorGUI.Popup(popupRect, currentIndex, names.ToArray());
                 if (EditorGUI.EndChangeCheck())
                 {
+                    if (_prevPrefabInstance)
+                    {
+                        // Alert the user with a prompt if they want to keep or revert changes
+                        if (EditorUtility.DisplayDialog("Save Changes?", "Would you like to save your changes?", "Yes", "No"))
+                            Save(_prevPrefabInstance, _prevPrefab);
+                        else
+                            Revert(_prevPrefabInstance, _prevPrefabComponent, _prevInstanceComponent);
+
+                        if(EditorApplication.isPlaying) ClearBuffer(false);
+                    }
+                    
                     // If we made a change and there isn't an instance of the selected prefab under the root we need to add it
                     Transform _tmp = requiredRoot.transform.Find(names[currentIndex]);
                     if (_tmp)
@@ -664,13 +691,18 @@ namespace FPSControlEditor
                                     PrefabUtility.RevertPrefabInstance(_prefabInstance);
                                 }
                             }
-                            else if(!_prefabInstance.active)
+                            else
                             {
-                                currentIndex = prevIndex;
-                                _prefabInstance = null;
-                                Debug.LogWarning("Cannot focus an inactive weapon during Play Mode!");
-                                return;
+                                CreatePlaymodeBuffer(); // We need to create the Play Mode Buffer.
+                                if (!_prefabInstance.active)
+                                {
+                                    currentIndex = prevIndex;
+                                    _prefabInstance = null;
+                                    Debug.LogWarning("Cannot focus an inactive weapon during Play Mode!");
+                                    return;
+                                }
                             }
+                            
                             // Make sure it is catalogued in the manager.
                             FPSControlPlayerWeaponManager mgr = WeaponManager;
                             if (!ArrayUtility.Contains<FPSControlWeapon>(mgr.weaponActors, InstanceComponent))
@@ -1541,6 +1573,8 @@ namespace FPSControlEditor
             if (currentIndex != prevIndex)
                 Debug.Log("index: " + currentIndex);
             prevIndex = currentIndex;
+
+            
         }
 
         public override void OnPromptInput(string userInput)

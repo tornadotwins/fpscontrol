@@ -36,28 +36,24 @@ namespace FPSControl
             lineRenderer = transform.GetComponent<LineRenderer>();
             lineRenderer.material = material;
             lineRenderer.useWorldSpace = !definition.isPreFire;
-            if(gameObject.activeInHierarchy)
-                StartCoroutine(FinishInitialize());
-        }
-
-        private IEnumerator FinishInitialize()
-        {
-            yield return new WaitForEndOfFrame(); // Player reference doesnt happen until end of frame
-            interactionManager = Weapon.Parent.Player.interactionManager.transform;
-            if (origin == null) origin = interactionManager;
         }
 
         //[HideInInspector]
         WeaponState lastState = null;
 
-        void Awake()
+        void Start()
         {
-
+            interactionManager = Weapon.Parent.Player.interactionManager.transform;
+            if (origin == null) origin = interactionManager;
         }
         
         private void Update()
         {
-            if (!Weapon) return;
+            if (!Weapon)
+            {
+                Debug.LogWarning("Couldn't find Controlling Weapon. Insure references are properly hooked up.");
+                return;
+            }
 
             if (definition.isPreFire)
             {
@@ -93,6 +89,12 @@ namespace FPSControl
 
         public void Fire()
         {
+            if (!Weapon)
+            {
+                Debug.LogWarning("Couldn't find Controlling Weapon. Insure references are properly hooked up.");
+                return;
+            }
+            
             if (!definition.isPreFire && definition.render) //Make sure the weapon dosent do an arch type and that we are ataully going to render
             {
                 if (currentState == Weapon.idleState) //If we are in idle state that means that this is the first time
