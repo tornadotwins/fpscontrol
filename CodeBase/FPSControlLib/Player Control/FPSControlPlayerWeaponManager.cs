@@ -69,13 +69,16 @@ namespace FPSControl
         public KeyCode reloadKey = KeyCode.R;
         public KeyCode defendKey = KeyCode.X;
         public bool addWeaponsToInventory = true;
+        public string defaultWeaponName;
 
+        [HideInInspector]
         public FPSControlWeapon[] weaponActors; //all possible weapons should be setup here
         Dictionary<string, FPSControlWeapon> _weaponsCatalogue = new  Dictionary<string, FPSControlWeapon>(); //the catalogue of weapons, built dynamically from weaponActors array
         [HideInInspector]
         List<FPSControlWeapon> _availableWeapons = new List<FPSControlWeapon>(); //the available weapons (max
         public FPSControlWeapon[] availableWeapons { get { return _availableWeapons.ToArray(); } }
-        
+        public GameObject[] weaponPrefabs;
+
         internal void _PDLoadAvailableWeapons(List<FPSControlWeapon> weapons)
         {
             _availableWeapons = weapons;
@@ -125,6 +128,8 @@ namespace FPSControl
 
         void Awake()
         {
+            
+            
             _transform = transform;
             _parent = _transform.parent;
 
@@ -141,9 +146,39 @@ namespace FPSControl
                 _allCrosshairs.Add(ch.name, ch);
             }
 
+            Dictionary<string, FPSControlWeapon> preexistingComponents = new Dictionary<string,FPSControlWeapon>();
             foreach (Transform t in transform)
             {
-                FPSControlWeapon weapon = t.GetComponent<FPSControlWeapon>();
+                FPSControlWeapon c = t.GetComponent<FPSControlWeapon>();
+                if(c)
+                {
+                    if(preexistingComponents.ContainsKey(c.name))
+                    {
+                        Debug.LogError("Found same weapon more than once!");
+                        continue;
+                    }
+                    preexistingComponents.Add(c.name, c);
+                }
+            }
+
+            foreach (GameObject g in weaponPrefabs)
+            {
+                GameObject go;
+                if (preexistingComponents.ContainsKey(g.name))
+                {
+                    go = preexistingComponents[g.name].gameObject;
+                }
+                else
+                {
+                    go = (GameObject) Instantiate(g);
+                    go.name = g.name;
+                    go.SetActive(false);
+                    go.transform.parent = transform;
+                    go.transform.localPosition = Vector3.zero;
+                    go.transform.localRotation = Quaternion.identity;
+                }
+
+                FPSControlWeapon weapon = go.GetComponent<FPSControlWeapon>();
                 if (weapon)
                 {
                     _collectedActors.Add(weapon);
@@ -155,7 +190,7 @@ namespace FPSControl
                     else
                         Debug.LogWarning("Could not find Crosshair with name: " + weapon.crossHairName);
                     
-                    weapon.definition.weaponName = t.name; // Insure names are synced correctly.
+                    weapon.definition.weaponName = go.name; // Insure names are synced correctly.
                     _weaponsCatalogue.Add(weapon.definition.weaponName, weapon);
                 }
             }
@@ -176,7 +211,11 @@ namespace FPSControl
                     added++;
                     if (added < 4)
                     {
-                        AddToInventory(weapon.definition.weaponName, first);
+                        if (defaultWeaponName == "")
+                            AddToInventory(weapon.definition.weaponName, first);
+                        else
+                            AddToInventory(weapon.definition.weaponName, weapon.definition.weaponName == defaultWeaponName);
+
                         first = false;
                         if (weapon.GetType() == typeof(FPSControlRangedWeapon))
                             ((FPSControlRangedWeapon)weapon).SetAmmo((int)((FPSControlRangedWeapon)weapon).rangeDefinition.clipCapacity, 0);

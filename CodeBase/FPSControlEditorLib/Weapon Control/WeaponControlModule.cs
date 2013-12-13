@@ -227,9 +227,9 @@ namespace FPSControlEditor
             GameObject _prevPrefab = CurrentPrefab;
             FPSControlWeapon _prevPrefabComponent = PrefabComponent;
 
-            FPSControlPlayerWeaponManager mgr = WeaponManager;
-            int indexOf = ArrayUtility.IndexOf<FPSControlWeapon>(mgr.weaponActors, _prevInstanceComponent);
-            ArrayUtility.RemoveAt<FPSControlWeapon>(ref mgr.weaponActors, indexOf); // Remove this from the manager.
+            //FPSControlPlayerWeaponManager mgr = WeaponManager;
+            //int indexOf = ArrayUtility.IndexOf<FPSControlWeapon>(mgr.weaponActors, _prevInstanceComponent);
+            //ArrayUtility.RemoveAt<FPSControlWeapon>(ref mgr.weaponActors, indexOf); // Remove this from the manager.
             
             // Change the current index if necessary, otherwise we'll let everything move underneathe it
             currentIndex = Mathf.Clamp(currentIndex,0,Mathf.Max(prefabs.Count-1,0));
@@ -263,15 +263,15 @@ namespace FPSControlEditor
 
         void Revert(GameObject prefabInstance, FPSControlWeapon prefabComponent, FPSControlWeapon instanceComponent)
         {
-            FPSControlPlayerWeaponManager mgr = WeaponManager;
-            int indexOf = ArrayUtility.IndexOf<FPSControlWeapon>(mgr.weaponActors, instanceComponent);
+            //FPSControlPlayerWeaponManager mgr = WeaponManager;
+            //int indexOf = ArrayUtility.IndexOf<FPSControlWeapon>(mgr.weaponActors, instanceComponent);
             
             if (EditorApplication.isPlaying)
                 EditorUtility.CopySerialized(prefabComponent, instanceComponent); // Because the Prefab instance is disconnected during play mode.
             else
                 PrefabUtility.RevertPrefabInstance(prefabInstance);
 
-            mgr.weaponActors[indexOf] = instanceComponent; // In case of a change in range type.
+            //mgr.weaponActors[indexOf] = instanceComponent; // In case of a change in range type.
 
             dirty = false;
             Repaint();
@@ -343,8 +343,8 @@ namespace FPSControlEditor
             CheckCurrentWeapon();
 
             // Add to the weapons manager.
-            if (!ArrayUtility.Contains<FPSControlWeapon>(mgr.weaponActors, InstanceComponent))
-                ArrayUtility.Add<FPSControlWeapon>(ref mgr.weaponActors, InstanceComponent);
+            //if (!ArrayUtility.Contains<FPSControlWeapon>(mgr.weaponActors, InstanceComponent))
+            //    ArrayUtility.Add<FPSControlWeapon>(ref mgr.weaponActors, InstanceComponent);
         }
 
         bool IsWeaponRanged { get { return InstanceComponent is FPSControlRangedWeapon; } }
@@ -703,10 +703,10 @@ namespace FPSControlEditor
                                 }
                             }
                             
-                            // Make sure it is catalogued in the manager.
-                            FPSControlPlayerWeaponManager mgr = WeaponManager;
-                            if (!ArrayUtility.Contains<FPSControlWeapon>(mgr.weaponActors, InstanceComponent))
-                                ArrayUtility.Add<FPSControlWeapon>(ref mgr.weaponActors, InstanceComponent);
+                            //// Make sure it is catalogued in the manager.
+                            //FPSControlPlayerWeaponManager mgr = WeaponManager;
+                            //if (!ArrayUtility.Contains<FPSControlWeapon>(mgr.weaponActors, InstanceComponent))
+                            //    ArrayUtility.Add<FPSControlWeapon>(ref mgr.weaponActors, InstanceComponent);
                         }
                     }
                     else
@@ -1592,15 +1592,15 @@ namespace FPSControlEditor
 
         private void AttachWeaponToManager()
         {
-            FPSControlPlayerWeaponManager[] managers = (FPSControlPlayerWeaponManager[])GameObject.FindSceneObjectsOfType(typeof(FPSControlPlayerWeaponManager));
-            if (managers.Length > 0) // Error
-            {
-                List<FPSControlWeapon> actors = new List<FPSControlWeapon>(managers[0].weaponActors);
-                actors.Add(InstanceComponent);
-                managers[0].weaponActors = actors.ToArray();
-                if (managers.Length > 1)
-                    Debug.LogWarning("More than one Weapon Manager. This may produce unexpected results.");
-            }
+            //FPSControlPlayerWeaponManager[] managers = (FPSControlPlayerWeaponManager[])GameObject.FindSceneObjectsOfType(typeof(FPSControlPlayerWeaponManager));
+            //if (managers.Length > 0) // Error
+            //{
+            //    List<FPSControlWeapon> actors = new List<FPSControlWeapon>(managers[0].weaponActors);
+            //    actors.Add(InstanceComponent);
+            //    managers[0].weaponActors = actors.ToArray();
+            //    if (managers.Length > 1)
+            //        Debug.LogWarning("More than one Weapon Manager. This may produce unexpected results.");
+            //}
 
                 /*
                 List<FPSControlWeapon> actors = new List<FPSControlWeapon>(managers[0].weaponActors);
@@ -1641,8 +1641,8 @@ namespace FPSControlEditor
 
         private void SwitchRangeType()
         {
-            FPSControlPlayerWeaponManager mgr = WeaponManager;
-            int indexOf =  ArrayUtility.IndexOf<FPSControlWeapon>(mgr.weaponActors, InstanceComponent);
+            //FPSControlPlayerWeaponManager mgr = WeaponManager;
+            //int indexOf =  ArrayUtility.IndexOf<FPSControlWeapon>(mgr.weaponActors, InstanceComponent);
             //Debug.Log("Manager has instance at index " + indexOf);
             
             if (IsWeaponRanged)
@@ -1650,7 +1650,7 @@ namespace FPSControlEditor
             else
                 ChangeRangeType<FPSControlMeleeWeapon, FPSControlRangedWeapon>();
 
-            mgr.weaponActors[indexOf] = InstanceComponent;
+            //mgr.weaponActors[indexOf] = InstanceComponent;
 
             Repaint();
             /*
