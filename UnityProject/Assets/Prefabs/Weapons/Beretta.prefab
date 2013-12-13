@@ -2357,9 +2357,9 @@ MonoBehaviour:
     scopeFOV: 20
     maxDamagePerHit: 20.3846169
     chargeTime: .100000001
-  weaponAnimation: {fileID: 0}
-  weaponParticles: {fileID: 0}
-  weaponSound: {fileID: 0}
+  weaponAnimation: {fileID: 11400008}
+  weaponParticles: {fileID: 11400006}
+  weaponSound: {fileID: 11400004}
   impactName: None
   idleState:
     name: Idle
@@ -2371,8 +2371,8 @@ MonoBehaviour:
     name: Defend
   chargeState:
     name: Charge
-  _modelController: {fileID: 400118, guid: 71e18a3af85aed548b10324f04516ab9, type: 2}
-  _modelOffset: {fileID: 400116, guid: 71e18a3af85aed548b10324f04516ab9, type: 2}
+  _modelController: {fileID: 400128}
+  _modelOffset: {fileID: 400120}
   crossHairName: M16Crosshair
   rangeDefinition:
     rangedType: 0
@@ -2389,7 +2389,7 @@ MonoBehaviour:
     maximumRounds: 100
     regenerationRate: 5
     fullRegenerationTime: 8
-  weaponPath: {fileID: 0}
+  weaponPath: {fileID: 11400002}
   projectileA: {fileID: 0}
   projectileB: {fileID: 0}
   gunDamageLayers:
