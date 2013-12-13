@@ -32,6 +32,11 @@ namespace FPSControl
 
         void Awake()
         {
+            Setup();
+        }
+
+        void Setup()
+        {
             currentState = "";
             _animation = animation;
             
@@ -127,6 +132,7 @@ namespace FPSControl
 
         public void Activate()
         {
+            Setup();
             //Debug.Log(_animation);
             if (_animation[definition.ACTIVATE] == null)
             {
@@ -135,7 +141,7 @@ namespace FPSControl
             else
             {
                 currentState = definition.ACTIVATE;
-                _animation.CrossFade(definition.ACTIVATE);
+                _animation.Play(definition.ACTIVATE);
             }
         }
 
@@ -371,7 +377,7 @@ namespace FPSControl
         {
             if (animationCompleteCallback != null) animationCompleteCallback();
             else Debug.LogWarning("No callback provided!");
-            Debug.Log(id + " Callback complete. Removing animationCompleteCallback.");
+            //Debug.Log(id + " Callback complete. Removing animationCompleteCallback.");
             //animationCompleteCallback = null;
         }
     }

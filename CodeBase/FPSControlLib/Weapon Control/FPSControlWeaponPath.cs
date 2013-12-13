@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FPSControl.States.Weapon;
@@ -39,17 +40,25 @@ namespace FPSControl
                 StartCoroutine(FinishInitialize());
         }
 
-        private System.Collections.IEnumerator FinishInitialize()
+        private IEnumerator FinishInitialize()
         {
-            yield return 0; //Wait one frame because Player refrence doent happen till end of frame
+            yield return new WaitForEndOfFrame(); // Player reference doesnt happen until end of frame
             interactionManager = Weapon.Parent.Player.interactionManager.transform;
             if (origin == null) origin = interactionManager;
         }
 
         //[HideInInspector]
-        WeaponState lastState;
+        WeaponState lastState = null;
+
+        void Awake()
+        {
+
+        }
+        
         private void Update()
         {
+            if (!Weapon) return;
+
             if (definition.isPreFire)
             {
                 if (currentState == Weapon.idleState)

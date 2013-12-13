@@ -633,12 +633,11 @@ namespace FPSControlEditor
                 currentIndex = EditorGUI.Popup(popupRect, currentIndex, names.ToArray());
                 if (EditorGUI.EndChangeCheck())
                 {
-                     
-                    
                     // If we made a change and there isn't an instance of the selected prefab under the root we need to add it
                     Transform _tmp = requiredRoot.transform.Find(names[currentIndex]);
                     if (_tmp)
                     {
+                        Debug.Log("Found: " + _tmp.name);
                         // We found one of the same name, but is it linked to the prefab we want?
                         Object prefabParent = PrefabUtility.GetPrefabParent(_tmp.gameObject);
                         if (prefabParent != CurrentPrefab) // If they don't match, throw an error and zero out.
@@ -1707,32 +1706,38 @@ namespace FPSControlEditor
 
         private void LoadImpactNames()
         {
-            
-            impactNames = new List<string>();
-
-            impactIndex = 0;
-
-            string assetPath = FPSControlMainEditor.RESOURCE_FOLDER + "ImpactControlDefinitions.asset";
-            //AssetDatabase.ImportAsset(assetPath);
-
-            ImpactControlDefinitions loadedDef = (ImpactControlDefinitions) AssetDatabase.LoadAssetAtPath(assetPath, typeof(ImpactControlDefinitions));
-
-            impactNames.Add("None");
-
-            if (loadedDef != null)
+            try
             {
-                foreach (ImpactControlDefinition impact in loadedDef.impacts)
+                impactNames = new List<string>();
+
+                impactIndex = 0;
+
+                string assetPath = FPSControlMainEditor.RESOURCE_FOLDER + "ImpactControlDefinitions.asset";
+                //AssetDatabase.ImportAsset(assetPath);
+
+                ImpactControlDefinitions loadedDef = (ImpactControlDefinitions)AssetDatabase.LoadAssetAtPath(assetPath, typeof(ImpactControlDefinitions));
+
+                impactNames.Add("None");
+
+                if (loadedDef != null)
                 {
-                    if (!impactNames.Contains(impact.name))
+                    foreach (ImpactControlDefinition impact in loadedDef.impacts)
                     {
-                        impactNames.Add(impact.name);
+                        if (!impactNames.Contains(impact.name))
+                        {
+                            impactNames.Add(impact.name);
+                        }
                     }
                 }
-            }
 
-            if (InstanceComponent != null && impactNames.Contains(InstanceComponent.impactName))
-            {
-                impactIndex = impactNames.IndexOf(InstanceComponent.impactName);
+                if (InstanceComponent != null && impactNames.Contains(InstanceComponent.impactName))
+                {
+                    impactIndex = impactNames.IndexOf(InstanceComponent.impactName);
+                }
+            }
+            catch (System.Exception err) 
+            { 
+                Debug.LogWarning("Caught Exception: " + err.Message);
             }
         }
 

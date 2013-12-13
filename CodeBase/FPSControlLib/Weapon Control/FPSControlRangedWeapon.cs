@@ -283,26 +283,28 @@ namespace FPSControl
                             RaycastHit hit;
                             if (Physics.Raycast(ray, out hit, damageFalloff.distance, gunDamageLayers.value))//did we actually hit anything?
                             {
+                                Debug.Log("Hit: " + hit.collider.name);
+                                
                                 Vector3 contact = hit.point;
                                 Quaternion rot = Quaternion.FromToRotation(Vector3.up, hit.normal);
                                 if (hit.rigidbody)
                                     hit.rigidbody.AddForceAtPosition(contactForce * ray.direction, contact);
-                                
-                                //ImpactControl impact = Parent.Player.GetComponent<ImpactControl>();
-                                //if (impact != null)
-                                //{
-                                //    impact.OnImpact(hit);
-                                //}
 
-                                //if ((hit.transform.tag != "NoBulletHoles") && (hit.transform.tag != "Untagged") && (hit.transform.tag != "Enemy"))
-                                //{
-                                //    if (bulletHole)
-                                //    {
-                                //        GameObject tr = (GameObject)Instantiate(bulletHole, contact, rot);
-                                //        tr.SendMessage("SurfaceType", hit);
-                                //        tr.transform.parent = hit.transform; // parent to hit object so the bullet holes move with object
-                                //   }
-                                //}
+                                ImpactControl impact = Parent.Player.GetComponent<ImpactControl>();
+                                if (impact != null)
+                                {
+                                    impact.OnImpact(hit);
+                                }
+
+                                if ((hit.transform.tag != "NoBulletHoles") && (hit.transform.tag != "Untagged") && (hit.transform.tag != "Enemy"))
+                                {
+                                    if (bulletHole)
+                                    {
+                                        GameObject tr = (GameObject)Instantiate(bulletHole, contact, rot);
+                                        tr.SendMessage("SurfaceType", hit);
+                                        tr.transform.parent = hit.transform; // parent to hit object so the bullet holes move with object
+                                    }
+                                }
 
                                 DamageSource damageSource = new DamageSource();
                                 float distance = hit.distance;
@@ -323,7 +325,7 @@ namespace FPSControl
                                 }
                                 else
                                 {
-                                    //Debug.Log(hit.collider.gameObject.name+": No Damageable found. Reverting to SendMessage.");
+                                    Debug.Log(hit.collider.gameObject.name+": No Damageable found. Reverting to SendMessage.");
                                     hit.collider.SendMessage("ApplyDamage", damageSource, SendMessageOptions.DontRequireReceiver);
                                 }
                             }
@@ -375,25 +377,26 @@ namespace FPSControl
         }
 
         Action _cbFunc;
-
         internal override void _Activate(FPSControlPlayerWeaponManager parent, Action cbFunc)
         {
             Debug.Log("Internal _Activate" + (cbFunc != null ? "  with callback." : "."));
             _cbFunc = cbFunc;
 
-            gameObject.SetActive(true);
             Parent = parent;
+            gameObject.SetActive(true);
 
-            weaponAnimation.animationCompleteCallback = () =>
-            {
-                Debug.Log("Lamda");
-                if (_cbFunc != null) _cbFunc();
-                _cbFunc = null;
-                WeaponBecameActive();
-            };
+            weaponAnimation.animationCompleteCallback = OnActivationAnimationComplete;
 
             weaponPath.Initialize(this); // re-initialize path.
             weaponAnimation.Activate();
+        }
+
+        void OnActivationAnimationComplete()
+        {
+            //Debug.Log("Lamda");
+            if (_cbFunc != null) _cbFunc();
+            _cbFunc = null;
+            WeaponBecameActive();
         }
 
         void WeaponBecameActive()

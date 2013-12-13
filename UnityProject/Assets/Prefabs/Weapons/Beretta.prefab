@@ -2231,7 +2231,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 3
   m_audioClip: {fileID: 8300000, guid: d6d99694ac67f42838b406805c79fcde, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -2352,10 +2352,10 @@ MonoBehaviour:
     weaponName: Beretta
     pivot: {x: -.415384561, y: -.923077047, z: 0}
     euler: {x: 0, y: 0, z: 0}
-    scopePivot: {x: 0, y: 0, z: 0}
+    scopePivot: {x: -.415384591, y: -.923076987, z: 0}
     scopeEuler: {x: 0, y: 0, z: 0}
     scopeFOV: 20
-    maxDamagePerHit: 0
+    maxDamagePerHit: 20.3846169
     chargeTime: .100000001
   weaponAnimation: {fileID: 11400008}
   weaponParticles: {fileID: 11400006}
@@ -2387,20 +2387,22 @@ MonoBehaviour:
     burstAmount: 1
     constantRegeneration: 1
     maximumRounds: 100
-    regenerationRate: .5
+    regenerationRate: 5
     fullRegenerationTime: 8
   weaponPath: {fileID: 11400002}
   projectileA: {fileID: 0}
   projectileB: {fileID: 0}
   gunDamageLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   bulletHole: {fileID: 0}
   contactForce: 10
   damageFalloff:
     distance: 20
     _points:
-    - location: 0
+    - location: .123015873
+      value: 1
+    - location: 1
       value: 0
   _currentClipContents: 6
   _currentClips: 2
@@ -2459,9 +2461,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   particles:
   - particleSystem: {fileID: 100084}
-    isEnabled: 1
+    isEnabled: 0
     position: {fileID: 400032}
-    global: 1
+    global: 0
   - particleSystem: {fileID: 0}
     isEnabled: 0
     position: {fileID: 0}
@@ -2506,17 +2508,7 @@ MonoBehaviour:
     DEFEND_EXIT: Defend Exit
   firingPattern:
     distance: 2
-    _points:
-    - location: .162698418
-      value: 1
-    - location: .329365075
-      value: 1
-    - location: .5
-      value: 1
-    - location: .674603164
-      value: 1
-    - location: .853174627
-      value: 1
+    _points: []
 --- !u!120 &12000000
 LineRenderer:
   m_ObjectHideFlags: 1
