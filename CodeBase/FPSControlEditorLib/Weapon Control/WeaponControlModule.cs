@@ -5,6 +5,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using FPSControl;
+using FPSControl.Data;
 using FPSControl.Definitions;
 
 namespace FPSControlEditor
@@ -61,11 +62,21 @@ namespace FPSControlEditor
         }
 
         FPSControlPlayerWeaponManager WeaponManager { get { return requiredRoot.GetComponent<FPSControlPlayerWeaponManager>(); } }
+        WeaponsCatalogue Catalogue
+        {
+            get
+            {
+                if (!WeaponManager.weaponPrefabsCatalogue) WeaponManager.weaponPrefabsCatalogue = WeaponsCatalogueInspector.Create();
+                return WeaponManager.weaponPrefabsCatalogue;
+            }
+        }
 
         int rootChildren { get { return requiredRoot ? requiredRoot.transform.childCount : 0; } }
 
         public GameObject CurrentPrefab { get { return (prefabs.Count > 0 && currentIndex > -1) ? prefabs[currentIndex] : null; } }
         public FPSControlWeapon PrefabComponent { get { return CurrentPrefab ? CurrentPrefab.GetComponent<FPSControlWeapon>() : null; } }
+
+        public FPSControlWeapon FocusedComponent { get { return EditorApplication.isPlaying ? InstanceComponent : PrefabComponent; } }
 
         GameObject _prefabInstance;
         public FPSControlWeapon InstanceComponent { get { return _prefabInstance ? _prefabInstance.GetComponent<FPSControlWeapon>() : null; } }
@@ -75,8 +86,6 @@ namespace FPSControlEditor
         public FPSControlWeapon BufferComponent { get { return _tmpPlaymodeBuffer ? _tmpPlaymodeBuffer.GetComponent<FPSControlWeapon>() : null; } }
 
         bool dirty = false;
-
-
 
         public List<string> names
         {
@@ -106,6 +115,7 @@ namespace FPSControlEditor
                     "No"
                 ));
                 ClearBuffer(prompt);
+                if (prompt) Save();
             }
         }
 
@@ -138,8 +148,9 @@ namespace FPSControlEditor
 
                         //Debug.Log("found prefab: " + shortPath + " named: " + _tmpPrefab.name);
                         FPSControlWeapon _tmpComponent = _tmpPrefab.GetComponent<FPSControlWeapon>();
-                        if (_tmpComponent)
+                        if (_tmpComponent && Catalogue.ContainsValue(_tmpPrefab))
                         {
+                            //Debug.Log("Found prefab. Adding to collection. " + AssetDatabase.GetAssetPath(_tmpPrefab));
                             prefabs.Add(_tmpPrefab);
                         }
                     }
@@ -198,6 +209,7 @@ namespace FPSControlEditor
                     {
                         EditorUtility.CopySerialized(BufferComponent, InstanceComponent);
                         Save();
+
                     }
                     else
                         Debug.LogError("Could not keep changes because the reference to the Instance component in this scene was broken.");
@@ -208,7 +220,7 @@ namespace FPSControlEditor
                 _tmpPlaymodeBuffer = null;
                 AssetDatabase.DeleteAsset(bufferPath);
             }
-            catch (System.Exception err) { }
+            catch (System.Exception err) { Debug.LogWarning("Caught Exception: " + err.Message); }
         }
 
         void Delete()
@@ -250,8 +262,10 @@ namespace FPSControlEditor
 
         void Save(GameObject prefabInstance, GameObject prefab)
         {
+            CheckWeapon(prefabInstance.GetComponent<FPSControlWeapon>());
             PrefabUtility.ReplacePrefab(prefabInstance, prefab);
-            PrefabUtility.RevertPrefabInstance(prefabInstance); // this is to make sure the instance and prefab are fully in-sync again.
+            //PrefabUtility.RevertPrefabInstance(prefabInstance); // this is to make sure the instance and prefab are fully in-sync again.
+            //PrefabUtility.ReplacePrefab(prefabInstance, prefab);
             dirty = false;
             Repaint();
         }
@@ -288,10 +302,7 @@ namespace FPSControlEditor
             {
                 EditorUtility.CopySerialized((FPSControlWeapon)_old, (FPSControlWeapon)_new);
             }
-            catch(System.Exception err)
-            {
-
-            }
+            catch (System.Exception err) { }
 
             Object.DestroyImmediate(_old);
         }
@@ -341,10 +352,6 @@ namespace FPSControlEditor
             _prefabInstance.transform.localRotation = Quaternion.identity;
             
             CheckCurrentWeapon();
-
-            // Add to the weapons manager.
-            //if (!ArrayUtility.Contains<FPSControlWeapon>(mgr.weaponActors, InstanceComponent))
-            //    ArrayUtility.Add<FPSControlWeapon>(ref mgr.weaponActors, InstanceComponent);
         }
 
         bool IsWeaponRanged { get { return InstanceComponent is FPSControlRangedWeapon; } }
@@ -657,7 +664,8 @@ namespace FPSControlEditor
                         else
                             Revert(_prevPrefabInstance, _prevPrefabComponent, _prevInstanceComponent);
 
-                        if(EditorApplication.isPlaying) ClearBuffer(false);
+                        if (EditorApplication.isPlaying) ClearBuffer(false);
+                        else Object.DestroyImmediate(_prevPrefabInstance); // Destroy the instance object
                     }
                     
                     // If we made a change and there isn't an instance of the selected prefab under the root we need to add it
@@ -667,8 +675,9 @@ namespace FPSControlEditor
                         Debug.Log("Found: " + _tmp.name);
                         // We found one of the same name, but is it linked to the prefab we want?
                         Object prefabParent = PrefabUtility.GetPrefabParent(_tmp.gameObject);
-                        if (prefabParent != CurrentPrefab) // If they don't match, throw an error and zero out.
+                        if (prefabParent != CurrentPrefab && !EditorApplication.isPlaying) // If they don't match, throw an error and zero out.
                         {
+
                             Debug.LogError(string.Format("GameObject found in root with name '{0}' does not match the expected prefab '{1}'," +
                             " result was '{2}'",
                                 _tmp.name,
@@ -676,6 +685,24 @@ namespace FPSControlEditor
                                 AssetDatabase.GetAssetPath(prefabParent))
                             );
                             currentIndex = -1;
+
+                        }
+                        else if (EditorApplication.isPlaying && prefabParent != CurrentPrefab)
+                        {
+                            // Couldn't connect - try and grab it from the existing list of instantiated weapons.
+                            bool success = false;
+                            foreach (FPSControlWeapon weapon in WeaponManager.WeaponActors)
+                            {
+                                if (weapon.name == names[currentIndex] && weapon.gameObject.active)
+                                {
+                                    _prefabInstance = weapon.gameObject;
+                                    success = true;
+                                }
+                            }
+                            if(!success)
+                            {
+                                Debug.LogError("Could not connect to Prefab. Is this the active weapon? Restart and try again.");
+                            }
                         }
                         else // It is the one we're looking for...
                         {
@@ -702,11 +729,6 @@ namespace FPSControlEditor
                                     return;
                                 }
                             }
-                            
-                            //// Make sure it is catalogued in the manager.
-                            //FPSControlPlayerWeaponManager mgr = WeaponManager;
-                            //if (!ArrayUtility.Contains<FPSControlWeapon>(mgr.weaponActors, InstanceComponent))
-                            //    ArrayUtility.Add<FPSControlWeapon>(ref mgr.weaponActors, InstanceComponent);
                         }
                     }
                     else
@@ -725,7 +747,7 @@ namespace FPSControlEditor
             else
             {
                 GUI.Label(popupRect, "NONE", EditorStyles.popup);
-            }
+            } 
 
             GUI.enabled = Application.isPlaying || names.Count < 1 ? false : gEnabled;
 
@@ -734,6 +756,8 @@ namespace FPSControlEditor
                 if(EditorUtility.DisplayDialog("Confirm Delete","Do you want to delete this asset? It can not be undone.","OK","Cancel")) 
                     Delete();
             }
+
+            GUI.enabled = gEnabled;
 
             if (GUI.Button(newRect, "Add New"))
             {
@@ -1561,20 +1585,40 @@ namespace FPSControlEditor
             base.OnLostFocus(rebuild);
         }
 
+        public override void OnDestroy()
+        {
+            Close();
+            base.OnDestroy();
+        }
+
         public override void Deinit()
         {
+            Close();
             base.Deinit(); 
+        }
+
+        void Close()
+        {
+            if (_prefabInstance && !EditorApplication.isPlaying)
+                Object.DestroyImmediate(_prefabInstance);
         }
 
         int prevIndex = -1;
         public override void Update()
         {
-            //if (currentIndex == -1) Debug.Log("index = -1");
+            /*//if (currentIndex == -1) Debug.Log("index = -1");
             if (currentIndex != prevIndex)
                 Debug.Log("index: " + currentIndex);
             prevIndex = currentIndex;
-
-            
+            */
+            if (!EditorApplication.isPlaying)
+            {
+                if (_prefabInstance)
+                {
+                    //_prefabInstance.transform.localPosition = InstanceComponent.definition.pivot;
+                    //_prefabInstance.transform.localRotation = Quaternion.Euler(InstanceComponent.definition.euler);
+                }
+            }
         }
 
         public override void OnPromptInput(string userInput)
@@ -1587,7 +1631,8 @@ namespace FPSControlEditor
 
             CreateNew<FPSControlRangedWeapon>(userInput);
             //CreateNewWeapon(userInput, true, true);
-            AttachWeaponToManager();
+            //AttachWeaponToManager();
+            Catalogue.Add(CurrentPrefab.name, CurrentPrefab);
         }
 
         private void AttachWeaponToManager()
@@ -1718,20 +1763,25 @@ namespace FPSControlEditor
 
         private void CheckCurrentWeapon()
         {
-            InstanceComponent.definition.weaponName = InstanceComponent.name;
-            if (InstanceComponent.modelOffset == null)
-                InstanceComponent.modelOffset = GetOrCreateChild(InstanceComponent.transform, InstanceComponent.name + " Model");
-            if (InstanceComponent.modelController == null)
-                InstanceComponent.modelController = GetOrCreateChild(InstanceComponent.modelOffset, InstanceComponent.name + " Controller");
-            if (InstanceComponent.weaponAnimation == null)
-                InstanceComponent.weaponAnimation = GetOrCreateComponent<FPSControlWeaponAnimation>(InstanceComponent.modelController);
-            if (InstanceComponent.weaponParticles == null)
-                InstanceComponent.weaponParticles = GetOrCreateComponent<FPSControlWeaponParticles>(InstanceComponent.modelController);
-            if (InstanceComponent.weaponSound == null)
-                InstanceComponent.weaponSound = GetOrCreateComponent<FPSControlWeaponSound>(InstanceComponent.modelController);
+            CheckWeapon(InstanceComponent);
+        }
 
-            if (IsWeaponRanged && GetInstanceComponent<FPSControlRangedWeapon>().weaponPath == null)
-                GetInstanceComponent<FPSControlRangedWeapon>().weaponPath = GetOrCreateComponent<FPSControlWeaponPath>(InstanceComponent.modelController);
+        private void CheckWeapon(FPSControlWeapon weapon)
+        {
+            weapon.definition.weaponName = weapon.name;
+            if (weapon.modelOffset == null)
+                weapon.modelOffset = GetOrCreateChild(weapon.transform, weapon.name + " Model");
+            if (weapon.modelController == null)
+                weapon.modelController = GetOrCreateChild(InstanceComponent.modelOffset, weapon.name + " Controller");
+            if (weapon.weaponAnimation == null)
+                weapon.weaponAnimation = GetOrCreateComponent<FPSControlWeaponAnimation>(weapon.modelController);
+            if (weapon.weaponParticles == null)
+                weapon.weaponParticles = GetOrCreateComponent<FPSControlWeaponParticles>(weapon.modelController);
+            if (weapon.weaponSound == null)
+                weapon.weaponSound = GetOrCreateComponent<FPSControlWeaponSound>(weapon.modelController);
+
+            if (weapon is FPSControlRangedWeapon && GetInstanceComponent<FPSControlRangedWeapon>().weaponPath == null)
+                GetInstanceComponent<FPSControlRangedWeapon>().weaponPath = GetOrCreateComponent<FPSControlWeaponPath>(weapon.modelController);
 
 
             //if (currentWeapon.isRanged && ((FPSControlRangedWeapon)InstanceComponent).weaponPath == null) ((FPSControlRangedWeapon)InstanceComponent).weaponPath = GetOrCreateComponent<FPSControlWeaponPath>(currentWeapon.modelController);

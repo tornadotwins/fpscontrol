@@ -79,10 +79,11 @@ namespace FPSControlEditor
         public virtual void OnFocus(bool rebuild) {
             justReturnedFromPopup = false;
         }
-
         public virtual void OnLostFocus(bool rebuild) {
             wasPlaying = Application.isPlaying;
         }
+        public virtual void OnDestroy() { }
+
 
         public void Repaint()
         {

@@ -114,6 +114,7 @@
     <Compile Include="Optimize\MeshCombineUtility.cs" />
     <Compile Include="Weapon Control\CurrentWeaponData.cs" />
     <Compile Include="Weapon Control\WeaponControlModule.cs" />
+    <Compile Include="Weapon Control\WeaponsCatalogueInspector.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

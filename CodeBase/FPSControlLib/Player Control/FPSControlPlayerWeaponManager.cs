@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using FPSControl;
+using FPSControl.Data;
 using FPSControl.States.Player;
 using FPSControl.PersistentData;
 
@@ -36,7 +37,7 @@ namespace FPSControl
             List<FPSControlWeapon> availableWeapons = new List<FPSControlWeapon>();
             for (int i = 0; i < weapons.Length; i++)
             {
-                foreach(FPSControlWeapon actor in manager.weaponActors)
+                foreach(FPSControlWeapon actor in manager.WeaponActors)
                 {
                     if (actor.definition.weaponName == weapons[i].name)
                     {
@@ -72,12 +73,14 @@ namespace FPSControl
         public string defaultWeaponName;
 
         [HideInInspector]
-        public FPSControlWeapon[] weaponActors; //all possible weapons should be setup here
+        FPSControlWeapon[] _weaponActors; //all possible weapons should be setup here
+        public FPSControlWeapon[] WeaponActors { get { return _weaponActors; } }
+
         Dictionary<string, FPSControlWeapon> _weaponsCatalogue = new  Dictionary<string, FPSControlWeapon>(); //the catalogue of weapons, built dynamically from weaponActors array
         [HideInInspector]
         List<FPSControlWeapon> _availableWeapons = new List<FPSControlWeapon>(); //the available weapons (max
         public FPSControlWeapon[] availableWeapons { get { return _availableWeapons.ToArray(); } }
-        public GameObject[] weaponPrefabs;
+        public WeaponsCatalogue weaponPrefabsCatalogue;
 
         internal void _PDLoadAvailableWeapons(List<FPSControlWeapon> weapons)
         {
@@ -128,8 +131,6 @@ namespace FPSControl
 
         void Awake()
         {
-            
-            
             _transform = transform;
             _parent = _transform.parent;
 
@@ -161,7 +162,7 @@ namespace FPSControl
                 }
             }
 
-            foreach (GameObject g in weaponPrefabs)
+            foreach (GameObject g in weaponPrefabsCatalogue.Values)
             {
                 GameObject go;
                 if (preexistingComponents.ContainsKey(g.name))
@@ -195,7 +196,7 @@ namespace FPSControl
                 }
             }
             
-            weaponActors = _collectedActors.ToArray();
+            _weaponActors = _collectedActors.ToArray();
         }
 
         void Start()
@@ -206,7 +207,7 @@ namespace FPSControl
             {
                 int added = 0;
                 bool first = true;
-                foreach (FPSControlWeapon weapon in weaponActors)
+                foreach (FPSControlWeapon weapon in _weaponActors)
                 {
                     added++;
                     if (added < 4)

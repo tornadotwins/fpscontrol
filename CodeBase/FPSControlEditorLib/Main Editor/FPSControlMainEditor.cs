@@ -170,16 +170,23 @@ namespace FPSControlEditor
         [MenuItem("FPS Control/Editor")]
         static void Init()
         {
+            Init(true);
+        }
+
+        static void Init(bool load)
+        {
             //Debug.Log("Opening FPSControl.");
             windowSize = new Rect((Screen.currentResolution.width / 2) - 287.5f, (Screen.currentResolution.height / 2) - 243, WINDOW_SIZE.x, WINDOW_SIZE.y);
 
             window = EditorWindow.GetWindowWithRect<FPSControlMainEditor>(windowSize, true, "FPSControl", true);
 
-            window.LoadAssets();
-            window.PreloadModules();
+            if (load)
+            {
+                window.LoadAssets();
+                window.PreloadModules();
+            }
             //window.Show();
         }
-
 
         internal static void OpenTo(FPSControlModuleType m)
         {
@@ -216,6 +223,11 @@ namespace FPSControlEditor
             loadedModule.OnLostFocus(rebuild);
         }
 
+        void OnDestroy()
+        {
+            loadedModule.OnDestroy();
+        }
+
         bool _wasPlaying;
         void Update()
         {
@@ -246,8 +258,8 @@ namespace FPSControlEditor
         void OnHierarchyChange()
         {
             if (Application.isPlaying) return;
-            Init();
-            window.Focus();  
+            Init(false);
+            if(window) window.Focus();  
         }
 
         void OnGUI()

@@ -580,11 +580,8 @@ MonoBehaviour:
   defendKey: 120
   addWeaponsToInventory: 1
   defaultWeaponName: Beretta
-  weaponActors: []
-  weaponPrefabs:
-  - {fileID: 100136, guid: 29f5dc73ddf7a98438093b9c0539e151, type: 2}
-  - {fileID: 100000, guid: 64dae8c4ff749db498047579cefa4bb3, type: 2}
-  - {fileID: 100048, guid: ed4ce95f674785c4f96104f7f3faec01, type: 2}
+  weaponPrefabsCatalogue: {fileID: 11400000, guid: a1224be73e9540a45b80eef706da5303,
+    type: 2}
   shouldersOffset: {x: .319999993, y: -.289999992, z: .270000011}
   defaultCrosshair: {fileID: 11400012}
   crosshairAnimator: {fileID: 11400000}
