@@ -127,8 +127,10 @@ namespace FPSControl
 
         internal void _PDLoadAmmo(int ammo, int clips, int clipContents, float energy)
         {
-            SetAmmo(ammo, clips);
-            SetAmmo(energy);
+            _currentClipContents = clipContents;
+            _currentAmmo = ammo;
+            _currentClips = clips;
+            _currentEnergy = energy;
         }
 
         public override void StartRun()

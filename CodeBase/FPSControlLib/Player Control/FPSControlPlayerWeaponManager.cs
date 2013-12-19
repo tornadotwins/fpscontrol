@@ -209,12 +209,14 @@ namespace FPSControl
                 FPSControlPlayerWeaponManagerSaveData saveData =
                     PersistentData.PersistentData.Read<FPSControlPlayerWeaponManagerSaveData>(PersistentData.PersistentData.NS_WEAPONS, FPSControlPlayerWeaponManagerSaveData.IDENTIFIER);
 
-                // Iterate through the data and add weapons to inventory, and activate the last active weapon.
-                for (int i = 0; i < saveData.weapons.Length; i++)
-                {
-                    FPSControlWeaponSaveData savedWeapon = saveData.weapons[i];
-                    AddToInventory(savedWeapon.name, saveData.activeWeaponName == savedWeapon.name);
-                }
+                saveData.Update(this);
+
+                //// Iterate through the data and add weapons to inventory, and activate the last active weapon.
+                //for (int i = 0; i < saveData.weapons.Length; i++)
+                //{
+                //    FPSControlWeaponSaveData savedWeapon = saveData.weapons[i];
+                //    AddToInventory(savedWeapon.name, saveData.activeWeaponName == savedWeapon.name);
+                //}
             }
             else if (addWeaponsToInventory) // If we don't have any data, and we are told to add weapons to inventory - do so now.
             {
