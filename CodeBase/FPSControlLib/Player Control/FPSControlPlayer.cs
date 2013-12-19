@@ -29,7 +29,7 @@ namespace FPSControl
 
             PersistentData.PersistentData.Write<FPSControlPlayerWeaponManagerSaveData>(
                 PersistentData.PersistentData.NS_WEAPONS,
-                "Weapons Manager",
+                FPSControlPlayerWeaponManagerSaveData.IDENTIFIER,
                 new FPSControlPlayerWeaponManagerSaveData(player.weaponManager),
                 false);
         }

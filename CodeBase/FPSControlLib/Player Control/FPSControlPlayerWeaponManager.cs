@@ -10,6 +10,7 @@ namespace FPSControl
 {
     public class FPSControlPlayerWeaponManagerSaveData
     {
+        public const string IDENTIFIER = "Weapons Manager";
         public FPSControlWeaponSaveData[] weapons;
         public string activeWeaponName;
 
@@ -155,7 +156,7 @@ namespace FPSControl
                 {
                     if(preexistingComponents.ContainsKey(c.name))
                     {
-                        Debug.LogError("Found same weapon more than once!");
+                        Debug.LogError(string.Format("Found weapon named '{0}' more than once!",c.name));
                         continue;
                     }
                     preexistingComponents.Add(c.name, c);
@@ -201,9 +202,21 @@ namespace FPSControl
 
         void Start()
         {
-            bool persistentData =
-                PersistentData.PersistentData.Exists<FPSControlPlayerWeaponManagerSaveData>(PersistentData.PersistentData.NS_WEAPONS, "Weapon Manager");
-            if (addWeaponsToInventory && !persistentData) // If we have persistent data saved, don't do this.
+            // If we have persistent data saved
+            if (PersistentData.PersistentData.Exists<FPSControlPlayerWeaponManagerSaveData>(PersistentData.PersistentData.NS_WEAPONS, FPSControlPlayerWeaponManagerSaveData.IDENTIFIER)) 
+            {
+                // Load the data
+                FPSControlPlayerWeaponManagerSaveData saveData =
+                    PersistentData.PersistentData.Read<FPSControlPlayerWeaponManagerSaveData>(PersistentData.PersistentData.NS_WEAPONS, FPSControlPlayerWeaponManagerSaveData.IDENTIFIER);
+
+                // Iterate through the data and add weapons to inventory, and activate the last active weapon.
+                for (int i = 0; i < saveData.weapons.Length; i++)
+                {
+                    FPSControlWeaponSaveData savedWeapon = saveData.weapons[i];
+                    AddToInventory(savedWeapon.name, saveData.activeWeaponName == savedWeapon.name);
+                }
+            }
+            else if (addWeaponsToInventory) // If we don't have any data, and we are told to add weapons to inventory - do so now.
             {
                 int added = 0;
                 bool first = true;
@@ -222,11 +235,8 @@ namespace FPSControl
                             ((FPSControlRangedWeapon)weapon).SetAmmo((int)((FPSControlRangedWeapon)weapon).rangeDefinition.clipCapacity, 0);
                     }
                 }
-            }
-            else if (persistentData)
-            {
-                //TODO: Load weapons.
-            }
+            } // Otherwise do nothing
+
         }
 
         public bool CanAddWeapon(string weaponName)
@@ -432,18 +442,18 @@ namespace FPSControl
             _transform.localPosition = shouldersOffset; //position the shoulders below the head            
             Initialize(player);
 
-            if (PersistentData.PersistentData.Exists<FPSControlPlayerWeaponManagerSaveData>( PersistentData.PersistentData.NS_WEAPONS, "Weapon Manager"))
-            {
-                FPSControlPlayerWeaponManagerSaveData saveData = PersistentData.PersistentData.Read<FPSControlPlayerWeaponManagerSaveData>(
-                    PersistentData.PersistentData.NS_WEAPONS,
-                    "Weapon Manager");
+            //if (PersistentData.PersistentData.Exists<FPSControlPlayerWeaponManagerSaveData>( PersistentData.PersistentData.NS_WEAPONS, "Weapon Manager"))
+            //{
+            //    FPSControlPlayerWeaponManagerSaveData saveData = PersistentData.PersistentData.Read<FPSControlPlayerWeaponManagerSaveData>(
+            //        PersistentData.PersistentData.NS_WEAPONS,
+            //        "Weapon Manager");
 
-                saveData.Update(this);
-            }
-            else
-            {
-                FPSControlPlayerData.SaveWeaponData(); // Save the data to kick off.
-            }
+            //    saveData.Update(this);
+            //}
+            //else
+            //{
+            //    FPSControlPlayerData.SaveWeaponData(); // Save the data to kick off.
+            //}
         }
 
         public void StartRun()

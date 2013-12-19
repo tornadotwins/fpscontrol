@@ -1147,9 +1147,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_LocalRotation: {x: -.607263565, y: -.133410767, z: .0999564603, w: .776814818}
-  m_LocalPosition: {x: -.150000528, y: -.0115388306, z: -.0115382569}
-  m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.56249988, y: 1.5625, z: 1.56249988}
   m_Children:
   - {fileID: 400146}
   m_Father: {fileID: 0}
@@ -2010,7 +2010,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100144}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .0650224164, y: -.330265999, z: -.0519606397}
+  m_LocalPosition: {x: 0, y: -1.25999999, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400142}
@@ -2443,69 +2443,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1121929730, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
+  m_Script: {fileID: -1828090268, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   definition:
     weaponName: Test Gun
-    pivot: {x: -.150000528, y: -.0115388306, z: -.0115382569}
-    euler: {x: -66.461525, y: -55.3846207, z: 52.615387}
-    scopePivot: {x: .126923159, y: .207692325, z: .8307693}
-    scopeEuler: {x: -70.615387, y: 177.230713, z: 132.923141}
+    pivot: {x: 0, y: 0, z: 0}
+    euler: {x: 0, y: 0, z: 0}
+    scopePivot: {x: 0, y: 0, z: 0}
+    scopeEuler: {x: 0, y: 0, z: 0}
     scopeFOV: 20
-    maxDamagePerHit: 26.9230766
+    maxDamagePerHit: 0
     chargeTime: .100000001
   weaponAnimation: {fileID: 11400008}
   weaponParticles: {fileID: 11400006}
   weaponSound: {fileID: 11400004}
-  impactName: None
+  impactName: 
   idleState:
-    name: Idle
+    name: 
   fireState:
-    name: Fire
+    name: 
   reloadState:
-    name: Reload
+    name: 
   defendState:
-    name: Defend
+    name: 
   chargeState:
-    name: Charge
+    name: 
   _modelController: {fileID: 400144}
   _modelOffset: {fileID: 400146}
   crossHairName: 
-  rangeDefinition:
-    rangedType: 0
-    disperseRadius: .33076933
-    raycasts: 9.30769253
-    spread: 1.5
-    twirlingSpeed: 5
-    twirl: {x: 0, y: 0, z: 0}
-    reloadType: 2
-    clipCapacity: 24.2307606
-    maxClips: 3
-    burstAmount: 1
-    constantRegeneration: 1
-    maximumRounds: 100
-    regenerationRate: 5
-    fullRegenerationTime: 8
-  weaponPath: {fileID: 11400002}
-  projectileA: {fileID: 0}
-  projectileB: {fileID: 0}
-  gunDamageLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  bulletHole: {fileID: 0}
-  contactForce: 10
-  damageFalloff:
-    distance: 100
-    _points:
-    - location: .373015881
-      value: .899999976
-    - location: 1
-      value: 0
-  _currentClipContents: 24
-  _currentClips: 0
-  _currentAmmo: 0
-  _currentEnergy: 100
+  damageTrigger: {fileID: 0}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1

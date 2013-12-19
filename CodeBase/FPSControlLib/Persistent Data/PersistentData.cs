@@ -13,7 +13,9 @@ namespace FPSControl.PersistentData
     {
         public const string NS_WEAPONS = "Weapons";
 
-        static string PATH { get { return Application.persistentDataPath; } }
+        static string PATH { get {
+            Debug.Log(Application.persistentDataPath);
+            return Application.persistentDataPath; } }
 
         public static void Write<T>(string nameSpace, string identifier, T obj, bool append = true)
         {
@@ -60,6 +62,7 @@ namespace FPSControl.PersistentData
         {
             if (NameSpaceExists(nameSpace))
             {
+                
                 PersistentDataNameSpace<T> loadedNameSpace = ReadAll<T>(nameSpace);
                 return loadedNameSpace.Contains(identifier);
             }
