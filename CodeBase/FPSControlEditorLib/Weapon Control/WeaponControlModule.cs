@@ -652,6 +652,58 @@ namespace FPSControlEditor
              * */
         }
 
+        FPSControlWeapon _prevWeapon;
+        void FocusEquippedWeapon()
+        {
+            if (!EditorApplication.isPlaying)
+            {
+                _prevWeapon = null;
+                return;
+            }
+
+            FPSControlWeapon _currWeapon = WeaponManager.currentWeapon;
+
+            if (_currWeapon)
+            {
+                if (_currWeapon != _prevWeapon) //User changed weapons
+                {
+                    // We need to dump the old stuff
+                    ClearBuffer(false);
+                    
+                    // Get the new index
+                    currentIndex = names.IndexOf(_currWeapon.definition.weaponName);
+
+                    Object prefabParent = PrefabUtility.GetPrefabParent(_currWeapon.gameObject);
+                    if (prefabParent != CurrentPrefab)
+                    {
+                        Debug.Log("Could not connect to prefab - doing recursive search...");
+                        // Couldn't connect - try and grab it from the existing list of instantiated weapons.
+                        bool success = false;
+                        foreach (FPSControlWeapon weapon in WeaponManager.WeaponActors)
+                        {
+                            if (weapon.name == names[currentIndex] && weapon.gameObject.active)
+                            {
+                                _prefabInstance = weapon.gameObject;
+                                Debug.Log("Recursive search successful. Found: " + weapon.name);
+                                success = true;
+                            }
+                        }
+                        if (!success)
+                            Debug.LogError("Could not connect to Prefab. Is this the active weapon? Restart and try again.");
+                                                
+                    }
+                    else // We should be good at this point
+                    {
+                        _prefabInstance = _currWeapon.gameObject;
+                    }
+
+                    CreatePlaymodeBuffer(); // We need to create the Play Mode Buffer.
+                }
+            }
+
+            _prevWeapon = _currWeapon;
+        }
+
         private void GUIWeaponSelect()
         {
             bool gEnabled = GUI.enabled;
@@ -666,6 +718,11 @@ namespace FPSControlEditor
             FPSControlWeapon _prevPrefabComponent = PrefabComponent;
             if (names.Count > 0)
             {
+
+                GUI.enabled = EditorApplication.isPlaying ? false : gEnabled;
+
+                FocusEquippedWeapon();
+
                 EditorGUI.BeginChangeCheck();
                 currentIndex = EditorGUI.Popup(popupRect, currentIndex, names.ToArray());
                 if (EditorGUI.EndChangeCheck())
@@ -701,23 +758,23 @@ namespace FPSControlEditor
                             currentIndex = -1;
 
                         }
-                        else if (EditorApplication.isPlaying && prefabParent != CurrentPrefab)
-                        {
-                            // Couldn't connect - try and grab it from the existing list of instantiated weapons.
-                            bool success = false;
-                            foreach (FPSControlWeapon weapon in WeaponManager.WeaponActors)
-                            {
-                                if (weapon.name == names[currentIndex] && weapon.gameObject.active)
-                                {
-                                    _prefabInstance = weapon.gameObject;
-                                    success = true;
-                                }
-                            }
-                            if(!success)
-                            {
-                                Debug.LogError("Could not connect to Prefab. Is this the active weapon? Restart and try again.");
-                            }
-                        }
+                        //else if (EditorApplication.isPlaying && prefabParent != CurrentPrefab)
+                        //{
+                        //    // Couldn't connect - try and grab it from the existing list of instantiated weapons.
+                        //    bool success = false;
+                        //    foreach (FPSControlWeapon weapon in WeaponManager.WeaponActors)
+                        //    {
+                        //        if (weapon.name == names[currentIndex] && weapon.gameObject.active)
+                        //        {
+                        //            _prefabInstance = weapon.gameObject;
+                        //            success = true;
+                        //        }
+                        //    }
+                        //    if(!success)
+                        //    {
+                        //        Debug.LogError("Could not connect to Prefab. Is this the active weapon? Restart and try again.");
+                        //    }
+                        //}
                         else // It is the one we're looking for...
                         {
                             _prefabInstance = _tmp.gameObject;
@@ -734,15 +791,17 @@ namespace FPSControlEditor
                             }
                             else
                             {
-                                CreatePlaymodeBuffer(); // We need to create the Play Mode Buffer.
-                                if (!_prefabInstance.active)
-                                {
-                                    currentIndex = prevIndex;
-                                    _prefabInstance = null;
-                                    Debug.LogWarning("Cannot focus an inactive weapon during Play Mode!");
-                                    return;
-                                }
+                                Debug.LogWarning("You weren't supposed to be here... oops.");
                             }
+                            //    CreatePlaymodeBuffer(); // We need to create the Play Mode Buffer.
+                            //    if (!_prefabInstance.active)
+                            //    {
+                            //        currentIndex = prevIndex;
+                            //        _prefabInstance = null;
+                            //        Debug.LogWarning("Cannot focus an inactive weapon during Play Mode!");
+                            //        return;
+                            //    }
+                            //}
                         }
                     }
                     else
@@ -761,9 +820,9 @@ namespace FPSControlEditor
             else
             {
                 GUI.Label(popupRect, "NONE", EditorStyles.popup);
-            } 
+            }
 
-            GUI.enabled = Application.isPlaying || names.Count < 1 ? false : gEnabled;
+            GUI.enabled = EditorApplication.isPlaying || names.Count < 1 ? false : gEnabled;
 
             if (GUI.Button(deleteRect, "-"))
             {
@@ -771,7 +830,7 @@ namespace FPSControlEditor
                     Delete();
             }
 
-            GUI.enabled = gEnabled;
+            GUI.enabled = EditorApplication.isPlaying ? false : gEnabled;
 
             if (GUI.Button(newRect, "Add New"))
             {
@@ -779,54 +838,6 @@ namespace FPSControlEditor
             }
 
             GUI.enabled = gEnabled;
-
-            #region ######OLD CODE######
-            /*
-            List<string> weaponNames = new List<string>();
-            if (!weaponsAvailable) 
-            {
-                weaponNames.Add("NONE");
-            }
-            else
-            {
-                foreach(FPSControlWeapon w in weapons) {
-                    weaponNames.Add(w.definition.weaponName);
-                }
-            }
-            int newWeaponIndex = EditorGUI.Popup(popupRect, currentWeaponIndex, weaponNames.ToArray());
-            if (weaponsAvailable && newWeaponIndex != currentWeaponIndex)
-            {
-                //Debug.Log("Selecting Weapon");
-                currentWeaponIndex = newWeaponIndex;
-                RevertSavedCopy(InstanceComponent);
-                SetCurrentWeapon(weapons[currentWeaponIndex]);                
-            }
-            GUI.enabled = !weaponsAvailable || Application.isPlaying ? false : gEnabled;
-            if (GUI.Button(deleteRect, "-"))
-            {
-                if (EditorUtility.DisplayDialog("Are you sure?", "Are you sure you want to delete this?", "Delete", "Cancel"))
-                {
-                    FPSControlPlayerWeaponManager[] managers = (FPSControlPlayerWeaponManager[])GameObject.FindSceneObjectsOfType(typeof(FPSControlPlayerWeaponManager));
-                    foreach (FPSControlPlayerWeaponManager manager in managers) //Go through all the managers and make sure we rerefrence the new one
-                    {
-                        List<FPSControlWeapon> actors = new List<FPSControlWeapon>(manager.weaponActors);
-                        int index = actors.IndexOf(InstanceComponent);
-                        if (index != -1) actors.RemoveAt(index);
-                        manager.weaponActors = actors.ToArray();
-                    }
-                    GameObject.DestroyImmediate(InstanceComponent.transform.gameObject);
-                    Init();
-                    return;
-                }
-            }
-            GUI.enabled = !Application.isPlaying;
-            if (GUI.Button(newRect, "Add New"))
-            {
-                Prompt("Weapon Name");
-            }
-            GUI.enabled = true;
-            */
-            #endregion // ######OLD CODE######
         }
 
         private void GUIDrawBackground()
