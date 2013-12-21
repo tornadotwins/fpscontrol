@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Name: WeaponsCatalogue
   m_EditorClassIdentifier: 
   keys:
-  - Beretta
   - Test Gun
   - M16
+  - Beretta
   values:
-  - {fileID: 100048, guid: ed4ce95f674785c4f96104f7f3faec01, type: 2}
   - {fileID: 100000, guid: 64dae8c4ff749db498047579cefa4bb3, type: 2}
   - {fileID: 100146, guid: 29f5dc73ddf7a98438093b9c0539e151, type: 2}
+  - {fileID: 100144, guid: ed4ce95f674785c4f96104f7f3faec01, type: 2}
