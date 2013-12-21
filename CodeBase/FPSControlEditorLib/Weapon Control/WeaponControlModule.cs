@@ -56,8 +56,15 @@ namespace FPSControlEditor
             {
                 FPSControlPlayerWeaponManager[] mgrs = (FPSControlPlayerWeaponManager[]) Resources.FindObjectsOfTypeAll(typeof(FPSControlPlayerWeaponManager));
                 if (mgrs.Length == 0) return null;
+
+				foreach(FPSControlPlayerWeaponManager mgr in mgrs)
+				{
+					string assetPath = AssetDatabase.GetAssetPath(mgr.transform.root.gameObject);
+					if (string.IsNullOrEmpty(assetPath))
+						return mgr.gameObject;
+				}
                 //else if (mgrs.Length > 1) Debug.LogWarning("Multiple Weapon Managers found in scene. This may produce unexpected results.");
-                return mgrs[0].gameObject;
+				return null;
             }
         }
 
@@ -342,11 +349,18 @@ namespace FPSControlEditor
                 Debug.LogError("Error! Cannot locate Weapon Manager!");
                 return;
             }
-            _prefabInstance = (GameObject) PrefabUtility.InstantiatePrefab(CurrentPrefab);
-            _prefabInstance.transform.parent = requiredRoot.transform;
-            _prefabInstance.transform.localPosition = Vector3.zero;
-            _prefabInstance.transform.localRotation = Quaternion.identity;
-            
+
+			try
+			{
+				Object _tmpPrefab = CurrentPrefab;
+				GameObject _tmpGO = (GameObject) PrefabUtility.InstantiatePrefab(_tmpPrefab);
+				_tmpGO.transform.parent = requiredRoot.transform;
+				_tmpGO.transform.localPosition = Vector3.zero;
+				_tmpGO.transform.localRotation = Quaternion.identity;
+				_prefabInstance = _tmpGO;
+
+			}
+			catch(System.Exception err){Debug.LogWarning(err.Message);}
             CheckCurrentWeapon();
         }
 
@@ -737,7 +751,7 @@ namespace FPSControlEditor
                         {
                             currentIndex = prevIndex;
                             Debug.LogWarning("Cannot focus a missing weapon during Play Mode! Add it outside of Play Mode to edit.");
-                            return;
+                            //return;
                         }
                         // Can't find the child, instantiate one.
                         InstantiateCurrent();
