@@ -75,7 +75,7 @@
     <Compile Include="Interaction\Pickups\WeaponPickup.cs" />
     <Compile Include="Messaging\MessageReceiver.cs" />
     <Compile Include="Messaging\MessageSender.cs" />
-    <Compile Include="Persistent Data\PersistentData.cs" />
+    <Compile Include="Data\PersistentData.cs" />
     <Compile Include="Player Control\FPSControlPlayer.cs" />
     <Compile Include="Player Control\FPSControlPlayerCamera.cs" />
     <Compile Include="Player Control\FPSControlPlayerComponent.cs" />

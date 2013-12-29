@@ -44,7 +44,7 @@ namespace FPSControl
 
         public void Update(FPSControlMeleeWeapon weapon)
         {
-            // Nothing to remember yet.
+            //nothing yet
         }
     }
     

@@ -2,9 +2,8 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using FPSControl;
-using FPSControl.Data;
 using FPSControl.States.Player;
-using FPSControl.PersistentData;
+using FPSControl.Data;
 
 namespace FPSControl
 {
@@ -44,9 +43,9 @@ namespace FPSControl
                     {
                         availableWeapons.Add(actor);
                         if (weapons[i].type == FPSControlWeaponSaveData.WeaponType.Melee)
-                            weapons[i].Update((FPSControlMeleeWeapon)actor);
+                            weapons[i].Update((FPSControlMeleeWeapon) actor);
                         else
-                            weapons[i].Update((FPSControlRangedWeapon)actor);
+                            weapons[i].Update((FPSControlRangedWeapon) actor);
                     }
                 }
             }
@@ -203,11 +202,11 @@ namespace FPSControl
         void Start()
         {
             // If we have persistent data saved
-            if (PersistentData.PersistentData.Exists<FPSControlPlayerWeaponManagerSaveData>(PersistentData.PersistentData.NS_WEAPONS, FPSControlPlayerWeaponManagerSaveData.IDENTIFIER)) 
+            if (Data.PersistentData.Exists<FPSControlPlayerWeaponManagerSaveData>(Data.PersistentData.NS_WEAPONS, FPSControlPlayerWeaponManagerSaveData.IDENTIFIER)) 
             {
                 // Load the data
                 FPSControlPlayerWeaponManagerSaveData saveData =
-                    PersistentData.PersistentData.Read<FPSControlPlayerWeaponManagerSaveData>(PersistentData.PersistentData.NS_WEAPONS, FPSControlPlayerWeaponManagerSaveData.IDENTIFIER);
+                    Data.PersistentData.Read<FPSControlPlayerWeaponManagerSaveData>(Data.PersistentData.NS_WEAPONS, FPSControlPlayerWeaponManagerSaveData.IDENTIFIER);
 
                 saveData.Update(this);
 

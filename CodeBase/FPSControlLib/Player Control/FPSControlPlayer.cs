@@ -4,10 +4,21 @@ using System.Collections.Generic;
 
 using FPSControl.States;
 using FPSControl.States.Player;
-using FPSControl.PersistentData;
+using FPSControl.Data;
 
 namespace FPSControl
 {
+    public class FPSControlPlayerSaveData
+    {
+        internal const string IDENTIFIER = "PlayerSave";
+        
+        public float currentHealth;
+        public string currentLevelName;
+        public Transform spawnPoint;
+
+        public FPSControlPlayerSaveData() {}
+    }
+    
     public class FPSControlPlayerData : object
     {        
         internal static FPSControlPlayer player;
@@ -27,11 +38,27 @@ namespace FPSControl
                 return;
             }
 
-            PersistentData.PersistentData.Write<FPSControlPlayerWeaponManagerSaveData>(
-                PersistentData.PersistentData.NS_WEAPONS,
+            Data.PersistentData.Write<FPSControlPlayerWeaponManagerSaveData>(
+                Data.PersistentData.NS_WEAPONS,
                 FPSControlPlayerWeaponManagerSaveData.IDENTIFIER,
                 new FPSControlPlayerWeaponManagerSaveData(player.weaponManager),
                 false);
+        }
+
+        public static void SavePlayerData(FPSControlPlayerSaveData data, int slot)
+        {
+            Data.PersistentData.Write<FPSControlPlayerSaveData>(
+                Data.PersistentData.NS_PLAYER,
+                FPSControlPlayerSaveData.IDENTIFIER+slot.ToString(),
+                data,
+                false);
+        }
+
+        public static FPSControlPlayerSaveData LoadPlayerSaveData(int slot)
+        {
+            return Data.PersistentData.Read<FPSControlPlayerSaveData>(
+                Data.PersistentData.NS_PLAYER,
+                FPSControlPlayerSaveData.IDENTIFIER + slot.ToString());
         }
 
         #endregion // Persistent Data

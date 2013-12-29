@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,11 +8,12 @@ using UnityEngine;
 using FPSControl;
 using System.IO;
 
-namespace FPSControl.PersistentData
+namespace FPSControl.Data
 {
     public class PersistentData
     {
         public const string NS_WEAPONS = "Weapons";
+        public const string NS_PLAYER = "PlayerData";
 
         static string PATH { get {
             Debug.Log(Application.persistentDataPath);
@@ -92,7 +94,7 @@ namespace FPSControl.PersistentData
         }
     }
 
-    public class PersistentDataNameSpace<T> : object
+    public class PersistentDataNameSpace<T> : object, IEnumerable
     {
         public PersistentDataContainer<T>[] content;
         public PersistentDataNameSpace() { }
@@ -107,6 +109,22 @@ namespace FPSControl.PersistentData
             for (int i = 0; i < content.Length; i++)
                 if (content[i].identifier == identifier) return (PersistentDataContainer<T>) content[i];
             return null;
+        }
+
+        public T[] GetAll()
+        {
+            if (content.Length == 0) return new T[0] { };
+
+            T[] array = new T[content.Length];
+            for (int i = 0; i < content.Length; i++)
+                array[i] = content[i].data;
+            return array;
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            for (int i = 0; i < content.Length; i++)
+                yield return content[i].data;
         }
 
         public bool Contains(string identifier)
