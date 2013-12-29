@@ -202,11 +202,11 @@ namespace FPSControl
         void Start()
         {
             // If we have persistent data saved
-            if (Data.PersistentData.Exists<FPSControlPlayerWeaponManagerSaveData>(Data.PersistentData.NS_WEAPONS, FPSControlPlayerWeaponManagerSaveData.IDENTIFIER)) 
+            if (PersistentData.Exists<FPSControlPlayerWeaponManagerSaveData>(PersistentData.NS_WEAPONS, FPSControlPlayerWeaponManagerSaveData.IDENTIFIER)) 
             {
                 // Load the data
                 FPSControlPlayerWeaponManagerSaveData saveData =
-                    Data.PersistentData.Read<FPSControlPlayerWeaponManagerSaveData>(Data.PersistentData.NS_WEAPONS, FPSControlPlayerWeaponManagerSaveData.IDENTIFIER);
+                    PersistentData.Read<FPSControlPlayerWeaponManagerSaveData>(PersistentData.NS_WEAPONS, FPSControlPlayerWeaponManagerSaveData.IDENTIFIER);
 
                 saveData.Update(this);
 

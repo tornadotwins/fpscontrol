@@ -39,7 +39,7 @@ namespace FPSControl
             }
 
             Data.PersistentData.Write<FPSControlPlayerWeaponManagerSaveData>(
-                Data.PersistentData.NS_WEAPONS,
+                PersistentData.NS_WEAPONS,
                 FPSControlPlayerWeaponManagerSaveData.IDENTIFIER,
                 new FPSControlPlayerWeaponManagerSaveData(player.weaponManager),
                 false);
@@ -47,8 +47,8 @@ namespace FPSControl
 
         public static void SavePlayerData(FPSControlPlayerSaveData data, int slot)
         {
-            Data.PersistentData.Write<FPSControlPlayerSaveData>(
-                Data.PersistentData.NS_PLAYER,
+            PersistentData.Write<FPSControlPlayerSaveData>(
+                PersistentData.NS_PLAYER,
                 FPSControlPlayerSaveData.IDENTIFIER+slot.ToString(),
                 data,
                 false);
@@ -56,8 +56,8 @@ namespace FPSControl
 
         public static FPSControlPlayerSaveData LoadPlayerSaveData(int slot)
         {
-            return Data.PersistentData.Read<FPSControlPlayerSaveData>(
-                Data.PersistentData.NS_PLAYER,
+            return PersistentData.Read<FPSControlPlayerSaveData>(
+                PersistentData.NS_PLAYER,
                 FPSControlPlayerSaveData.IDENTIFIER + slot.ToString());
         }
 

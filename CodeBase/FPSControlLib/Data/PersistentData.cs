@@ -16,10 +16,20 @@ namespace FPSControl.Data
         public const string NS_PLAYER = "PlayerData";
 
         static string PATH { get {
-            Debug.Log(Application.persistentDataPath);
+            //Debug.Log(Application.persistentDataPath);
             return Application.persistentDataPath; } }
 
-        public static void Write<T>(string nameSpace, string identifier, T obj, bool append = true)
+        /// <summary>
+        /// Writes the data to a .txt file in Unity's default <see cref="Application.persistentDataPath"/>
+        /// </summary>
+        /// <typeparam name="T">The generic type class</typeparam>
+        /// <param name="nameSpace">Serves as the .txt file's name</param>
+        /// <param name="identifier">Serves as the unique identifier for a specific instance of data in the given namespace</param>
+        /// <param name="obj">The object that will be serialized.</param>
+        /// <param name="append">Whether or not the data should append to the end of the .txt file. By default this is false, as it should be in most general cases.
+        /// NOTE: Except in small edge cases, this parameter should always be false. Injecting true may lead to confusion and conflicting identifiers!
+        /// </param>
+        public static void Write<T>(string nameSpace, string identifier, T obj, bool append = false)
         {
             string path = PATH + "/" + nameSpace + ".txt";
             //Debug.Log("Writing to: " + path);
@@ -55,11 +65,23 @@ namespace FPSControl.Data
             sw.Close();
         }
 
+        /// <summary>
+        /// Does a file with the specified name space exist?
+        /// </summary>
+        /// <param name="nameSpace">The nameSpace</param>
+        /// <returns>TRUE if the file exists, FALSE if not.</returns>
         public static bool NameSpaceExists(string nameSpace)
         {
             return File.Exists(PATH + "/" + nameSpace + ".txt");
         }
 
+        /// <summary>
+        /// Returns whether data exists in the provided namespace with the provided identifier. (type-safe)
+        /// </summary>
+        /// <typeparam name="T">The generic type. The data at the provided namespace and identifier MUST be of this type.</typeparam>
+        /// <param name="nameSpace">the namespace the data resides within</param>
+        /// <param name="identifier">the unique identifier of this data</param>
+        /// <returns>TRUE if data exists, otherwise FALSE</returns>
         public static bool Exists<T>(string nameSpace, string identifier)
         {
             if (NameSpaceExists(nameSpace))
@@ -71,7 +93,6 @@ namespace FPSControl.Data
             return false;
         }
 
-
         static PersistentDataNameSpace<T> ReadAll<T>(string nameSpace)
         {
             StreamReader sr = new StreamReader(PATH + "/" + nameSpace + ".txt");
@@ -80,6 +101,13 @@ namespace FPSControl.Data
             return JsonMapper.ToObject<PersistentDataNameSpace<T>>(json);
         }
 
+        /// <summary>
+        /// Gets the persistent data.
+        /// </summary>
+        /// <typeparam name="T">The generic type</typeparam>
+        /// <param name="nameSpace">the namespace the data resides within</param>
+        /// <param name="identifier">the unique identifier of this data</param>
+        /// <returns>The data at nameSpace.identifier</returns>
         public static T Read<T>(string nameSpace, string identifier)
         {
             string path = PATH + "/" + nameSpace + ".txt";

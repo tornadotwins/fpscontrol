@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using FPSControl;
-using FPSControl.PersistentData;
+using FPSControl.Data;
 
 public class WeaponDataSave : MonoBehaviour
 {
