@@ -151,24 +151,24 @@ namespace FPSControl
         {
             if (!canUse)
             {
-                Debug.Log("Attempting to reload an inactive weapon.");
+                //Debug.Log("Attempting to reload an inactive weapon.");
             }
             else if (
                 rangeDefinition.reloadType == ReloadType.UnlimitedAmmo ||
                 rangeDefinition.reloadType == ReloadType.Recharge)
             {
-                Debug.Log("Weapon type:" + rangeDefinition.reloadType + " is incompatible with reload function");
+                //Debug.LogWarning("Weapon type:" + rangeDefinition.reloadType + " is incompatible with reload function");
                 return false;
             }
             else if (rangeDefinition.reloadType == ReloadType.Clips && _currentClipContents >= rangeDefinition.clipCapacity)
             {
-                Debug.Log("Trying to reload a full clip.");
+                //Debug.Log("Trying to reload a full clip.");
                 return false;
             }
 
             if (_currentAmmo <= 0)
             {
-                Debug.Log("Trying to reload a weapon with no ammo!");
+                //Debug.Log("Trying to reload a weapon with no ammo!");
                 return false;
             }
 
@@ -383,7 +383,7 @@ namespace FPSControl
         {
             weaponPath.Initialize(this); // re-initialize path.
             
-            Debug.Log("Internal _Activate" + (cbFunc != null ? "  with callback." : "."));
+            //Debug.Log("Internal _Activate" + (cbFunc != null ? "  with callback." : "."));
             _cbFunc = cbFunc;
 
             Parent = parent;
@@ -404,7 +404,7 @@ namespace FPSControl
 
         void WeaponBecameActive()
         {
-            Debug.Log("weapon: " + name + " became active");
+            //Debug.Log("weapon: " + name + " became active");
             canUse = true;
             weaponAnimation.Idle();
             currentState = idleState;
@@ -424,7 +424,7 @@ namespace FPSControl
         
         public override void Deactivate(System.Action cbFunc)
         {
-            Debug.Log("Deactivating weapon:" + name + " " + (cbFunc != null ? "  with callback." : "."));
+            //Debug.Log("Deactivating weapon:" + name + " " + (cbFunc != null ? "  with callback." : "."));
             _deactivateCallback = cbFunc;
             canUse = false;
             _timeLastActive = Time.time;

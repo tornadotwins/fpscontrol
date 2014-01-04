@@ -42,6 +42,6 @@ function Start ()
         data.MyFloat = 3.14;
 
         // Write it to Persistent Data
-        PersistentData.Write.<JSDataExample>(nameSpace,identifier,data,false); // In almost every case, append should be FALSE.
+        PersistentData.Write.<JSDataExample>(nameSpace,identifier,data,true);// In almost every case, append should be TRUE
     }
 }

@@ -19,7 +19,7 @@ namespace FPSControl
 
         public virtual void Initialize(FPSControlWeapon parent)
         {
-            Debug.Log("Initializing: " + this + " at " + name);
+            //Debug.Log("Initializing: " + this + " at " + name);
             Link(parent);
         }
 

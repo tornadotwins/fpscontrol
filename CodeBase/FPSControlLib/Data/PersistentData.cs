@@ -15,9 +15,19 @@ namespace FPSControl.Data
         public const string NS_WEAPONS = "Weapons";
         public const string NS_PLAYER = "PlayerData";
 
-        static string PATH { get {
-            //Debug.Log(Application.persistentDataPath);
-            return Application.persistentDataPath; } }
+        static string PATH { get { return Application.persistentDataPath; } }
+        internal static string _BuildPath(string nameSpace)
+        {
+            return PATH + "/" + nameSpace + ".txt";
+        }
+
+        /// <summary>
+        /// Deletes the data at namespace.
+        /// </summary>
+        public static void DeleteData(string nameSpace)
+        {
+            File.Delete(_BuildPath(nameSpace));
+        }
 
         /// <summary>
         /// Writes the data to a .txt file in Unity's default <see cref="Application.persistentDataPath"/>
@@ -26,18 +36,19 @@ namespace FPSControl.Data
         /// <param name="nameSpace">Serves as the .txt file's name</param>
         /// <param name="identifier">Serves as the unique identifier for a specific instance of data in the given namespace</param>
         /// <param name="obj">The object that will be serialized.</param>
-        /// <param name="append">Whether or not the data should append to the end of the .txt file. By default this is false, as it should be in most general cases.
-        /// NOTE: Except in small edge cases, this parameter should always be false. Injecting true may lead to confusion and conflicting identifiers!
+        /// <param name="append">Whether or not the data should append to the collective namespace. By default this is true, as it should be in most general cases.
+        /// NOTE: Except in small edge cases, this parameter should always be true. 
+        /// A value of FALSE would then override all currently saved data in the namespace, where TRUE will only override the matching identifier if it already exists.
         /// </param>
-        public static void Write<T>(string nameSpace, string identifier, T obj, bool append = false)
+        public static void Write<T>(string nameSpace, string identifier, T obj, bool append = true)
         {
-            string path = PATH + "/" + nameSpace + ".txt";
+            string path = _BuildPath(nameSpace);
             //Debug.Log("Writing to: " + path);
 
             PersistentDataNameSpace<T> loadedNameSpace = new PersistentDataNameSpace<T>();
             //Debug.Log("File check...");
             if (File.Exists(path) && append)
-                loadedNameSpace = ReadAll<T>(nameSpace);
+                loadedNameSpace = _ReadAll<T>(nameSpace);
 
             //Debug.Log("Identifier check...");
             int indexOf = (loadedNameSpace == null) ? -1 : loadedNameSpace.IndexOf(identifier);
@@ -55,12 +66,17 @@ namespace FPSControl.Data
             else
                 loadedNameSpace.content[indexOf] = container;
 
+            _WriteNameSpace<T>(path, loadedNameSpace);
+        }
+
+        internal static void _WriteNameSpace<T>(string path, PersistentDataNameSpace<T> nameSpaceData)
+        {
             //Debug.Log("JSON Conversion...");
             // Convert to JSON
-            string json = JsonMapper.ToJson(loadedNameSpace);
+            string json = JsonMapper.ToJson(nameSpaceData);
             //Debug.Log("Created JSON: \n" + json);
             // Write to File
-            StreamWriter sw = new StreamWriter(path,false,Encoding.UTF8);
+            StreamWriter sw = new StreamWriter(path, false, Encoding.UTF8);
             sw.Write(json);
             sw.Close();
         }
@@ -72,7 +88,7 @@ namespace FPSControl.Data
         /// <returns>TRUE if the file exists, FALSE if not.</returns>
         public static bool NameSpaceExists(string nameSpace)
         {
-            return File.Exists(PATH + "/" + nameSpace + ".txt");
+            return File.Exists(_BuildPath(nameSpace));
         }
 
         /// <summary>
@@ -87,18 +103,26 @@ namespace FPSControl.Data
             if (NameSpaceExists(nameSpace))
             {
                 
-                PersistentDataNameSpace<T> loadedNameSpace = ReadAll<T>(nameSpace);
+                PersistentDataNameSpace<T> loadedNameSpace = _ReadAll<T>(nameSpace);
                 return loadedNameSpace.Contains(identifier);
             }
             return false;
         }
 
-        static PersistentDataNameSpace<T> ReadAll<T>(string nameSpace)
+        internal static PersistentDataNameSpace<T> _ReadAll<T>(string nameSpace)
         {
+            if (!NameSpaceExists(nameSpace)) return new PersistentDataNameSpace<T>();
+            
             StreamReader sr = new StreamReader(PATH + "/" + nameSpace + ".txt");
             string json = sr.ReadToEnd();
             sr.Close();
             return JsonMapper.ToObject<PersistentDataNameSpace<T>>(json);
+        }
+
+        public static T[] ReadAll<T>(string nameSpace)
+        {
+            PersistentDataNameSpace<T> loadedData = _ReadAll<T>(nameSpace);
+            return loadedData.GetAll();
         }
 
         /// <summary>
@@ -117,7 +141,7 @@ namespace FPSControl.Data
                 return default(T);
             }
 
-            PersistentDataNameSpace<T> loadedNameSpace = ReadAll<T>(nameSpace);
+            PersistentDataNameSpace<T> loadedNameSpace = _ReadAll<T>(nameSpace);
             return (T)(loadedNameSpace.GetData(identifier) as PersistentDataContainer<T>).data;
         }
     }
@@ -126,6 +150,8 @@ namespace FPSControl.Data
     {
         public PersistentDataContainer<T>[] content;
         public PersistentDataNameSpace() { }
+
+        public static implicit operator bool(PersistentDataNameSpace<T> nameSpace) { return nameSpace != null; }
 
         public PersistentDataContainer<T> GetData(int i)
         {
@@ -178,6 +204,20 @@ namespace FPSControl.Data
             list.Add(container);
             content = list.ToArray();
         }
+
+        public void Remove(PersistentDataContainer<T> container)
+        {
+            List<PersistentDataContainer<T>> list = new List<PersistentDataContainer<T>>(content);
+            list.Remove(container);
+            content = list.ToArray();
+        }
+
+        public void RemoveAt(int index)
+        {
+            List<PersistentDataContainer<T>> list = new List<PersistentDataContainer<T>>(content);
+            list.RemoveAt(index);
+            content = list.ToArray();
+        }
     }
 
     public class PersistentDataContainer<T> : object
@@ -186,5 +226,6 @@ namespace FPSControl.Data
         public T data;
         
         public PersistentDataContainer() : base(){}
+        public static implicit operator bool(PersistentDataContainer<T> container) { return container != null; }
     }
 }

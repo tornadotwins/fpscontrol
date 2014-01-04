@@ -8,57 +8,247 @@ using FPSControl.Data;
 
 namespace FPSControl
 {
-    public class FPSControlPlayerSaveData
+    public class FPSControlPlayerSaveDataComparer : IComparer<FPSControlPlayerSaveData>
+    {
+        public int Compare(FPSControlPlayerSaveData x, FPSControlPlayerSaveData y)
+        {
+            return System.DateTime.Compare(x.timestamp, y.timestamp);
+        }
+    }
+    
+    public class FPSControlPlayerSaveData : System.IComparable<FPSControlPlayerSaveData>
     {
         internal const string IDENTIFIER = "PlayerSave";
         
         public float currentHealth;
         public string currentLevelName;
-        public Transform spawnPoint;
+        public int spawnPoint;
+        public System.DateTime timestamp;
 
         public FPSControlPlayerSaveData() {}
+        public FPSControlPlayerSaveData(string levelName, int spawnPoint, float currentHealth)
+        {
+            this.currentHealth = currentHealth;
+            this.spawnPoint = spawnPoint;
+            this.currentLevelName = levelName;
+
+            timestamp = System.DateTime.UtcNow;
+        }
+
+        public int CompareTo(FPSControlPlayerSaveData other)
+        {
+            if (this.timestamp == null || other.timestamp == null) 
+                throw new System.NullReferenceException("Time Stamp of save data is null. If you are saving it manually make sure you are not using the parameterless constructor!");
+
+            return timestamp.CompareTo(other.timestamp);
+        }
     }
     
     public class FPSControlPlayerData : object
-    {        
+    {
+        public static string currentWeaponSaveSlot { get; private set; }
+        public static string currentPlayerSaveSlot { get; private set; }
+
         internal static FPSControlPlayer player;
 
         #region Persistent Data
 
-        public static void SaveWeaponData()
+        /// <summary>
+        /// Saves a temp state of the weapon manager. Useful for moving across scenes.
+        /// </summary>
+        public static void SaveTempWeaponData()
         {
-            if (player == null)
-            {
-                Debug.LogWarning("Can't save. Player object is null.");
-                return;
-            }
-            else if (player.weaponManager == null)
-            {
-                Debug.LogWarning("Can't save. Weapon Manager object is null.");
-                return;
-            }
-
-            Data.PersistentData.Write<FPSControlPlayerWeaponManagerSaveData>(
-                PersistentData.NS_WEAPONS,
-                FPSControlPlayerWeaponManagerSaveData.IDENTIFIER,
-                new FPSControlPlayerWeaponManagerSaveData(player.weaponManager),
-                false);
+            if (string.IsNullOrEmpty(currentWeaponSaveSlot)) currentWeaponSaveSlot = FPSControlPlayerWeaponManagerSaveData.IDENTIFIER + "_TEMP";
+            _SaveWeaponData(currentWeaponSaveSlot,false);
         }
 
-        public static void SavePlayerData(FPSControlPlayerSaveData data, int slot)
+        /// <summary>
+        /// Manually saves the save data to a temp cache. Useful for moving across scenes and wanting to specify changes when you get there.
+        /// </summary>
+        public static void SaveTempWeaponData(FPSControlPlayerWeaponManagerSaveData saveData)
         {
+            PersistentData.Write<FPSControlPlayerWeaponManagerSaveData>(
+                PersistentData.NS_WEAPONS,
+                FPSControlPlayerWeaponManagerSaveData.IDENTIFIER + "_TEMP",
+                saveData,
+                true);
+        }
+
+        /// <summary>
+        /// Loads the temporary weapon data and immediately deletes the persistent data for it
+        /// </summary>
+        public static FPSControlPlayerWeaponManagerSaveData LoadTempWeaponData()
+        {
+            PersistentDataNameSpace<FPSControlPlayerWeaponManagerSaveData> namespaceData = 
+                PersistentData._ReadAll<FPSControlPlayerWeaponManagerSaveData>(PersistentData.NS_WEAPONS);
+
+            PersistentDataContainer<FPSControlPlayerWeaponManagerSaveData> dataContainer = namespaceData.GetData(FPSControlPlayerWeaponManagerSaveData.IDENTIFIER + "_TEMP");
+            if (dataContainer)
+            {
+                FPSControlPlayerWeaponManagerSaveData data = dataContainer.data;
+
+                // Delete temp cache and write it
+                namespaceData.Remove(dataContainer);
+                PersistentData._WriteNameSpace<FPSControlPlayerWeaponManagerSaveData>(PersistentData._BuildPath(PersistentData.NS_WEAPONS), namespaceData);
+
+                // return our data
+                return data;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Saves the current weapon data to slot 0.
+        /// NOTE: This is most useful if you are only allowing for 1 save slot.
+        /// </summary>
+        public static void SaveWeaponData()
+        {
+            if (string.IsNullOrEmpty(currentWeaponSaveSlot)) currentWeaponSaveSlot = FPSControlPlayerWeaponManagerSaveData.IDENTIFIER + "0";
+            _SaveWeaponData(currentWeaponSaveSlot);
+        }
+
+        /// <summary>
+        /// Saves the current weapon data to the specified slot.
+        /// NOTE: This is only useful if you are allowing for multiple save slots.
+        /// </summary>
+        public static void SaveWeaponData(uint slot)
+        {
+            _SaveWeaponData(FPSControlPlayerWeaponManagerSaveData.IDENTIFIER + slot.ToString());
+        }
+
+        static void _SaveWeaponData(string identifier, bool allowEmpty = false)
+        {
+            FPSControlPlayerWeaponManagerSaveData saveData = null;
+
+            if (allowEmpty)
+            {
+                if (player == null || player.weaponManager == null)
+                    saveData = new FPSControlPlayerWeaponManagerSaveData(); // empty data
+                    saveData.activeWeaponName = FPSControlPlayerWeaponManagerSaveData.NO_ACTIVE_WEAPON;
+            }
+            else
+            {
+                if (player == null)
+                {
+                    Debug.LogWarning("Can't save. Player object is null.");
+                    return;
+                }
+                else if (player.weaponManager == null)
+                {
+                    Debug.LogWarning("Can't save. Weapon Manager object is null.");
+                    return;
+                }
+
+                saveData = new FPSControlPlayerWeaponManagerSaveData(player.weaponManager);
+            }
+
+            PersistentData.Write<FPSControlPlayerWeaponManagerSaveData>(
+                PersistentData.NS_WEAPONS,
+                identifier,
+                saveData,
+                true);
+        }
+
+        /// <summary>
+        /// Loads weapon data at the most recently loaded slot. If no weapon data has been loaded this session it will load at 0.
+        /// </summary>
+        public static FPSControlPlayerWeaponManagerSaveData LoadWeaponData()
+        {
+            if (string.IsNullOrEmpty(currentWeaponSaveSlot)) currentWeaponSaveSlot = FPSControlPlayerWeaponManagerSaveData.IDENTIFIER + "0";
+            return _LoadWeaponData(currentWeaponSaveSlot);
+        }
+
+        /// <summary>
+        /// Loads weapon data at the specified slot.
+        /// </summary>
+        public static FPSControlPlayerWeaponManagerSaveData LoadWeaponData(uint slot)
+        {
+            return _LoadWeaponData(FPSControlPlayerWeaponManagerSaveData.IDENTIFIER + slot.ToString());
+        }
+
+        internal static FPSControlPlayerWeaponManagerSaveData _LoadWeaponData(string identifier)
+        {
+            if (PersistentData.Exists<FPSControlPlayerWeaponManagerSaveData>(
+                PersistentData.NS_WEAPONS, 
+                identifier))
+            {
+                currentWeaponSaveSlot = identifier;
+                return PersistentData.Read<FPSControlPlayerWeaponManagerSaveData>(
+                    PersistentData.NS_WEAPONS, 
+                    identifier);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Saves the data to slot 0.
+        /// NOTE: This is most useful if you are only allowing one save
+        /// </summary>
+        public static void SavePlayerData(FPSControlPlayerSaveData data)
+        {
+            SavePlayerData(data, 0);
+        }
+
+        /// <summary>
+        /// Saves the data to the specified slot number.
+        /// </summary>
+        public static void SavePlayerData(FPSControlPlayerSaveData data, uint slot)
+        {
+            data.timestamp = System.DateTime.UtcNow; // Make sure the timestamp is up-to-date
             PersistentData.Write<FPSControlPlayerSaveData>(
                 PersistentData.NS_PLAYER,
                 FPSControlPlayerSaveData.IDENTIFIER+slot.ToString(),
                 data,
-                false);
+                true);
         }
 
-        public static FPSControlPlayerSaveData LoadPlayerSaveData(int slot)
+        /// <summary>
+        /// Loads the save data with the most recent UTC timestamp
+        /// </summary>
+        public static FPSControlPlayerSaveData LoadMostRecentPlayerSaveData()
         {
-            return PersistentData.Read<FPSControlPlayerSaveData>(
+            // Load everything, do a sort and return the first index.
+            
+            FPSControlPlayerSaveData[] array = PersistentData.ReadAll<FPSControlPlayerSaveData>(PersistentData.NS_PLAYER);
+
+            if (array.Length == 0) return null;
+            else if (array.Length == 1) return array[0];
+            
+            List<FPSControlPlayerSaveData> allData = new List<FPSControlPlayerSaveData>(array);
+            allData.Sort((p1, p2) => new FPSControlPlayerSaveDataComparer().Compare(p1, p2));
+
+            return allData[0];
+        }
+
+        /// <summary>
+        /// Loads the save data at the specified slot
+        /// </summary>
+        public static FPSControlPlayerSaveData LoadPlayerSaveData(uint slot)
+        {
+            return _LoadPlayerSaveData(FPSControlPlayerSaveData.IDENTIFIER + slot.ToString());
+        }
+
+        /// <summary>
+        /// Loads the save data at the most recently loaded slot this session.
+        /// NOTE: if most current is empty it will save to slot 0, only useful if you aren't allowing multiple save states
+        /// </summary>
+        public static FPSControlPlayerSaveData LoadPlayerSaveData()
+        {
+            if (string.IsNullOrEmpty(currentPlayerSaveSlot)) currentPlayerSaveSlot = FPSControlPlayerSaveData.IDENTIFIER + "0";
+            return _LoadPlayerSaveData(currentPlayerSaveSlot);
+        }
+
+        internal static FPSControlPlayerSaveData _LoadPlayerSaveData(string identifier)
+        {
+            FPSControlPlayerSaveData data = PersistentData.Read<FPSControlPlayerSaveData>(
                 PersistentData.NS_PLAYER,
-                FPSControlPlayerSaveData.IDENTIFIER + slot.ToString());
+                identifier);
+
+            currentPlayerSaveSlot = identifier;
+
+            return data;
         }
 
         #endregion // Persistent Data
@@ -200,7 +390,11 @@ namespace FPSControl
         public bool reversing { get { return movementController.isMovingBackwards; } }
         public Vector3 velocity { get { return movementController.Controller.velocity; } }
         public Vector3 forward { get { return transform.forward; } }
-        public Vector3 aim { get { return playerCamera.transform.forward; } } 
+        public Vector3 aim { get { return playerCamera.transform.forward; } }
+
+        public bool autoSpawnOnStart = true;
+        public int defaultSpawnPointID = 0;
+        
 
         //Weapon States - for a later date
 
@@ -271,17 +465,28 @@ namespace FPSControl
         void Start()
         {
             //Initialize our sub-components, we do this on Start instead of Awake to make sure that they have ample time to self-initialize if need be.
-            playerCamera.Initialize(movementController,this);
+            playerCamera.Initialize(movementController, this);
             interactionManager.Initialize(this);
             movementController.Initialize(playerCamera, this);
             weaponManager.Initialize(playerCamera, movementController, this);
-            FPSControlPlayerEvents.Spawn();
+
+            if (autoSpawnOnStart)
+            {
+                if (!RespawnAt(defaultSpawnPointID))
+                    throw new System.Exception(string.Format("Could not spawn at SpawnPoint[{0}]. Make sure your spawners are correctly set up and marked available.", defaultSpawnPointID));
+            }
         }
 
-        protected override void OnInitialize()
+        internal void _OnSpawn(FPSControlPlayerSpawn spawn)
         {
-            
+            Vector3 pos = spawn.transform.position;
+            transform.position = pos;
+            Quaternion rot = spawn.transform.rotation;
+            transform.rotation = rot;
+            playerCamera.ResetRotation();
         }
+
+        protected override void OnInitialize(){}
 
         protected override void OnStateChange()
         {

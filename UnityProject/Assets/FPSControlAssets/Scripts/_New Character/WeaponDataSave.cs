@@ -5,6 +5,7 @@ using FPSControl.Data;
 
 public class WeaponDataSave : MonoBehaviour
 {
+    public uint slot = 0;
 
     void OnGUI()
     {
@@ -14,7 +15,7 @@ public class WeaponDataSave : MonoBehaviour
 
         if (GUILayout.Button("Save Weapon Data"))
         {
-            FPSControlPlayerData.SaveWeaponData();
+            FPSControlPlayerData.SaveWeaponData(slot);
         }
 
         GUILayout.EndHorizontal();

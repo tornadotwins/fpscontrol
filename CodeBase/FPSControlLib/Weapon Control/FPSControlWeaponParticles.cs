@@ -31,7 +31,7 @@ namespace FPSControl
         [SerializeField]
         float _startingIntensity;
 
-        void Awake()
+        void Start()
         {
             foreach (FPSControlWeaponParticleData data in particles)
             {

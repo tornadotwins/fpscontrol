@@ -11,7 +11,7 @@ namespace FPSControl
 
         private static FPSControlPlayerSpawn[] _spawnPoints = null;
 
-        void Start()
+        void Awake()
         {
             if (_spawnPoints == null)
             {
@@ -65,15 +65,8 @@ namespace FPSControl
 
             if (spawn != null)
             {
-                //Debug.Log(spawn);
-                Vector3 pos = spawn.transform.position;
-                player.transform.position = pos;
-                Quaternion rot = spawn.transform.rotation;
-                player.transform.rotation = rot;
-                player.playerCamera.ResetRotation();
-                
+                player._OnSpawn(spawn);
                 FPSControlPlayerEvents.Spawn();
-
                 return true;
             }
 
@@ -103,15 +96,8 @@ namespace FPSControl
 
             if (spawn != null)
             {
-                //Debug.Log(spawn);
-                Vector3 pos = spawn.transform.position;
-                player.transform.position = pos;
-                Quaternion rot = spawn.transform.rotation;
-                player.transform.rotation = rot;
-                player.playerCamera.ResetRotation();
-
+                player._OnSpawn(spawn);
                 FPSControlPlayerEvents.Spawn();
-
                 return true;
             }
 

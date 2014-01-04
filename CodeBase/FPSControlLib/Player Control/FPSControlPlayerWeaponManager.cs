@@ -7,11 +7,22 @@ using FPSControl.Data;
 
 namespace FPSControl
 {
-    public class FPSControlPlayerWeaponManagerSaveData
+
+    public class FPSControlPlayerWeaponManagerSaveDataComparer : IComparer<FPSControlPlayerWeaponManagerSaveData>
     {
+        public int Compare(FPSControlPlayerWeaponManagerSaveData x, FPSControlPlayerWeaponManagerSaveData y)
+        {
+            return System.DateTime.Compare(x.timestamp, y.timestamp);
+        }
+    }
+
+    public class FPSControlPlayerWeaponManagerSaveData : System.IComparable<FPSControlPlayerWeaponManagerSaveData>
+    {
+        public const string NO_ACTIVE_WEAPON = "<NULL>";
         public const string IDENTIFIER = "Weapons Manager";
         public FPSControlWeaponSaveData[] weapons;
         public string activeWeaponName;
+        public System.DateTime timestamp;
 
         public FPSControlPlayerWeaponManagerSaveData() { }
 
@@ -26,10 +37,20 @@ namespace FPSControl
                 else weapons[i] = new FPSControlWeaponSaveData((FPSControlRangedWeapon) available[i]);
             }
 
-            if (manager.currentWeapon == null) 
-                activeWeaponName = "<NULL>";
+            if (manager.currentWeapon == null)
+                activeWeaponName = NO_ACTIVE_WEAPON;
             else 
                 activeWeaponName = manager.currentWeapon.definition.weaponName;
+
+            timestamp = System.DateTime.UtcNow;
+        }
+
+        public int CompareTo(FPSControlPlayerWeaponManagerSaveData other)
+        {
+            if (this.timestamp == null || other.timestamp == null)
+                throw new System.NullReferenceException("Time Stamp of save data is null. If you are saving it manually make sure you are not using the parameterless constructor!");
+
+            return timestamp.CompareTo(other.timestamp);
         }
 
         public void Update(FPSControlPlayerWeaponManager manager)
@@ -51,7 +72,7 @@ namespace FPSControl
             }
             manager._PDLoadAvailableWeapons(availableWeapons);
 
-            if (activeWeaponName != "<NULL>")
+            if (!string.IsNullOrEmpty(activeWeaponName) && activeWeaponName != NO_ACTIVE_WEAPON)
                 manager.ActivateWeapon(activeWeaponName);
 
         }
@@ -202,20 +223,11 @@ namespace FPSControl
         void Start()
         {
             // If we have persistent data saved
-            if (PersistentData.Exists<FPSControlPlayerWeaponManagerSaveData>(PersistentData.NS_WEAPONS, FPSControlPlayerWeaponManagerSaveData.IDENTIFIER)) 
+            FPSControlPlayerWeaponManagerSaveData saveData = FPSControlPlayerData.LoadTempWeaponData();
+
+            if (saveData != null) 
             {
-                // Load the data
-                FPSControlPlayerWeaponManagerSaveData saveData =
-                    PersistentData.Read<FPSControlPlayerWeaponManagerSaveData>(PersistentData.NS_WEAPONS, FPSControlPlayerWeaponManagerSaveData.IDENTIFIER);
-
                 saveData.Update(this);
-
-                //// Iterate through the data and add weapons to inventory, and activate the last active weapon.
-                //for (int i = 0; i < saveData.weapons.Length; i++)
-                //{
-                //    FPSControlWeaponSaveData savedWeapon = saveData.weapons[i];
-                //    AddToInventory(savedWeapon.name, saveData.activeWeaponName == savedWeapon.name);
-                //}
             }
             else if (addWeaponsToInventory) // If we don't have any data, and we are told to add weapons to inventory - do so now.
             {
@@ -236,7 +248,11 @@ namespace FPSControl
                             ((FPSControlRangedWeapon)weapon).SetAmmo((int)((FPSControlRangedWeapon)weapon).rangeDefinition.clipCapacity, 0);
                     }
                 }
-            } // Otherwise do nothing
+            }
+            else
+            {
+                // This is a legal case if you intend to spawn with no weapons on first run
+            }
 
         }
 
@@ -359,10 +375,9 @@ namespace FPSControl
 
         public void ActivateWeaponAt(int index)
         {
-            try
-            {
-
-                Debug.Log(string.Format("Activating weapon {0} of {1}", index + 1, _availableWeapons.Count));
+            //try
+            //{
+                //Debug.Log(string.Format("Activating weapon {0} of {1}", index + 1, _availableWeapons.Count));
                 if (index >= _availableWeapons.Count)
                 {
                     return;
@@ -386,7 +401,12 @@ namespace FPSControl
                     _queuedWeapon = _availableWeapons[index];
                     FPSControlWeapon _weaponBeingDeactivated = _currentWeapon;
                     crosshairAnimator.SetCrossHair(null);
-                    _currentWeapon.Deactivate(() => { Debug.Log("Deactivation complete. Activating queued weapon."); _ActivateQueuedWeapon(); });
+                    _currentWeapon.Deactivate(
+                        () =>
+                        { 
+                            //Debug.Log("Deactivation complete. Activating queued weapon."); 
+                            _ActivateQueuedWeapon(); 
+                        });
                     _currentWeapon = null;
 
                     wpnName = _queuedWeapon.impactName == "None" ? _queuedWeapon.name : _queuedWeapon.impactName;
@@ -414,8 +434,8 @@ namespace FPSControl
                 {
                     impact.ActivateImpactEffect(wpnName);
                 }
-            }
-            catch (System.Exception err) { Debug.LogWarning("Caught Exeption: " + err.Message); }
+            //}
+            //catch (System.Exception err) { Debug.LogWarning("Caught Exeption: " + err.Message); }
         }
 
         void ActivateCrosshair()
