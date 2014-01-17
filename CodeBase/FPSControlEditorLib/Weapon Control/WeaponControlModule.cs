@@ -100,8 +100,14 @@ namespace FPSControlEditor
             get
             {
                 List<string> list = new List<string>();
-                for (int i = 0; i < prefabs.Count; i++)
-                    list.Add(prefabs[i].name);
+                GameObject[] _prefabs = prefabs.ToArray();
+                for (int i = 0; i < _prefabs.Length; i++)
+                {
+                    if (_prefabs[i] == null)
+                        prefabs.Remove(_prefabs[i]);
+                    else
+                        list.Add(_prefabs[i].name);
+                }
                 return list;
             }
         }
