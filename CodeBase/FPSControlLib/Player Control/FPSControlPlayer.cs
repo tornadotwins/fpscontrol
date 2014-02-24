@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using FPSControl.States;
 using FPSControl.States.Player;
 using FPSControl.Data;
+using FPSControl.Data.Config;
 
 namespace FPSControl
 {
@@ -19,11 +20,14 @@ namespace FPSControl
     public class FPSControlPlayerSaveData : System.IComparable<FPSControlPlayerSaveData>
     {
         internal const string IDENTIFIER = "PlayerSave";
-        
+
         public float currentHealth;
         public string currentLevelName;
         public int spawnPoint;
         public System.DateTime timestamp;
+        public string screenshotID;
+        public bool HasScreenShot { get { return !string.IsNullOrEmpty(screenshotID); } }
+        public string guid;
 
         public FPSControlPlayerSaveData() {}
         public FPSControlPlayerSaveData(string levelName, int spawnPoint, float currentHealth)
@@ -31,6 +35,7 @@ namespace FPSControl
             this.currentHealth = currentHealth;
             this.spawnPoint = spawnPoint;
             this.currentLevelName = levelName;
+            guid = System.Guid.NewGuid().ToString("N");
 
             timestamp = System.DateTime.UtcNow;
         }
@@ -50,6 +55,11 @@ namespace FPSControl
         public static string currentPlayerSaveSlot { get; private set; }
 
         internal static FPSControlPlayer player;
+
+        // Static constructor for setup on initial invokation
+        static FPSControlPlayerData()
+        {
+        }
 
         #region Persistent Data
 
@@ -194,9 +204,10 @@ namespace FPSControl
         /// <summary>
         /// Saves the data to the specified slot number.
         /// </summary>
-        public static void SavePlayerData(FPSControlPlayerSaveData data, uint slot)
+        public static void SavePlayerData(FPSControlPlayerSaveData data, uint slot, string screenshotID = null)
         {
             data.timestamp = System.DateTime.UtcNow; // Make sure the timestamp is up-to-date
+            data.screenshotID = screenshotID;
             PersistentData.Write<FPSControlPlayerSaveData>(
                 PersistentData.NS_PLAYER,
                 FPSControlPlayerSaveData.IDENTIFIER+slot.ToString(),
@@ -249,6 +260,11 @@ namespace FPSControl
             currentPlayerSaveSlot = identifier;
 
             return data;
+        }
+
+        public static FPSControlPlayerSaveData[] GetAllSaves()
+        {
+            return PersistentData.ReadAll<FPSControlPlayerSaveData>(PersistentData.NS_PLAYER);
         }
 
         #endregion // Persistent Data

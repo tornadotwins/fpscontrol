@@ -2870,6 +2870,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 732326162}
   - 114: {fileID: 732326161}
+  - 114: {fileID: 732326163}
   m_Layer: 0
   m_Name: '[MANAGER]'
   m_TagString: Untagged
@@ -2901,6 +2902,17 @@ Transform:
   - {fileID: 2006422719}
   - {fileID: 1614963101}
   m_Father: {fileID: 0}
+--- !u!114 &732326163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 732326160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0d9ed9b8d64ae54baf2b9274b8a4590, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &748696017
 GameObject:
   m_ObjectHideFlags: 0
@@ -6593,6 +6605,7 @@ GameObject:
   - 92: {fileID: 1624905447}
   - 114: {fileID: 1624905446}
   - 114: {fileID: 1624905445}
+  - 114: {fileID: 1624905452}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -6766,6 +6779,20 @@ Camera:
   m_TargetTexture: {fileID: 0}
   m_HDR: 0
   m_OcclusionCulling: 1
+--- !u!114 &1624905452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400016, guid: 7dc3317358bce4e8f9d701f50f58268e,
+    type: 2}
+  m_PrefabInternal: {fileID: 1896015846}
+  m_GameObject: {fileID: 1624905443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1661586996, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: Player Camera
+  config: {fileID: 11400000, guid: b9f08ce52d87418479d7a6dca105177b, type: 2}
 --- !u!1 &1636453468
 GameObject:
   m_ObjectHideFlags: 0

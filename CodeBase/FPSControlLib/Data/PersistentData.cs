@@ -14,8 +14,9 @@ namespace FPSControl.Data
     {
         public const string NS_WEAPONS = "Weapons";
         public const string NS_PLAYER = "PlayerData";
+        public const string NS_SCREENSHOTS = "ScreenShots";
 
-        static string PATH { get { return Application.persistentDataPath; } }
+        public static string PATH { get { return Application.persistentDataPath; } }
         internal static string _BuildPath(string nameSpace)
         {
             return PATH + "/" + nameSpace + ".txt";

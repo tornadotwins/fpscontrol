@@ -65,6 +65,8 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Asset Importers\PlayerControlImageImporter.cs" />
     <Compile Include="BuildControl\BuildControlModule.cs" />
+    <Compile Include="Config\ConfigEditorBase.cs" />
+    <Compile Include="Config\ScreenShotConfigEditor.cs" />
     <Compile Include="Core\FPSControlAbstractInspector.cs" />
     <Compile Include="Core\FPSControlEditorModule.cs" />
     <Compile Include="Core\UnavailableModule.cs" />

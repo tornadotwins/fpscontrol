@@ -60,6 +60,12 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Crosshair\IntelliCrosshair.cs" />
     <Compile Include="Damage\DamageSource.cs" />
+    <Compile Include="Data\Config\ConfigBase.cs" />
+    <Compile Include="Data\Config\ScreenShotLibraryConfig.cs" />
+    <Compile Include="Data\ScreenShot.cs" />
+    <Compile Include="Data\ScreenShotComponent.cs" />
+    <Compile Include="Data\Config\ScreenShotConfig.cs" />
+    <Compile Include="Data\ScreenShotDecorator.cs" />
     <Compile Include="Footstep Control\FootstepControl.cs" />
     <Compile Include="Footstep Control\FootstepControlDefinition.cs" />
     <Compile Include="Footstep Control\FootstepControlDefinitions.cs" />

@@ -15,6 +15,7 @@ GameObject:
   - 92: {fileID: 9200000}
   - 114: {fileID: 11400002}
   - 114: {fileID: 11400000}
+  - 114: {fileID: 11400016}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -560,6 +561,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   crosshair: {fileID: 11400012}
+--- !u!114 &11400016
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1661586996, guid: bc76cc0c25d9143f9a3f919db1a9dd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: Player Camera
+  config: {fileID: 11400000, guid: b9f08ce52d87418479d7a6dca105177b, type: 2}
 --- !u!114 &11400018
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -718,6 +732,8 @@ MonoBehaviour:
     canMove: 1
     canInteract: 0
     canUseWeapon: 1
+  autoSpawnOnStart: 1
+  defaultSpawnPointID: 0
 --- !u!114 &11400030
 MonoBehaviour:
   m_ObjectHideFlags: 1
