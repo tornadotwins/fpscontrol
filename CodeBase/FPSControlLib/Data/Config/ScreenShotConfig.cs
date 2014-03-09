@@ -19,9 +19,9 @@ namespace FPSControl.Data.Config
         //public RenderTextureFormat bufferFormat = RenderTextureFormat.Default;
         public RenderTextureReadWrite bufferRWMode = RenderTextureReadWrite.Default;
 
-        public Shader replacementShader;
-        public string replacementRenderType;
+        //public Shader replacementShader;
+        //public string replacementRenderType;
 
-        public GameObject decoratorPrefab;
+        //public GameObject decoratorPrefab;
     }
 }

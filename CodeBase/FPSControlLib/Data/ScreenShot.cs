@@ -29,6 +29,8 @@ namespace FPSControl.Data
     public class ScreenShot : MonoBehaviour
     {
         const string FOLDER_NAME = "ScreenShots";
+        internal const RenderTextureFormat RENDER_TEXTURE_FORMAT = RenderTextureFormat.ARGB32;
+        internal const TextureFormat TEXTURE_FORMAT = TextureFormat.RGB24;
         public static string PATH { get { return PersistentData.PATH + "/" + FOLDER_NAME; } }
 
         static ScreenShot _Instance;
@@ -53,15 +55,14 @@ namespace FPSControl.Data
 
         static ScreenShotLibraryConfig library;
         static Dictionary<string,ScreenShotComponent> _components = new Dictionary<string,ScreenShotComponent>();
-        static string _fileName = null;
+        static string _fileName;
+        Texture2D _temp;
 
         // Static constructor
         static ScreenShot()
         {
             library = (ScreenShotLibraryConfig)Resources.Load(ScreenShotLibraryConfig.PATH);
         }
-
-        Texture2D _temp;
 
         internal static void __RegisterScreenShotComponent(ScreenShotComponent component)
         {
@@ -75,8 +76,8 @@ namespace FPSControl.Data
 
         public static void Capture(string cameraID, string fileName, System.Action onCaptureComplete)
         {
-            _components[cameraID].__Capture(onCaptureComplete);
             _fileName = fileName;
+            _components[cameraID].__Capture(onCaptureComplete);
         }
 
         internal static void __Save(Texture2D texture)
@@ -112,6 +113,11 @@ namespace FPSControl.Data
 
         public static void Load(string name, System.Action<Texture2D> onLoadComplete)
         {
+            Load(name, Screen.width, Screen.height, onLoadComplete);
+        }
+
+        public static void Load(string name, int width, int height, System.Action<Texture2D> onLoadComplete)
+        {
             // If we have a pre-serialized library, just load it from Resources, otherwise get it from PersistentData
             if (library)
             {
@@ -120,27 +126,27 @@ namespace FPSControl.Data
             }
             else
             {
-                Instance.StartCoroutine(Instance._Load(name, onLoadComplete));
+                Instance.StartCoroutine(Instance._Load(name,width,height, onLoadComplete));
             }
         }
 
-        IEnumerator _Load(string name, System.Action<Texture2D> onLoadComplete)
+        IEnumerator _Load(string name, int width, int height, System.Action<Texture2D> onLoadComplete)
         {
-            Texture2D texture;
-            WWW www = new WWW("file://" + PATH + "/" + name + ".png");
-
+            Texture2D texture = new Texture2D(width, height, TEXTURE_FORMAT, false);
+            string url =  PATH + "/" + name + ".png";
+            WWW www = new WWW(@"file:///"+url);
+            Debug.Log("Loading from: " + www.url);
             yield return www;
 
-            if (!www.texture || !string.IsNullOrEmpty(www.error))
+            if (!string.IsNullOrEmpty(www.error))
             {
                 Debug.LogWarning("Texture is missing or encountered an error: " + www.error);
                 texture = null;
-            }
-            else
-            {
-                texture = www.texture;
+                yield break;
             }
 
+            www.LoadImageIntoTexture(texture);
+            yield return new WaitForSeconds(1f);
             if (onLoadComplete == null)
             {
                 Debug.LogWarning("onLoadComplete callback is null");

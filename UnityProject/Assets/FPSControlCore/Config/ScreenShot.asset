@@ -15,8 +15,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   bufferScale: 1
-  bufferDepthBits: 0
+  bufferDepthBits: 24
   bufferRWMode: 0
-  replacementShader: {fileID: 0}
-  replacementRenderType: 
-  decoratorPrefab: {fileID: 0}

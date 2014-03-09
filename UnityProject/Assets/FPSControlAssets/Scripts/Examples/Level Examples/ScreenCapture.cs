@@ -4,7 +4,7 @@ using FPSControl.Data;
 
 public class ScreenCapture : MonoBehaviour {
 
-    Texture2D screenshot;
+    public Texture2D screenshot;
     
     // Use this for initialization
 	void Start () {
@@ -20,12 +20,14 @@ public class ScreenCapture : MonoBehaviour {
     void OnCaptureComplete()
     {
         Debug.Log("Capture Complete");
-        //ScreenShot.Load("TestFile001", OnScreenShotLoad);
+        ScreenShot.Load("TestFile001", OnScreenShotLoad);
     }
 
     void OnScreenShotLoad(Texture2D tex)
     {
+        Debug.Log("Load Complete");
         screenshot = tex;
+        if (screenshot == null) Debug.LogError("null texture");
     }
 
     void OnGUI()
