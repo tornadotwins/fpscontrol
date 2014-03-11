@@ -29,9 +29,15 @@ namespace FPSControl.Data
 
         ScreenShotDecorator[] decorators = new ScreenShotDecorator[0]{};
 
+        void OnDestroy()
+        {
+            ScreenShot.__UnregisterScreenShotComponent(this);
+        }
+
         void Awake()
         {
             ScreenShot.__RegisterScreenShotComponent(this);
+
             //if (config.decoratorPrefab)
             //{
             //    GameObject decorator = (GameObject)Instantiate(config.decoratorPrefab);

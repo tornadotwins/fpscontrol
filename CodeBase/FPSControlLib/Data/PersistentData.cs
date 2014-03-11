@@ -54,7 +54,7 @@ namespace FPSControl.Data
             //Debug.Log("Identifier check...");
             int indexOf = (loadedNameSpace == null) ? -1 : loadedNameSpace.IndexOf(identifier);
 
-            //Debug.Log("Creating Container...");
+            Debug.Log("Creating Container..." + indexOf);
             PersistentDataContainer<T> container = new PersistentDataContainer<T>();
             container.identifier = identifier;
             container.data = obj;
@@ -112,7 +112,12 @@ namespace FPSControl.Data
 
         internal static PersistentDataNameSpace<T> _ReadAll<T>(string nameSpace)
         {
-            if (!NameSpaceExists(nameSpace)) return new PersistentDataNameSpace<T>();
+            Debug.Log("Reading all from: " + nameSpace);
+            if (!NameSpaceExists(nameSpace))
+            {
+                Debug.Log("Namespace " + nameSpace + " does not exist.");
+                return new PersistentDataNameSpace<T>();
+            }
             
             StreamReader sr = new StreamReader(PATH + "/" + nameSpace + ".txt");
             string json = sr.ReadToEnd();
@@ -168,7 +173,7 @@ namespace FPSControl.Data
 
         public T[] GetAll()
         {
-            if (content.Length == 0) return new T[0] { };
+            if (content == null || content.Length == 0) return new T[0] { };
 
             T[] array = new T[content.Length];
             for (int i = 0; i < content.Length; i++)

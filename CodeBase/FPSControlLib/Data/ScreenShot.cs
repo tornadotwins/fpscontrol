@@ -69,6 +69,11 @@ namespace FPSControl.Data
             _components.Add(component.id,component);
         }
 
+        internal static void __UnregisterScreenShotComponent(ScreenShotComponent component)
+        {
+            _components.Remove(component.id);
+        }
+
         public static void Capture(string cameraID, FPSControlPlayerSaveData saveData, System.Action onCaptureComplete)
         {
             Capture(cameraID, BindScreenShotToSave(saveData), onCaptureComplete);
@@ -108,6 +113,7 @@ namespace FPSControl.Data
         {
             string fileName = saveData.guid + "_" + Guid.NewGuid().ToString("N");
             saveData.screenshotID = fileName;
+            Debug.Log("Bound " + saveData.screenshotID + " to save: " + saveData.guid);
             return fileName;
         }
 
@@ -133,6 +139,7 @@ namespace FPSControl.Data
         IEnumerator _Load(string name, int width, int height, System.Action<Texture2D> onLoadComplete)
         {
             Texture2D texture = new Texture2D(width, height, TEXTURE_FORMAT, false);
+            texture.name = name;
             string url =  PATH + "/" + name + ".png";
             WWW www = new WWW(@"file:///"+url);
             Debug.Log("Loading from: " + www.url);
@@ -146,6 +153,7 @@ namespace FPSControl.Data
             }
 
             www.LoadImageIntoTexture(texture);
+            
             yield return new WaitForSeconds(1f);
             if (onLoadComplete == null)
             {

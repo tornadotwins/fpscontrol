@@ -26,7 +26,6 @@ namespace FPSControl
         public int spawnPoint;
         public System.DateTime timestamp;
         public string screenshotID;
-        public bool HasScreenShot { get { return !string.IsNullOrEmpty(screenshotID); } }
         public string guid;
 
         public FPSControlPlayerSaveData() {}
@@ -39,6 +38,9 @@ namespace FPSControl
 
             timestamp = System.DateTime.UtcNow;
         }
+
+        public bool HasScreenShot() { return !string.IsNullOrEmpty(screenshotID); }
+
 
         public int CompareTo(FPSControlPlayerSaveData other)
         {
@@ -198,7 +200,7 @@ namespace FPSControl
         /// </summary>
         public static void SavePlayerData(FPSControlPlayerSaveData data)
         {
-            SavePlayerData(data, 0);
+            SavePlayerData(data, 0, data.screenshotID);
         }
 
         /// <summary>
@@ -207,7 +209,7 @@ namespace FPSControl
         public static void SavePlayerData(FPSControlPlayerSaveData data, uint slot, string screenshotID = null)
         {
             data.timestamp = System.DateTime.UtcNow; // Make sure the timestamp is up-to-date
-            data.screenshotID = screenshotID;
+            if(!string.IsNullOrEmpty(screenshotID)) data.screenshotID = screenshotID;
             PersistentData.Write<FPSControlPlayerSaveData>(
                 PersistentData.NS_PLAYER,
                 FPSControlPlayerSaveData.IDENTIFIER+slot.ToString(),

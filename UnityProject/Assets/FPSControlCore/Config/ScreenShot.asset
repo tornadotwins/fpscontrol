@@ -15,5 +15,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   bufferScale: 1
-  bufferDepthBits: 24
+  bufferDepthBits: 32
   bufferRWMode: 0

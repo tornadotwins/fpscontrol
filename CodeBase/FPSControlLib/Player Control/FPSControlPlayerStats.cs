@@ -7,8 +7,11 @@ namespace FPSControl
     class FPSControlPlayerStats : MonoBehaviour
     {
         public DataController healthData;
-        //public DataController staminaData; //we could support multiple data controllers
 
+        // This wasn't in use anymore, but the class will be used for more moving forward...
+
+        //public DataController staminaData; //we could support multiple data controllers
+        /*
         public bool loadLevel = true;
         public bool takeCollideDamage = true;
         public float collideThreshold = 7F;
@@ -147,5 +150,7 @@ namespace FPSControl
 		        return !_isAlive;
 	        }
         }
+
+        */
     }
 }
