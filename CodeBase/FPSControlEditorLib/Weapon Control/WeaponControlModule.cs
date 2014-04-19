@@ -68,7 +68,7 @@ namespace FPSControlEditor
             }
         }
 
-        FPSControlPlayerWeaponManager WeaponManager { get { return requiredRoot.GetComponent<FPSControlPlayerWeaponManager>(); } }
+        FPSControlPlayerWeaponManager WeaponManager { get { return requiredRoot != null ? requiredRoot.GetComponent<FPSControlPlayerWeaponManager>() : null; } }
         WeaponsCatalogue Catalogue
         {
             get
@@ -135,49 +135,50 @@ namespace FPSControlEditor
 
         void GetPrefabs()
         {
-            try
+            if (WeaponManager == null)
             {
-                prefabs = new List<GameObject>();
-                List<GameObject> toDelete = new List<GameObject>();
-                foreach (string path in Directory.GetFiles(Application.dataPath + "/" + PREFAB_PATH))
+                Debug.LogError("Could not find WeaponsManager.");
+                return;
+            }
+            prefabs = new List<GameObject>();
+            List<GameObject> toDelete = new List<GameObject>();
+            foreach (string path in Directory.GetFiles(Application.dataPath + "/" + PREFAB_PATH))
+            {
+
+                string shortPath = "Assets" + path.Substring(Application.dataPath.Length, path.Length - Application.dataPath.Length).Replace('\\', '/');
+                if (shortPath.ToLower().EndsWith(".meta")) continue; // Ignore meta data if version control is being used.
+                //Debug.Log("Loading " + shortPath);
+                if (path.ToLower().EndsWith(".prefab"))
                 {
-
-                    string shortPath = "Assets" + path.Substring(Application.dataPath.Length, path.Length - Application.dataPath.Length).Replace('\\', '/');
-                    if (shortPath.ToLower().EndsWith(".meta")) continue; // Ignore meta data if version control is being used.
-                    //Debug.Log("Loading " + shortPath);
-                    if (path.ToLower().EndsWith(".prefab"))
+                    GameObject _tmpPrefab = (GameObject)AssetDatabase.LoadAssetAtPath(shortPath, typeof(GameObject));
+                    if (!_tmpPrefab)
                     {
-                        GameObject _tmpPrefab = (GameObject)AssetDatabase.LoadAssetAtPath(shortPath, typeof(GameObject));
-                        if (!_tmpPrefab)
-                        {
-                            Debug.LogError("Couldn't load prefab at path: " + shortPath);
-                            continue;
-                        }
+                        Debug.LogError("Couldn't load prefab at path: " + shortPath);
+                        continue;
+                    }
 
-                        if (_tmpPrefab.name.StartsWith("$$_tmp_"))
-                        {
-                            toDelete.Add(_tmpPrefab);
-                            continue; // Don't include buffer objects.
-                        }
+                    if (_tmpPrefab.name.StartsWith("$$_tmp_"))
+                    {
+                        toDelete.Add(_tmpPrefab);
+                        continue; // Don't include buffer objects.
+                    }
 
-                        //Debug.Log("found prefab: " + shortPath + " named: " + _tmpPrefab.name);
-                        FPSControlWeapon _tmpComponent = _tmpPrefab.GetComponent<FPSControlWeapon>();
-                        if (_tmpComponent && Catalogue.ContainsValue(_tmpPrefab))
-                        {
-                            //Debug.Log("Found prefab. Adding to collection. " + AssetDatabase.GetAssetPath(_tmpPrefab));
-                            prefabs.Add(_tmpPrefab);
-                        }
+                    //Debug.Log("found prefab: " + shortPath + " named: " + _tmpPrefab.name);
+                    FPSControlWeapon _tmpComponent = _tmpPrefab.GetComponent<FPSControlWeapon>();
+                    if (_tmpComponent && Catalogue.ContainsValue(_tmpPrefab))
+                    {
+                        //Debug.Log("Found prefab. Adding to collection. " + AssetDatabase.GetAssetPath(_tmpPrefab));
+                        prefabs.Add(_tmpPrefab);
                     }
                 }
-
-                // Clean up unused stuff, but only if we aren't playing.
-                if (!EditorApplication.isPlayingOrWillChangePlaymode && !EditorApplication.isPlaying)
-                {
-                    foreach (GameObject toBeDeleted in toDelete.ToArray())
-                        File.Delete(Application.dataPath + "/" + AssetDatabase.GetAssetPath(toBeDeleted).Substring("Assets/".Length));
-                }
             }
-            catch (System.Exception err) { Debug.LogWarning("Caught Exception: " + err.Message); }
+
+            // Clean up unused stuff, but only if we aren't playing.
+            if (!EditorApplication.isPlayingOrWillChangePlaymode && !EditorApplication.isPlaying)
+            {
+                foreach (GameObject toBeDeleted in toDelete.ToArray())
+                    File.Delete(Application.dataPath + "/" + AssetDatabase.GetAssetPath(toBeDeleted).Substring("Assets/".Length));
+            }
         }
 
         void CreatePlaymodeBuffer()
@@ -278,7 +279,7 @@ namespace FPSControlEditor
         {
             CheckWeapon(prefabInstance.GetComponent<FPSControlWeapon>());
             PrefabUtility.ReplacePrefab(prefabInstance, prefab);
-            //PrefabUtility.RevertPrefabInstance(prefabInstance); // this is to make sure the instance and prefab are fully in-sync again.
+            PrefabUtility.RevertPrefabInstance(prefabInstance); // this is to make sure the instance and prefab are fully in-sync again.
             //PrefabUtility.ReplacePrefab(prefabInstance, prefab);
             dirty = false;
             Repaint();
