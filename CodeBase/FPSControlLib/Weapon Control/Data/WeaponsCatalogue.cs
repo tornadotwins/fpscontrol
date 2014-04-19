@@ -34,6 +34,16 @@ namespace FPSControl.Data
             }
         }
 
+        public int IndexOf(string key)
+        {
+            return keys.IndexOf(key);
+        }
+
+        public int IndexOf(GameObject prefab)
+        {
+            return values.IndexOf(prefab);
+        }
+
         public void ChangeKeyOf(GameObject oldValue, GameObject newValue)
         {
             if (!values.Contains(oldValue)) // If we didn't have the old value to begin with...

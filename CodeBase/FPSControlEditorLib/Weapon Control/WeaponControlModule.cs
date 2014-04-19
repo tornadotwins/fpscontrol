@@ -280,6 +280,8 @@ namespace FPSControlEditor
             CheckWeapon(prefabInstance.GetComponent<FPSControlWeapon>());
             PrefabUtility.ReplacePrefab(prefabInstance, prefab);
             PrefabUtility.RevertPrefabInstance(prefabInstance); // this is to make sure the instance and prefab are fully in-sync again.
+            if (Catalogue[prefab.name] == null)
+                Catalogue[prefab.name] = prefab; // if by some way this was nullified - replace it
             //PrefabUtility.ReplacePrefab(prefabInstance, prefab);
             dirty = false;
             Repaint();
