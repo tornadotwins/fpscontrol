@@ -29,7 +29,10 @@ namespace FPSControl
             Player = player;
             Initialized = true;
             SetState(player.currentState);
+            OnInitialize();
         }
+
+        protected virtual void OnInitialize() { }
 
         public virtual void SetState(State state)
         {

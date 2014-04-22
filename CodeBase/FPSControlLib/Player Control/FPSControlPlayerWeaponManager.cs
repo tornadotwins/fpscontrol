@@ -33,8 +33,10 @@ namespace FPSControl
             weapons = new FPSControlWeaponSaveData[available.Length];
             for (int i = 0; i < weapons.Length; i++)
             {
-                if (available[i] is FPSControlMeleeWeapon) weapons[i] = new FPSControlWeaponSaveData((FPSControlMeleeWeapon) available[i]);
-                else weapons[i] = new FPSControlWeaponSaveData((FPSControlRangedWeapon) available[i]);
+                if (available[i] is FPSControlMeleeWeapon) 
+                    weapons[i] = new FPSControlWeaponSaveData((FPSControlMeleeWeapon) available[i]);
+                else 
+                    weapons[i] = new FPSControlWeaponSaveData((FPSControlRangedWeapon) available[i]);
             }
 
             if (manager.currentWeapon == null)
@@ -93,7 +95,7 @@ namespace FPSControl
         public bool addWeaponsToInventory = true;
         public string defaultWeaponName;
 
-        [HideInInspector]
+        //[HideInInspector]
         FPSControlWeapon[] _weaponActors; //all possible weapons should be setup here
         public FPSControlWeapon[] WeaponActors { get { return _weaponActors; } }
 
@@ -220,8 +222,9 @@ namespace FPSControl
             _weaponActors = _collectedActors.ToArray();
         }
 
-        void Start()
+        override protected void OnInitialize()
         {
+            
             // If we have persistent data saved
             FPSControlPlayerWeaponManagerSaveData saveData = FPSControlPlayerData.LoadTempWeaponData();
 
@@ -232,20 +235,26 @@ namespace FPSControl
             else if (addWeaponsToInventory) // If we don't have any data, and we are told to add weapons to inventory - do so now.
             {
                 int added = 0;
-                bool first = true;
-                foreach (FPSControlWeapon weapon in _weaponActors)
+                for (int i = 0; i < _weaponActors.Length; i++)
                 {
+                    FPSControlWeapon weapon = _weaponActors[i];
                     added++;
                     if (added < 4)
                     {
+                        Debug.Log(string.Format("Adding '{0}' to the inventory.", weapon.name));
                         if (defaultWeaponName == "")
-                            AddToInventory(weapon.definition.weaponName, first);
+                            AddToInventory(weapon.definition.weaponName, i==0);
                         else
                             AddToInventory(weapon.definition.weaponName, weapon.definition.weaponName == defaultWeaponName);
 
-                        first = false;
                         if (weapon.GetType() == typeof(FPSControlRangedWeapon))
                             ((FPSControlRangedWeapon)weapon).SetAmmo((int)((FPSControlRangedWeapon)weapon).rangeDefinition.clipCapacity, 0);
+                    }
+                    else
+                    {
+                        Debug.LogWarning(
+                            string.Format("Maximum weapon inventory of 4 exceeded. '{0}' will not be added to the inventory.",
+                            weapon.name));
                     }
                 }
             }
@@ -253,7 +262,6 @@ namespace FPSControl
             {
                 // This is a legal case if you intend to spawn with no weapons on first run
             }
-
         }
 
         public bool CanAddWeapon(string weaponName)
@@ -265,7 +273,11 @@ namespace FPSControl
         public void AddToInventory(string weaponName, bool makeCurrent)
         {
             //Debug.Log(weaponName);
-            if(_availableWeapons.Count == 4) return; //max capacity            
+            if (_availableWeapons.Count == 4)
+            {
+                Debug.LogWarning(string.Format("Inventory is at maximum capacity. Weapon '{0}' will not be added to the inventory.",weaponName));
+                return; //max capacity
+            }
             FPSControlWeapon weapon = _weaponsCatalogue[weaponName];            
             _availableWeapons.Add(weapon);
             if (makeCurrent)
@@ -375,67 +387,59 @@ namespace FPSControl
 
         public void ActivateWeaponAt(int index)
         {
-            //try
-            //{
-                //Debug.Log(string.Format("Activating weapon {0} of {1}", index + 1, _availableWeapons.Count));
-                if (index >= _availableWeapons.Count)
-                {
-                    return;
-                }
-                if (index >= 4)
-                {
-                    Debug.LogWarning("Attempting to activate a weapon which index exceeds the maximum of 4.");
-                    return;
-                }
+            //Debug.Log(string.Format("Activating weapon {0} of {1}", index + 1, _availableWeapons.Count));
+            if (index >= _availableWeapons.Count)
+            {
+                return;
+            }
+            if (index >= 4)
+            {
+                Debug.LogWarning("Attempting to activate a weapon which index exceeds the maximum of 4.");
+                return;
+            }
+            
+            string wpnName = "";
 
-                string wpnName = "";
+            if (_currentWeapon && _currentWeapon == _availableWeapons[index])
+            {
+                //Debug.LogWarning("Attempting to activate the current weapon, but it is already activated!");
+                return; //already there
+            }
+            else if (_currentWeapon)
+            {
+                
+                //Debug.LogWarning("activating new");
+                _queuedWeapon = _availableWeapons[index];
+                FPSControlWeapon _weaponBeingDeactivated = _currentWeapon;
+                crosshairAnimator.SetCrossHair(null);
+                _currentWeapon.Deactivate(_ActivateQueuedWeapon);
+                _currentWeapon = null;
 
-                if (_currentWeapon && _currentWeapon == _availableWeapons[index])
+                wpnName = _queuedWeapon.impactName == "None" ? _queuedWeapon.name : _queuedWeapon.impactName;
+            }
+            else
+            {
+                //Debug.Log("No current weapon. Activating fresh.");
+                if (index < _availableWeapons.Count)
                 {
-                    Debug.LogWarning("Attempting to activate the current weapon, but it is already activated!");
-                    return; //already there
-                }
-                else if (_currentWeapon)
-                {
-                    //Debug.LogWarning("activating new");
-                    _queuedWeapon = _availableWeapons[index];
-                    FPSControlWeapon _weaponBeingDeactivated = _currentWeapon;
-                    crosshairAnimator.SetCrossHair(null);
-                    _currentWeapon.Deactivate(
-                        () =>
-                        { 
-                            //Debug.Log("Deactivation complete. Activating queued weapon."); 
-                            _ActivateQueuedWeapon(); 
-                        });
-                    _currentWeapon = null;
-
-                    wpnName = _queuedWeapon.impactName == "None" ? _queuedWeapon.name : _queuedWeapon.impactName;
+                    _currentWeapon = _availableWeapons[index];
                 }
                 else
                 {
-                    //Debug.Log("No current weapon. Activating fresh.");
-                    if (index < _availableWeapons.Count)
-                    {
-                        _currentWeapon = _availableWeapons[index];
-                    }
-                    else
-                    {
-                        Debug.LogError(string.Format("Out of scope. Attempting to activate weapon at index ({0}) when available weapons length is {1}", index, _availableWeapons.Count));
-                        return;
-                    }
-
-                    _currentWeapon._Activate(this, ActivateCrosshair);
-
-                    wpnName = _currentWeapon.impactName == "None" ? _currentWeapon.name : _currentWeapon.impactName;
+                    Debug.LogError(string.Format("Out of scope. Attempting to activate weapon at index ({0}) when available weapons length is {1}", index, _availableWeapons.Count));
+                    return;
                 }
-
-                ImpactControl impact = Player.GetComponent<ImpactControl>();
-                if (impact != null)
-                {
-                    impact.ActivateImpactEffect(wpnName);
-                }
-            //}
-            //catch (System.Exception err) { Debug.LogWarning("Caught Exeption: " + err.Message); }
+                
+                _currentWeapon._Activate(this, ActivateCrosshair);
+                wpnName = _currentWeapon.impactName == "None" ? _currentWeapon.name : _currentWeapon.impactName;
+                
+            }
+            
+            ImpactControl impact = Player.GetComponent<ImpactControl>();
+            if (impact != null)
+            {
+                impact.ActivateImpactEffect(wpnName);
+            }
         }
 
         void ActivateCrosshair()
