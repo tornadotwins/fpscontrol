@@ -96,8 +96,8 @@ namespace FPSControl
         public string defaultWeaponName;
 
         //[HideInInspector]
-        FPSControlWeapon[] _weaponActors; //all possible weapons should be setup here
-        public FPSControlWeapon[] WeaponActors { get { return _weaponActors; } }
+        List<FPSControlWeapon> _weaponActors; //all possible weapons should be setup here
+        public FPSControlWeapon[] WeaponActors { get { return _weaponActors.ToArray(); } }
 
         Dictionary<string, FPSControlWeapon> _weaponsCatalogue = new  Dictionary<string, FPSControlWeapon>(); //the catalogue of weapons, built dynamically from weaponActors array
         [HideInInspector]
@@ -187,6 +187,7 @@ namespace FPSControl
 
             foreach (GameObject g in weaponPrefabsCatalogue.Values)
             {
+                
                 GameObject go;
                 if (preexistingComponents.ContainsKey(g.name))
                 {
@@ -194,7 +195,7 @@ namespace FPSControl
                 }
                 else
                 {
-                    go = (GameObject) Instantiate(g);
+                    go = (GameObject)Instantiate(g);
                     go.name = g.name;
                     go.SetActive(false);
                     go.transform.parent = transform;
@@ -208,18 +209,18 @@ namespace FPSControl
                     _collectedActors.Add(weapon);
                     weapon.transform.localPosition = weapon.definition.pivot;
                     weapon.transform.localRotation = Quaternion.Euler(weapon.definition.euler);
-                    
-                    if(_allCrosshairs.ContainsKey(weapon.crossHairName))
+
+                    if (_allCrosshairs.ContainsKey(weapon.crossHairName))
                         weapon.crosshair = _allCrosshairs[weapon.crossHairName];
                     else
                         Debug.LogWarning("Could not find Crosshair with name: " + weapon.crossHairName);
-                    
+
                     weapon.definition.weaponName = go.name; // Insure names are synced correctly.
                     _weaponsCatalogue.Add(weapon.definition.weaponName, weapon);
                 }
             }
             
-            _weaponActors = _collectedActors.ToArray();
+            _weaponActors = _collectedActors;
         }
 
         override protected void OnInitialize()
@@ -234,15 +235,35 @@ namespace FPSControl
             }
             else if (addWeaponsToInventory) // If we don't have any data, and we are told to add weapons to inventory - do so now.
             {
+                if (!string.IsNullOrEmpty(defaultWeaponName))
+                {
+                    int indexOf = -1;
+                    for (int i = 0; i < _weaponActors.Count; i++)
+                    {
+                        if (_weaponActors[i].definition.weaponName == defaultWeaponName)
+                        {
+                            indexOf = i;
+                            break;
+                        }
+                    }
+
+                    if (indexOf > 3)
+                    {
+                        FPSControlWeapon a = _weaponActors[3];
+                        FPSControlWeapon b = _weaponActors[indexOf];
+                        _weaponActors[3] = b;
+                        _weaponActors[indexOf] = a;
+                    }
+                }
+                
                 int added = 0;
-                for (int i = 0; i < _weaponActors.Length; i++)
+                for (int i = 0; i < _weaponActors.Count; i++)
                 {
                     FPSControlWeapon weapon = _weaponActors[i];
-                    added++;
                     if (added < 4)
                     {
                         Debug.Log(string.Format("Adding '{0}' to the inventory.", weapon.name));
-                        if (defaultWeaponName == "")
+                        if (string.IsNullOrEmpty(defaultWeaponName))
                             AddToInventory(weapon.definition.weaponName, i==0);
                         else
                             AddToInventory(weapon.definition.weaponName, weapon.definition.weaponName == defaultWeaponName);
@@ -256,6 +277,7 @@ namespace FPSControl
                             string.Format("Maximum weapon inventory of 4 exceeded. '{0}' will not be added to the inventory.",
                             weapon.name));
                     }
+                    added++;
                 }
             }
             else
