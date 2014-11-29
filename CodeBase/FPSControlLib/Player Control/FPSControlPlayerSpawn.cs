@@ -19,11 +19,6 @@ namespace FPSControl
             }
         }
 
-        void OnDestroy()
-        {
-            _spawnPoints = null;
-        }
-
         void OnDrawGizmos()
         {
             Gizmos.color = Color.magenta;
