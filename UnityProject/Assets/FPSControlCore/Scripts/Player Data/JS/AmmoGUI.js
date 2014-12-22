@@ -2,7 +2,11 @@
 import FPSControl;
 
 	var weaponName : String = "Beretta";
-
+	var gui : GUIText;
+	function Awake()
+	{
+		gui = GetComponent(GUIText);
+	}
 	function Update()
 	{
 		//Debug.Log( "Current Weapon: " + FPSControlPlayerData.currentWeapon );
@@ -24,18 +28,18 @@ import FPSControl;
 			if(ammo[2] > 0 && ammo[0] == 0)
 			{
 				//display the 'reload' message
-				guiText.text = "Use reload key to reload";
+				gui.text = "Use reload key to reload";
 			}
 			
 			else if(ammo[0] == 0 && ammo[1] == 0 && ammo[2] == 0)
 			{
-				guiText.text = "Out of ammo.";
+				gui.text = "Out of ammo.";
 			}
 			
 			else
 			
 			{
-				guiText.text = "Clip Contents: "+ammo[0]+" Clips:"+ammo[1]+" Ammo:"+ammo[2];
+				gui.text = "Clip Contents: "+ammo[0]+" Clips:"+ammo[1]+" Ammo:"+ammo[2];
 			}
 			
 			if(Input.GetKeyDown (KeyCode.F1))
@@ -45,7 +49,7 @@ import FPSControl;
 		}
 		else
 		{
-			guiText.text = "";
+			gui.text = "";
 		}
 	}
 	

@@ -1,6 +1,6 @@
 
 function Drop () {
-	collider.isTrigger = false;
-	if (!rigidbody)
+	GetComponent(Collider).isTrigger = false;
+	if (GetComponent(Rigidbody) == null)
 		gameObject.AddComponent(Rigidbody);
 }

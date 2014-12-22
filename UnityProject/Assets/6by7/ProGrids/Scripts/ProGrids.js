@@ -68,8 +68,8 @@ function CalcScreenSegs(axisIndex : int)
 	var bottomLeftW : Vector3;
 	var topRightW : Vector3;
 	
-	bottomLeftW = camera.current.ScreenToWorldPoint(Vector3(0,0,0));
-	topRightW = camera.current.ScreenToWorldPoint(Vector3(camera.current.pixelWidth,camera.current.pixelHeight, 0));
+	bottomLeftW = Camera.current.ScreenToWorldPoint(Vector3(0,0,0));
+	topRightW = Camera.current.ScreenToWorldPoint(Vector3(Camera.current.pixelWidth,Camera.current.pixelHeight, 0));
 	
 	var viewWidth : float;
 	var viewHeight : float;

@@ -124,9 +124,10 @@ function UseWeapon ()
 	//{
 	//    child.gameObject.layer = _gunLayer;
 	//}
-	
+	var rigidbody : Rigidbody = GetComponent(Rigidbody);
 	if (rigidbody) Destroy ( rigidbody );
-	if (gameObject.collider) Destroy ( gameObject.collider );
+	var collider : Collider = GetComponent(Collider);
+	if (collider) Destroy ( collider );
     
     // first setup of weapon
     if (_firstSetUp)

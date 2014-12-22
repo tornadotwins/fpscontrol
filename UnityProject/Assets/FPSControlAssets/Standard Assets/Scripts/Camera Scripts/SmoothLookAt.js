@@ -22,6 +22,7 @@ function LateUpdate () {
 
 function Start () {
 	// Make the rigid body not change rotation
-   	if (rigidbody)
+   	var rigidbody : Rigidbody = GetComponent(Rigidbody);
+   	if (rigidbody != null)
 		rigidbody.freezeRotation = true;
 }

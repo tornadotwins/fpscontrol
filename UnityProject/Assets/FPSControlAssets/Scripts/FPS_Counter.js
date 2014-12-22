@@ -14,10 +14,11 @@ var updateInterval = 0.5;
 private var accum = 0.0; // FPS accumulated over the interval
 private var frames = 0; // Frames drawn over the interval
 private var timeleft : float; // Left time for current interval
+private var gui : GUIText;
  
 function Start()
 {
-    if( !guiText )
+    if( gui == null )
     {
         print ("FramesPerSecond needs a GUIText component!");
         enabled = false;
@@ -36,7 +37,7 @@ function Update()
     if( timeleft <= 0.0 )
     {
         // display two fractional digits (f2 format)
-        guiText.text = "" + (accum/frames).ToString("f2");
+        gui.text = "" + (accum/frames).ToString("f2");
         timeleft = updateInterval;
         accum = 0.0;
         frames = 0;

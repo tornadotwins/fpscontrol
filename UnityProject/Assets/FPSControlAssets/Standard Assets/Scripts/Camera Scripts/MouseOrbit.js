@@ -18,7 +18,8 @@ function Start () {
     y = angles.x;
 
 	// Make the rigid body not change rotation
-   	if (rigidbody)
+	var rigidbody : Rigidbody = GetComponent(Rigidbody);
+   	if (rigidbody != null)
 		rigidbody.freezeRotation = true;
 }
 
