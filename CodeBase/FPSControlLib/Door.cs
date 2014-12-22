@@ -48,8 +48,8 @@ namespace FPSControl
             }
          
             if (_animator != null) {
-                if (_animator.animation [_openAnimation] != null) {
-                    _animator.animation.Play (_openAnimation);
+                if (_animator.GetComponent<Animation>()[_openAnimation] != null) {
+                    _animator.GetComponent<Animation>().Play(_openAnimation);
                 }
             }
          

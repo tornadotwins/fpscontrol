@@ -39,12 +39,12 @@ namespace FPSControl
         {
             textColor = _color;
          
-            if (guiText != null) {
-                guiText.material.color = _color;
+            if (GetComponent<GUIText>() != null) {
+                GetComponent<GUIText>().material.color = _color;
             }
          
-            if (renderer != null) {
-                renderer.material.color = _color;
+            if (GetComponent<Renderer>() != null) {
+                GetComponent<Renderer>().material.color = _color;
             }
         }
     }

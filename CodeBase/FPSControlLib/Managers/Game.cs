@@ -106,8 +106,8 @@ namespace FPSControl
             //--- display Quit menu
             if (UnityEngine.Input.GetKeyUp (KeyCode.Escape)) {
                 showMenu = !showMenu;
-                Screen.showCursor = showMenu;
-                Screen.lockCursor = !showMenu;
+                Cursor.visible = showMenu;
+                Cursor.lockState = showMenu ? CursorLockMode.Locked : CursorLockMode.None;
             }
          
             //--- accept "Y" keypress as quit confirmation

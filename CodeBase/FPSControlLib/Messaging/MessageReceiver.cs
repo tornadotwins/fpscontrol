@@ -77,7 +77,7 @@ namespace FPSControl
                     break;
                     
                     case MessageHandlerType.PlayAnimation:
-                        animation.Play(animationName); 
+                        GetComponent<Animation>().Play(animationName); 
                     break;
                 }
             }

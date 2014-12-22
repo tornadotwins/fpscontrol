@@ -984,7 +984,7 @@ namespace FPSControlEditor
                 GUI.Toggle(new Rect(43, 70, 15, 15), InstanceComponent.weaponAnimation.definition.blend, "");
 
             string fireClipName = GetInstanceComponent<FPSControlRangedWeapon>().weaponAnimation.definition.FIRE;
-            AnimationState fireAnimation = GetInstanceComponent<FPSControlRangedWeapon>().weaponAnimation.transform.animation[fireClipName];
+            AnimationState fireAnimation = GetInstanceComponent<FPSControlRangedWeapon>().weaponAnimation.transform.GetComponent<Animation>()[fireClipName];
             if (fireAnimation == null)
             {
                 Rect rect = new Rect(15, 134, 290, 19);
@@ -1055,7 +1055,7 @@ namespace FPSControlEditor
             else 
             {
                 animationNames.Add(" ");
-                foreach (AnimationState animationState in InstanceComponent.weaponAnimation.animation)
+                foreach (AnimationState animationState in InstanceComponent.weaponAnimation._animation)
                 {
                     animationNames.Add(animationState.name);
                 }
@@ -1126,14 +1126,14 @@ namespace FPSControlEditor
             foreach (Transform child in InstanceComponent.modelController) children.Add(child.gameObject);
             children.ForEach(child => GameObject.DestroyImmediate(child));
             List<string> animationClipNames = new List<string>();
-            foreach (AnimationState animationState in InstanceComponent.weaponAnimation.animation) animationClipNames.Add(animationState.name);
-            animationClipNames.ForEach(child => { InstanceComponent.weaponAnimation.animation.RemoveClip(child); });
+            foreach (AnimationState animationState in InstanceComponent.weaponAnimation._animation) animationClipNames.Add(animationState.name);
+            animationClipNames.ForEach(child => { InstanceComponent.weaponAnimation._animation.RemoveClip(child); });
         }
 
         private bool GUIMeshAnimationWindow_HasAnimations() //handles removing all mesh and animation
         {
-            if (InstanceComponent.weaponAnimation.animation.GetClipCount() == 0) return false;
-            foreach (AnimationState animationState in InstanceComponent.weaponAnimation.animation)
+            if (InstanceComponent.weaponAnimation._animation.GetClipCount() == 0) return false;
+            foreach (AnimationState animationState in InstanceComponent.weaponAnimation._animation)
             {
                 if (animationState.clip != null) return true;
             }

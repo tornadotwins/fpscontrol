@@ -56,7 +56,7 @@ namespace FPSControlEditor
 
         #region Editor Properties
 
-        public RBFPSControllerLogic target = null;
+        //public RBFPSControllerLogic target = null;
 
         //Key Binding
         public KeyCode runLeft = KeyCode.A;
@@ -183,48 +183,48 @@ namespace FPSControlEditor
 
         void AcquireTarget()
         {
-            RBFPSControllerLogic[] scripts = (RBFPSControllerLogic[])Resources.FindObjectsOfTypeAll(typeof(RBFPSControllerLogic));
+            //RBFPSControllerLogic[] scripts = (RBFPSControllerLogic[])Resources.FindObjectsOfTypeAll(typeof(RBFPSControllerLogic));
 
-            if (scripts.Length > 0)
-            {
-                target = scripts[0];
-            }
-            else
-            {
-                (_editor as FPSControlMainEditor).LoadModule(FPSControlModuleType.NONE); //Temp hack
-                /*
-                 * temp hack
-                 * 
-                if (EditorUtility.DisplayDialog("Component not found!", "There is no Controller Logic in this scene. Create one?", "OK", "Cancel"))
-                {
-                    GameObject go = new GameObject("Player");
-                    target = (RBFPSControllerLogic)go.AddComponent(typeof(RBFPSControllerLogic));
-                }
-                else
-                {
-                    (_editor as FPSControlMainEditor).LoadModule(FPSControlModuleType.NONE);
-                }
-                 */
-            }
+            //if (scripts.Length > 0)
+            //{
+            //    target = scripts[0];
+            //}
+            //else
+            //{
+            //    (_editor as FPSControlMainEditor).LoadModule(FPSControlModuleType.NONE); //Temp hack
+            //    /*
+            //     * temp hack
+            //     * 
+            //    if (EditorUtility.DisplayDialog("Component not found!", "There is no Controller Logic in this scene. Create one?", "OK", "Cancel"))
+            //    {
+            //        GameObject go = new GameObject("Player");
+            //        target = (RBFPSControllerLogic)go.AddComponent(typeof(RBFPSControllerLogic));
+            //    }
+            //    else
+            //    {
+            //        (_editor as FPSControlMainEditor).LoadModule(FPSControlModuleType.NONE);
+            //    }
+            //     */
+            //}
 
-            //collect values and store them here.
-            if (target)
-            {
-                runLeft = target._runKeyLeft;
-                runRight = target._runKeyRight;
-                interact = target._interactionKey;
-                reload = target._reloadKey;
-                escape = target._escapeKey;
+            ////collect values and store them here.
+            //if (target)
+            //{
+            //    runLeft = target._runKeyLeft;
+            //    runRight = target._runKeyRight;
+            //    interact = target._interactionKey;
+            //    reload = target._reloadKey;
+            //    escape = target._escapeKey;
 
-                sensitivityX = target._sensitivityX;
-                sensitivityY = target._sensitivityY;
-                mouseFilterBufferSize = target._mouseFilterBufferSize;
-                gunLookDownOffsetThreshold = target._gunLookDownOffsetThreshold;
-                minimumX = target._minimumX;
-                minimumY = target._minimumY;
-                maximumX = target._maximumX;
-                maximumY = target._maximumY;
-            }
+            //    sensitivityX = target._sensitivityX;
+            //    sensitivityY = target._sensitivityY;
+            //    mouseFilterBufferSize = target._mouseFilterBufferSize;
+            //    gunLookDownOffsetThreshold = target._gunLookDownOffsetThreshold;
+            //    minimumX = target._minimumX;
+            //    minimumY = target._minimumY;
+            //    maximumX = target._maximumX;
+            //    maximumY = target._maximumY;
+            //}
         }
 
         //void OnPress(Vector2 mPos)
@@ -251,58 +251,58 @@ namespace FPSControlEditor
 
         public override void Update()
         {
-            if(didSaveDuringPlaymode && !Application.isPlaying)
-            {
-                Debug.Log("Saving changes made during Play mode!");
-                AcquireTarget();
-                FPSControlGameSettingsTemp.Load(ref target);
-                didSaveDuringPlaymode = false;
-            }
+            //if(didSaveDuringPlaymode && !Application.isPlaying)
+            //{
+            //    Debug.Log("Saving changes made during Play mode!");
+            //    AcquireTarget();
+            //    FPSControlGameSettingsTemp.Load(ref target);
+            //    didSaveDuringPlaymode = false;
+            //}
         }
 
         public override void OnGUI()
         {
-            if (!target) AcquireTarget();
+            //if (!target) AcquireTarget();
             
-            int depth = GUI.depth;
-            GUI.DrawTexture(titleRect, title);
+            //int depth = GUI.depth;
+            //GUI.DrawTexture(titleRect, title);
             
-            //GUI.enabled = !Application.isPlaying; //potential tmp bug prevention?
-            if(GUI.Button(saveButtonRect, "Save")) SaveToFile();
-            GUI.enabled = true;
+            ////GUI.enabled = !Application.isPlaying; //potential tmp bug prevention?
+            //if(GUI.Button(saveButtonRect, "Save")) SaveToFile();
+            //GUI.enabled = true;
 
-            GUI.Box(keyMapRect, movementKeyMappingBG, GUIStyle.none);
+            //GUI.Box(keyMapRect, movementKeyMappingBG, GUIStyle.none);
 
-            runLeft = (KeyCode) EditorGUI.EnumPopup(new Rect(dropDownX, 150, dropDownSize.x, dropDownSize.y), runLeft);
-            runRight = (KeyCode) EditorGUI.EnumPopup(new Rect(dropDownX, 170, dropDownSize.x, dropDownSize.y), runRight);
-            interact = (KeyCode) EditorGUI.EnumPopup(new Rect(dropDownX, 190, dropDownSize.x, dropDownSize.y), interact);
-            reload = (KeyCode) EditorGUI.EnumPopup(new Rect(dropDownX, 210, dropDownSize.x, dropDownSize.y), reload);
-            escape = (KeyCode) EditorGUI.EnumPopup(new Rect(dropDownX, 230, dropDownSize.x, dropDownSize.y), escape);
+            //runLeft = (KeyCode) EditorGUI.EnumPopup(new Rect(dropDownX, 150, dropDownSize.x, dropDownSize.y), runLeft);
+            //runRight = (KeyCode) EditorGUI.EnumPopup(new Rect(dropDownX, 170, dropDownSize.x, dropDownSize.y), runRight);
+            //interact = (KeyCode) EditorGUI.EnumPopup(new Rect(dropDownX, 190, dropDownSize.x, dropDownSize.y), interact);
+            //reload = (KeyCode) EditorGUI.EnumPopup(new Rect(dropDownX, 210, dropDownSize.x, dropDownSize.y), reload);
+            //escape = (KeyCode) EditorGUI.EnumPopup(new Rect(dropDownX, 230, dropDownSize.x, dropDownSize.y), escape);
 
-            GUI.Box(mouseSettingsRect, mouseSettingsBG, GUIStyle.none);
+            //GUI.Box(mouseSettingsRect, mouseSettingsBG, GUIStyle.none);
 
-            Knobs.Theme(Knobs.Themes.WHITE, _editor);
+            //Knobs.Theme(Knobs.Themes.WHITE, _editor);
 
-            allVals[0] = sensitivityX = Knobs.MinMax(new Vector2(615,138),sensitivityX,1,75,0);
-            allVals[1] = sensitivityY = Knobs.MinMax(new Vector2(685, 138), sensitivityY, 1, 75, 1);
-            allVals[2] = mouseFilterBufferSize = Knobs.Rotary(new Vector2(755, 138), (int)mouseFilterBufferSize, 2);
-            allVals[3] = gunLookDownOffsetThreshold = Knobs.MinMax(new Vector2(825, 138), gunLookDownOffsetThreshold, -30, 30, 3);
-            allVals[4] = minimumX = Knobs.Rotary(new Vector2(615, 210), (int)minimumX, 4);
-            allVals[5] = minimumY = Knobs.Rotary(new Vector2(685, 210), (int)minimumY, 5);
-            allVals[6] = maximumX = Knobs.Rotary(new Vector2(755, 210), (int)maximumX, 6);
-            allVals[7] = maximumY = Knobs.Rotary(new Vector2(825, 210), (int)maximumY, 7);
+            //allVals[0] = sensitivityX = Knobs.MinMax(new Vector2(615,138),sensitivityX,1,75,0);
+            //allVals[1] = sensitivityY = Knobs.MinMax(new Vector2(685, 138), sensitivityY, 1, 75, 1);
+            //allVals[2] = mouseFilterBufferSize = Knobs.Rotary(new Vector2(755, 138), (int)mouseFilterBufferSize, 2);
+            //allVals[3] = gunLookDownOffsetThreshold = Knobs.MinMax(new Vector2(825, 138), gunLookDownOffsetThreshold, -30, 30, 3);
+            //allVals[4] = minimumX = Knobs.Rotary(new Vector2(615, 210), (int)minimumX, 4);
+            //allVals[5] = minimumY = Knobs.Rotary(new Vector2(685, 210), (int)minimumY, 5);
+            //allVals[6] = maximumX = Knobs.Rotary(new Vector2(755, 210), (int)maximumX, 6);
+            //allVals[7] = maximumY = Knobs.Rotary(new Vector2(825, 210), (int)maximumY, 7);
 
-            if(Knobs.interactID != -1)
-            {
-                GUIStyle gs = new GUIStyle();
-                gs.normal.textColor = Color.white;
-                gs.alignment = TextAnchor.MiddleCenter;
-                gs.normal.background = (Texture2D) precisionBG;
+            //if(Knobs.interactID != -1)
+            //{
+            //    GUIStyle gs = new GUIStyle();
+            //    gs.normal.textColor = Color.white;
+            //    gs.alignment = TextAnchor.MiddleCenter;
+            //    gs.normal.background = (Texture2D) precisionBG;
 
-                //Debug.Log(Knobs.interactID);
-                GUI.Box(precisionBox, ""+allVals[Knobs.interactID],gs);
-                _editor.Repaint();
-            }
+            //    //Debug.Log(Knobs.interactID);
+            //    GUI.Box(precisionBox, ""+allVals[Knobs.interactID],gs);
+            //    _editor.Repaint();
+            //}
 
             /*if(drawPrecisionBox && Knobs.interactID >= 0)
             {
@@ -332,66 +332,26 @@ namespace FPSControlEditor
 
         void SaveToFile()
         {
-            didSaveDuringPlaymode = Application.isPlaying;
-            if (didSaveDuringPlaymode)
-            {
-                FPSControlGameSettingsTemp tmp = new FPSControlGameSettingsTemp(this);
-            }
+            //didSaveDuringPlaymode = Application.isPlaying;
+            //if (didSaveDuringPlaymode)
+            //{
+            //    FPSControlGameSettingsTemp tmp = new FPSControlGameSettingsTemp(this);
+            //}
 
-            target._runKeyLeft = runLeft;
-            target._runKeyRight = runRight;
-            target._interactionKey = interact;
-            target._reloadKey = reload;
-            target._escapeKey = escape;
+            //target._runKeyLeft = runLeft;
+            //target._runKeyRight = runRight;
+            //target._interactionKey = interact;
+            //target._reloadKey = reload;
+            //target._escapeKey = escape;
 
-            target._sensitivityX = sensitivityX;
-            target._sensitivityY = sensitivityY;
-            target._mouseFilterBufferSize = (int) mouseFilterBufferSize;
-            target._gunLookDownOffsetThreshold = gunLookDownOffsetThreshold;
-            target._minimumX = minimumX;
-            target._minimumY = minimumY;
-            target._maximumX = maximumX;
-            target._maximumY = maximumY;
-
-            //DEPRECATED//
-            /*
-            PushSettings();
-            
-            //Pull down the template
-            string templateString = templateFile.text;
-
-            //do simple replacements, insuring to append the necessary stuff.
-            templateString = templateString.Replace(sRunLeft, "KeyCode." + runLeft.ToString());
-            templateString = templateString.Replace(sRunRight, "KeyCode." + runRight.ToString());
-            templateString = templateString.Replace(sInteract, "KeyCode." + interact.ToString());
-            templateString = templateString.Replace(sEscape, "KeyCode." + escape.ToString());
-            templateString = templateString.Replace(sReload, "KeyCode." + reload.ToString());
-
-            templateString = templateString.Replace(sSensitivityX, sensitivityX + "F");
-            templateString = templateString.Replace(sSensitivityY, sensitivityY + "F");
-            templateString = templateString.Replace(sMouseFilterBufferSize, mouseFilterBufferSize + "F");
-            templateString = templateString.Replace(sGunLookDownOffsetThreshold, gunLookDownOffsetThreshold + "F");
-            templateString = templateString.Replace(sMinimumX, minimumX + "F");
-            templateString = templateString.Replace(sMinimumY, minimumY + "F");
-            templateString = templateString.Replace(sMaximumX, maximumX + "F");
-            templateString = templateString.Replace(sMaximumY, maximumY + "F");
-
-            //Now the IO stuff
-            
-            StringBuilder sb = new StringBuilder();
-
-            sb.AppendLine(templateString);
-
-            using (StreamWriter outfile = new StreamWriter("Assets/Scripts/GameSettings.cs"))
-            {
-                outfile.Write(sb.ToString());
-            }
-
-            //And refresh our Project panel for good measure.
-            AssetDatabase.Refresh(ImportAssetOptions.TryFastReimportFromMetaData);
-            */
+            //target._sensitivityX = sensitivityX;
+            //target._sensitivityY = sensitivityY;
+            //target._mouseFilterBufferSize = (int) mouseFilterBufferSize;
+            //target._gunLookDownOffsetThreshold = gunLookDownOffsetThreshold;
+            //target._minimumX = minimumX;
+            //target._minimumY = minimumY;
+            //target._maximumX = maximumX;
+            //target._maximumY = maximumY;
         }
     }
-
-    
 }

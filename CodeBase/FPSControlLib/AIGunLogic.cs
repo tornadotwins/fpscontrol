@@ -263,10 +263,10 @@ namespace FPSControl
             //    child.gameObject.layer = _gunLayer;
             //}
          
-            if (rigidbody)
-                Destroy (rigidbody);
-            if (gameObject.collider)
-                Destroy (gameObject.collider);
+            if (GetComponent<Rigidbody>() != null)
+                Destroy(GetComponent<Rigidbody>());
+            if (GetComponent<Collider>() != null)
+                Destroy(GetComponent<Collider>());
          
             // first setup of weapon
             if (_firstSetUp) {

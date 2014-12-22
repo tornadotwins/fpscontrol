@@ -88,7 +88,7 @@ namespace FPSControl
             _oscillatorZ = new Oscillator(-bobOffset.z, bobOffset.z);
 
             _transform = transform;
-            _camera = camera;
+            _camera = GetComponent<Camera>();
             baseFOV = _camera.fieldOfView;
 
             _upperBody = _transform.parent;

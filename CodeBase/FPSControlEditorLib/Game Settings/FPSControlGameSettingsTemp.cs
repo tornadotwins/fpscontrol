@@ -47,29 +47,29 @@ namespace FPSControlEditor
             AssetDatabase.CreateAsset(this, PATH);
         }
 
-        public void Project(ref RBFPSControllerLogic target)
-        {
-            target._runKeyLeft = runLeft;
-            target._runKeyRight = runRight;
-            target._interactionKey = interact;
-            target._reloadKey = reload;
-            target._escapeKey = escape;
+        //public void Project(ref RBFPSControllerLogic target)
+        //{
+        //    target._runKeyLeft = runLeft;
+        //    target._runKeyRight = runRight;
+        //    target._interactionKey = interact;
+        //    target._reloadKey = reload;
+        //    target._escapeKey = escape;
 
-            target._sensitivityX = sensitivityX;
-            target._sensitivityY = sensitivityY;
-            target._mouseFilterBufferSize = (int)mouseFilterBufferSize;
-            target._gunLookDownOffsetThreshold = gunLookDownOffsetThreshold;
-            target._minimumX = minimumX;
-            target._minimumY = minimumY;
-            target._maximumX = maximumX;
-            target._maximumY = maximumY;
-        }
+        //    target._sensitivityX = sensitivityX;
+        //    target._sensitivityY = sensitivityY;
+        //    target._mouseFilterBufferSize = (int)mouseFilterBufferSize;
+        //    target._gunLookDownOffsetThreshold = gunLookDownOffsetThreshold;
+        //    target._minimumX = minimumX;
+        //    target._minimumY = minimumY;
+        //    target._maximumX = maximumX;
+        //    target._maximumY = maximumY;
+        //}
 
-        internal static void Load(ref RBFPSControllerLogic target)
-        {
-            FPSControlGameSettingsTemp tmp = (FPSControlGameSettingsTemp) AssetDatabase.LoadAssetAtPath(PATH, typeof(FPSControlGameSettingsTemp));
-            tmp.Project(ref target);
-            AssetDatabase.DeleteAsset(PATH);
-        }
+        //internal static void Load(ref RBFPSControllerLogic target)
+        //{
+        //    FPSControlGameSettingsTemp tmp = (FPSControlGameSettingsTemp) AssetDatabase.LoadAssetAtPath(PATH, typeof(FPSControlGameSettingsTemp));
+        //    tmp.Project(ref target);
+        //    AssetDatabase.DeleteAsset(PATH);
+        //}
     }
 }

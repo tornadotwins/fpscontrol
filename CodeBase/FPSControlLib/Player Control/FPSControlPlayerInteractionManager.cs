@@ -17,9 +17,11 @@ namespace FPSControl
         bool _inInteractZone = false;
         InteractLogic _interactLogic;
         Transform _transform;
+        Camera camera;
 
         void Awake()
         {
+            camera = GetComponent<Camera>();
             _transform = transform;
         }
 

@@ -112,7 +112,7 @@ namespace FPSControl
 			SetTextureColors (friendlyTexture, friendlyColor);    
 			borderTexture = new Texture2D (2, 2);  
 			SetTextureColors (borderTexture, borderColor);            
-			if (transform.camera && _camera == null)   
+			if (transform.GetComponent<Camera>() && _camera == null)   
 				_camera = transform; 
 			else if (_camera == null)  
 				_camera = Camera.main.transform;  

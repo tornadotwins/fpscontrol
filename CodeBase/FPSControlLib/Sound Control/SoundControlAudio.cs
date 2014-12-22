@@ -30,7 +30,13 @@ namespace FPSControl
         int CurrentLoops = 1;
         float FinishCorrection = 0.1f;
         bool Infinite = false;
- 
+        AudioSource audio;
+
+        void Awake()
+        {
+            audio = GetComponent<AudioSource>();
+        }
+
         /*!
         Plays the <a href="http://docs.unity3d.com/Documentation/ScriptReference/AudioClip.html">AudioClip</a> parameter using the <a href="http://docs.unity3d.com/Documentation/ScriptReference/AudioSource.html">AudioSource</a>
         component attached to the gameObject.

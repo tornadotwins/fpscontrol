@@ -383,16 +383,16 @@ namespace FPSControlEditor
                 //we'll need to do a material array comparison
                 if (firstInSelection)
                 {
-                    prevMats = mf.renderer.sharedMaterials; //store the material array for the first go's mesh
+                    prevMats = mf.GetComponent<Renderer>().sharedMaterials; //store the material array for the first go's mesh
                     firstInSelection = false;
                 }
                 else
                 {
                     bool _continue = false; //flag for whether or not this renderer matches the others
-                    for (int i = 0; i < mf.renderer.sharedMaterials.Length; i++)
+                    for (int i = 0; i < mf.GetComponent<Renderer>().sharedMaterials.Length; i++)
                     {
                         //check against the previously stored
-                        if (mf.renderer.sharedMaterials[i] != prevMats[i])
+                        if (mf.GetComponent<Renderer>().sharedMaterials[i] != prevMats[i])
                         {
                             Debug.LogWarning("One or more of the selected Meshes does not share the same sharedMaterials array as the others.");
                             _continue = true;
@@ -430,7 +430,7 @@ namespace FPSControlEditor
             mergedContainer.transform.localScale = Vector3.one;
             mergedContainer.AddComponent<MeshFilter>();
             MeshRenderer mergedRenderer = mergedContainer.AddComponent<MeshRenderer>();
-            mergedRenderer.sharedMaterials = filters[0].renderer.sharedMaterials;
+            mergedRenderer.sharedMaterials = filters[0].GetComponent<Renderer>().sharedMaterials;
 
             if (filters[0].GetComponent<MeshCollider>() != null) //give it a mesh collider if need be.
                 mergedContainer.AddComponent<MeshCollider>();

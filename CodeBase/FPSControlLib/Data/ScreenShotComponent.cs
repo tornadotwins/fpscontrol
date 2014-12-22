@@ -77,7 +77,7 @@ namespace FPSControl.Data
             _buffer.anisoLevel = 0;
             _buffer.filterMode = FilterMode.Bilinear;
 
-            _screenShotCamera.CopyFrom(camera);
+            _screenShotCamera.CopyFrom(GetComponent<Camera>());
 
             _screenShotCamera.cullingMask = config.cameraMask.value;
             _screenShotCamera.clearFlags = CameraClearFlags.Skybox;

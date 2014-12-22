@@ -203,7 +203,7 @@ namespace FPSControl
             return control.type == AxisType.Digital && (control.negativeX == key || control.positiveX == key || control.negativeY == key || control.positiveY == key);
         }
 
-        override public void Initialize() { Screen.showCursor = !hideMouseCursor; Screen.lockCursor = hideMouseCursor; }
+        override public void Initialize() { Cursor.visible = !hideMouseCursor; Cursor.lockState = hideMouseCursor ? CursorLockMode.Locked : CursorLockMode.None; }
 
         override public bool GetJump() { return jump.GetValue(); }
         override public bool GetFire() { /*Debug.Log("fire: " + fire.ToString());*/ return fire.GetValue(); }

@@ -72,7 +72,7 @@ namespace FPSControl
         void OnDeath ()
         {
             if (_hideThisOnDeath != null) {
-                _hideThisOnDeath.SetActiveRecursively (false);
+                _hideThisOnDeath.SetActive(false);
             }
  
             if (_audioSource != null && _deathSound != null) 
@@ -80,9 +80,9 @@ namespace FPSControl
                 _audioSource.PlayOneShot (_deathSound);
             }
 
-            if (_animator != null && _animator.animation[_deathAnimation] != null) 
+            if (_animator != null && _animator.GetComponent<Animation>()[_deathAnimation] != null) 
             {
-                _animator.animation.Play (_deathAnimation);
+                _animator.GetComponent<Animation>().Play(_deathAnimation);
             }
 
             if (_deathAction != null)

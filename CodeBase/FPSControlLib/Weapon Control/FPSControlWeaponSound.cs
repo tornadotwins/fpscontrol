@@ -24,6 +24,13 @@ namespace FPSControl
         //[HideInInspector]
         public AudioClip emptySFX;
 
+        private AudioSource audio;
+
+        void Awake()
+        {
+            audio = GetComponent<AudioSource>();
+        }
+
         public void SFX_Equip()
         {
             //Debug.Log("HOW2");

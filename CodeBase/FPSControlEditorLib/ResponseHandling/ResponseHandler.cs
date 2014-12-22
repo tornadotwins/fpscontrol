@@ -119,7 +119,7 @@ namespace FPSControlEditor
             MonoBehaviour invoker = (MonoBehaviour)GameObject.FindObjectOfType(typeof(MonoBehaviour));
             if (invoker == null)
             {
-                new GameObject("Player", typeof(RBFPSControllerLogic));
+                //new GameObject("Player", typeof(RBFPSControllerLogic));
                 invoker = (MonoBehaviour)GameObject.FindObjectOfType(typeof(MonoBehaviour));
             }
             invoker.StartCoroutine(Download(filepath, invoker));

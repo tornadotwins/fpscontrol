@@ -19,14 +19,15 @@ namespace FPSControl
 		public Texture2D[]	_bulletHolesInGlass;
 		public float			_timeOut						= 1.0F;
 		public bool				_detachChildren			= false;
-	
+        Renderer renderer;
 	
 		//---
 		//
 		//---
 		public void Awake ()
 		{
-			Invoke ( "DestroyNow", _timeOut );
+            renderer = GetComponent<Renderer>();
+            Invoke ( "DestroyNow", _timeOut );
 		}
 	
 	
@@ -59,8 +60,9 @@ namespace FPSControl
 				{
 					//Debug.Log(surfaceTag);
 					renderer.enabled = false;
-					_glassBulletHole.renderer.material.mainTexture = _bulletHolesInGlass [ UnityEngine.Random.Range ( 0, _bulletHolesInGlass.Length ) ];
-					_glassBulletHole.renderer.enabled = true;
+                    Renderer bhr = _glassBulletHole.GetComponent<Renderer>();
+					bhr.material.mainTexture = _bulletHolesInGlass [ UnityEngine.Random.Range ( 0, _bulletHolesInGlass.Length ) ];
+                    bhr.enabled = true;
 					if (surfaceTag == "Shard")
 					{
 						// send message

@@ -19,7 +19,7 @@ namespace FPSControl
         //[HideInInspector]
         public FalloffData firingPattern = new FalloffData();
         //[HideInInspector]
-        private Animation _animation;
+        public Animation _animation;
         //[HideInInspector]
         private bool _patternComplete = false;
 
@@ -32,13 +32,14 @@ namespace FPSControl
 
         void Awake()
         {
+            _animation = GetComponent<Animation>();
             Setup();
         }
 
         void Setup()
         {
             currentState = "";
-            _animation = animation;
+            
             
             //LAYERING SETUP
             if (_animation[definition.ACTIVATE] != null)
@@ -202,7 +203,7 @@ namespace FPSControl
 
         internal void ReverseAnimation(string animState)
         {
-            animation[animState].speed *= -1F;
+            GetComponent<Animation>()[animState].speed *= -1F;
         }
 
         IEnumerator DoFiringPattern()

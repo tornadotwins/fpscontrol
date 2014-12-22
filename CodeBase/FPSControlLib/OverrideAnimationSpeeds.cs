@@ -32,10 +32,11 @@ namespace FPSControl
 		public float[] animSpeeds; //Animation speeds
 		
 		public GameObject[] _modelParts;
-		
+        Animation animation;
 		
 		void Awake() {
-			//Overwrite speed of each AnimationState that matches the ones in animsToOverride
+            animation = GetComponent<Animation>();
+            //Overwrite speed of each AnimationState that matches the ones in animsToOverride
 			if(animation != null && animsToOverride != null) {
 				for(int i=0; i<animsToOverride.Length; i++) {
 					AnimationState animState = animation[animsToOverride[i]];

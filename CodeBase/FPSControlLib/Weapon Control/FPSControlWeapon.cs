@@ -128,9 +128,11 @@ namespace FPSControl
         public string crossHairName;
         public IntelliCrosshair crosshair { get; set; }
 
+        public Animation _animation;
+
         void Awake()
         {
-
+            _animation = GetComponent<Animation>();
             gameObject.SetActive(false);
            
             idleState.name = "Idle";

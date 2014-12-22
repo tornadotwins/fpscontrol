@@ -151,11 +151,11 @@ namespace FPSControl
 		        		break;
 					}
 					//Otherwise check on material. This check is a little expensive, please use tags.
-					else if( ( hit.collider.gameObject.renderer != null ) && ( hit.collider.gameObject.renderer.material.mainTexture != null ) )
+                    else if ((hit.collider.GetComponent<Renderer>() != null) && (hit.collider.GetComponent<Renderer>().material.mainTexture != null))
 					{
 						foreach( Texture texture in obj.textures )
 						{
-							if( hit.collider.gameObject.renderer.material.mainTexture == texture )
+                            if (hit.collider.GetComponent<Renderer>().material.mainTexture == texture)
 							{
 								currentClip = obj;
                                 found = true;
