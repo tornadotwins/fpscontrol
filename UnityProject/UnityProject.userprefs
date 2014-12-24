@@ -1,16 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\FPSControlCore\Scripts\Player Data\JS\AmmoGUI.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\FPSControlAssets\Scripts\PlayersHealthLogic.js">
     <Files>
-      <File FileName="Assets\6by7\ProGrids\Scripts\ProGrids.js" Line="226" Column="2" />
-      <File FileName="Assets\FPSControlAssets\Scripts\BlinkingLight.js" Line="11" Column="46" />
-      <File FileName="Assets\FPSControlAssets\Scripts\AIGunLogic.js" Line="408" Column="2" />
-      <File FileName="Assets\FPSControlAssets\Scripts\FPS_Counter.js" Line="42" Column="21" />
-      <File FileName="Assets\FPSControlAssets\Scripts\Gem.js" Line="6" Column="2" />
-      <File FileName="Assets\FPSControlAssets\Standard Assets\Character Controllers\Sources\Scripts\ThirdPersonCamera.js" Line="155" Column="31" />
-      <File FileName="Assets\FPSControlAssets\Standard Assets\Scripts\Camera Scripts\MouseOrbit.js" Line="19" Column="1" />
-      <File FileName="Assets\FPSControlAssets\Standard Assets\Scripts\Camera Scripts\SmoothLookAt.js" Line="28" Column="2" />
-      <File FileName="Assets\FPSControlCore\Scripts\Player Data\JS\AmmoGUI.js" Line="50" Column="7" />
+      <File FileName="Assets\FPSControlAssets\Scripts\PlayersHealthLogic.js" Line="29" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
