@@ -12,9 +12,9 @@ namespace FPSControlEditor
 {
     public class LoginModule : FPSControlEditorModule
     {
-        const string BYPASS_LOGIN_USER = "!__=DEV=__!";//bypass for devs ;)
-        const string BYPASS_LOGIN_PASS = "==";
-        const string LOGIN_URI = "http://gameprefabs.com/login3.php"; //https://gameprefabs.com/login.php http://localhost/~efraim/logintest/index.html
+        const string BYPASS_LOGIN_USER = @"!__=DEV=__!";//bypass for devs ;)
+        const string BYPASS_LOGIN_PASS = @"==";
+        const string LOGIN_URI = "http://www.fpscontrol.com/login3.php";
         const string RESULT_SUCCESS_FREEPLAN = "success=1&type=freePlan";
         const string PATH = "Login/";
 
